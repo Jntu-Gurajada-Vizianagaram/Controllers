@@ -5,7 +5,7 @@ import { BrowserRouter,Route,Routes } from 'react-router-dom';
 import Admin_login from './Authenications/Admin_login';
 import Admin from './controllers/admin/Admin';
 import Updates from './controllers/updates/Updates';
-import DMC from './controllers/DMC/DMC';
+import DMC from './controllers/dmc/DMC';
 import HODS from './controllers/hods/HODS';
 import Affliated_colleges from './controllers/affliatedColleges/Affliated_colleges';
 import Forgot_password from './Authenications/Forgot_password';
