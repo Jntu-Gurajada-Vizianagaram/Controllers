@@ -1,56 +1,28 @@
-*{
-    margin: 0%;
-    padding: 0%;
-}
-
-.header-main{
-    display: flex;
-    flex-direction: column;
-}
-.header{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    margin: 1%;
-    font-size: small;
-}
-.header .logo{
-    height: 200px;
-    width: 150px;
-}
-.header .logo-name pre{
-    font-family:'Times New Roman', Times, serif;
+.logo {
+    margin: 0 auto;
+    padding: 3px;
+    display: block;
+    width: 100%;
     text-align: center;
-    font-weight: 700;
-    font-size: 150%;
-    color: rgb(55, 0, 219);
-    padding: 1%;
+    transition: 0.7s;
 }
-.header .contact-header{
-    display: flex;
-    flex-direction: column;
-    font-size: small;
-    gap: 10px;
-    color: red;
-    min-width: 25%;
-    max-width: 25%;
+.logoText {
+    margin-top: -0px;
 }
-hr{
-    width: 75%;
+.logoText h1,h2{
+    margin: 0;
 }
-
-
-@media (max-width:700px) {
-
-    .header{
-        display: flex;
-        flex-direction: column;
-    }
-    .logo-name pre{
-        font-size:45px;
-    }
-    .contact-header{
-        display: none;
-    }
+.logoText h2{
+    text-decoration: none;
+    color: orangered;
+}
+.logo a, .logoOne a {
+    text-decoration: none;
+    display: inline-block;
+    vertical-align: middle;
+}
+.logoText hr{
+    color: orangered;
+    height: 2px;
+    background-color: orangered;
 }

@@ -1,39 +1,41 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import './css/Navbar.css'
-
+import './css/Navbar.css';
+import { Stack } from "@mui/material";
+import { Button } from "@mui/material";
+import HomeIcon from '@mui/icons-material/Home';
+import GroupsIcon from '@mui/icons-material/Groups';
+import CorporateFareSharpIcon from '@mui/icons-material/CorporateFareSharp';
+import PersonSharpIcon from '@mui/icons-material/PersonSharp';
+import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import LogoutIcon from '@mui/icons-material/Logout';
 const Navbar = () => {
   return (
     <div className='navbar-main'>
-        <div className='navbar'>
-            <div className='admin-link'>
-                <NavLink to='/admin' className='admin-nav'>
-                    ADMIN
-                </NavLink>
-            </div>
-            <div className='updates-link' >
-                <NavLink to='/updates' className='updates-nav'>
-                    UPDATES
-                </NavLink>
-            </div>
-            <div className='dmc-link' >
-                <NavLink to='/DMC' className='dmc-nav'>
+        <div className="NavBar">
+                <Stack direction="row" spacing={5}>
+                    <Button className="hover-effect" startIcon={<HomeIcon />}>Home</Button>
+                    <Button className="hover-effect" startIcon={<PersonSharpIcon />}><NavLink to='/admin'>
+                    Admin
+                </NavLink></Button>
+                    <Button className="hover-effect" startIcon={<CorporateFareSharpIcon />}><NavLink to='/Affliated-College'>
+                    Colleges
+                </NavLink></Button>
+                    <Button className="hover-effect" startIcon={<NotificationsActiveIcon />}><NavLink to='/updates'>
+                    Updates
+                </NavLink></Button>
+                    <Button className="hover-effect" startIcon={<NotificationsActiveIcon />}><NavLink to='/DMC'>
                     DMC
-                </NavLink>
-            </div>
-            <div className='hods-link' >
-                <NavLink to='/HODS' className='hods-nav'>
+                </NavLink></Button>
+                    <Button className="hover-effect" startIcon={<GroupsIcon />}><NavLink to='/HODS'>
                     HODS
-                </NavLink>
+                </NavLink></Button>
+                    <Button className="hover-effect" startIcon={<LogoutIcon />}>Logout</Button>
+                </Stack>
             </div>
-            <div className='aff-clgs-link' >
-                <NavLink to='/Affliated-College' className='aff-clgs-nav'>
-                    Affliated Colleges
-                </NavLink>
-            </div>
-        </div>
     </div> 
   )
 }
 
-export default Navbar
+export default Navbar;

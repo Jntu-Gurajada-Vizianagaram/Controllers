@@ -8,21 +8,16 @@ import {BsStopwatchFill} from 'react-icons/bs'
 const Header = () => {
   return (
     <div className='header-main'>
-        <div className='header'>
-            <div className='logo'>
-                <img src={logo} alt='JNTU LOGO' height={200} width={200}/>
+        <div className="logo">
+                <a href="https://jtugv.edu.in">
+                    <img src="https://dhondi.ai/logos/jntugv.png" width="150" height="150" alt="JNTU Logo" />
+                </a>
+                <a className="logoText" href="https://jntugv.edu.in">
+                    <h1>जवाहरलाल नेहरू प्रौद्योगिकी विश्वविद्यालय-गुरजादा, विजयनगरम</h1>
+                    <hr />
+                    <h2>Jawaharlal Nehru Technological University - Gurajada, Vizianagaram</h2>
+                </a>
             </div>
-            <div className='logo-name'>
-                <pre>JAWAHARLAL NEHRU TECHNOLOGICAL UNIVERSITY GURAJADA VIZIANAGARAM-535003,A.P <br/>(Established by Andhra Pradesh Act No.22 of 2021)</pre>
-            </div>
-            <div className='contact-header'>
-                <pre><GrMail/> | Email : support@jntugv.edu.in</pre>
-                <hr/>
-                <pre><GrMail/> | Email : enquiry@jntugv.edu.in </pre>
-                <pre><BsStopwatchFill/> | Office Timings : Mon-Sat : 10:00 AM to 5:00 PM</pre>
-                
-            </div>
-        </div>
     </div>
   )
 }

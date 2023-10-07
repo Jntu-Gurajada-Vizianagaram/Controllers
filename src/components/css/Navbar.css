@@ -1,43 +1,15 @@
-.navbar-main{
+.hover-effect:hover {
+    background-color: transparent;
+    border: 1px solid orangered;
+    color: orangered;
+}
+.NavBar {
     display: flex;
     flex-direction: column;
-    background-color: blue;
-    width: 100%;
+    align-items: auto;
+    padding-left: 30px;
+    margin-top: 20px;
+    margin-right: 190px;
+    margin-left: 230px;
+    background-color: aliceblue;
 }
-.navbar{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    font-size: 170%;
-    /* background-color:rgb(19, 21, 21); */
-    /* gap: 15px; */
-}
-
-.admin-link{
-    color: red;
-    /* padding: .5%; */
-    /* background-color: rgb(48, 202, 151); */
-    /* color: rgb(9, 236, 70); */
-}
-.nav-admin{
-    font-size: xx-large;
-}
-
-.admin-nav, .updates-nav, .dmc-nav, .hods-nav, .aff-clgs-nav {
-    text-decoration: none;
-    background-color: rgba(191, 14, 14, 0.993); 
-    color: #1228d1;
-    padding: 10px 20px; 
-    border-radius: 2px;
-    transition: background-color 0.1s ease; 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .admin-nav:hover, .updates-nav:hover, .dmc-nav:hover, .hods-link:hover, .aff-clgs-nav:hover{
-    background-color: brown; 
-    color: rgb(45, 45, 65);
-  }
-  
