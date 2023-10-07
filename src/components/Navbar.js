@@ -8,12 +8,12 @@ const Navbar = () => {
         <div className='navbar'>
             <div className='admin-link'>
                 <NavLink to='/admin' className='admin-nav'>
-                    ADMIN
+                    Admin
                 </NavLink>
             </div>
             <div className='updates-link' >
                 <NavLink to='/updates' className='updates-nav'>
-                    UPDATES
+                    Updates
                 </NavLink>
             </div>
             <div className='dmc-link' >
