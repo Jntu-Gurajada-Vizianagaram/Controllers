@@ -4,6 +4,7 @@ import '../components/css/admin_css/Admin_login.css'
 import {MdLogin} from 'react-icons/md'
 import {RiAdminFill,RiLockPasswordFill} from 'react-icons/ri'
 import {GiCharacter} from 'react-icons/gi'
+import library from '../media/jntu library.jpg'
 import axios from 'axios';
 
 const Admin_login = () => {
@@ -112,7 +113,7 @@ const Admin_login = () => {
                 </div>
 
                 <div className='credentials-display'>
-                    
+                    <img src={library} height={400} width={900}/>
                 </div>
 
             </div>
