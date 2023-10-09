@@ -17,13 +17,13 @@ const Header = () => {
                 <hr/>
                 <pre className='english-name'>JAWAHARLAL NEHRU TECHNOLOGICAL UNIVERSITY GURAJADA VIZIANAGARAM</pre>
             </div>
-            {/* <div className='contact-header'>
+            <div className='contact-header'>
                 <pre><GrMail/> | Email : support@jntugv.edu.in</pre>
                 <hr/>
                 <pre><GrMail/> | Email : enquiry@jntugv.edu.in </pre>
                 <pre><BsStopwatchFill/> | Office Timings : Mon-Sat : 10:00 AM to 5:00 PM</pre>
                 
-            </div> */}
+            </div>
         </div>
     </div>
   )
