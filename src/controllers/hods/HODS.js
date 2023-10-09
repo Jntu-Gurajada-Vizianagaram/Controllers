@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const HODS = () => {
-  return (
-    <div>HODS</div>
-  )
-}
+  return <div>HODS</div>;
+};
 
-export default HODS
+export default HODS;

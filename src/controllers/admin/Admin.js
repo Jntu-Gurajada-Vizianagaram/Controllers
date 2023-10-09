@@ -1,37 +1,27 @@
-import React from 'react'
-import '../../components/css/admin_css/Admin.css';
-import {MdLogout} from 'react-icons/md'
-
+import React from "react";
+import "../../components/css/admin_css/Admin.css";
+import { MdLogout } from "react-icons/md";
 
 const Admin = () => {
-  
   return (
-    <div className='admin-main'>
+    <div className="admin-main">
       <div>
-        <a
-        href='/admin'
-        >
-        <button>Logout<MdLogout/></button><br/>
+        <a href="/admin">
+          <button>
+            Logout
+            <MdLogout />
+          </button>
+          <br />
         </a>
         All Requests
-        <div>
-          Update Requests
-        </div>
-        <div>
-          DMC Requests
-        </div>
-        <div>
-          News and Event Request
-        </div>
-        <div>
-          Department Circular Requests
-        </div>
+        <div>Update Requests</div>
+        <div>DMC Requests</div>
+        <div>News and Event Request</div>
+        <div>Department Circular Requests</div>
       </div>
-    <div>
-      Admin_login
+      <div>Admin_login</div>
     </div>
-  </div>
-  )
-}
+  );
+};
 
-export default Admin
+export default Admin;
