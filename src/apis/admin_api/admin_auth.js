@@ -30,7 +30,7 @@ app.post('/admin-login-auth',(req,res)=>{
         const user =alladmins.find((admin)=>admin.username===username && admin.password === password && admin.role === role);
         if(user){
             res.json({success:true ,msg:"login success"})
-            res.redirect('http://localhost:3000/DMC')
+            // res.redirect('http://localhost:3000/admin-control')
         }
         else{
             res.status(401).json({success:false ,msg:"Invalid credentials"})

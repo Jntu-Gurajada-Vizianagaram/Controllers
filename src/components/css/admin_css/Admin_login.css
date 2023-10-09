@@ -41,7 +41,11 @@
 }
 
 .form-group label {
-    display: block;
+    display: flex;
+    flex-direction: row;
+    /* justify-content: center; */
+    gap: 5px;
+    align-items: center;
     margin-bottom: 5px;
     font-weight: bold;
 }
@@ -55,7 +59,9 @@
 }
 
 .btn-admin-login {
-    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
     padding: 10px;
     background-color: #007bff;

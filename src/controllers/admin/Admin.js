@@ -1,5 +1,6 @@
 import React from 'react'
-import '../../components/css/admin_css/Admin.css'
+import '../../components/css/admin_css/Admin.css';
+import {MdLogout} from 'react-icons/md'
 
 
 const Admin = () => {
@@ -10,7 +11,7 @@ const Admin = () => {
         <a
         href='/admin'
         >
-        <button>Logout</button><br/>
+        <button>Logout<MdLogout/></button><br/>
         </a>
         All Requests
         <div>

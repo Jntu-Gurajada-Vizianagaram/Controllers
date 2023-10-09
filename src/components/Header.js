@@ -13,15 +13,17 @@ const Header = () => {
                 <img src={logo} alt='JNTU LOGO' height={200} width={200}/>
             </div>
             <div className='logo-name'>
-                <pre>JAWAHARLAL NEHRU TECHNOLOGICAL UNIVERSITY GURAJADA VIZIANAGARAM-535003,A.P <br/>(Established by Andhra Pradesh Act No.22 of 2021)</pre>
+                <pre className='hindi-name'>जवाहरलाल नेहरू प्रौद्योगिकी विश्वविद्यालय गुरजाडा विजयनगरम</pre>
+                <hr/>
+                <pre className='english-name'>JAWAHARLAL NEHRU TECHNOLOGICAL UNIVERSITY GURAJADA VIZIANAGARAM</pre>
             </div>
-            <div className='contact-header'>
+            {/* <div className='contact-header'>
                 <pre><GrMail/> | Email : support@jntugv.edu.in</pre>
                 <hr/>
                 <pre><GrMail/> | Email : enquiry@jntugv.edu.in </pre>
                 <pre><BsStopwatchFill/> | Office Timings : Mon-Sat : 10:00 AM to 5:00 PM</pre>
                 
-            </div>
+            </div> */}
         </div>
     </div>
   )
