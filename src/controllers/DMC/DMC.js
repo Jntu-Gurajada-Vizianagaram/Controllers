@@ -11,4 +11,4 @@ const DMC = () => {
   )
 }
 
-export default DMC
+export default DMC;
