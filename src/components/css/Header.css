@@ -10,23 +10,35 @@
 .header{
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     margin: 1%;
     font-size: small;
 }
 .header .logo{
     height: 200px;
-    width: 150px;
+    width: 200px;
+}
+.header .logo img{
+    height: 100%;
+    width: 100%;
 }
 .header .logo-name pre{
     font-family:'Times New Roman', Times, serif;
     text-align: center;
     font-weight: 700;
-    font-size: 150%;
-    color: rgb(55, 0, 219);
+    font-size: 20px;
+    /* color: rgb(55, 0, 219); */
     padding: 1%;
 }
+.english-name{
+    color: red;
+}
+.hindi-name{
+    color:rgb(55, 0, 219);
+}
+
+
 .header .contact-header{
     display: flex;
     flex-direction: column;
@@ -37,18 +49,27 @@
     max-width: 25%;
 }
 hr{
-    width: 75%;
+    width: 102%;
+    border-color: red;
 }
 
 
-@media (max-width:700px) {
+@media (max-width:800px) {
+    *{
+        margin: 0px;
+        padding: 0px;
+    }
+    .header .logo{
+        height: 80px;
+        width: 70px;
+    }
 
     .header{
         display: flex;
         flex-direction: column;
     }
-    .logo-name pre{
-        font-size:45px;
+    .header .logo-name pre{
+        font-size:10px;
     }
     .contact-header{
         display: none;

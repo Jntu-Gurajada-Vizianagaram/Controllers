@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import Admin from '../controllers/admin/Admin'
 import '../components/css/admin_css/Admin_login.css'
+import {MdLogin} from 'react-icons/md'
+import {RiAdminFill,RiLockPasswordFill} from 'react-icons/ri'
+import {GiCharacter} from 'react-icons/gi'
 import axios from 'axios';
 
 const Admin_login = () => {
@@ -15,9 +18,9 @@ const Admin_login = () => {
             const response= await axios.post('http://localhost:8081/admin-login-auth',{ username, password, role })
             if(response.data.success){
                 alert("Ok Logged In")
-                // window.location.href='http://localhost:3000/admin-control'
+                window.location.href='http://localhost:3000/admin-control'
                 console.log(response.data)
-                setSession(true)
+                // setSession(true)
             }
             else{
                 console.log("Invalid Credentials")
@@ -78,7 +81,7 @@ const Admin_login = () => {
                 <div className='login-form'>
                     <h2>Admin Login</h2>
                     <div className='form-group'>
-                        <label htmlFor='admin-username'>Admin Username:</label>
+                        <label htmlFor='admin-username'><RiAdminFill/>Admin Username:</label>
                         <input
                             type='text'
                             id='admin-username'
@@ -87,7 +90,7 @@ const Admin_login = () => {
                         />
                     </div>
                     <div className='form-group'>
-                        <label htmlFor='admin-password'>Admin Password:</label>
+                        <label htmlFor='admin-password'><RiLockPasswordFill/>Admin Password:</label>
                         <input
                             type='password'
                             id='admin-password'
@@ -96,12 +99,12 @@ const Admin_login = () => {
                         />
                     </div>
                     <div className='form-group'>
-                        <label htmlFor='admin-role'>Role:</label>
+                        <label htmlFor='admin-role'><GiCharacter/>Role:</label>
                         <input type='text' id='admin-role' placeholder='Enter your role' 
                         onChange={(e) => setRole(e.target.value)}/>
                     </div>
                     <button className='btn-admin-login' onClick={login_handle}>
-                    LOGIN
+                        LOGIN <MdLogin/>
                     </button>
                     <a href='/passwordreset' className='forgot-password'>
                     Forgot Password...?
