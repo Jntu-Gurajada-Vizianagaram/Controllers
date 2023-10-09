@@ -13,11 +13,13 @@ const Admin = () => {
           </button>
           <br />
         </a>
-        All Requests
-        <div>Update Requests</div>
-        <div>DMC Requests</div>
-        <div>News and Event Request</div>
-        <div>Department Circular Requests</div>
+        <div className="all-requests">
+          <span>All Requests</span> 
+        <div className="updates-requests">Update Requests</div>
+        <div className="dmc-requests">DMC Requests</div>
+        <div className="news-requests">News and Event Request</div>
+        <div className="dept-requests">Department Circular Requests</div>
+        </div>
       </div>
       <div>Admin_login</div>
     </div>
