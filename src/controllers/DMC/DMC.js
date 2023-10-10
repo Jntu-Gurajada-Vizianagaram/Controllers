@@ -9,7 +9,7 @@ const DMC = () => {
         DIGITAL MONITORING CELL(DMC)
       </div>
       <div class="link">
-        <a href="Upload"> Upload The Photography/content</a>
+        <a href="/DMC-Upload"> Upload The Photography/content</a>
       </div>
     </div>
   )
