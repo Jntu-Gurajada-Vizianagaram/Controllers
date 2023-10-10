@@ -14,11 +14,11 @@ const Admin = () => {
           <br />
         </a>
         <div className="all-requests">
-          <span>All Requests</span> 
-        <div className="updates-requests">Update Requests</div>
-        <div className="dmc-requests">DMC Requests</div>
-        <div className="news-requests">News and Event Request</div>
-        <div className="dept-requests">Department Circular Requests</div>
+          <span>All Requests</span>
+          <div className="updates-requests">Update Requests</div>
+          <div className="dmc-requests">DMC Requests</div>
+          <div className="news-requests">News and Event Request</div>
+          <div className="dept-requests">Department Circular Requests</div>
         </div>
       </div>
       <div>Admin_login</div>
