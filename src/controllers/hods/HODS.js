@@ -9,9 +9,6 @@ const HODS = () => {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-
-    // In a real application, you would typically send the form data to a server for processing
-    // For this example, let's just display the submitted data
     setSubmitted(true);
   };
 
@@ -24,7 +21,6 @@ const HODS = () => {
           <p>Description: {description}</p>
           <p>Submitted By: {submittedBy}</p>
           <p>Department: {selectedDepartment}</p>
-          {/* Add further processing or redirect logic here */}
         </div>
       ) : (
         <div className="hod-form-container">
