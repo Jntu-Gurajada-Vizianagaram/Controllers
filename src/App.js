@@ -6,6 +6,7 @@ import Admin_login from "./Authenications/Admin_login";
 import Admin from "./controllers/admin/Admin";
 import Updates from "./controllers/updates/Updates";
 import DMC from "./controllers/DMC/DMC";
+import DMCUpload from './controllers/DMC/Upload'
 import HODS from "./controllers/hods/HODS";
 import Affliated_colleges from "./controllers/affliatedColleges/Affliated_colleges";
 import Forgot_password from "./Authenications/Forgot_password";
@@ -23,7 +24,7 @@ function App() {
           <Route exact path="/updates" element={<Updates />} />
           <Route exact path="/updates" element={<Updates />} />
           <Route exact path="/DMC" element={<DMC />} />
-          <Route exact path="/DMC" element={<DMC />} />
+          <Route exact path="/DMC-upload" element={<DMCUpload />} />
           <Route exact path="/HODS" element={<HODS />} />
           <Route
             exact
