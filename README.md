@@ -3,8 +3,8 @@
 Clone the repo 
 git clone https://github.com/Jntu-Gurajada-Vizianagaram/Controllers.git
 
-<img width="817" alt="image" src="![image](https://github.com/Jntu-Gurajada-Vizianagaram/Controllers/assets/108987531/5a95352b-4c64-43b5-ba5c-14402d59fe0f)
-">
+![Screenshot 2023-10-10 105943](https://github.com/Jntu-Gurajada-Vizianagaram/Controllers/assets/108987531/ec1cb59e-7ede-4fea-94b2-bcb2ef81bb20)
+
 
 **Go into the folder :**
 cd Controllers
@@ -14,27 +14,28 @@ npm i \
 npm start \
 
 ## Go to test branch
-<img width="474" alt="image" src="![image](https://github.com/Jntu-Gurajada-Vizianagaram/Controllers/assets/108987531/7754de0a-2876-4789-956a-0f70d4aee131)
-">
+![Screenshot 2023-10-10 105822](https://github.com/Jntu-Gurajada-Vizianagaram/Controllers/assets/108987531/146697d5-7c4e-459c-bb7a-150b74bb7480)
+
 
 ## Create new branch according to task
 
 **New branch command :** git checkout -b venky26
 
-<img width="458" alt="image" src="![image](https://github.com/Jntu-Gurajada-Vizianagaram/Controllers/assets/108987531/c76c1fd7-5770-4cad-a8df-e7f304f0d144)
-">  
+  ![Screenshot 2023-10-10 105659](https://github.com/Jntu-Gurajada-Vizianagaram/Controllers/assets/108987531/84181a13-cd5f-4d68-8271-c2e9926758ea)
+
 
 **Push the changes into the branch after pulling from test branch**
 
-<img width="542" alt="image" src="![image](https://github.com/Jntu-Gurajada-Vizianagaram/Controllers/assets/108987531/02ad7b30-b264-4082-8f3c-0190d01dbf39)
-  ">
+![Screenshot 2023-10-10 105614](https://github.com/Jntu-Gurajada-Vizianagaram/Controllers/assets/108987531/ba6a9e6f-ffd2-4ba0-9567-feef8192fc11)
+
 
 \
 **Raise the pull request to test branch** \
-<img width="647" alt="image" src="![image](https://github.com/Jntu-Gurajada-Vizianagaram/Controllers/assets/108987531/26f04260-8baf-4c4e-a3dd-691a7c788245)
-">
+
+![Screenshot 2023-10-10 105512](https://github.com/Jntu-Gurajada-Vizianagaram/Controllers/assets/108987531/8eeea785-c5ab-43f6-a298-287b024ef8ee)
+
 
 **After checking the branches perfectly create a pull request**
 
-<img width="944" alt="image" src="![Screenshot 2023-10-10 104546](https://github.com/Jntu-Gurajada-Vizianagaram/Controllers/assets/108987531/3988dc5e-1de4-47f7-a880-0e47c09e1d7d)
-">
+![Screenshot 2023-10-10 104546](https://github.com/Jntu-Gurajada-Vizianagaram/Controllers/assets/108987531/421a067d-07c5-4890-b558-5ca37c3a0045)
+
