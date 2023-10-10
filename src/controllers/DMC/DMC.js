@@ -1,8 +1,18 @@
-import React from "react";
-import { v4 } from "uuid";
-const devid = v4();
+// DMC.js
+import React from 'react'
+import '../../components/css/dmc_css/DMC.css';
+
 const DMC = () => {
-  return <div className="dmc-main">DMC Dveice id:{devid}</div>;
-};
+  return (
+    <div className='dmc-main'>
+      <div class="title">
+        DIGITAL MONITORING CELL(DMC)
+      </div>
+      <div class="link">
+        <a href="Upload"> Upload The Photography/content</a>
+      </div>
+    </div>
+  )
+}
 
 export default DMC;
