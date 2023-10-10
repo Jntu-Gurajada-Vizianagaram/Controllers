@@ -1,4 +1,3 @@
-// Upload.js
 import React, { useState } from "react";
 import axios from "axios";
 import "../../components/css/dmc_css/Upload.css";
@@ -16,29 +15,23 @@ const Upload = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB in bytes
+  const MAX_FILE_SIZE = 2 * 1024 * 1024; 
   const ALLOWED_FILE_FORMATS = ["image/jpeg", "image/png", "image/jpg"];
   const handleFileChange = (e) => {
     const file = e.target.files[0];
 
-    // Check if a file is selected
     if (file) {
-      // Check if the file format is allowed
       if (ALLOWED_FILE_FORMATS.includes(file.type)) {
-        // Check if the file size is within the allowed limit
         if (file.size <= MAX_FILE_SIZE) {
-          // File format and size are valid, update the state
           setFormData({ ...formData, uploadedImage: file });
         } else {
           alert(
             "File size exceeds the allowed limit (2MB). Please choose a smaller file.",
           );
-          // Clear the input field to let the user select a different file
           e.target.value = null;
         }
       } else {
         alert("Invalid file format. Please upload a JPEG or PNG or JPG image.");
-        // Clear the input field to let the user select a different file
         e.target.value = null;
       }
     }
