@@ -11,6 +11,7 @@ app.get("/check", (req, res) => {
   try {
     con.query(query, (err, result) => {
       if (err) {
+        res.json({name:"ADMIN DATA",role:"NOT Fetched"})
         console.log(err + "not fetched");
       } else {
         alladmins = result;
