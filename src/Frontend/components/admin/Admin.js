@@ -1,5 +1,5 @@
 import React, { useEffect,useState } from "react";
-import "../../components/css/admin_css/Admin.css";
+import "../../css/admin_css/Admin.css";
 import { MdLogout,MdLogin } from "react-icons/md";
 import { RiAdminFill, RiLockPasswordFill } from "react-icons/ri";
 import { GiCharacter } from "react-icons/gi";
