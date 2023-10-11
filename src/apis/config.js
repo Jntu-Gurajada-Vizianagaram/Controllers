@@ -9,8 +9,8 @@ app.use(express.json());
 const con = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "1437890",
-  database: "jntugv",
+  password: "mohan123",
+  database: "university_events",
   port: "3306",
 });
 // const con=mysql.createConnection({
@@ -20,6 +20,7 @@ const con = mysql.createConnection({
 //     database:"jntugv",
 //     port:"3306"
 // })
+
 
 const admin_table = () => {
   const admin_tab =
