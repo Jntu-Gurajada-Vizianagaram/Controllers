@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import Admin from "../controllers/admin/Admin";
-import "../components/css/admin_css/Admin_login.css";
+import Admin from "../components/admin/Admin";
+import "../css/admin_css/Admin_login.css";
 import { MdLogin } from "react-icons/md";
 import { RiAdminFill, RiLockPasswordFill } from "react-icons/ri";
 import { GiCharacter } from "react-icons/gi";
