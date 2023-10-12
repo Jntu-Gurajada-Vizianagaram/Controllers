@@ -23,18 +23,19 @@ function App() {
           <Route exact path="/admin-control" element={<Admin />} />
           <Route exact path="/updates" element={<Updates />} />
           <Route exact path="/updates" element={<Updates />} />
-          <Route exact path="/DMC" element={<DMC />} />
-          <Route exact path="/DMC-upload" element={<DMCUpload />} />
-          <Route exact path="/HODS" element={<HODS />} />
-          <Route
-            exact
-            path="/Affliated-College"
-            element={<Affliated_colleges />}
-          />
-          <Route exact path="/passwordreset" element={<Forgot_password />} />
-        </Routes>
-      </BrowserRouter>
-    </div>
+          <Route exact path="/DMC" element={<DMC />}>
+           <Route exact path="DMC-upload" element={<DMCUpload />} />
+          </Route>
+        <Route exact path="/HODS" element={<HODS />} />
+        <Route
+          exact
+          path="/Affliated-College"
+          element={<Affliated_colleges />}
+        />
+        <Route exact path="/passwordreset" element={<Forgot_password />} />
+      </Routes>
+    </BrowserRouter>
+    </div >
   );
 }
 
