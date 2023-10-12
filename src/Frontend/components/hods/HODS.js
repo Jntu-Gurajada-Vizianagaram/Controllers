@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-<<<<<<< HEAD:src/controllers/hods/HODS.js
+<<<<<<< HEAD:src/Frontend/hods/HODS.js
 import '../../components/css/hod_css/Hod.css';
 import {FaUpload} from 'react-icons/fa'
 =======
