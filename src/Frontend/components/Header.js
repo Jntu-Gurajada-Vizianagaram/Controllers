@@ -1,5 +1,5 @@
 import React from "react";
-import "./css/Header.css";
+import "../css/Header.css";
 import logo from "../media/logo.jpg";
 import { GrMail } from "react-icons/gr";
 import { BsStopwatchFill } from "react-icons/bs";

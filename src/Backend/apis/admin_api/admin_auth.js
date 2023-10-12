@@ -42,6 +42,6 @@ app.post("/admin-login-auth", (req, res) => {
   }
 });
 
-app.listen(8081, (req, res) => {
-  console.log("port 8081 for admin auth");
+app.listen(8082, (req, res) => {
+  console.log("port 8082 for admin auth");
 });

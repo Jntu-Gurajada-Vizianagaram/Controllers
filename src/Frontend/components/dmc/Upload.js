@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import "../../components/css/dmc_css/Upload.css";
+import "../../css/dmc_css/Dmc_upload.css";
 
 const Upload = () => {
   const [formData, setFormData] = useState({

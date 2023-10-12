@@ -1,15 +1,15 @@
 import "./App.css";
-import Header from "./components/Header";
-import Navbar from "./components/Navbar";
+import Header from "./Frontend/components/Header";
+import Navbar from "./Frontend/components/Navbar";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Admin_login from "./Authenications/Admin_login";
-import Admin from "./controllers/admin/Admin";
-import Updates from "./controllers/updates/Updates";
-import DMC from "./controllers/DMC/DMC";
-import DMCUpload from "./controllers/DMC/Upload";
-import HODS from "./controllers/hods/HODS";
-import Affliated_colleges from "./controllers/affliatedColleges/Affliated_colleges";
-import Forgot_password from "./Authenications/Forgot_password";
+import Admin_login from "./Frontend/Authentications/Admin_login";
+import Admin from "./Frontend/components/admin/Admin";
+import Updates from "./Frontend/components/updates/Updates";
+import DMC from "./Frontend/components/dmc/DMC";
+import DMCUpload from "./Frontend/components/dmc/Upload";
+import HODS from "./Frontend/components/hods/HODS";
+import Affliated_colleges from "./Frontend/components/affliatedColleges/Affliated_colleges";
+import Forgot_password from "./Frontend/Authentications/Forgot_password";
 
 function App() {
   return (
@@ -23,18 +23,19 @@ function App() {
           <Route exact path="/admin-control" element={<Admin />} />
           <Route exact path="/updates" element={<Updates />} />
           <Route exact path="/updates" element={<Updates />} />
-          <Route exact path="/DMC" element={<DMC />} />
-          <Route exact path="/DMC-upload" element={<DMCUpload />} />
-          <Route exact path="/HODS" element={<HODS />} />
-          <Route
-            exact
-            path="/Affliated-College"
-            element={<Affliated_colleges />}
-          />
-          <Route exact path="/passwordreset" element={<Forgot_password />} />
-        </Routes>
-      </BrowserRouter>
-    </div>
+          <Route exact path="/DMC" element={<DMC />}>
+           <Route exact path="DMC-upload" element={<DMCUpload />} />
+          </Route>
+        <Route exact path="/HODS" element={<HODS />} />
+        <Route
+          exact
+          path="/Affliated-College"
+          element={<Affliated_colleges />}
+        />
+        <Route exact path="/passwordreset" element={<Forgot_password />} />
+      </Routes>
+    </BrowserRouter>
+    </div >
   );
 }
 

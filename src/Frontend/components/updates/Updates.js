@@ -1,5 +1,5 @@
 import React from "react";
-import "./Updates.css";
+import "../../css/updates_css/Updates.css";
 
 const Updates = () => {
   return (
