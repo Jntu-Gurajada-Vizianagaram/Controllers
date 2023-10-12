@@ -1,15 +1,22 @@
 import React, { useState } from 'react';
 import '../../components/css/hod_css/Hod.css';
+import {FaUpload} from 'react-icons/fa'
 const HODS = () => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [submittedBy, setSubmittedBy] = useState('');
   const [selectedDepartment, setSelectedDepartment] = useState('option1');
+  const [file, setFile] = useState(null); // State to store the selected file
   const [submitted, setSubmitted] = useState(false);
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
     setSubmitted(true);
+  };
+
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    setFile(selectedFile);
   };
 
   return (
@@ -21,10 +28,11 @@ const HODS = () => {
           <p>Description: {description}</p>
           <p>Submitted By: {submittedBy}</p>
           <p>Department: {selectedDepartment}</p>
+          {file && <p>Selected File: {file.name}</p>}
         </div>
       ) : (
         <div className="hod-form-container">
-          <h2>HOD login</h2>
+          <h2>HOD UPLOADS</h2>
           <form onSubmit={handleFormSubmit}>
             <div className="form-group">
               <label htmlFor="name">Event Name:</label>
@@ -65,7 +73,8 @@ const HODS = () => {
                 value={selectedDepartment}
                 onChange={(e) => setSelectedDepartment(e.target.value)}
                 required
-              > <option value="option1">select Department</option>
+              >
+                <option value="option1">select Department</option>
                 <option value="option1">Computer Science and Engineering</option>
                 <option value="option2">Electronics and Communication engineering</option>
                 <option value="option3">Mechanical Engineering</option>
@@ -73,15 +82,20 @@ const HODS = () => {
                 <option value="option5">Information Technology</option>
                 <option value="option6">metallurgical engineering</option>
                 <option value="option7">Civil Engineering</option>
-
-                
               </select>
             </div>
-            <button><input type='file'/></button>
+            <div className="form-group">
+              <label htmlFor="file"><FaUpload/>Upload File:</label>
+              <input
+                type="file"
+                id="file"
+                onChange={handleFileChange}
+                accept=".pdf, .doc, .docx" // Specify accepted file types
+              />
+            </div>
             <button className="btn-submit" type="submit">
               Submit
             </button>
-            
           </form>
         </div>
       )}
@@ -89,4 +103,4 @@ const HODS = () => {
   );
 }
 
-export default HODS
+export default HODS;
