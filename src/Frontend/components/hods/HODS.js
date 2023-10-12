@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '../../css/hods_css/Hod.css';
+import {FaUpload} from 'react-icons/fa'
 const HODS = () => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
