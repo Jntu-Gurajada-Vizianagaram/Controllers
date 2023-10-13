@@ -38,7 +38,7 @@ app.get("/config", (req, res) => {
 
 app.listen(8080, (req, res) => {
   // res.send("Port 8080")
-  console.log("Server running on port no:8080");
+  console.log("Config.js file Server running on port no:8888");
 });
 
 module.exports = con;

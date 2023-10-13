@@ -5,12 +5,13 @@ import { RiAdminFill, RiLockPasswordFill } from "react-icons/ri";
 import { GiCharacter } from "react-icons/gi";
 import library from "../../media/jntu library.jpg";
 import axios from "axios";
-
+import Admin_login from "../../Authentications/Admin_login";
 
 
 
 
 const Admin = () => {
+  // const [session,setSession] = useState(Admin_login.role)
   const [alladmins, setAlladmins] = useState([]);
   const [error, setError] = useState("");
   const [name, setName] = useState("");
@@ -20,7 +21,7 @@ const Admin = () => {
   
   const admins = async () => {
     try {
-      const response = await axios.get("http://localhost:8082/check");
+      const response = await axios.get("http://localhost:8888/api/admins/getadmins");
       if (response != "") {
         setAlladmins(response.data);
         // console.log(response.data)
@@ -62,6 +63,9 @@ const Admin = () => {
           <button>
             Logout
             <MdLogout />
+            {
+              // {session}
+            }
           </button>
           <br />
         </a>
