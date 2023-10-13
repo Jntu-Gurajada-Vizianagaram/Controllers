@@ -1,12 +1,6 @@
-const express = require("express");
 const con = require("../config");
-const cors = require("cors");
-const app = express();
-var alladmins = [];
-app.use(cors());
-app.use(express.json());
 
-app.get("/check", (req, res) => {
+exports.alladmins = (req, res) => {
   const query = "SELECT * FROM admins;";
   try {
     con.query(query, (err, result) => {
@@ -20,28 +14,31 @@ app.get("/check", (req, res) => {
       }
     });
   } catch (error) {}
-});
+}
 
-app.post("/admin-login-auth", (req, res) => {
+
+exports.login=(req, res) => {
   try {
-    const { username, password, role } = req.body;
-    const user = alladmins.find(
-      (admin) =>
-        admin.username === username &&
-        admin.password === password &&
-        admin.role === role,
-    );
-    if (user) {
-      res.json({ success: true, msg: "login success" });
-      // res.redirect('http://localhost:3000/admin-control')
-    } else {
-      res.status(401).json({ success: false, msg: "Invalid credentials" });
-    }
+    console.log("login api entered")
+    const { credentials } = req.body;
+    console.log(credentials.username)
+    const sql ="SELECT role FROM admins where username=(?) && password=(?) && role=(?);"
+    con.query(sql,[credentials.username,credentials.password,credentials.role],(err,result)=>{
+      if(!err){
+        // role=result[0].role
+        res.json({success:true,msg:`${result[0].role}`})
+        console.log(result[0].role)
+      }
+      else{
+        res.status(401).json({msg:`Inavlid Credentials${err}`})
+        console.log(err)
+        return;
+      }
+
+
+    })
+
   } catch (error) {
     console.log(error);
   }
-});
-
-app.listen(8082, (req, res) => {
-  console.log("port 8082 for admin auth");
-});
+}

@@ -59,6 +59,10 @@ const Admin_login = () => {
     {
       role:"developer",
       disp:"Developer"
+    },
+    {
+      role:"d",
+      disp:"d"
     }
   ],
    data:"roles"
@@ -74,8 +78,8 @@ const handleRoleChange = (event) => {
   const login_handle = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:8081/admin-login-auth",
-        { username, password, role },
+        "http://localhost:8888/api/admins/login",
+        { credentials:{username, password, role} },
       );
       if (response.data.success) {
         alert("Ok Logged In");
