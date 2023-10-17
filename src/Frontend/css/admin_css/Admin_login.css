@@ -90,16 +90,29 @@
     text-decoration: underline;
 }
 
-.credentials-display {
+.library-image {
     display: block;
-    margin-top: 20px;
-    text-align: center;
+    
 }
 
-.credentials-display h3 {
-    color: #a08c8c;
-}
 
-.credentials-display p {
-    font-size: 16px;
+
+@media (max-width:700px) {
+    *{
+        margin: 0px;
+        padding: 0px;
+    }
+    .library-image{
+        max-width: 370px;
+        max-height: 200px;
+    }.login-form{
+        min-width: 370px;
+    }
+    .admin-login-form  {
+        display: flex;
+        flex-direction: column-reverse;
+        min-width: 410px;
+        border-radius: 15px;
+
+    }
 }

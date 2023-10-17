@@ -11,7 +11,7 @@ app.use(express.json())
 
 //apis start
 app.use('/api/admins',admins)
-
+// app.use('/api/addhod',) 
 
 
 

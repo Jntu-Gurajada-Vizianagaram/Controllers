@@ -83,7 +83,7 @@ const handleRoleChange = (event) => {
       );
       if (response.data.success) {
         alert("Ok Logged In");
-        window.location.href = "http://localhost:3000/admin-control";
+        // window.location.href = "http://localhost:3000/admin-control";
         console.log(response.data);
         // setSession(true)
       } else {
@@ -100,7 +100,7 @@ const handleRoleChange = (event) => {
 
   const admins = async () => {
     try {
-      const response = await axios.get("http://localhost:8081/check");
+      const response = await axios.get("http://localhost:8888/api/admins/getadmins");
       if (response != "") {
         setAlladmins(response.data);
         // console.log(response.data)
@@ -192,8 +192,8 @@ const handleRoleChange = (event) => {
             </a>
           </div>
 
-          <div className="credentials-display">
-            <img src={library} height={400} width={900} />
+          <div className="library-image">
+            <img src={library} height={400} width={900} className="library-image"/>
           </div>
         </div>
       )}

@@ -6,6 +6,7 @@ import {
   MdTipsAndUpdates,
   MdAdminPanelSettings,
   MdOutlineCastForEducation,
+  MdHelp
 } from "react-icons/md";
 
 import "../css/Navbar.css";
@@ -32,7 +33,7 @@ const Navbar = () => {
         <div className="dmc-link">
           <NavLink to="/DMC" className="dmc-nav">
             <span>
-              <HiDesktopComputer /> DMC
+              <HiDesktopComputer /> Web Admin
             </span>
           </NavLink>
         </div>
@@ -47,6 +48,13 @@ const Navbar = () => {
           <NavLink to="/Affliated-College" className="aff-clgs-nav">
             <span>
               <MdOutlineCastForEducation /> Affliated Colleges
+            </span>
+          </NavLink>
+        </div>
+        <div className="grievance-link">
+          <NavLink to="/Grievances" className="grievance-nav">
+            <span>
+              <MdHelp />HELP
             </span>
           </NavLink>
         </div>

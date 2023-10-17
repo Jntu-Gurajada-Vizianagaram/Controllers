@@ -86,8 +86,9 @@ hr{
     }
     .header .logo-name pre{
         font-size:10px;
+        min-width: 400px;
     }
-    .contact-header{
+    .header .contact-header{
         display: none;
     }
 }
