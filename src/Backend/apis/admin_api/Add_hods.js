@@ -1,17 +1,17 @@
-const express = require("express")
-const cors = require("cors")
+// const express = require("express")
+// const cors = require("cors")
 const con =require('../config')
-const app = express()
-app.use(cors())
-app.use(express.json())
+// const app = express()
+// app.use(cors())
+// app.use(express.json())
 
-app.post('/add-hod', async (req,res)=>{
+exports.addhods = (req,res)=>{
     const {data} = req.body;
     console.log(data)
     sql="INSERT INTO admins(id,name,username,password,role) VALUES (?,?,?,?,?);"
     try {
         con.query(sql, [data.id, data.name, data.username, data.password, data.role], (err) => {
-            if (err) {
+            if (!err) {
                 console.log("Data Inserted")
                 res.json({Success:true})
                 res.end()
@@ -26,7 +26,4 @@ app.post('/add-hod', async (req,res)=>{
         console.log(error)
     
     }
-})
-app.listen(8081,(req,res)=>{
-    console.log("Port no 8081")
-})
+}

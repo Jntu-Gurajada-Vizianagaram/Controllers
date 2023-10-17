@@ -3,7 +3,6 @@ import "../../css/admin_css/Admin.css";
 import { MdLogout,MdLogin } from "react-icons/md";
 import { RiAdminFill, RiLockPasswordFill } from "react-icons/ri";
 import { GiCharacter } from "react-icons/gi";
-import library from "../../media/jntu library.jpg";
 import axios from "axios";
 import Admin_login from "../../Authentications/Admin_login";
 
@@ -36,7 +35,7 @@ const Admin = () => {
   const adding_handle = async()=>{
     try {
       const id =0;
-      const response = await axios.post('http://localhost:8081/add-hod',
+      const response = await axios.post('http://localhost:8888/api/admins/add-hod',
       {data:{id,name,username,password,role}}
       )
       alert("Adding Hod Credentials")
@@ -47,7 +46,6 @@ const Admin = () => {
         alert("Hod Data Not added \n Reason:"+response.data.MSG)
       }
     } catch (error) {
-      
       alert("Exception"+error)
       console.log(error)
     }
