@@ -83,7 +83,7 @@ const handleRoleChange = (event) => {
       );
       if (response.data.success) {
         alert("Ok Logged In");
-        // window.location.href = "http://localhost:3000/admin-control";
+        window.location.href = "http://localhost:3000/admin-control";
         console.log(response.data);
         // setSession(true)
       } else {
