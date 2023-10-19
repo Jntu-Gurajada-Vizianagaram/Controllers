@@ -36,8 +36,7 @@ const Updates = () => {
       });
   };
   useEffect(() => {
-    axios
-      .get("http://localhost:8081/api/updates")
+    axios.get("http://localhost:8081/api/updates")
       .then((response) => {
         setEvents(response.data);
       })

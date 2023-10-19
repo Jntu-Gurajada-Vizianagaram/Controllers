@@ -12,7 +12,7 @@ const FacultyGrievance = () => {
   const [msg,setMsg]=useState("");
   const sendmail= async ()=>{
     alert("Sending Mail...")
-    const response = await axios.post("https://controllerz.vercel.app/api/mailing/sendmail",{
+    const response = await axios.post("http://localhost:8888/api/mailing/sendmail",{
       rollno,email,name,phno,adhaarno,collegename,category,msg
     })
     if(response.data.success===true){

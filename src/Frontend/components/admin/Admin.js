@@ -4,7 +4,7 @@ import { MdLogout,MdLogin } from "react-icons/md";
 import { RiAdminFill, RiLockPasswordFill } from "react-icons/ri";
 import { GiCharacter } from "react-icons/gi";
 import axios from "axios";
-import Admin_login from "../../Authentications/Admin_login";
+// import Admin_login from "../../Authentications/Admin_login";
 
 
 
@@ -21,7 +21,7 @@ const Admin = () => {
   const admins = async () => {
     try {
       const response = await axios.get("http://localhost:8888/api/admins/getadmins");
-      if (response != "") {
+      if (response !== "") {
         setAlladmins(response.data);
         // console.log(response.data)
       } else {
@@ -82,7 +82,7 @@ const Admin = () => {
               <form>
                 <div className="admin-login-form">
                   <div className="login-form">
-                    <h2>Admin Login</h2>
+                    <h2>ADD Institutional Heads</h2>
                     <div className="form-group">
                       <label htmlFor="admin-name">
                         <RiAdminFill />

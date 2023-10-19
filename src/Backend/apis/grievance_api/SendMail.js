@@ -8,8 +8,8 @@ const nodemailer = require('nodemailer')
 const transporter = nodemailer.createTransport({
     service:'Gmail',
     auth:{
-        user:'instadmc@jntugv.edu.in',
-        pass:"lvqu tdwy fmfh jhcf "
+        user:'studentgrievances@jntugv.edu.in',
+        pass:"ruhb pwut omkg cvxo"
     },
 });
 
@@ -45,6 +45,8 @@ exports.send = (req,res)=>{
         <div>College Name:${collegename}</div>
         <div>Category:${category}</div>
         <div>Message:${msg}</div>
+        <h2><center>Your Grievance Recored Successfully</center></h2>
+        <h3><center>Please use referenceid:<b>1234567</b> for more Deatails or Status</center></h3>
     </ul>
     <p>Please Go Through the Link for more information<a href="https://ucev.in">JNTU-GV</a> <a href="https://dsak.vercel.app">Dannana Sai Ajith Kumar</a></p>
 </body>

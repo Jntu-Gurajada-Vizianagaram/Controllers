@@ -1,29 +1,14 @@
-const express = require('express');
-const mysql = require('mysql2');
-const cors = require('cors');
-
-const app = express();
-const port = 3001;
-
-const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '1437890',
-  database: 'jntugv',
-});
-
-app.use(express.json());
-app.use(cors());
+const connection = require('../config')
 
 connection.connect((err) => {
   if (err) {
     console.error('Error connecting to MySQL:', err);
     return;
   }
-  console.log('Connected to MySQL database');
+  console.log('Connected to MySQL databasse');
 });
 
-app.post('/insert', (req, res) => {
+exports.insert_college = (req, res) => {
   const data = req.body;
   const sql = 'INSERT INTO colleges_list (logo, college_name, college_address,college_link) VALUES (?, ?, ?, ?)';
 
@@ -36,10 +21,10 @@ app.post('/insert', (req, res) => {
     console.log('Data inserted successfully');
     res.json({ message: 'Data inserted successfully' });
   });
-});
+};
 
 
-app.delete('/delete/:college_name', (req, res) => {
+exports.delete_college = (req, res) => {
 const collegeName = req.params.college_name;
 const sql = 'DELETE FROM colleges_list WHERE college_name = ?';
 
@@ -52,9 +37,9 @@ connection.query(sql, collegeName, (err, result) => {
   console.log('Data deleted successfully');
   res.json({ message: 'Data deleted successfully' });
 });
-});
+};
 
-app.get('/api/colleges', (req, res) => {
+exports.get_colleges = (req, res) => {
   const sql = 'SELECT * FROM colleges_list';
 
   connection.query(sql, (err, results) => {
@@ -66,8 +51,5 @@ app.get('/api/colleges', (req, res) => {
     console.log('Data retrieved successfully');
     res.json(results);
   });
-});
+};
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
