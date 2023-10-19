@@ -32,7 +32,7 @@ const HODS = () => {
         </div>
       ) : (
         <div className="hod-form-container">
-          <h2>HOD UPLOADS</h2>
+          <h2>Institutional Data Upload</h2>
           <form onSubmit={handleFormSubmit}>
             <div className="form-group">
               <label htmlFor="name">Event Name:</label>
