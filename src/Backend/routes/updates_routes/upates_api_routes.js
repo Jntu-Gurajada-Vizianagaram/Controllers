@@ -1,5 +1,4 @@
 const express = require('express')
-const cors = require('cors')
 const router = express.Router();
 const updates= require('../../apis/updates_api/UpdatesApi')
 

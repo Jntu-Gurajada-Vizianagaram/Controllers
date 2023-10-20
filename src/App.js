@@ -21,7 +21,7 @@ function App() {
       <BrowserRouter>
         <Navbar />
         <Routes>
-          <Route exact path="/admin" element={<AdminLogin />} />
+          <Route exact path="/" element={<AdminLogin />} />
           <Route exact path="/admin-control" element={<Admin />} />
           <Route exact path="/updates" element={<Updates />} />
           <Route exact path="/updates" element={<Updates />} />
