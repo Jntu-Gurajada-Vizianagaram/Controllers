@@ -1,10 +1,5 @@
-// const express = require('express')
-// const cors = require('cors')
-// const app = express();
-// app.use(cors())
-// app.use(express.json())
 const nodemailer = require('nodemailer')
-
+const multer = require('multer')
 const transporter = nodemailer.createTransport({
     service:'Gmail',
     auth:{
@@ -26,6 +21,8 @@ exports.send = (req,res)=>{
     try {
         
         const {rollno,email,name,phno,adhaarno,collegename,category,msg} = req.body;
+        const attach =req.file ? {path:req.file.path} : null;
+
         const body=`<!DOCTYPE html>
 <html>
 <head>
@@ -45,6 +42,7 @@ exports.send = (req,res)=>{
         <div>College Name:${collegename}</div>
         <div>Category:${category}</div>
         <div>Message:${msg}</div>
+        <div>File:${attach}</div>
         <h2><center>Your Grievance Recored Successfully</center></h2>
         <h3><center>Please use referenceid:<b>1234567</b> for more Deatails or Status</center></h3>
     </ul>
@@ -58,6 +56,7 @@ exports.send = (req,res)=>{
             subject:'Grievance',
             text:` `,
             html:`${body}`,
+            attachments:[attach]
         }
 
         transporter.sendMail(mailoptions,(error,info)=>{

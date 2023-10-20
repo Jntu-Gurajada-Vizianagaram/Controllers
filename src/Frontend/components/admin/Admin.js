@@ -12,7 +12,7 @@ import axios from "axios";
 const Admin = () => {
   // const [session,setSession] = useState(Admin_login.role)
   const [alladmins, setAlladmins] = useState([]);
-  const [error, setError] = useState("");
+  // const [error, setError] = useState("");
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -25,11 +25,12 @@ const Admin = () => {
         setAlladmins(response.data);
         // console.log(response.data)
       } else {
-        setError("Datat Not Fetched");
+        console.log("Datat Not Fetched");
+        // setError("Datat Not Fetched");
       }
     } catch (error) {
       console.log(error + "Smthing wrong");
-      setError(error);
+      // setError(error);
     }
   };
   const adding_handle = async()=>{

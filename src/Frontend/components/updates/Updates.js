@@ -20,7 +20,7 @@ const Updates = () => {
   };
 
   const addEvent = () => {
-    axios.post("http://localhost:8081/insert", { data: eventData })
+    axios.post("http://localhost:8888/api/updtaes/add-event", { data: eventData })
       .then((response) => {
         console.log(response.data);
         setEventData({
@@ -36,7 +36,7 @@ const Updates = () => {
       });
   };
   useEffect(() => {
-    axios.get("http://localhost:8081/api/updates")
+    axios.get("http://localhost:8888/api/updates/get-events")
       .then((response) => {
         setEvents(response.data);
       })
@@ -56,7 +56,7 @@ const Updates = () => {
   };
   const updateEvent = () => {
     axios
-      .put(`http://localhost:8081/update/${editingEvent.id}`,
+      .put(`http://localhost:8888/api/updates/update-event:${editingEvent.id}`,
        { data: eventData })
       .then((response) => {
         console.log(response.data);

@@ -1,13 +1,5 @@
 const connection = require('../config')
 
-connection.connect((err) => {
-  if (err) {
-    console.error('Error connecting to MySQL:', err);
-    return;
-  }
-  console.log('Connected to MySQL databasse');
-});
-
 exports.insert_college = (req, res) => {
   const data = req.body;
   const sql = 'INSERT INTO colleges_list (logo, college_name, college_address,college_link) VALUES (?, ?, ?, ?)';

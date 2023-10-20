@@ -10,10 +10,12 @@ const FacultyGrievance = () => {
   const [collegename,setCollegeName]=useState("");
   const [category,setCategory]=useState("");
   const [msg,setMsg]=useState("");
+  const [file,setFile]=useState("");
   const sendmail= async ()=>{
     alert("Sending Mail...")
+
     const response = await axios.post("http://localhost:8888/api/mailing/sendmail",{
-      rollno,email,name,phno,adhaarno,collegename,category,msg
+      rollno,email,name,phno,adhaarno,collegename,category,msg,file
     })
     if(response.data.success===true){
       alert("Grievance Mail Sent")
@@ -37,6 +39,7 @@ const FacultyGrievance = () => {
         <input type='text' placeholder='College Name' className='inp-college' value={collegename} onChange={(e)=> setCollegeName(e.target.value)} required={true}/>
         <input type='text' placeholder='Griviance Category' className='inp-category' value={category} onChange={(e)=> setCategory(e.target.value)} required={true}/>
         <input type='text' placeholder='Detailed Description of Grievance/Problem' className='inp-grievance' value={msg} onChange={(e)=> setMsg(e.target.value)} required={true}/>
+        <input type='file'  className='inp-file' accept='.jpg, .jpeg, .png, .pdf' onChange={(e)=> setFile(e.target.files[0])}/>
         <button onClick={sendmail} type='submit'>Send</button>
         </form>
        </div>
