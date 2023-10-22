@@ -14,6 +14,10 @@ const Admin_login = () => {
   const [role, setRole] = useState("");
   const [alladmins, setAlladmins] = useState([]);
   const [error, setError] = useState("");
+  const server_api_ip ="117.221.101.104" 
+  const local_api_ip ="localhost"
+  // const api_ip = server_api_ip
+  const api_ip = local_api_ip
   const roles={
     options:[
     {
@@ -78,12 +82,12 @@ const handleRoleChange = (event) => {
   const login_handle = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:8888/api/admins/login",
+        `http://${api_ip}:8888/api/admins/login`,
         { credentials:{username, password, role} },
       );
       if (response.data.success) {
         alert("Ok Logged In");
-        window.location.href = "http://localhost:3000/admin-control";
+        window.location.href = `http://${api_ip}:3000/admin-control`;
         console.log(response.data);
         // setSession(true)
       } else {
@@ -100,7 +104,7 @@ const handleRoleChange = (event) => {
 
   const admins = async () => {
     try {
-      const response = await axios.get("http://localhost:8888/api/admins/getadmins");
+      const response = await axios.get(`http://${api_ip}:8888/api/admins/getadmins`);
       if (response != "") {
         setAlladmins(response.data);
         // console.log(response.data)
