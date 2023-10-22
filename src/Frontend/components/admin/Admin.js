@@ -17,10 +17,13 @@ const Admin = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
-  
+  const server_api_ip ="117.221.101.104" 
+  const local_api_ip ="localhost"
+  const api_ip = server_api_ip
+  // const api_ip = local_api_ip
   const admins = async () => {
     try {
-      const response = await axios.get("http://localhost:8888/api/admins/getadmins");
+      const response = await axios.get(`http://${api_ip}:8888/api/admins/getadmins`);
       if (response !== "") {
         setAlladmins(response.data);
         // console.log(response.data)
@@ -36,7 +39,7 @@ const Admin = () => {
   const adding_handle = async()=>{
     try {
       const id =0;
-      const response = await axios.post('http://localhost:8888/api/admins/add-hod',
+      const response = await axios.post(`http://${api_ip}:8888/api/admins/add-hod`,
       {data:{id,name,username,password,role}}
       )
       alert("Adding Hod Credentials")

@@ -14,6 +14,7 @@ import FacultyGrievance from "./Frontend/components/grievances/FacultyGrievance"
 import ForgotPassword from "./Frontend/Authentications/Forgot_password";
 
 function App() {
+  
   return (
     <div className="App">
       <Header />

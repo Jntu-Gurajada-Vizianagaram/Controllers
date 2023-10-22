@@ -11,10 +11,14 @@ const FacultyGrievance = () => {
   const [category,setCategory]=useState("");
   const [msg,setMsg]=useState("");
   const [file,setFile]=useState("");
+  const server_api_ip ="117.221.101.104" 
+  const local_api_ip ="localhost"
+  const api_ip = server_api_ip
+  // const api_ip = local_api_ip
   const sendmail= async ()=>{
     alert("Sending Mail...")
 
-    const response = await axios.post("http://localhost:8888/api/mailing/sendmail",{
+    const response = await axios.post(`http://${api_ip}:8888/api/mailing/sendmail`,{
       rollno,email,name,phno,adhaarno,collegename,category,msg,file
     })
     if(response.data.success===true){
