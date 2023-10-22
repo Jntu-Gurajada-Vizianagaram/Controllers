@@ -16,8 +16,8 @@ const Admin_login = () => {
   const [error, setError] = useState("");
   const server_api_ip ="117.221.101.104" 
   const local_api_ip ="localhost"
-  // const api_ip = server_api_ip
-  const api_ip = local_api_ip
+  const api_ip = server_api_ip
+  // const api_ip = local_api_ip
   const roles={
     options:[
     {

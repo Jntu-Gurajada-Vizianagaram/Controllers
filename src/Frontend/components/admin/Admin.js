@@ -19,8 +19,8 @@ const Admin = () => {
   const [role, setRole] = useState("");
   const server_api_ip ="117.221.101.104" 
   const local_api_ip ="localhost"
-  // const api_ip = server_api_ip
-  const api_ip = local_api_ip
+  const api_ip = server_api_ip
+  // const api_ip = local_api_ip
   const admins = async () => {
     try {
       const response = await axios.get(`http://${api_ip}:8888/api/admins/getadmins`);
