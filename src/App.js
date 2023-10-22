@@ -23,6 +23,7 @@ function App() {
         <Navbar />
         <Routes>
           <Route exact path="/" element={<AdminLogin />} />
+          <Route exact path="/admin" element={<Admin/>} />
           <Route exact path="/admin-control" element={<Admin />} />
           <Route exact path="/updates" element={<Updates />} />
           <Route exact path="/updates" element={<Updates />} />
