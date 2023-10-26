@@ -11,7 +11,7 @@ const app = express()
 app.use(express.json());
 
 app.use(cors({
-  origin :["http://localhost:7777"],
+  origin :["http://localhost:3001"],
   methods :["GET","POST"],
   credentials : true,
 }))
@@ -49,6 +49,7 @@ exports.alladmins = (req, res) => {
 
 exports.login=(req,res) => {
   try {
+    console.log("loginapi")
     const { credentials } = req.body;
     const sql ="SELECT role , password FROM admins where username=(?);"
     con.query(sql,credentials.username,(err,result)=>{
@@ -59,7 +60,7 @@ exports.login=(req,res) => {
         if(result.length>0){
           if(credentials.password == result[0].password){
             req.session.user = result;
-            console.log(req.session.user)
+            // console.log(req.session.user)
             const role = result[0].role
             res.send({login:true,message:role})
           }

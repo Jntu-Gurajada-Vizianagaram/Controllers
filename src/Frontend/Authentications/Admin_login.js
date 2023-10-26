@@ -14,13 +14,12 @@ const api_ip = ips.server_ip
 
 const login_handle = async () => {
   try {
-    const response = await axios.post(
-      `http://${api_ip}:8888/api/admins/login`,
-      { credentials:{username, password} },
-      );
+    alert(api_ip);
+    const response = await axios.post(`http://${api_ip}:8888/api/admins/login`,
+      { credentials:{username, password} });
       if (response.data.login) {
         alert("Ok Logged In");
-        window.location.href = `http://${api_ip}:7777/admin-control`;
+        window.location.href = `http://${api_ip}:3001/admin-control`;
         console.log(response.data);
       } else {
         console.log("Invalid Credentials");
@@ -28,7 +27,7 @@ const login_handle = async () => {
         alert(response.data.message);
       }
     } catch (error) {
-      alert("Invalid Credentials");
+      alert("Server Can't be reached right now \nSorry for the inconvenience");
       console.log(error);
     }
   };

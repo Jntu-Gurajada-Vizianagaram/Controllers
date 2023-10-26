@@ -19,25 +19,25 @@ const Admin = () => {
   const [role, setRole] = useState("");
   const ips =require('../../api.json')
   const api_ip = ips.server_ip
-  const get_role = async()=>{
-    try {
-      const response = await axios.get(`http://${api_ip}:8888/api/admins/getrole`);
-      if(response!=""){
-        console.log(response.data)
-      }
-      else{
-        console.log("not worked")
-      }
-    } catch (error) {
+  // const get_role = async()=>{
+  //   try {
+  //     const response = await axios.get(`http://${api_ip}:8888/api/admins/getrole`);
+  //     if(response!=""){
+  //       console.log(response.data)
+  //     }
+  //     else{
+  //       console.log("not worked")
+  //     }
+  //   } catch (error) {
       
-    }
-  }
+  //   }
+  // }
   const admins = async () => {
     try {
       const response = await axios.get(`http://${api_ip}:8888/api/admins/getadmins`);
       if (response !== "") {
         setAlladmins(response.data);
-        // console.log(response.data)
+        console.log(response.data)
       } else {
         console.log("Datat Not Fetched");
         // setError("Datat Not Fetched");

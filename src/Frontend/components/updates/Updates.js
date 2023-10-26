@@ -6,11 +6,11 @@ const ips =require('../../api.json')
 const api_ip = ips.server_ip
 const Updates = () => {
   const [eventData, setEventData] = useState({
-    title: "",
     date: "",
-    time: "",
-    location: "",
-    description: "",
+    title: "",
+    file_path: "",
+    update_type: "",
+    update_status: "",
   });
   const [events, setEvents] = useState([]);
   const [editingEvent, setEditingEvent] = useState(null);
@@ -27,9 +27,9 @@ const Updates = () => {
         setEventData({
           title: "",
           date: "",
-          time: "",
-          location: "",
-          description: "",
+          file_path: "",
+          update_type: "",
+          update_status: "",
         });
       })
       .catch((error) => {
@@ -50,9 +50,9 @@ const Updates = () => {
     setEventData({
       title: event.title,
       date: event.date,
-      time: event.time,
-      location: event.location,
-      description: event.description,
+      file_path: event.file_path,
+      update_type: event.update_type,
+      update_status: event.update_status,
     });
   };
   const updateEvent = () => {
@@ -65,9 +65,9 @@ const Updates = () => {
         setEventData({
           title: "",
           date: "",
-          time: "",
-          location: "",
-          description: "",
+          file_path: "",
+          update_type: "",
+          update_status: "",
         });
       })
       .catch((error) => {
@@ -84,6 +84,11 @@ const Updates = () => {
 
         <h2>Create New Event</h2>
         
+
+          <label for="date">Date:</label>
+          <input type="date" id="date" name="date" value={eventData.date}
+        onChange={handleInputChange} required />
+          <br></br>
           <label htmlFor="title">Title:</label>
       <input
         type="text"
@@ -94,23 +99,18 @@ const Updates = () => {
         required
       />          <br></br>
 
-          <label for="date">Date:</label>
-          <input type="date" id="date" name="date" value={eventData.date}
+          <label for="file-path">Path / Upload File:</label>
+          <input type="text" id="time" name="time" value={eventData.file_path}
         onChange={handleInputChange} required />
           <br></br>
 
-          <label for="time">Time:</label>
-          <input type="text" id="time" name="time" value={eventData.time}
+          <label for="update-type">Type:</label>
+          <input type="text" id="location" name="location" value={eventData.update_type}
         onChange={handleInputChange} required />
           <br></br>
 
-          <label for="location">Location:</label>
-          <input type="text" id="location" name="location" value={eventData.location}
-        onChange={handleInputChange} required />
-          <br></br>
-
-          <label for="description">Description:</label>
-          <textarea id="description" name="description"value={eventData.description}
+          <label for="update-status">Staus:</label>
+          <textarea id="description" name="description"value={eventData.update_status}
         onChange={handleInputChange} required></textarea>
           <br></br>
 
@@ -126,22 +126,22 @@ const Updates = () => {
             <Table>
               <TableHead>
                 <TableRow>
+                  <TableCell>S.NO</TableCell>
+                  <TableCell>Notifiaction Date</TableCell>
                   <TableCell>Title</TableCell>
-                  <TableCell>Date</TableCell>
-                  <TableCell>Time</TableCell>
-                  <TableCell>Location</TableCell>
-                  <TableCell>Description</TableCell>
-                  <TableCell></TableCell>
+                  <TableCell>Staus</TableCell>
+                  <TableCell>View File</TableCell>
+                  <TableCell>Action</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {events.map((event) => (
                   <TableRow key={event.id}>
-                    <TableCell>{event.title}</TableCell>
+                    <TableCell>{event.id}</TableCell>
                     <TableCell>{event.date}</TableCell>
-                    <TableCell>{event.time}</TableCell>
-                    <TableCell>{event.location}</TableCell>
-                    <TableCell>{event.description}</TableCell>
+                    <TableCell>{event.title}</TableCell>
+                    <TableCell>{event.update_status}</TableCell>
+                    <TableCell><a href={event.file_path} >View File</a></TableCell>
                     <TableCell>
   <Button variant="contained" onClick={() => editEvent(event)}>edit</Button>
 </TableCell>

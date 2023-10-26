@@ -1,10 +1,11 @@
 const connection = require('../config')
 
 exports.insert_college = (req, res) => {
-  const data = req.body;
-  const sql = 'INSERT INTO colleges_list (logo, college_name, college_address,college_link) VALUES (?, ?, ?, ?)';
+  const {data} = req.body;
+  const int = 0;
+  const sql = 'INSERT INTO affiliated_colleges (id,logo, college_name, college_address,college_link) VALUES (?,?, ?, ?, ?)';
 
-  connection.query(sql, [data.logo, data.college_name, data.college_address, data.college_link], (err, result) => {
+  connection.query(sql, [int,data.logo, data.college_name, data.college_address, data.college_link], (err, result) => {
     if (err) {
       console.error('Error inserting data:', err);
       res.status(500).json({ error: 'Error inserting data' });
@@ -18,7 +19,7 @@ exports.insert_college = (req, res) => {
 
 exports.delete_college = (req, res) => {
 const collegeName = req.params.college_name;
-const sql = 'DELETE FROM colleges_list WHERE college_name = ?';
+const sql = 'DELETE FROM affiliated_colleges WHERE college_name = ?';
 
 connection.query(sql, collegeName, (err, result) => {
   if (err) {
@@ -32,7 +33,7 @@ connection.query(sql, collegeName, (err, result) => {
 };
 
 exports.get_colleges = (req, res) => {
-  const sql = 'SELECT * FROM colleges_list';
+  const sql = 'SELECT * FROM affiliated_colleges';
 
   connection.query(sql, (err, results) => {
     if (err) {
