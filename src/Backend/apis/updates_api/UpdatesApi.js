@@ -1,10 +1,10 @@
 const connection = require('../config')
 
 exports.insert_event =  (req, res) => {
-  const { data } = req.body;
-
-  const sql = 'INSERT INTO events (title, date, time, location, description) VALUES (?, ?, ?, ?, ?)';
-  const values = [data.title, data.date, data.time, data.location, data.description];
+  const { update } = req.body;
+  const int = 0;
+  const sql = 'INSERT INTO notification_updates (id, date, title,  file_path, main_page, scrolling, update_type, update_status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+  const values = [int,update.date, update.title,  update.filepath, update.mainpage, update.scrolling, update.type, update.status];
 
   connection.query(sql, values, (err, result) => {
     if (err) {
@@ -16,7 +16,7 @@ exports.insert_event =  (req, res) => {
     res.json({ message: 'Data inserted successfully' });
   });
 };
-
+ 
 exports.delete_event=(req, res) => {
 const title = req.params.title;
 const sql = 'DELETE FROM events WHERE title = ?';
@@ -33,7 +33,7 @@ connection.query(sql, title, (err, result) => {
 };
 
 exports.get_events=(req, res) => {
-  const sql = 'SELECT * FROM events';
+  const sql = 'SELECT * FROM notification_updates';
 
   connection.query(sql, (err, results) => {
     if (err) {
@@ -48,11 +48,11 @@ exports.get_events=(req, res) => {
 
 
 exports.update_event= (req, res) => {
-  const eventId = req.params.id;
-  const { data } = req.body;
+  const updateId = req.params.id;
+  const { update } = req.body;
 
-  const sql = 'UPDATE events SET title=?, date=?, time=?, location=?, description=? WHERE id=?';
-  const values = [data.title, data.date, data.time, data.location, data.description, eventId];
+  const sql = 'UPDATE notification_updates SET date=?, title=?,  fil_path=?, main_Page=?, scrolling=? update_type=? update_status=? WHERE id=?';
+  const values = [update.date, update.title,  update.filepath, update.mainpage, update.scrolling, update.type,update.status, updateId];
 
   connection.query(sql, values, (err, result) => {
     if (err) {
