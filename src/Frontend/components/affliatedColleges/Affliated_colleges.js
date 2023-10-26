@@ -9,7 +9,8 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Button, InputBase, IconButton } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-
+const ips =require('../../api.json')
+const api_ip = ips.server_ip
 
 const Affliated_colleges = () => {
     const [collegeData, setCollegeData] = useState([]);
@@ -19,7 +20,7 @@ const Affliated_colleges = () => {
     useEffect(() => {
         async function fetchCollegeData() {
             try {
-                const response = await fetch('http://localhost:8888/api/affliated-colleges/all-colleges');
+                const response = await fetch(`http://${api_ip}:8888/api/affliated-colleges/all-colleges`);
                 const data = await response.json();
                 setCollegeData(data);
                 setSearchResults(data);

@@ -10,17 +10,28 @@ import axios from "axios";
 
 
 const Admin = () => {
-  // const [session,setSession] = useState(Admin_login.role)
+
   const [alladmins, setAlladmins] = useState([]);
   // const [error, setError] = useState("");
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
-  const server_api_ip ="117.221.101.104" 
-  const local_api_ip ="localhost"
-  const api_ip = server_api_ip
-  // const api_ip = local_api_ip
+  const ips =require('../../api.json')
+  const api_ip = ips.server_ip
+  const get_role = async()=>{
+    try {
+      const response = await axios.get(`http://${api_ip}:8888/api/admins/getrole`);
+      if(response!=""){
+        console.log(response.data)
+      }
+      else{
+        console.log("not worked")
+      }
+    } catch (error) {
+      
+    }
+  }
   const admins = async () => {
     try {
       const response = await axios.get(`http://${api_ip}:8888/api/admins/getadmins`);
@@ -55,13 +66,13 @@ const Admin = () => {
     }
   }
   useEffect(() => {
+    // get_role()
     admins();
-    // login_handle()
   }, []);
   return (
     <div className="admin-main">
       <div>
-        <a href="/admin">
+        <a href="/">
           <button>
             Logout
             <MdLogout />

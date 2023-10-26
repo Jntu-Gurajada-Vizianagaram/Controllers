@@ -2,7 +2,8 @@ import React, { useState, useEffect  } from "react";
 import '../../css/updates_css/Updates.css'
 import axios from "axios";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from "@mui/material";
-
+const ips =require('../../api.json')
+const api_ip = ips.server_ip
 const Updates = () => {
   const [eventData, setEventData] = useState({
     title: "",
@@ -20,7 +21,7 @@ const Updates = () => {
   };
 
   const addEvent = () => {
-    axios.post("http://localhost:8888/api/updtaes/add-event", { data: eventData })
+    axios.post(`http://${api_ip}:8888/api/updtaes/add-event`, { data: eventData })
       .then((response) => {
         console.log(response.data);
         setEventData({
@@ -36,7 +37,7 @@ const Updates = () => {
       });
   };
   useEffect(() => {
-    axios.get("http://localhost:8888/api/updates/get-events")
+    axios.get(`http://${api_ip}:8888/api/updates/get-events`)
       .then((response) => {
         setEvents(response.data);
       })
@@ -56,7 +57,7 @@ const Updates = () => {
   };
   const updateEvent = () => {
     axios
-      .put(`http://localhost:8888/api/updates/update-event:${editingEvent.id}`,
+      .put(`http://${api_ip}:8888/api/updates/update-event:${editingEvent.id}`,
        { data: eventData })
       .then((response) => {
         console.log(response.data);
