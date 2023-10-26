@@ -32,7 +32,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "client": "set PORT=7777 && react-scripts start",
+    "client": "set PORT=3001 && react-scripts start",
     "server":"cd src/Backend && nodemon server",
     "start": "concurrently \"npm run client\" \"npm run server\"",
     "build": "react-scripts build",
