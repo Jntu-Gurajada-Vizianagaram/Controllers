@@ -47,23 +47,45 @@ const Affliated_colleges = () => {
 
     return (
         <div className="main_div">
+            <div className="eventsadd">
+        <h1>Affliated Colleges</h1>
+        <h2>Add a college</h2>
+          <br></br>
+          <label htmlFor="logo">College Logo(No Base64 Images)</label>
+          <input type="text" id="logo" name="logo" required />
+          <br></br>
+          <label htmlFor="name">College Name</label>
+          <input type="text" id="name" name="name" required />
+          <br></br>
+          <label htmlFor="address">College Address</label>
+          <input type="text" id="address" name="address" required />
+          <br></br>
+          <label htmlFor="website">College Website URL</label>
+          <input type="text" id="website" name="website" required />
+          <br></br>
+          <button type="submit">ADD
+          </button>
+          </div>
+            <div className="search">
             <Paper
                 component="form"
-                sx={{ p: '15px 4px', display: 'flex',justifyContent:'center', alignItems: 'center', width: '1000px' }}
+                sx={{ p: '14px 3px', display: 'flex',justifyContent:'center', alignItems: 'center', width: '1000px',alignContent:"center" }}
                 style={{ margin: 15 }}
                 onSubmit={handleSearchSubmit}
+                className="searchbar"
             >
                 <InputBase
                     sx={{ ml: 1, flex: 1 }}
                     placeholder="search by college_name/college_address"
-                   className="searchbar"
+                   
                     value={searchTerm}
                     onChange={handleSearchChange}
                 />
-                <IconButton type="submit" sx={{ p: '10px' }} aria-label="search">
+                <IconButton  sx={{ p: '10px' }} aria-label="search">
                     <SearchIcon />
                 </IconButton>
             </Paper>
+            </div>
 
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table" className="table">
@@ -74,6 +96,7 @@ const Affliated_colleges = () => {
                             <TableCell>COLLEGE NAME</TableCell>
                             <TableCell>COLLEGE ADDRESS</TableCell>
                             <TableCell>VISIT</TableCell>
+                            <TableCell>EDIT</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -90,6 +113,10 @@ const Affliated_colleges = () => {
                                 <TableCell>{college.college_address}</TableCell>
                                 <TableCell>
                                 <Button type="button" variant="contained" ><a style={{color:'white',textDecoration:'none'}} href={college.college_link}>VISIT</a>
+                                </Button>
+                                </TableCell>
+                                <TableCell>
+                                <Button type="button" variant="contained" ><a style={{color:'white',textDecoration:'none'}} href={college.college_link}>EDIT</a>
                                 </Button>
                                 </TableCell>
                             </TableRow>

@@ -51,7 +51,7 @@ exports.send = (req,res)=>{
 </html>
 `
         const mailoptions= {
-            from:`${email}`,
+            from:`studentgrievances@jntugv.edu.in`,
             to:'dsak.official@gmail.com',
             subject:'Grievance',
             text:` `,
