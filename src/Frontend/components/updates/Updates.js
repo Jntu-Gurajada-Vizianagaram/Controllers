@@ -100,17 +100,17 @@ const Updates = () => {
       />          <br></br>
 
           <label for="file-path">Path / Upload File:</label>
-          <input type="text" id="time" name="time" value={eventData.file_path}
+          <input type="text" id="time" name="" value={eventData.file_path}
         onChange={handleInputChange} required />
           <br></br>
 
           <label for="update-type">Type:</label>
-          <input type="text" id="location" name="location" value={eventData.update_type}
+          <input type="text" id="location" name="update_type" value={eventData.update_type}
         onChange={handleInputChange} required />
           <br></br>
 
           <label for="update-status">Staus:</label>
-          <textarea id="description" name="description"value={eventData.update_status}
+          <textarea id="description" name="update_status"value={eventData.update_status}
         onChange={handleInputChange} required></textarea>
           <br></br>
 

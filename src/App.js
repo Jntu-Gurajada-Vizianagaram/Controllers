@@ -20,6 +20,7 @@ function App() {
       <Header />
 
       <BrowserRouter>
+      
         <Navbar />
         <Routes>
           <Route exact path="/" element={<AdminLogin />} />
