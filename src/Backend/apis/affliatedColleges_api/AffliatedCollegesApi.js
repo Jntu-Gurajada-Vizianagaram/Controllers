@@ -16,6 +16,24 @@ exports.insert_college = (req, res) => {
   });
 };
 
+exports.update_college= (req, res) => {
+  const updateId = req.params.id;
+  const { update } = req.body;
+
+  const sql = 'UPDATE affiliated_colleges SET logo=?, college_name=?,  college_address=?, college_link=? WHERE id=?';
+  const values = [update.logo, update.college_name,  update.college_address, update.college_link];
+
+  connection.query(sql, values, (err, result) => {
+    if (err) {
+      console.error('Error updating data:', err);
+      res.status(500).json({ error: 'Error updating data' });
+      return;
+    }
+    console.log('Data updated successfully');
+    res.json({ message: 'Data updated successfully' });
+  });
+};
+
 
 exports.delete_college = (req, res) => {
 const collegeName = req.params.college_name;
@@ -45,4 +63,3 @@ exports.get_colleges = (req, res) => {
     res.json(results);
   });
 };
-

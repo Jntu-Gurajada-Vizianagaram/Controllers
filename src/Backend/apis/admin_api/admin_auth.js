@@ -39,7 +39,7 @@ exports.alladmins = (req, res) => {
         res.json({name:"ADMIN DATA",role:"NOT Fetched"})
         console.log(err + "not fetched");
       } else {
-        alladmins = result;
+        // alladmins = result;
         res.json(result);
       }
     });
