@@ -8,7 +8,7 @@ const path = require('path')
 
 exports.r13results=(req,res)=>{
     const regulation = req.params.reg
-    const folderpath = path.join(`../../public/Storage/Results/BTECH3-2/${regulation}`);
+    const folderpath = path.join(`../../../public/Storage/Results/BTECH3-2/${regulation}`);
     fs.readdir(folderpath,(err,files)=>{
         if(err){
             console.log(err)
@@ -26,4 +26,8 @@ exports.r13results=(req,res)=>{
             res.json({ files: filesOnly });
         }
     })
+}
+
+exports.results = (req,res)=>{
+    res.json({Message: "Result Api Reached Successfully"})
 }
