@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import '../../css/hods_css/Hod.css';
 import {FaUpload} from 'react-icons/fa'
+import Results from '../results/Results';
 const HODS = () => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [submittedBy, setSubmittedBy] = useState('');
   const [selectedDepartment, setSelectedDepartment] = useState('option1');
   const [file, setFile] = useState(null); // State to store the selected file
-  const [submitted, setSubmitted] = useState(false);
+  const [submitted, setSubmitted] = useState(true);
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
@@ -22,16 +23,21 @@ const HODS = () => {
   return (
     <div className="hod-form">
       {submitted ? (
+          <div>
+            <Results/>
         <div className="hod-submitted">
+          
           <h2>Form Submitted Successfully!</h2>
           <p>Name: {name}</p>
           <p>Description: {description}</p>
           <p>Submitted By: {submittedBy}</p>
           <p>Department: {selectedDepartment}</p>
           {file && <p>Selected File: {file.name}</p>}
+          </div>
         </div>
       ) : (
         <div className="hod-form-container">
+       
           <h2>Institutional Data Upload</h2>
           <form onSubmit={handleFormSubmit}>
             <div className="form-group">

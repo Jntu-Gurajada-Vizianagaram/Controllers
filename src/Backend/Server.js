@@ -8,6 +8,7 @@ const admins= require('./routes/admin_routes/AdminRoute')
 const mailing = require('./routes/grievance_routes/GrievanceRoutes')
 const updates = require('./routes/updates_routes/upates_api_routes')
 const affliatedColleges = require('./routes/affliated_colleges_routes/AffliatedCollegesRoutes')
+const results = require('./routes/results_routes/ResultsRoutes')
 
 //middle ware import
 app.use(express.json())
@@ -44,9 +45,12 @@ app.use('/api/admins',admins)
 app.use('/api/mailing',mailing)
 app.use('/api/updates',updates)
 app.use('/api/affliated-colleges',affliatedColleges)
+app.use('/api/results',results)
 // app.use('/api/addhod',) 
 
 
+const gen = require('./apis/admin_api/Generate_password')
+gen.generate_password()
 
 // server listener
 app.listen(8888,()=>{

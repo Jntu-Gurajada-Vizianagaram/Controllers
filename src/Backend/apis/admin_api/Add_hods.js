@@ -27,3 +27,8 @@ exports.addhods = (req,res)=>{
     
     }
 }
+
+
+exports.update_hod=()=>{
+
+}
