@@ -12,18 +12,19 @@ import HODS from "./Frontend/components/hods/HODS";
 import AffliatedColleges from "./Frontend/components/affliatedColleges/Affliated_colleges";
 import FacultyGrievance from "./Frontend/components/grievances/FacultyGrievance";
 import ForgotPassword from "./Frontend/Authentications/Forgot_password";
+import Results from "./Frontend/components/results/Results";
 
 function App() {
   
   return (
     <div className="App">
       <Header />
-
-      <BrowserRouter>
       
+      <BrowserRouter>
         <Navbar />
         <Routes>
           <Route exact path="/" element={<AdminLogin />} />
+          <Route exact path="/Results" element={<Results/>} />
           <Route exact path="/admin" element={<Admin/>} />
           <Route exact path="/admin-control" element={<Admin />} />
           <Route exact path="/updates" element={<Updates />} />

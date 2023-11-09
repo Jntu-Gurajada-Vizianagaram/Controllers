@@ -66,7 +66,7 @@ const AdminsCRUDControl = () => {
 
   return (
     <div>
-      AdminsCRUDControl
+      
       <div>
         <div className="admin-crud-consoles">
             <div className="hods-crud-console">
@@ -82,7 +82,7 @@ const AdminsCRUDControl = () => {
                         </label>
                         <input
                           type="text"
-                          id="admin-username"
+                          id="admin-name"
                           placeholder="Enter HOD Name"
                           onChange={(e) => setName(e.target.value)}
                         />
@@ -147,7 +147,7 @@ const AdminsCRUDControl = () => {
         <TableBody>
           {alladmins.map((admin) => (
             <TableRow
-              key={admins.name}
+              key={admin.id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">

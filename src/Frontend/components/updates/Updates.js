@@ -2,6 +2,12 @@ import React, { useState, useEffect  } from "react";
 import '../../css/updates_css/Updates.css'
 import axios from "axios";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from "@mui/material";
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+
 const ips =require('../../api.json')
 const api_ip = ips.server_ip
 const Updates = () => {
@@ -9,6 +15,8 @@ const Updates = () => {
     date: "",
     title: "",
     file_path: "",
+    main_page:"",
+    scrolling:"",
     update_type: "",
     update_status: "",
   });
@@ -28,6 +36,8 @@ const Updates = () => {
           title: "",
           date: "",
           file_path: "",
+          main_page:"",
+          scrolling:"",
           update_type: "",
           update_status: "",
         });
@@ -51,6 +61,8 @@ const Updates = () => {
       title: event.title,
       date: event.date,
       file_path: event.file_path,
+      main_page:event.main_page,
+      scrolling:event.scrolling,
       update_type: event.update_type,
       update_status: event.update_status,
     });
@@ -66,6 +78,8 @@ const Updates = () => {
           title: "",
           date: "",
           file_path: "",
+          main_page:"",
+          scrolling:"",
           update_type: "",
           update_status: "",
         });
@@ -80,7 +94,7 @@ const Updates = () => {
   return (
     <div>
       <div className="updates-main">
-        <h1>University Events</h1>
+        <h1>Updates</h1>
 
         <h2>Create New Event</h2>
         
@@ -100,9 +114,26 @@ const Updates = () => {
       />          <br></br>
 
           <label for="file-path">Path / Upload File:</label>
-          <input type="text" id="time" name="" value={eventData.file_path}
+          <input type="file" id="time" name="" 
         onChange={handleInputChange} required />
           <br></br>
+
+          <Box sx={{ minWidth: 120 }}>
+      <FormControl fullWidth>
+        <InputLabel id="demo-simple-select-label">Age</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          // value={}
+          label="Age"
+          onChange={handleInputChange}
+        >
+          <MenuItem value={10}>Ten</MenuItem>
+          <MenuItem value={20}>Twenty</MenuItem>
+          <MenuItem value={30}>Thirty</MenuItem>
+        </Select>
+      </FormControl>
+    </Box>
 
           <label for="update-type">Type:</label>
           <input type="text" id="location" name="update_type" value={eventData.update_type}
@@ -143,8 +174,8 @@ const Updates = () => {
                     <TableCell>{event.update_status}</TableCell>
                     <TableCell><a href={event.file_path} >View File</a></TableCell>
                     <TableCell>
-  <Button variant="contained" onClick={() => editEvent(event)}>edit</Button>
-</TableCell>
+                      <Button variant="contained" onClick={() => editEvent(event)}>edit</Button>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>

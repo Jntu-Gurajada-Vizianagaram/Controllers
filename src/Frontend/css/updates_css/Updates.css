@@ -32,6 +32,8 @@ h1 {
 
 /* Style form elements */
 form {
+  display: flex;
+  flex-direction: column;
   background-color: #fff;
   padding: 20px;
   border-radius: 5px;
@@ -50,9 +52,7 @@ label {
 input[type="text"],
 input[type="date"],
 textarea {
-  width: 100%;
   padding: 10px;
-  margin-bottom: 15px;
   border: 1px solid var(--border-color);
   border-radius: 3px;
 }
