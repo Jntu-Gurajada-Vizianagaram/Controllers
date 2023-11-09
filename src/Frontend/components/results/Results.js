@@ -2,21 +2,21 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 
 const Results = () => {
-    // const ips =require('../../api.json')
-    // const api_ip = ips.server_ip
+    const ips =require('../../api.json')
+    const api_ip = ips.server_ip
     const [filenames,setFilenames] = useState([]);
     // const [filepath,setFilepath] = useState([]);
 
     const getfile = async() =>{
 
         try{
-            const response = await axios.get('http://localhost:8888/api/results/R13PASSLIST');
+            const response = await axios.get(`http://${api_ip}:8888/api/results/R13PASSLIST`);
             setFilenames(response.data.files);
         }catch(error){
             console.log(error);
         }
     }
-    const path = './new folder/'
+    // const path = './new folder/'
 useEffect(()=>{
     getfile()
 },[])
@@ -27,7 +27,7 @@ useEffect(()=>{
         {
             filenames.map((file,index)=>(
                 <div>
-                    <a href={`http://localhost:3001/../Storage/Results/BTECH3-2/R13PASSLIST/${file}`} download={file}><h4 key={index}>{file}</h4></a>
+                    <a href={`http://${api_ip}:3000/../Storage/Results/BTECH3-2/R13PASSLIST/${file}`} download={file}><h4 key={index}>{file}</h4></a>
                 </div>
             ))
         }

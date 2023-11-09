@@ -1,7 +1,13 @@
 import React from "react";
 import "../../css/admin_css/Admin.css";
-import { MdLogout } from "react-icons/md";
-import AdminsCRUDControl from "./AdminsCRUDControl";
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import AdminsCRUDControl from './AdminsCRUDControl';
+import AllCrudControls from "./AllCrudControls";
+import AllRequestControls from "./AllRequestControls";
 
 
 
@@ -11,7 +17,7 @@ const Admin = () => {
   
   return (
     <div className="admin-main">
-      <div>
+      {/* <div>
         <a href="/">
           <button>
             Logout
@@ -33,7 +39,35 @@ const Admin = () => {
       <div className="all-consoles">
         
       </div>
-      <AdminsCRUDControl/>
+      <AdminsCRUDControl/> */}
+       <Accordion>
+      <AccordionSummary
+        expandIcon={<ExpandMoreIcon />}
+        aria-controls="panel2a-content"
+        id="panel2a-header"
+      >
+        <Typography> Admins Requests </Typography>
+      </AccordionSummary>
+      <AccordionDetails>
+        <Typography>
+          <AllRequestControls/>
+        </Typography>
+      </AccordionDetails>
+    </Accordion>
+    <Accordion >
+      <AccordionSummary
+        expandIcon={<ExpandMoreIcon />}
+        aria-controls="panel3a-content"
+        id="panel3a-header"
+      >
+        <Typography>ALL Consoles</Typography>
+      </AccordionSummary>
+      <AccordionDetails>
+        <Typography>
+          <AllCrudControls/>
+        </Typography>
+      </AccordionDetails>
+    </Accordion>
     </div>
   );
 };

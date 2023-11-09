@@ -4,7 +4,7 @@ exports.insert_event =  (req, res) => {
   const { update } = req.body;
   const int = 0;
   const sql = 'INSERT INTO notification_updates (id, date, title,  file_path, main_page, scrolling, update_type, update_status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
-  const values = [int,update.date, update.title,  update.filepath, update.mainpage, update.scrolling, update.type, update.status];
+  const values = [int, update.date, update.title,  update.filepath, update.mainpage, update.scrolling, update.type, update.status];
 
   connection.query(sql, values, (err, result) => {
     if (err) {
