@@ -19,7 +19,7 @@ npm start \
 
 ## Create new branch according to task
 
-**New branch command :** git checkout -b venky26
+**New branch command :** git checkout -b dsak7(your branch name)
 
   ![Screenshot 2023-10-10 105659](https://github.com/Jntu-Gurajada-Vizianagaram/Controllers/assets/108987531/84181a13-cd5f-4d68-8271-c2e9926758ea)
 
