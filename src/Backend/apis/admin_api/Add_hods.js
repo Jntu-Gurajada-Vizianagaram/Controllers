@@ -32,3 +32,23 @@ exports.addhods = (req,res)=>{
 exports.update_hod=()=>{
 
 }
+
+exports.remove_hod=(req,res)=>{
+    try{
+    const hodid=req.params.id;
+    sql = `SELECT * FROM admins WHERE id=${hodid};`;
+    con.query(sql,(err,result)=>{
+        if(result !=null){
+            sql = `DELETE FROM admins WHERE id=${hodid};`
+            con.query(sql)
+            res.json({mes:`${result[0].username}Admin as Removed`})
+        }
+        else{
+            console.log(err)
+            res.status(400).json({msg:err})
+        }
+    })} 
+    catch(error){
+        console.log(error)
+    }
+}

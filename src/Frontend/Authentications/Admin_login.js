@@ -18,7 +18,7 @@ const login_handle = async () => {
       { credentials:{username, password} });
       if (response.data.login) {
         alert("Ok Logged In");
-        window.location.href = `http://${api_ip}:3001/admin-control`;
+        window.location.href = `/admin`;
         console.log(response.data);
       } else {
         console.log("Invalid Credentials");
