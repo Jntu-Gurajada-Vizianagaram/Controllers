@@ -18,22 +18,21 @@ const bodyparser = require('body-parser')
 const cookieparser = require('cookie-parser')
 const con = require('./apis/config')
 app.use(express.json());
-
 app.use(cors())
 // app.use(cors({
-//   origin :["http://localhost:3001"],
-//   methods :["GET","POST"],
-//   credentials : true,
-// }))
-
-app.use(cookieparser())
-app.use(bodyparser.urlencoded({extended:true}));
-
-app.use(session({
-    key : "userId",
-    secret : "subscribe",
-    resave : false,
-    saveUninitialized : false,
+    //   origin :["http://localhost:3001"],
+    //   methods :["GET","POST"],
+    //   credentials : true,
+    // }))
+    
+    app.use(cookieparser())
+    app.use(bodyparser.urlencoded({extended:true}));
+    
+    app.use(session({
+        key : "userId",
+        secret : "subscribe",
+        resave : false,
+        saveUninitialized : false,
     cookie:{
         expires: 60*60*24,
     },
@@ -41,6 +40,7 @@ app.use(session({
 );
 
 //apis start
+app.use('/files',express.static('./storage/notifications'))
 app.use('/api/admins',admins)
 app.use('/api/mailing',mailing)
 app.use('/api/updates',updates)
@@ -49,8 +49,8 @@ app.use('/api/results',results)
 // app.use('/api/addhod',) 
 
 
-const gen = require('./apis/admin_api/Generate_password')
-gen.generate_password()
+// const gen = require('./apis/admin_api/Generate_password')
+// gen.generate_password()
 
 // server listener
 app.listen(8888,()=>{

@@ -56,7 +56,28 @@ const AdminsCRUDControl = () => {
       console.log(error)
     }
   }
-
+const remove_hod = async (admin) => {
+  try {
+        // if(confirm("Are you Sure! you want Remove Admin")==true){
+        alert("Removing Admin" + admin.id);
+        const response = await axios.get(`http://${api_ip}:8888/api/admins/remove-hod/${admin.id}`)
+        if(response.data.Success){
+          alert("Admin Removed Successfully")
+        }
+        else{
+          console.log("Sm Thing error" + response.data.msg)
+        }
+        window.location.href='/admin'
+      }
+      // else{
+        // alert("Admin Removing Aborted")
+      // }
+    // } 
+    catch (error) {
+      console.log(error)
+    }
+    
+}
 
   useEffect(() => {
     // get_role()
@@ -161,8 +182,8 @@ const AdminsCRUDControl = () => {
               </Button>
               </TableCell>
               <TableCell align="center">
-                <Button variant="outlined" color="error" startIcon={<DeleteIcon />}>
-                 Delete
+                <Button variant="outlined" color="error" onClick={()=>{remove_hod(admin)}} startIcon={<DeleteIcon />}>
+                 Delete {admin.id}
               </Button>
               </TableCell>
             </TableRow>

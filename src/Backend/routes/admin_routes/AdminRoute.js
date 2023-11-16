@@ -41,6 +41,7 @@ router.get('/getadmins',adminauth.alladmins)
 router.post('/login',adminauth.login)
 router.get('/getrole',adminauth.role_session)
 router.post('/add-hod',hods.addhods)
+router.get('/remove-hod/:id',hods.remove_hod)
 router.get('/generate-password',pwd.generate_password)
 
 module.exports=router

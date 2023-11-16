@@ -25,18 +25,22 @@ const ips = require("../../api.json");
 const api_ip = ips.server_ip;
 
 const Updates = () => {
+
+
+
+
+  const [file, setFile] = useState();
   const [events, setEvents] = useState([]);
   const [eventData, setEventData] = useState({
-    date: "",
+    date: (new Date()),
     title: "",
-    file_path: "",
+    file_path: `${file}`,
     main_page: "",
     scrolling: "",
     update_type: "",
     update_status: "",
   });
 
-  const [file, setFile] = useState(null);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -46,26 +50,31 @@ const Updates = () => {
     });
   };
 
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
-  };
+ 
 
   const addEvent = async () =>{
+    const formData = new FormData()
+    formData.append("date",eventData.date)
+    formData.append("title",eventData.title)
+    formData.append("main_page",eventData.main_page)
+    formData.append("scrolling",eventData.scrolling)
+    formData.append("update_type",eventData.update_type)
+    formData.append("update_status",eventData.update_status)
+    formData.append('file',file)
     try {
-      console.log(eventData)
-      const response = await axios.post(`http://${api_ip}:8888/api/updates/addevent`,eventData)
+      const response = await axios.post(`http://${api_ip}:8888/api/updates/addevent`,formData)
       console.log(response)
-      // if(response){
-      //   alert("Event added"+response)}
-      //   else{
-      //     console.log("Event Not Added")
-      //   }
-        window.location.href('/admin');
+      if(response){
+        alert("Event added"+response)
+      }
+        else{
+          console.log("Event Not Added")
+        }
+      window.location.href='/admin';
     } catch (error) {
       console.log(error)
     }
   }
-
 
   useEffect(() => {
     axios
@@ -84,9 +93,9 @@ const Updates = () => {
         <div>
           <form>
             <label for="date">Date:</label>
-            <input type="date" id="date" name="date" value={eventData.date} onChange={handleInputChange} required />
+            <input type="text" id="date" name="date" value={eventData.date} onChange={handleInputChange} required />
             <br></br>
-
+           
             <label for="title">Notification Title:</label>
             <TextField
               label="Notification Title"
@@ -103,11 +112,14 @@ const Updates = () => {
               variant="contained"
               startIcon={<CloudUploadIcon />}
             >
-              Upload file
-              <VisuallyHiddenInput type="file" onChange={handleFileChange} required />
+              {file != null ? file.name + " Uploaded" : "UPLOAD FILE"}
+              <VisuallyHiddenInput type="file" name='file' onChange={(e)=>{
+                setFile(e.target.files[0]) 
+                
+                }} required />
             </Button>
             <br></br>
-
+           
             <FormControl fullWidth>
               <InputLabel id="main-page-label">Main Page Publish</InputLabel>
               <Select
@@ -198,7 +210,7 @@ const Updates = () => {
                     <TableCell>{event.title}</TableCell>
                     <TableCell>{event.update_status}</TableCell>
                     <TableCell>
-                      <a href={event.file_path}>View File</a>
+                      <a href={`http://117.221.101.104:8888/files/${event.file_path}`}>View File</a>
                     </TableCell>
                     <TableCell>
                       <Button variant="contained" onClick={() => alert(event.title)}>
