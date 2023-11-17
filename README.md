@@ -18,7 +18,7 @@ npm start
 npm run client
 
 **Starting the React App only Sever(APIS) :**
-nom run server
+npm run server
 
 ## Go to test branch
 ![Screenshot 2023-10-10 105822](https://github.com/Jntu-Gurajada-Vizianagaram/Controllers/assets/108987531/146697d5-7c4e-459c-bb7a-150b74bb7480)
