@@ -11,7 +11,14 @@ cd Controllers
 **Install the dependencies :**
 npm i \
 **Starting the React App :**
-npm start \
+**Starting the React App as both Client(admin Consoles and Server(APIS)) :**
+npm start 
+
+**Starting the React App only Client(Admin Consoles) :**
+npm run client
+
+**Starting the React App only Sever(APIS) :**
+nom run server
 
 ## Go to test branch
 ![Screenshot 2023-10-10 105822](https://github.com/Jntu-Gurajada-Vizianagaram/Controllers/assets/108987531/146697d5-7c4e-459c-bb7a-150b74bb7480)
