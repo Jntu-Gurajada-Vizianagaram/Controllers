@@ -31,28 +31,28 @@ const Navbar = () => {
           </NavLink>
         </div>
         <div className="dmc-link">
-          <NavLink to="/DMC" className="dmc-nav">
+          <NavLink to="/dmc" className="dmc-nav">
             <span>
               <HiDesktopComputer /> Web Admin
             </span>
           </NavLink>
         </div>
         <div className="hods-link">
-          <NavLink to="/HODS" className="hods-nav">
+          <NavLink to="/hods" className="hods-nav">
             <span>
               <GiTeacher /> HODS
             </span>
           </NavLink>
         </div>
         <div className="aff-clgs-link">
-          <NavLink to="/Affliated-College" className="aff-clgs-nav">
+          <NavLink to="/affiliated-College" className="aff-clgs-nav">
             <span>
               <MdOutlineCastForEducation /> Affliated Colleges
             </span>
           </NavLink>
         </div>
         <div className="grievance-link">
-          <NavLink to="/Grievances" className="grievance-nav">
+          <NavLink to="/grievances" className="grievance-nav">
             <span>
               <MdHelp />HELP
             </span>
