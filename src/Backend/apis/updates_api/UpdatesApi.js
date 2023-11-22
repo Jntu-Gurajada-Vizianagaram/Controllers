@@ -34,10 +34,10 @@ exports.insert_event =  (req, res) => {
 };
  
 exports.delete_event=(req, res) => {
-const title = req.params.title;
-const sql = 'DELETE FROM events WHERE title = ?';
+const id = req.params.id;
+const sql = `DELETE FROM notification_updates WHERE id = ${id}`;
 
-connection.query(sql, title, (err, result) => {
+connection.query(sql, (err, result) => {
   if (err) {
     console.error('Error deleting data:', err);
     res.status(500).json({ error: 'Error deleting data' });
@@ -49,7 +49,7 @@ connection.query(sql, title, (err, result) => {
 };
 
 exports.get_events=(req, res) => {
-  const sql = 'SELECT * FROM notification_updates';
+  const sql = "SELECT * FROM notification_updates WHERE update_status = 'update' ORDER BY id DESC";
 
   connection.query(sql, (err, results) => {
     if (err) {
@@ -80,3 +80,5 @@ exports.update_event= (req, res) => {
     res.json({ message: 'Data updated successfully' });
   });
 };
+
+

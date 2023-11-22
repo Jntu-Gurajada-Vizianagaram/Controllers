@@ -13,8 +13,8 @@ const DMC = () => {
       </div>
       <div class="link">
         <div><a href="Upload"> <FcGallery/> GALLERY</a></div>
-        <div><a href="/DMC/DMC-Upload"> <FcMultipleCameras/> Upload Photos</a></div>
-        <div><a href="/DMC/DMC-Trades"> <FcLink/> Upload Tenders</a></div>
+        <div><a href="/dmc/dmc-upload"> <FcMultipleCameras/> Upload Photos</a></div>
+        <div><a href="/dmc/dmc-tenders"> <FcLink/> Upload Tenders</a></div>
       <Outlet/>
       </div>
     </div>

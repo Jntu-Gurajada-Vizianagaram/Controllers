@@ -76,6 +76,23 @@ const Updates = () => {
     }
   }
 
+  const deleteEvent = async (event) => {
+    try {
+      console.log(event)
+      // if(confirm(`Are you sure u want Delete ${event.title}`)==true){
+        alert(`Deleting Event ${event.title}`)
+        const id =event.id
+        const response = await axios.get(`http://${api_ip}:8888/api/updates/removeevent/${id}`);
+      // }
+      // else{
+      //   alert('Event Not Deleted')
+      // }
+      window.location.href='/admin'
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   useEffect(() => {
     axios
       .get(`http://${api_ip}:8888/api/updates/getevents`)
@@ -210,11 +227,16 @@ const Updates = () => {
                     <TableCell>{event.title}</TableCell>
                     <TableCell>{event.update_status}</TableCell>
                     <TableCell>
-                      <a href={`http://117.221.101.104:8888/files/${event.file_path}`}>View File</a>
+                      <a href={`http://localhost:8888/files/${event.file_path}`}>View File</a>
                     </TableCell>
                     <TableCell>
                       <Button variant="contained" onClick={() => alert(event.title)}>
                         Edit
+                      </Button>
+                    </TableCell>
+                    <TableCell>
+                      <Button variant="contained" color="error" onClick={() => deleteEvent(event)}>
+                        Delete
                       </Button>
                     </TableCell>
                   </TableRow>
