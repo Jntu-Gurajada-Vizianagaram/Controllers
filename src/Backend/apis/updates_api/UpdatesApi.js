@@ -48,7 +48,20 @@ connection.query(sql, (err, result) => {
 });
 };
 
-exports.get_events=(req, res) => {
+exports.all_events=(req, res) => {
+  const sql = "SELECT * FROM notification_updates ORDER BY id DESC";
+
+  connection.query(sql, (err, results) => {
+    if (err) {
+      console.error('Error retrieving data:', err);
+      res.status(500).json({ error: `Error retrieving data${err} `});
+      return;
+    }
+    console.log('Data retrieved successfully');
+    res.json(results);
+  });
+};
+exports.get_notifiactions=(req, res) => {
   const sql = "SELECT * FROM notification_updates WHERE update_status = 'update' ORDER BY id DESC";
 
   connection.query(sql, (err, results) => {
@@ -58,6 +71,19 @@ exports.get_events=(req, res) => {
       return;
     }
     console.log('Data retrieved successfully');
+    res.json(results);
+  });
+};
+exports.get_scrolling_notifiactions=(req, res) => {
+  const sql = "SELECT * FROM notification_updates WHERE update_status = 'update' && scrolling = 'yes' ORDER BY id DESC";
+
+  connection.query(sql, (err, results) => {
+    if (err) {
+      console.error('Error retrieving data:', err);
+      res.status(500).json({ error: `Error retrieving data${err} `});
+      return;
+    }
+    console.log('Scrolling Notifications Data retrieved successfully');
     res.json(results);
   });
 };

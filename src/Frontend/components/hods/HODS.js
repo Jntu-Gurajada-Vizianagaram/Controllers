@@ -8,7 +8,7 @@ const HODS = () => {
   const [submittedBy, setSubmittedBy] = useState('');
   const [selectedDepartment, setSelectedDepartment] = useState('option1');
   const [file, setFile] = useState(null); // State to store the selected file
-  const [submitted, setSubmitted] = useState(true);
+  const [submitted, setSubmitted] = useState(false);
 
   const handleFormSubmit = (e) => {
     e.preventDefault();

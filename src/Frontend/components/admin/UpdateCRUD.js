@@ -95,7 +95,7 @@ const Updates = () => {
 
   useEffect(() => {
     axios
-      .get(`http://${api_ip}:8888/api/updates/getevents`)
+      .get(`http://${api_ip}:8888/api/updates/allevents`)
       .then((response) => {
         setEvents(response.data);
       })
