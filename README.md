@@ -9,7 +9,7 @@ git clone https://github.com/Jntu-Gurajada-Vizianagaram/Controllers.git
 **Go into the folder :**
 cd Controllers
 **Install the dependencies :**
-npm i \
+npm i 
 **Starting the React App :**
 **Starting the React App as both Client(admin Consoles and Server(APIS)) :**
 npm start 
