@@ -1,6 +1,6 @@
 # Controllers JNTUGV
-
-Clone the repository 
+# ALL Admin Consoles for Admin
+Clone the repo 
 git clone https://github.com/Jntu-Gurajada-Vizianagaram/Controllers.git
 
 ![Screenshot 2023-10-10 105943](https://github.com/Jntu-Gurajada-Vizianagaram/Controllers/assets/108987531/ec1cb59e-7ede-4fea-94b2-bcb2ef81bb20)
