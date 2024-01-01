@@ -11,7 +11,7 @@ const app = express()
 app.use(express.json());
 
 app.use(cors({
-  origin :["http://localhost:3001"],
+  origin :["http://localhost:3000"],
   methods :["GET","POST"],
   credentials : true,
 }))
@@ -49,7 +49,7 @@ exports.alladmins = (req, res) => {
 
 exports.login=(req,res) => {
   try {
-    console.log("loginapi")
+    // console.log("loginapi")
     const { credentials } = req.body;
     const sql ="SELECT role , password FROM admins where username=(?);"
     con.query(sql,credentials.username,(err,result)=>{
@@ -59,9 +59,11 @@ exports.login=(req,res) => {
       else{
         if(result.length>0){
           if(credentials.password == result[0].password){
-            req.session.user = result;
+            console.log({result})
             // console.log(req.session.user)
             const role = result[0].role
+            console.log(role)
+            req.session.userid = role;
             res.send({login:true,message:role})
           }
           else{
@@ -81,16 +83,17 @@ exports.login=(req,res) => {
 
 exports.role_session = (req,res)=>{
   try {
-    const role = req.session.userrole;
+    console.log(req.session)
+    const role = req.session.userid;
     if (role !=""){
-      console.log(role)
-      res.sendstatus(200).json({MSG:role})
+      // console.log(role)
+      res.status(200).json({MSG:role})
     }
     else{
       console.log("Role Not Assigned")
       res.json({msg:"role not assigned"})
     }
-    res.send({msg:"nothing"})
+    // res.send({msg:"nothing"})
 
   } catch (error) {
     console.log(error)
