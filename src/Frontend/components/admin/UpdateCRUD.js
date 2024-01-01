@@ -70,11 +70,26 @@ const Updates = () => {
         else{
           console.log("Event Not Added")
         }
-      window.location.href='/admin';
+      // window.location.href='/admin';
+      getEvents()
     } catch (error) {
       console.log(error)
     }
   }
+
+
+  const getEvents = async () =>{
+
+    axios
+    .get(`http://${api_ip}:8888/api/updates/allevents`)
+    .then((response) => {
+      setEvents(response.data);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+  }
+
 
   const deleteEvent = async (event) => {
     try {
@@ -87,21 +102,17 @@ const Updates = () => {
       // else{
       //   alert('Event Not Deleted')
       // }
-      window.location.href='/admin'
+      // window.location.href='/admin'
+      getEvents()
+
     } catch (error) {
       console.log(error)
     }
   }
 
   useEffect(() => {
-    axios
-      .get(`http://${api_ip}:8888/api/updates/allevents`)
-      .then((response) => {
-        setEvents(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+  
+    getEvents()
   }, []);
 
   return (
