@@ -7,6 +7,7 @@ import Admin from "./Frontend/components/admin/Admin";
 import Updates from "./Frontend/components/updates/Updates";
 import DMC from "./Frontend/components/dmc/DMC";
 import DMCUpload from "./Frontend/components/dmc/Upload";
+import CompleteGallery from "./Frontend/components/dmc/CompleteGallery";
 import HODS from "./Frontend/components/hods/HODS";
 import AffiliatedColleges from "./Frontend/components/affliatedColleges/Affliated_colleges";
 import FacultyGrievance from "./Frontend/components/grievances/FacultyGrievance";
@@ -29,6 +30,7 @@ function App() {
           <Route exact path="/updates" element={<Updates />} />
           <Route exact path="/updates" element={<Updates />} />
           <Route exact path="/dmc" element={<DMC />}/>
+          <Route path="/gallery" element={<CompleteGallery />} />
           <Route exact path="/upload" element={<DMCUpload />} />
         <Route exact path="/hods" element={<HODS />} />
         <Route
