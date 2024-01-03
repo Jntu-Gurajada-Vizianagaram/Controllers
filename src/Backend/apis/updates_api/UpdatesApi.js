@@ -97,6 +97,10 @@ exports.get_notifiactions=(req, res) => {
         year: outdate.getFullYear(),
       }
     })
+    console.log('Data retrieved successfully');
+    // res.json({path:`api.jntugv.edu.in`})
+    // results.push('api.jntugv.edu.in/files/')
+    res.json(final_events);
   });
 };
 exports.get_scrolling_notifiactions=(req, res) => {
