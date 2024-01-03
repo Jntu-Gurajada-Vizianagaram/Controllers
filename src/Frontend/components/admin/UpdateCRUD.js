@@ -238,7 +238,7 @@ const Updates = () => {
                     <TableCell>{event.title}</TableCell>
                     <TableCell>{event.update_status}</TableCell>
                     <TableCell>
-                      <a href={`http://localhost:8888/files/${event.file_path}`}>View File</a>
+                      <a href={`http://api.jntugv.edu.in:8888/files/${event.file_path}`}>View File</a>
                     </TableCell>
                     <TableCell>
                       <Button variant="contained" onClick={() => alert(event.title)}>

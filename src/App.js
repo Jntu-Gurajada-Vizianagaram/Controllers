@@ -10,6 +10,7 @@ import DMCUpload from "./Frontend/components/dmc/Upload";
 import CompleteGallery from "./Frontend/components/dmc/CompleteGallery";
 import HODS from "./Frontend/components/hods/HODS";
 import AffiliatedColleges from "./Frontend/components/affliatedColleges/Affliated_colleges";
+import AddCollege from './Frontend/components/affliatedColleges/AddCollege'
 import FacultyGrievance from "./Frontend/components/grievances/FacultyGrievance";
 import ForgotPassword from "./Frontend/Authentications/Forgot_password";
 import Results from "./Frontend/components/results/Results";
@@ -33,11 +34,8 @@ function App() {
           <Route path="/gallery" element={<CompleteGallery />} />
           <Route exact path="/upload" element={<DMCUpload />} />
         <Route exact path="/hods" element={<HODS />} />
-        <Route
-          exact
-          path="/affiliated-college"
-          element={<AffiliatedColleges />}
-        />
+        <Route exact path="/affiliated-college" element={<AffiliatedColleges />}/>
+        <Route exact path="/add-new-affliated-college" element={<AddCollege/>} />
         <Route exact path="/grievances" element={<FacultyGrievance />} />
         <Route exact path="/passwordreset" element={<ForgotPassword />} />
       </Routes>
