@@ -121,7 +121,7 @@ const Updates = () => {
         <div>
           <form>
             <label for="date">Date:</label>
-            <input type="text" id="date" name="date" value={eventData.date} onChange={handleInputChange} required />
+            <input type="date" id="date" name="date" value={eventData.date} onChange={handleInputChange} required />
             <br></br>
            
             <label for="title">Notification Title:</label>
@@ -221,7 +221,7 @@ const Updates = () => {
           <TableContainer component={Paper}>
             <Table>
               <TableHead>
-                <TableRow>
+                <TableRow key={"Table Attributes"}>
                   <TableCell>S.NO</TableCell>
                   <TableCell>Notification Date</TableCell>
                   <TableCell>Title</TableCell>
@@ -238,7 +238,7 @@ const Updates = () => {
                     <TableCell>{event.title}</TableCell>
                     <TableCell>{event.update_status}</TableCell>
                     <TableCell>
-                      <a href={`http://api.jntugv.edu.in:8888/files/${event.file_path}`}>View File</a>
+                      <a href={event.file_link} target="_blank">View File</a>
                     </TableCell>
                     <TableCell>
                       <Button variant="contained" onClick={() => alert(event.title)}>

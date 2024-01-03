@@ -57,8 +57,23 @@ exports.all_events=(req, res) => {
       res.status(500).json({ error: `Error retrieving data${err} `});
       return;
     }
+    const final_events = results.map(eve=>{
+      const filelink =`http://api.jntugv.edu.in/files/${eve.file_path}`
+      const outdate=new Date(eve.date)
+
+      return{
+        ...eve,
+        file_link:filelink,
+        day:outdate.getDate(),
+        month: outdate.toLocaleString('en-US', { month: 'short' }),
+        year: outdate.getFullYear(),
+      }
+    })
+
     console.log('Data retrieved successfully');
-    res.json(results);
+    // res.json({path:`api.jntugv.edu.in`})
+    // results.push('api.jntugv.edu.in/files/')
+    res.json(final_events);
   });
 };
 exports.get_notifiactions=(req, res) => {
@@ -70,8 +85,18 @@ exports.get_notifiactions=(req, res) => {
       res.status(500).json({ error: `Error retrieving data${err} `});
       return;
     }
-    console.log('Data retrieved successfully');
-    res.json(results);
+    const final_events = results.map(eve=>{
+      const filelink =`http://localhost:8888/files/${eve.file_path}`
+      const outdate=new Date(eve.date)
+
+      return{
+        ...eve,
+        file_link:filelink,
+        day:outdate.getDate(),
+        month: outdate.toLocaleString('en-US', { month: 'short' }),
+        year: outdate.getFullYear(),
+      }
+    })
   });
 };
 exports.get_scrolling_notifiactions=(req, res) => {
