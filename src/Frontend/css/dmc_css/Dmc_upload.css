@@ -5,7 +5,7 @@
   padding-top: 1cm;
   font-size: 24px;
 }
-.updates-main {
+.form_container {
   max-width: 400px;
   margin: 20px auto;
   padding: 40px;
@@ -17,7 +17,7 @@
   transition: box-shadow 0.3s ease;
 }
 
-.form-container:hover {
+.form_container:hover {
   box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.9);
 }
 
@@ -44,12 +44,12 @@
   margin-top: 5px;
 }
 
-.button-container {
+.button {
   text-align: center;
   margin-top: 20px;
 }
 
-.button-container button {
+.button  {
   padding: 10px 20px;
   font-size: 16px;
   background-color: #4caf50;

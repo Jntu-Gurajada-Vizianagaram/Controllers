@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import '../../css/dmc_css/Dmc_upload.css'
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import InputLabel from "@mui/material/InputLabel";
@@ -24,7 +25,7 @@ const VisuallyHiddenInput = styled("input")({
 const ips = require("../../api.json");
 const api_ip = ips.server_ip;
 
-const Updates = () => {
+const Upload = () => {
 
 
 
@@ -115,7 +116,7 @@ const Updates = () => {
     <div>
       <div className="updates-main">
         <div>
-          <form>
+          <form className="form_container">
             <label for="date">Date:</label>
             <input type="text" id="date" name="date" value={eventData.date} onChange={handleInputChange} required />
             <br></br>
@@ -163,7 +164,7 @@ const Updates = () => {
             
             <br></br>
 
-            <Button component="label" variant="contained" onClick={addEvent}>
+            <Button component="label" className="button" variant="contained" onClick={addEvent}>
               Submit
             </Button>
             <br></br>
@@ -215,4 +216,4 @@ const Updates = () => {
   );
 };
 
-export default Updates;
+export default Upload;
