@@ -1,127 +1,218 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import '../../css/dmc_css/Dmc_upload.css';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from "@mui/material";
+import TextField from "@mui/material/TextField";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { styled } from "@mui/material/styles";
 
-const Upload = () => {
-  const [formData, setFormData] = useState({
+const VisuallyHiddenInput = styled("input")({
+  clip: "rect(0 0 0 0)",
+  clipPath: "inset(50%)",
+  height: 1,
+  overflow: "hidden",
+  position: "absolute",
+  bottom: 0,
+  left: 0,
+  whiteSpace: "nowrap",
+  width: 1,
+});
+
+const ips = require("../../api.json");
+const api_ip = ips.server_ip;
+
+const Updates = () => {
+
+
+
+
+  const [file, setFile] = useState();
+  const [events, setEvents] = useState([]);
+  const [eventData, setEventData] = useState({
+    date: (new Date()),
     title: "",
+    file_path: `${file}`,
     description: "",
-    uploadedImage: null,
-    submittedBy: "",
+    submitted: "",
   });
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setEventData({
+      ...eventData,
+      [name]: value,
+    });
   };
 
-  const MAX_FILE_SIZE = 2 * 1024 * 1024; 
-  const ALLOWED_FILE_FORMATS = ["image/jpeg", "image/png", "image/jpg"];
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
+ 
 
-    if (file) {
-      if (ALLOWED_FILE_FORMATS.includes(file.type)) {
-        if (file.size <= MAX_FILE_SIZE) {
-          setFormData({ ...formData, uploadedImage: file });
-        } else {
-          alert(
-            "File size exceeds the allowed limit (2MB). Please choose a smaller file.",
-          );
-          e.target.value = null;
+  const addEvent = async () =>{
+    const formData = new FormData()
+    formData.append("date",eventData.date)
+    formData.append("title",eventData.title)
+    formData.append("description",eventData.description)
+    formData.append("submitted",eventData.submitted)
+    formData.append('file',file)
+    try {
+      const response = await axios.post(`http://${api_ip}:8888/api/upload/addevent`,formData)
+      console.log(response)
+      if(response){
+        alert("Event added"+response)
+      }
+        else{
+          console.log("Event Not Added")
         }
-      } else {
-        alert("Invalid file format. Please upload a JPEG or PNG or JPG image.");
-        e.target.value = null;
-      }
+      // window.location.href='/admin';
+      getEvents()
+    } catch (error) {
+      console.log(error)
     }
-  };
+  }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (
-      formData.title &&
-      formData.description &&
-      formData.uploadedImage &&
-      formData.submittedBy
-    ) {
-      alert("Details sent to the admin for approval.");
-      console.log(formData);
-      setFormData({
-        title: "",
-        description: "",
-        uploadedImage: null,
-        submittedBy: "",
-      });
-    } else {
-      alert("Please fill out all the fields.");
+
+  const getEvents = async () =>{
+
+    axios
+    .get(`http://${api_ip}:8888/api/upload/allevents`)
+    .then((response) => {
+      setEvents(response.data);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+  }
+
+
+  const deleteEvent = async (event) => {
+    try {
+      console.log(event)
+      // if(confirm(`Are you sure u want Delete ${event.title}`)==true){
+        alert(`Deleting Event ${event.title}`)
+        const id =event.id
+        const response = await axios.get(`http://${api_ip}:8888/api/upload/removeevent/${id}`);
+      // }
+      // else{
+      //   alert('Event Not Deleted')
+      // }
+      // window.location.href='/admin'
+      getEvents()
+
+    } catch (error) {
+      console.log(error)
     }
-    if (formData.uploadedImage) {
-      try {
-        const formDataToSend = new FormData();
-        formDataToSend.append("uploadedImage", formData.uploadedImage);
+  }
 
-        await axios.post("http://localhost:3001/upload", formDataToSend, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
-
-        alert("Image uploaded successfully!");
-      } catch (error) {
-        console.error("Error uploading image: ", error);
-      }
-    } else {
-      alert("Please select an image to upload.");
-    }
-  };
+  useEffect(() => {
+  
+    getEvents()
+  }, []);
 
   return (
     <div>
-      <div className="title">Upload Photography</div>
-      <div className="form-container">
-        <form onSubmit={handleSubmit}>
-          <div className="input-container">
-            <label>Title of the Event:</label>
-            <input
-              type="text"
+      <div className="updates-main">
+        <div>
+          <form>
+            <label for="date">Date:</label>
+            <input type="text" id="date" name="date" value={eventData.date} onChange={handleInputChange} required />
+            <br></br>
+           
+            <label for="title">Title of the event:</label>
+            <TextField
+              label="Title of the event"
+              variant="outlined"
               name="title"
-              value={formData.title}
+              value={eventData.title}
               onChange={handleInputChange}
             />
-          </div>
-          <div className="input-container">
-            <label>Description:</label>
-            <textarea
+            <br></br>
+            <label for="description">Description:</label>
+            <textarea 
+              id="description" 
               name="description"
-              value={formData.description}
+              value={eventData.description}
+              onChange={handleInputChange} required>
+            </textarea>
+          <br></br>
+
+            <label for="file-path">Path/Upload File:</label>
+            <Button
+              component="label"
+              variant="contained"
+              startIcon={<CloudUploadIcon />}
+            >
+              {file != null ? file.name + " Uploaded" : "UPLOAD FILE"}
+              <VisuallyHiddenInput type="file" name='file' onChange={(e)=>{
+                setFile(e.target.files[0]) 
+                
+                }} required />
+            </Button>
+            <br></br>
+
+            <label for="submitted">Submitted By:</label>
+            <TextField
+              label="Name of the person"
+              variant="outlined"
+              name="submitted"
+              value={eventData.submitted}
               onChange={handleInputChange}
             />
-          </div>
-          <div className="input-container">
-            <label>Upload Images:</label>
-            <input
-              type="file"
-              name="uploadedImage"
-              onChange={handleFileChange}
-            />
-          </div>
-          <div className="input-container">
-            <label>Submitted By:</label>
-            <input
-              type="text"
-              name="submittedBy"
-              value={formData.submittedBy}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="button-container">
-            <button type="submit">Submit</button>
-          </div>
-        </form>
+            
+            <br></br>
+
+            <Button component="label" variant="contained" onClick={addEvent}>
+              Submit
+            </Button>
+            <br></br>
+          </form>
+        </div>
+
+        <div className="eventsdisplay">
+          <h2>Events</h2>
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>S.NO</TableCell>
+                  <TableCell>Notification Date</TableCell>
+                  <TableCell>Title</TableCell>
+                  <TableCell>Status</TableCell>
+                  <TableCell>View File</TableCell>
+                  <TableCell>Action</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {events.map((event) => (
+                  <TableRow key={event.id}>
+                    <TableCell>{event.id}</TableCell>
+                    <TableCell>{event.date}</TableCell>
+                    <TableCell>{event.title}</TableCell>
+                    <TableCell>{event.update_status}</TableCell>
+                    <TableCell>
+                      <a href={`http://api.jntugv.edu.in:8888/files/${event.file_path}`}>View File</a>
+                    </TableCell>
+                    <TableCell>
+                      <Button variant="contained" onClick={() => alert(event.title)}>
+                        Edit
+                      </Button>
+                    </TableCell>
+                    <TableCell>
+                      <Button variant="contained" color="error" onClick={() => deleteEvent(event)}>
+                        Delete
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </div>
       </div>
     </div>
   );
 };
 
-export default Upload;
+export default Updates;

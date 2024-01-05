@@ -7,7 +7,7 @@ const updates= require('../../apis/updates_api/UpdatesApi')
 
 //------APIS for admin console-------//
 
-router.get('/allevents',updates.all_events); 
+router.get('/allevents',updates.all_events);
 router.post('/addevent',updates.Upload,updates.insert_event)
 router.get('/removeevent/:id',updates.delete_event)
 // router.patch('/update-event',router.update_event)
