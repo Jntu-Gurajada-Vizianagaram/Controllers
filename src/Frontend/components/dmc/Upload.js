@@ -38,6 +38,10 @@ const Upload = () => {
     file_path: `${file}`,
     description: "",
     submitted: "",
+    admin_approval: "",
+    carousel_scrolling: "", 
+    gallery_scrolling: ""
+    
   });
 
 
@@ -58,8 +62,12 @@ const Upload = () => {
     formData.append("description",eventData.description)
     formData.append("submitted",eventData.submitted)
     formData.append('file',file)
+    formData.append("admin_approval",eventData.admin_approval)
+    formData.append("carousel_scrolling",eventData.carousel_scrolling)
+    formData.append("gallery_scrolling",eventData.gallery_scrolling)
+    
     try {
-      const response = await axios.post(`http://${api_ip}:8888/api/upload/addevent`,formData)
+      const response = await axios.post(`http://${api_ip}:8888/api/upload/addimg`,formData)
       console.log(response)
       if(response){
         alert("Event added"+response)
@@ -78,7 +86,7 @@ const Upload = () => {
   const getEvents = async () =>{
 
     axios
-    .get(`http://${api_ip}:8888/api/upload/allevents`)
+    .get(`http://${api_ip}:8888/api/upload/allimgs`)
     .then((response) => {
       setEvents(response.data);
     })
@@ -94,7 +102,7 @@ const Upload = () => {
       // if(confirm(`Are you sure u want Delete ${event.title}`)==true){
         alert(`Deleting Event ${event.title}`)
         const id =event.id
-        const response = await axios.get(`http://${api_ip}:8888/api/upload/removeevent/${id}`);
+        const response = await axios.get(`http://${api_ip}:8888/api/upload/removeimg/${id}`);
       // }
       // else{
       //   alert('Event Not Deleted')
@@ -162,6 +170,49 @@ const Upload = () => {
               onChange={handleInputChange}
             />
             
+            <br></br>
+
+            <FormControl fullWidth>
+              <InputLabel id="admin_approval">Admin Approval</InputLabel>
+              <Select
+                labelId="admin_approval"
+                id="admin_approval"
+                name="admin_approval"
+                value={eventData.admin_approval}
+                onChange={handleInputChange}
+              >
+                <MenuItem value="pending">Pending</MenuItem>
+              </Select>
+            </FormControl>
+            <br></br>
+            <FormControl fullWidth>
+              <InputLabel id="carousel_scrolling">Carousel Scrolling</InputLabel>
+              <Select
+                labelId="carousel_scrolling"
+                id="carousel_scrolling"
+                name="carousel_scrolling"
+                value={eventData.carousel_scrolling}
+                onChange={handleInputChange}
+              >
+                <MenuItem value="yes">YES</MenuItem>
+                <MenuItem value="no">NO</MenuItem>
+              </Select>
+            </FormControl>
+            <br></br>
+
+            <FormControl fullWidth>
+              <InputLabel id="gallery_scrolling">Gallery Scrolling:</InputLabel>
+              <Select
+                labelId="gallery_scrolling"
+                id="gallery_scrolling"
+                name="gallery_scrolling"
+                value={eventData.gallery_scrolling}
+                onChange={handleInputChange}
+              >
+                <MenuItem value="yes">YES</MenuItem>
+                <MenuItem value="no">NO</MenuItem>
+              </Select>
+            </FormControl>
             <br></br>
 
             <Button component="label" className="button" variant="contained" onClick={addEvent}>

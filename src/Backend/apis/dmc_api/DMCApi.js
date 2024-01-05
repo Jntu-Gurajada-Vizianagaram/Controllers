@@ -12,15 +12,15 @@ const storage = multer.diskStorage({
 
 exports.Upload = multer({storage}).single('file')
 
-exports.insert_event =  (req, res) => {
+exports.insert_img =  (req, res) => {
 
-  const  upload  = req.body;
+  const  dmcupload  = req.body;
   const  file  = req.file;
   console.log(upload )
   console.log("File"+file.originalname)
   const int = 0;
-  const sql = 'INSERT INTO dmc_upload (id, date, title,  file_path, description, submitted) VALUES (?, ?, ?, ?, ?, ?)';
-  const values = [int, upload.date, upload.title,  file.originalname , upload.description, upload.submitted];
+  const sql = 'INSERT INTO dmc_upload (id, date, title,  file_path, description, submitted, admin_approval, carousel_scrolling, gallery_scrolling) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
+  const values = [int, dmcupload.date, dmcupload.title,  file.originalname , dmcupload.description, dmcupload.submitted, dmcupload.admin_approval, dmcupload.carousel_scrolling, dmcupload.gallery_scrolling];
 
   connection.query(sql, values, (err, result) => {
     if (err) {
@@ -33,7 +33,7 @@ exports.insert_event =  (req, res) => {
   });
 };
  
-exports.delete_event=(req, res) => {
+exports.delete_img=(req, res) => {
 const id = req.params.id;
 const sql = `DELETE FROM dmc_upload WHERE id = ${id}`;
 
@@ -48,7 +48,7 @@ connection.query(sql, (err, result) => {
 });
 };
 
-exports.all_events=(req, res) => {
+exports.all_imgs=(req, res) => {
   const sql = "SELECT * FROM dmc_upload ORDER BY id DESC";
 
   connection.query(sql, (err, results) => {
@@ -64,12 +64,12 @@ exports.all_events=(req, res) => {
 
 
 
-exports.update_event= (req, res) => {
+exports.update_gallery= (req, res) => {
   const uploadId = req.params.id;
-  const { upload } = req.body;
+  const { dmcupload } = req.body;
 
-  const sql = 'UPDATE dmc_upload SET date=?, title=?,  fil_path=?, description=?, submitted=? WHERE id=?';
-  const values = [upload.date, upload.title,  upload.filepath, upload.description, upload.submitted];
+  const sql = 'UPDATE dmc_upload SET date=?, title=?,  fil_path=?, description=?, submitted=?, admin_approval=?, carousel_scrolling=?, gallery_scrolling=?  WHERE id=?';
+  const values = [dmcupload.date, dmcupload.title,  dmcupload.filepath, dmcupload.description, dmcupload.submitted, dmcupload.admin_approval, dmcupload.carousel_scrolling, dmcupload.gallery_scrolling];
 
   connection.query(sql, values, (err, result) => {
     if (err) {
