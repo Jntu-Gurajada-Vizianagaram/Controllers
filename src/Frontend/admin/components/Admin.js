@@ -1,13 +1,13 @@
 import React from "react";
-import "../../css/admin_css/Admin.css";
+import "../css/Admin.css";
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-// import AdminsCRUDControl from './AdminsCRUDControl';
-import AllCrudControls from "./AllCrudControls";
-import AllRequestControls from "./AllRequestControls";
+import AdminsCRUDControl from '../components/AdminCRUDControl';
+import AllCrudControls from "../components/AllCrudControl";
+import AllRequestControls from "../components/AllRequestControl";
 
 
 

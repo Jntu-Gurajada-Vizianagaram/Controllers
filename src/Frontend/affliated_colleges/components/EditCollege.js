@@ -8,7 +8,7 @@ import CorporateFareIcon from '@mui/icons-material/CorporateFare';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import "../../css/affliatedColleges_css/AffliatedColleges.css";
+import "../css/AffliatedColleges.css";
 import axios from 'axios';
 
 const defaultTheme = createTheme();

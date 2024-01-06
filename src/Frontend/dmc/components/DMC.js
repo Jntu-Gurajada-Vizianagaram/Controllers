@@ -1,5 +1,5 @@
 import React from 'react'
-import '../../css/dmc_css/DMC.css'
+import '../css/DMC.css'
 import {FcMultipleCameras} from 'react-icons/fc'
 import {FcGallery} from 'react-icons/fc'
 

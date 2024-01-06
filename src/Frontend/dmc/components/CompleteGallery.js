@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
-import '../../css/dmc_css/CompleteGallery.css';
+import '../css/CompleteGallery.css';
 import { CG } from './CG';
 import { MdOutlineArrowBackIos } from "react-icons/md";
 

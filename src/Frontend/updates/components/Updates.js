@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "../../css/updates_css/Updates.css"
+import "../css/Updates.css"
 import axios from "axios";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from "@mui/material";
 import TextField from "@mui/material/TextField";

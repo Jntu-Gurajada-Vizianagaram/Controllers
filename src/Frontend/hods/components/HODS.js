@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import '../../css/hods_css/Hod.css';
+import '../css/Hod.css';
 import {FaUpload} from 'react-icons/fa'
-import Results from '../results/Results';
 const HODS = () => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
@@ -24,7 +23,6 @@ const HODS = () => {
     <div className="hod-form">
       {submitted ? (
           <div>
-            <Results/>
         <div className="hod-submitted">
           
           <h2>Form Submitted Successfully!</h2>

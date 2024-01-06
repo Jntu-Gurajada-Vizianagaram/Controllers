@@ -1,0 +1,106 @@
+/* Define CSS variables for reusability */
+:root {
+    --primary-color: #007bff;
+    --secondary-color: #0056b3;
+    --background-color: #f0f0f0;
+    --text-color: #333;
+    --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    --border-color: #ccc;
+  }
+  
+  /* Reset some default browser styles */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Set a background color and some spacing */
+  body {
+    background-color: var(--background-color);
+    font-family: Arial, sans-serif;
+    padding: 20px;
+  }
+  
+  /* Style the main heading */
+  h1 {
+    font-size: 24px;
+    color: var(--text-color);
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  /* Style form elements */
+  form {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: var(--box-shadow);
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  
+  label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: var(--text-color);
+  }
+  
+  input[type="text"],
+  input[type="date"],
+  textarea {
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+  }
+  
+  button[type="submit"] {
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+    width: 50%;
+  }
+  
+  button[type="submit"]:hover {
+    background-color: var(--secondary-color);
+  }
+  
+  /* Style the list of events */
+  h2 {
+    font-size: 20px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  li {
+    background-color: #fff;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 10px;
+    border-radius: 3px;
+    box-shadow: var(--box-shadow);
+  }
+  
+  /* Responsive styles for smaller screens */
+  @media (max-width: 768px) {
+    form {
+      padding: 10px;
+    }
+    button[type="submit"] {
+      width: 100%;
+    }
+  }
