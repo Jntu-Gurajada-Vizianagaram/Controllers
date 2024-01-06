@@ -7,6 +7,7 @@ const schemas = require('./Schemas/AllSchemas')
 const admins= require('./routes/admin_routes/AdminRoute')
 const mailing = require('./routes/grievance_routes/GrievanceRoutes')
 const updates = require('./routes/updates_routes/upates_api_routes')
+const dmcupload  = require('./routes/dmc_routes/upload_api_routes')
 const affliatedColleges = require('./routes/affliated_colleges_routes/AffliatedCollegesRoutes')
 const results = require('./routes/results_routes/ResultsRoutes')
 
@@ -41,9 +42,11 @@ app.use(cors())
 
 //apis start
 app.use('/files',express.static('./storage/notifications'))
+app.use('/files',express.static('./storage/dmc'))
 app.use('/api/admins',admins)
 app.use('/api/mailing',mailing)
 app.use('/api/updates',updates)
+app.use('/api/dmcupload',dmcupload)
 app.use('/api/affliated-colleges',affliatedColleges)
 app.use('/api/results',results)
 // app.use('/api/addhod',) 
@@ -53,7 +56,8 @@ app.use('/api/results',results)
 // gen.generate_password()
 
 // server listener
-app.listen(8888,()=>{
+const port= 8888
+app.listen(port,()=>{
     schemas.allSchemas()
-    console.log("Server ruinning at port no:8888")
+    console.log(`Server ruinning at port no:${port}`)
 })
