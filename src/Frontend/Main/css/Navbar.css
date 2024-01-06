@@ -1,0 +1,95 @@
+.navbar-main{
+    display: flex;
+    flex-direction: column;
+    /* background-color: rgba(133, 133, 162, 0.638); */
+    width: 100%;
+}
+.navbar{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 150%;
+    background-color:#27374D;
+    border-radius: 10px;
+}
+.nav-btn{
+    background-color: #9DB2BF;
+    color: 153c5b;
+}
+
+ .admin-link{ 
+    color: #9400FF;
+    padding: 0.7%; 
+    /* background-color: rgb(48, 202, 151); */
+    /* color: rgb(9, 236, 70); */
+}
+
+
+.admin-nav, .updates-nav, .dmc-nav, .hods-nav, .aff-clgs-nav, .grievance-nav {
+    font-family: 'Times New Roman', Times, serif;
+    text-decoration: none;
+    background-color: #9DB2BF; 
+    color: #153c5b;
+    padding: 10px; 
+    border: 1px solid #DDE6ED;
+    border-radius: 20px;
+    transition: background-color 0.1s ease; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  span{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 10px;
+  }
+  .admin-nav:hover, .updates-nav:hover, .dmc-nav:hover, .hods-nav:hover, .aff-clgs-nav:hover,.grievance-nav:hover{
+    background-color: #2E8A99; 
+    color: #DDE6ED;
+  }
+  
+@media (max-width:700px) {
+    .navbar-main{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        /* align-items: center; */
+        /* background-color: rgba(133, 133, 162, 0.638); */
+        width: 100%;
+    }
+    .navbar{
+        display: flex;
+        flex-direction: column;
+        max-width: 100%;
+        max-height: 40px;
+        overflow-y: hidden;
+        justify-content: space-evenly;
+        align-items: center;
+        gap: 15px;
+        font-size: 150%;
+        background-color:#27374D;
+        border-radius: 10px;
+    }
+    .navbar:hover{
+        max-height: 600px;
+    }
+    .admin-nav, .updates-nav, .dmc-nav, .hods-nav, .aff-clgs-nav, .grievance-nav{
+        font-family: 'Times New Roman', Times, serif;
+        text-decoration: none;
+        background-color: #31434f05; 
+        color: #ea1010;
+        padding: 10px; 
+        border: 0px solid #DDE6ED;
+        border-radius: 20px;
+        transition: background-color 0.1s ease; 
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+}

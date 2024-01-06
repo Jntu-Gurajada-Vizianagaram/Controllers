@@ -1,0 +1,79 @@
+.gallery-container {
+    background-color: #2e0669;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .gallery-heading {
+    color: white;
+    font-size: 36px;
+    margin: 20px 0;
+  }
+  
+  /* Rest of your CSS styles */
+  
+  /* Image Gallery Styles */
+  .image-gallery {
+    overflow: hidden;
+    margin: 20px 0;
+    width: 100%;
+  }
+  
+  .image-scroll {
+    display: inline-block;
+    white-space: nowrap;
+    animation: scroll 300s linear infinite; /* Adjust the duration based on your preference */
+  }
+  
+  .image-scroll img {
+    display: inline-block;
+    margin-right: 20px;
+    width: 300px; /* Set your desired width */
+    height: 200px; /* Set your desired height */
+    cursor: pointer;
+  }
+  
+  /* Stop the scroll on hover */
+  .image-gallery:hover .image-scroll {
+    animation-play-state: paused;
+  }
+  
+  @keyframes scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(calc(-100%)); /* Adjust the value to eliminate any gap */
+    }
+  }
+  
+  
+  .enlarged-image {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    cursor: default;
+  }
+  
+  .enlarged-image img {
+    max-width: 80%;
+    max-height: 80%;
+  }
+  
+  .enlarged-image button {
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+  }
