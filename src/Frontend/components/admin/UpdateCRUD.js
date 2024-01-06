@@ -70,7 +70,7 @@ const Updates = () => {
         else{
           console.log("Event Not Added")
         }
-      // window.location.href='/admin';
+      window.location.href='/admin';
       getEvents()
     } catch (error) {
       console.log(error)
@@ -88,7 +88,7 @@ const Updates = () => {
     .catch((error) => {
       console.error(error);
     });
-  }
+  } 
 
 
   const deleteEvent = async (event) => {
@@ -111,7 +111,6 @@ const Updates = () => {
   }
 
   useEffect(() => {
-  
     getEvents()
   }, []);
 
@@ -189,6 +188,9 @@ const Updates = () => {
               >
                 <MenuItem value="notification">Notification</MenuItem>
                 <MenuItem value="tender">Tender</MenuItem>
+                <MenuItem value="exams">Exams</MenuItem>
+                <MenuItem value="workshop">Workshop</MenuItem>
+                <MenuItem value="sports">Sports</MenuItem>
                 <MenuItem value="conference">Conference</MenuItem>
                 <MenuItem value="recruitment">Recruitment</MenuItem>
               </Select>

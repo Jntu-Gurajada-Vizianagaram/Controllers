@@ -58,7 +58,7 @@ exports.all_events=(req, res) => {
       return;
     }
     const final_events = results.map(eve=>{
-      const filelink =`http://api.jntugv.edu.in/files/${eve.file_path}`
+      const filelink =`http://localhost:8888/files/${eve.file_path}`
       const outdate=new Date(eve.date)
 
       return{
