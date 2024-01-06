@@ -18,7 +18,7 @@ const con = mysql.createConnection({
 // const con=mysql.createConnection({
 //     host:"localhost",
 //     user:"root",
-//     password:"1437890",
+//     password:"admin",
 //     database:"jntugv",
 //     port:"3306"
 // })
