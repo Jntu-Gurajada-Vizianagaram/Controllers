@@ -124,13 +124,22 @@ open={open}>
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-          <a href="https://jtugv.edu.in">
-                    <img src="https://dhondi.ai/logos/jntugv.png" width="80" height="80" alt="JNTU Logo" />
-                </a>
-                <a href="https://jntugv.edu.in" style={{float:"right",marginTop:"0px",textDecoration:"none"}}>
-                    <h3 style={{color:"white"}}>Jawaharlal Nehru Technological University - Gurajada, Vizianagaram</h3>
-          </a>
+          <Typography variant="h6" noWrap component="div" 
+          style={{
+            width:"80%",
+            display:"flex",
+            flexDirection:"row",
+            justifyContent:"center",
+            alignItems:"center",
+            gap:"30px",
+            fontFamily:"Timesnewroman",
+           }}>
+              <a href="https://jtugv.edu.in">
+                  <img src="https://dhondi.ai/logos/jntugv.png" width="80" height="80" alt="JNTU Logo" />
+              </a>
+              <a href="https://jntugv.edu.in" style={{float:"right",marginTop:"0px",textDecoration:"none"}}>
+                  <h1 style={{color:"white" }}>Jawaharlal Nehru Technological University - Gurajada, Vizianagaram</h1>
+              </a>
           </Typography>
         </Toolbar>
       </AppBar>
@@ -179,8 +188,8 @@ open={open}>
 </List>
 <List>
   <ListItem disablePadding>
-    <ListItemButton className='listview' component={RouterLink} to='/pesrons'>
-      <ListItemText primary={<span style={{ fontSize: '23px' }}>profile</span>} />
+    <ListItemButton className='listview' component={RouterLink} to='/persons'>
+      <ListItemText primary={<span style={{ fontSize: '23px' }}>Profile</span>} />
     </ListItemButton>
   </ListItem>
   <ListItem disablePadding>

@@ -123,7 +123,16 @@ open={open}>
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
+          <Typography variant="h6" noWrap component="div"
+          style={{
+            width:"80%",
+            display:"flex",
+            flexDirection:"row",
+            justifyContent:"center",
+            alignItems:"center",
+            gap:"30px",
+            fontFamily:"Timesnewroman",
+           }}>
           <a href="https://jtugv.edu.in">
                     <img src="https://dhondi.ai/logos/jntugv.png" width="80" height="80" alt="JNTU Logo" />
                 </a>
