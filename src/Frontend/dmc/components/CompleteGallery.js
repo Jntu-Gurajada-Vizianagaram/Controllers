@@ -20,7 +20,7 @@ function CompleteGallery() {
   return (
     <div className="complete-gallery-container">
       <h1>Gallery of JNTUGV</h1>
-      <Link to="/dmc" className="back-to-home"><MdOutlineArrowBackIos />Back to Homepage</Link> {/* Link to the homepage */}
+      {/* <Link to="/dmc" className="back-to-home"><MdOutlineArrowBackIos />Back to Homepage</Link> Link to the homepage */}
       <div className="image-grid">
         {images.map((imageObj, index) => (
           <div key={index} className="image-wrapper">
@@ -35,7 +35,7 @@ function CompleteGallery() {
       </div>
 
       {selectedImage && (
-        <div className="enlarged-image">
+        <div className="enlarged-image" >
           <img src={selectedImage.image} alt={`JNTUGV`} />
           <p>{selectedImage.description}</p>
           <button onClick={handleClose}>Back</button>

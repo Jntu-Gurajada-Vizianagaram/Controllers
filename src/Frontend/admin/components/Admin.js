@@ -17,30 +17,20 @@ const Admin = () => {
   
   return (
     <div className="admin-main">
-      {/* <div>
+      <div>
         <a href="/">
-          <button>
-            Logout
-            <MdLogout />
-            {
-              // {session}
-            }
-          </button>
+          
           <br />
         </a>
         <div className="all-requests">
-          <span>All Requests</span>
-          <div className="updates-requests">Update Requests</div>
-          <div className="dmc-requests">DMC Requests</div>
-          <div className="news-requests">News and Event Request</div>
-          <div className="dept-requests">Department Circular Requests</div>
+          <h1>All Pending or Active Requests</h1>
         </div>
       </div>
       <div className="all-consoles">
         
       </div>
-      <AdminsCRUDControl/> */}
-       <Accordion>
+      {/* <AdminsCRUDControl/> */}
+       {/* <Accordion>
       <AccordionSummary
         expandIcon={<ExpandMoreIcon />}
         aria-controls="panel2a-content"
@@ -67,8 +57,8 @@ const Admin = () => {
           <AllCrudControls/>
         </Typography>
       </AccordionDetails>
-    </Accordion>
-    </div>
+    </Accordion>*/}
+    </div> 
   );
 };
 
