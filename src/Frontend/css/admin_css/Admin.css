@@ -5,7 +5,7 @@
     /* align-items: center; */
     min-height: 30vh;
     min-width: 70vw;
-    background-color: aquamarine;
+    background-color: rgb(46, 50, 48);
 }
 .all-requests, .updates-requests, .dmc-requests, .news-requests, .dept-requests{
     min-height: 15vh;
@@ -14,7 +14,7 @@
     gap: 15px;
     margin: 2%;
     padding: 2%;
-    background-color: aqua;
+    background-color: rgb(20, 20, 20);
 
 }
 .admin-main a button{

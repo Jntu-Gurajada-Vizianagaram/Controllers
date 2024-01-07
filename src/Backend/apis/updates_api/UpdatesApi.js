@@ -16,12 +16,14 @@ exports.insert_event =  (req, res) => {
 
   const  update  = req.body;
   const  file  = req.file;
-  console.log(update )
+  console.log(update)
   console.log("File"+file.originalname)
   const int = 0;
-  const sql = 'INSERT INTO notification_updates (id, date, title,  file_path, main_page, scrolling, update_type, update_status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
-  const values = [int, update.date, update.title,  file.originalname , update.main_page, update.scrolling, update.update_type, update.update_status];
-
+  // if(update.exteranl_txt != null){var ext_txt = update.exteranl_txt } else{ ext_text="#"}
+  // if(update.exteranl_lnk != null ){var ext_lnk = update.exteranl_lnk}else { ext_link="#"}
+  const sql = 'INSERT INTO notification_updates (id, date, title,  file_path, external_text, external_link, main_page, scrolling, update_type, update_status, submitted_by, admin_approval) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?)';
+  const values = [int, update.date, update.title,  file.originalname, update.external_txt, update.external_lnk, update.main_page, update.scrolling, update.update_type, update.update_status, update.submitted_by, update.admin_approval];
+  console.log({values})
   connection.query(sql, values, (err, result) => {
     if (err) {
       console.error('Error inserting data:', err);

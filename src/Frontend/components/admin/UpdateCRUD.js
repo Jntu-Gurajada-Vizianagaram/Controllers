@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "../../css/updates_css/Updates.css"
 import axios from "axios";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from "@mui/material";
 import TextField from "@mui/material/TextField";
@@ -8,7 +9,6 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { styled } from "@mui/material/styles";
-
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
   clipPath: "inset(50%)",
@@ -26,19 +26,20 @@ const api_ip = ips.server_ip;
 
 const Updates = () => {
 
-
-
-
   const [file, setFile] = useState();
   const [events, setEvents] = useState([]);
   const [eventData, setEventData] = useState({
     date: (new Date()),
     title: "",
     file_path: `${file}`,
+    external_link: "",
+    external_text: "",
     main_page: "",
     scrolling: "",
     update_type: "",
     update_status: "",
+    submitted_by: "admin",
+    admin_approval: "accept",
   });
 
 
@@ -56,10 +57,14 @@ const Updates = () => {
     const formData = new FormData()
     formData.append("date",eventData.date)
     formData.append("title",eventData.title)
+    formData.append("external_txt",eventData.external_text)
+    formData.append("external_lnk",eventData.external_link)
     formData.append("main_page",eventData.main_page)
     formData.append("scrolling",eventData.scrolling)
     formData.append("update_type",eventData.update_type)
     formData.append("update_status",eventData.update_status)
+    formData.append("submitted_by",eventData.submitted_by)
+    formData.append("admin_approval",eventData.admin_approval)
     formData.append('file',file)
     try {
       const response = await axios.post(`http://${api_ip}:8888/api/updates/addevent`,formData)
@@ -117,6 +122,7 @@ const Updates = () => {
   return (
     <div>
       <div className="updates-main">
+      <div><h1>Add New notifiaction</h1></div>
         <div>
           <form>
             <label for="date">Date:</label>
@@ -146,7 +152,25 @@ const Updates = () => {
                 }} required />
             </Button>
             <br></br>
-           
+            <label for="title">External Text:<br/>(Ex.Click here, Register Now,Read more)</label>
+              <TextField
+                label="External Text For Link"
+                variant="outlined"
+                name="external_text"
+                value={eventData.external_text}
+                onChange={handleInputChange}
+              />
+              <br></br>
+              <label for="title">External Link:<br/>Note: full link (http://** or https://** ) </label>
+              <TextField
+                label="Notification Title"
+                variant="outlined"
+                name="external_link"
+                value={eventData.external_link}
+                onChange={handleInputChange}
+              />
+              <br></br>
+                      
             <FormControl fullWidth>
               <InputLabel id="main-page-label">Main Page Publish</InputLabel>
               <Select
