@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import "../../css/updates_css/Updates.css"
 import axios from "axios";
+import '../css/DMCUpload.css'
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import InputLabel from "@mui/material/InputLabel";
@@ -9,6 +9,7 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { styled } from "@mui/material/styles";
+
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
   clipPath: "inset(50%)",
@@ -24,7 +25,10 @@ const VisuallyHiddenInput = styled("input")({
 const ips = require("../../api.json");
 const api_ip = ips.server_ip;
 
-const Updates = () => {
+const Upload = () => {
+
+
+
 
   const [file, setFile] = useState();
   const [events, setEvents] = useState([]);
@@ -32,14 +36,12 @@ const Updates = () => {
     date: (new Date()),
     title: "",
     file_path: `${file}`,
-    external_link: "",
-    external_text: "",
-    main_page: "",
-    scrolling: "",
-    update_type: "",
-    update_status: "",
-    submitted_by: "updaterXXX",
-    admin_approval: "pending",
+    description: "",
+    submitted: "",
+    admin_approval: "",
+    carousel_scrolling: "", 
+    gallery_scrolling: ""
+    
   });
 
 
@@ -57,17 +59,15 @@ const Updates = () => {
     const formData = new FormData()
     formData.append("date",eventData.date)
     formData.append("title",eventData.title)
-    formData.append("external_txt",eventData.external_text)
-    formData.append("external_lnk",eventData.external_link)
-    formData.append("main_page",eventData.main_page)
-    formData.append("scrolling",eventData.scrolling)
-    formData.append("update_type",eventData.update_type)
-    formData.append("update_status",eventData.update_status)
-    formData.append("submitted_by",eventData.submitted_by)
-    formData.append("admin_approval",eventData.admin_approval)
+    formData.append("description",eventData.description)
+    formData.append("submitted",eventData.submitted)
     formData.append('file',file)
+    formData.append("admin_approval",eventData.admin_approval)
+    formData.append("carousel_scrolling",eventData.carousel_scrolling)
+    formData.append("gallery_scrolling",eventData.gallery_scrolling)
+    
     try {
-      const response = await axios.post(`http://${api_ip}:8888/api/updates/addevent`,formData)
+      const response = await axios.post(`http://${api_ip}:8888/api/upload/addimg`,formData)
       console.log(response)
       if(response){
         alert("Event added"+response)
@@ -75,7 +75,7 @@ const Updates = () => {
         else{
           console.log("Event Not Added")
         }
-      window.location.href='/updates'
+      // window.location.href='/admin';
       getEvents()
     } catch (error) {
       console.log(error)
@@ -86,14 +86,14 @@ const Updates = () => {
   const getEvents = async () =>{
 
     axios
-    .get(`http://${api_ip}:8888/api/updates/allevents`)
+    .get(`http://${api_ip}:8888/api/upload/allimgs`)
     .then((response) => {
       setEvents(response.data);
     })
     .catch((error) => {
       console.error(error);
     });
-  } 
+  }
 
 
   const deleteEvent = async (event) => {
@@ -102,7 +102,7 @@ const Updates = () => {
       // if(confirm(`Are you sure u want Delete ${event.title}`)==true){
         alert(`Deleting Event ${event.title}`)
         const id =event.id
-        const response = await axios.get(`http://${api_ip}:8888/api/updates/removeevent/${id}`);
+        const response = await axios.get(`http://${api_ip}:8888/api/upload/removeimg/${id}`);
       // }
       // else{
       //   alert('Event Not Deleted')
@@ -116,28 +116,36 @@ const Updates = () => {
   }
 
   useEffect(() => {
+  
     getEvents()
   }, []);
 
   return (
     <div>
       <div className="updates-main">
-        <div><h1>Add New notifiaction</h1></div>
         <div>
-          <form>
+          <form className="form_container">
             <label for="date">Date:</label>
-            <input type="date" id="date" name="date" value={eventData.date} onChange={handleInputChange} required />
+            <input type="text" id="date" name="date" value={eventData.date} onChange={handleInputChange} required />
             <br></br>
            
-            <label for="title">Notification Title:</label>
+            <label for="title">Title of the event:</label>
             <TextField
-              label="Notification Title"
+              label="Title of the event"
               variant="outlined"
               name="title"
               value={eventData.title}
               onChange={handleInputChange}
             />
             <br></br>
+            <label for="description">Description:</label>
+            <textarea 
+              id="description" 
+              name="description"
+              value={eventData.description}
+              onChange={handleInputChange} required>
+            </textarea>
+          <br></br>
 
             <label for="file-path">Path/Upload File:</label>
             <Button
@@ -149,35 +157,41 @@ const Updates = () => {
               <VisuallyHiddenInput type="file" name='file' onChange={(e)=>{
                 setFile(e.target.files[0]) 
                 
-              }} required />
+                }} required />
             </Button>
             <br></br>
-              <label for="title">External Text:<br/>(Ex.Click here, Register Now,Read more)</label>
-              <TextField
-                label="External Text For Link"
-                variant="outlined"
-                name="external_text"
-                value={eventData.external_text}
-                onChange={handleInputChange}
-              />
-              <br></br>
-              <label for="title">External Link:<br/>Note: full link (http://** or https://** ) </label>
-              <TextField
-                label="Notification Title"
-                variant="outlined"
-                name="external_link"
-                value={eventData.external_link}
-                onChange={handleInputChange}
-              />
-              <br></br>
-           
+
+            <label for="submitted">Submitted By:</label>
+            <TextField
+              label="Name of the person"
+              variant="outlined"
+              name="submitted"
+              value={eventData.submitted}
+              onChange={handleInputChange}
+            />
+            
+            <br></br>
+
             <FormControl fullWidth>
-              <InputLabel id="main-page-label">Main Page Publish</InputLabel>
+              <InputLabel id="admin_approval">Admin Approval</InputLabel>
               <Select
-                labelId="main-page-label"
-                id="main-page"
-                name="main_page"
-                value={eventData.main_page}
+                labelId="admin_approval"
+                id="admin_approval"
+                name="admin_approval"
+                value={eventData.admin_approval}
+                onChange={handleInputChange}
+              >
+                <MenuItem value="pending">Pending</MenuItem>
+              </Select>
+            </FormControl>
+            <br></br>
+            <FormControl fullWidth>
+              <InputLabel id="carousel_scrolling">Carousel Scrolling</InputLabel>
+              <Select
+                labelId="carousel_scrolling"
+                id="carousel_scrolling"
+                name="carousel_scrolling"
+                value={eventData.carousel_scrolling}
                 onChange={handleInputChange}
               >
                 <MenuItem value="yes">YES</MenuItem>
@@ -187,12 +201,12 @@ const Updates = () => {
             <br></br>
 
             <FormControl fullWidth>
-              <InputLabel id="scrolling-label">Flash Scrolling</InputLabel>
+              <InputLabel id="gallery_scrolling">Gallery Scrolling:</InputLabel>
               <Select
-                labelId="scrolling-label"
-                id="scrolling"
-                name="scrolling"
-                value={eventData.scrolling}
+                labelId="gallery_scrolling"
+                id="gallery_scrolling"
+                name="gallery_scrolling"
+                value={eventData.gallery_scrolling}
                 onChange={handleInputChange}
               >
                 <MenuItem value="yes">YES</MenuItem>
@@ -201,41 +215,7 @@ const Updates = () => {
             </FormControl>
             <br></br>
 
-            <FormControl fullWidth>
-              <InputLabel id="update-type-label">Type of Update</InputLabel>
-              <Select
-                labelId="update-type-label"
-                id="update-type"
-                name="update_type"
-                value={eventData.update_type}
-                onChange={handleInputChange}
-              >
-                <MenuItem value="notification">Notification</MenuItem>
-                <MenuItem value="tender">Tender</MenuItem>
-                <MenuItem value="exams">Exams</MenuItem>
-                <MenuItem value="workshop">Workshop</MenuItem>
-                <MenuItem value="sports">Sports</MenuItem>
-                <MenuItem value="conference">Conference</MenuItem>
-                <MenuItem value="recruitment">Recruitment</MenuItem>
-              </Select>
-            </FormControl>
-            <br></br>
-
-            <FormControl fullWidth>
-              <InputLabel id="update-status-label">Status</InputLabel>
-              <Select
-                labelId="update-status-label"
-                id="update-status"
-                name="update_status"
-                value={eventData.update_status}
-                onChange={handleInputChange}
-              >
-                <MenuItem value="update">Update</MenuItem>
-                <MenuItem value="draft">Draft</MenuItem>
-              </Select>
-            </FormControl>
-            <br></br>
-            <Button component="label" variant="contained" onClick={addEvent}>
+            <Button component="label" className="button" variant="contained" onClick={addEvent}>
               Submit
             </Button>
             <br></br>
@@ -247,12 +227,11 @@ const Updates = () => {
           <TableContainer component={Paper}>
             <Table>
               <TableHead>
-                <TableRow key={"Table Attributes"}>
+                <TableRow>
                   <TableCell>S.NO</TableCell>
                   <TableCell>Notification Date</TableCell>
                   <TableCell>Title</TableCell>
                   <TableCell>Status</TableCell>
-                  <TableCell>Notification Added By</TableCell>
                   <TableCell>View File</TableCell>
                   <TableCell>Action</TableCell>
                 </TableRow>
@@ -264,9 +243,8 @@ const Updates = () => {
                     <TableCell>{event.date}</TableCell>
                     <TableCell>{event.title}</TableCell>
                     <TableCell>{event.update_status}</TableCell>
-                    <TableCell>{event.submitted_by}</TableCell>
                     <TableCell>
-                      <a href={event.file_link} target="_blank">View File</a>
+                      <a href={`http://api.jntugv.edu.in:8888/files/${event.file_path}`}>View File</a>
                     </TableCell>
                     <TableCell>
                       <Button variant="contained" onClick={() => alert(event.title)}>
@@ -289,5 +267,4 @@ const Updates = () => {
   );
 };
 
-export default Updates;
-
+export default Upload;

@@ -15,13 +15,13 @@ const con = mysql.createConnection({
 //   database: "jntugv",
 //   port: "3306",
 // });
-// const con=mysql.createConnection({
-//     host:"localhost",
-//     user:"root",
-//     password:"admin",
-//     database:"jntugv",
-//     port:"3306"
-// })
+const con=mysql.createConnection({
+    host:"localhost",
+    user:"root",
+    password:"password",
+    database:"jntugv",
+    port:"3306"
+})
 
 
 module.exports = con;

@@ -35,7 +35,7 @@
   "scripts": {
     "client": "set PORT=3000 && react-scripts start",
     "server": "cd src/Backend && nodemon Server",
-    "start":"npm run client",
+    "start": "npm run client",
     "dev": "concurrently \"npm run client\" \"npm run server\"",
     "build": "react-scripts build",
     "test": "react-scripts test",

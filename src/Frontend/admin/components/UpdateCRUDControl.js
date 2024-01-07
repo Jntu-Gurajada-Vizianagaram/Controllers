@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "../../css/updates_css/Updates.css"
+import "../css/Updates.css"
 import axios from "axios";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from "@mui/material";
 import TextField from "@mui/material/TextField";
@@ -38,8 +38,8 @@ const Updates = () => {
     scrolling: "",
     update_type: "",
     update_status: "",
-    submitted_by: "updaterXXX",
-    admin_approval: "pending",
+    submitted_by: "admin",
+    admin_approval: "accept",
   });
 
 
@@ -75,7 +75,7 @@ const Updates = () => {
         else{
           console.log("Event Not Added")
         }
-      window.location.href='/updates'
+      window.location.href='/admin';
       getEvents()
     } catch (error) {
       console.log(error)
@@ -122,7 +122,7 @@ const Updates = () => {
   return (
     <div>
       <div className="updates-main">
-        <div><h1>Add New notifiaction</h1></div>
+      <div><h1>Add New notifiaction</h1></div>
         <div>
           <form>
             <label for="date">Date:</label>
@@ -149,10 +149,10 @@ const Updates = () => {
               <VisuallyHiddenInput type="file" name='file' onChange={(e)=>{
                 setFile(e.target.files[0]) 
                 
-              }} required />
+                }} required />
             </Button>
             <br></br>
-              <label for="title">External Text:<br/>(Ex.Click here, Register Now,Read more)</label>
+            <label for="title">External Text:<br/>(Ex.Click here, Register Now,Read more)</label>
               <TextField
                 label="External Text For Link"
                 variant="outlined"
@@ -170,7 +170,7 @@ const Updates = () => {
                 onChange={handleInputChange}
               />
               <br></br>
-           
+                      
             <FormControl fullWidth>
               <InputLabel id="main-page-label">Main Page Publish</InputLabel>
               <Select
@@ -252,7 +252,6 @@ const Updates = () => {
                   <TableCell>Notification Date</TableCell>
                   <TableCell>Title</TableCell>
                   <TableCell>Status</TableCell>
-                  <TableCell>Notification Added By</TableCell>
                   <TableCell>View File</TableCell>
                   <TableCell>Action</TableCell>
                 </TableRow>
@@ -264,7 +263,6 @@ const Updates = () => {
                     <TableCell>{event.date}</TableCell>
                     <TableCell>{event.title}</TableCell>
                     <TableCell>{event.update_status}</TableCell>
-                    <TableCell>{event.submitted_by}</TableCell>
                     <TableCell>
                       <a href={event.file_link} target="_blank">View File</a>
                     </TableCell>
@@ -290,4 +288,3 @@ const Updates = () => {
 };
 
 export default Updates;
-

@@ -1,30 +1,36 @@
 import "./App.css";
-import Header from "./Frontend/components/Header";
-import Navbar from "./Frontend/components/Navbar";
+import Header from "./Frontend/Main/components/Header";
+import Navbar from "./Frontend/Main/components/Navbar";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import AdminLogin from "./Frontend/Authentications/Admin_login";
-import Admin from "./Frontend/components/admin/Admin";
-import Updates from "./Frontend/components/updates/Updates";
-import DMC from "./Frontend/components/dmc/DMC";
-import DMCUpload from "./Frontend/components/dmc/Upload";
-import CompleteGallery from "./Frontend/components/dmc/CompleteGallery";
-import HODS from "./Frontend/components/hods/HODS";
-import AffiliatedColleges from "./Frontend/components/affliatedColleges/Affliated_colleges";
-import AddCollege from './Frontend/components/affliatedColleges/AddCollege'
-import FacultyGrievance from "./Frontend/components/grievances/FacultyGrievance";
-import ForgotPassword from "./Frontend/Authentications/Forgot_password";
-import Results from "./Frontend/components/results/Results";
+import Login from "./Frontend/Authentications/components/Login";
+import Main from "./Frontend/Main/components/Main"
+// import { useState } from "react";
+import Admin from "./Frontend/admin/components/Admin";
+import Updates from "./Frontend/updates/components/Updates";
+import DMC from "./Frontend/dmc/components/DMC";
+import DMCUpload from "./Frontend/dmc/components/DmcIMGUpload";
+import CompleteGallery from "./Frontend/dmc/components/CompleteGallery";
+import HODS from "./Frontend/hods/components/HODS";
+import AffiliatedColleges from "./Frontend/affliated_colleges/components/AffliatedColleges";
+import AddCollege from './Frontend/affliated_colleges/components/AddCollege'
+import FacultyGrievance from "./Frontend/grievances/components/FacultyGrievance";
+import ForgotPassword from "./Frontend/Authentications/components/ForgotPassword";
+import Results from "./Frontend/results/components/Results";
+// import { Login } from "@mui/icons-material";
 
 function App() {
   
+  
   return (
     <div className="App">
-      <Header />
+      <Login />
+      <Main />
+      <Header/>
       
       <BrowserRouter>
         <Navbar />
         <Routes>
-          <Route exact path="/" element={<AdminLogin />} />
+          <Route exact path="/" element={<Login />} />
           <Route exact path="/results" element={<Results/>} />
           <Route exact path="/admin" element={<Admin/>} />
           <Route exact path="/admin-control" element={<Admin />} />
