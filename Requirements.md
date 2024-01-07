@@ -1,8 +1,8 @@
----->  Admin Login
+----> Admin Login
 
----->  Menu {
+----> Menu {
 
-    >>  Admin{  
+    >>  Admin{
 
         >>  All Requests from Respective Departments
         >>  All Crud Consoles for Any Department
@@ -11,14 +11,14 @@
 
 
     >>   Updates{
-        
+
         >> ADD or Modify new Notification, tender, conference or any update
         >> Display all Events added by Respeticve Admin
 
       }
 
 
-    >>   webadmin{ 
+    >>   webadmin{
 
         >> sub-menu{
             >> gallery to display all photos uploaded till
@@ -35,15 +35,15 @@
         ..
         ..
         ..
-        >> 
+        >>
     }
 
-    >>   Affliated Colleges{  
+    >>   Affliated Colleges{
         >> add or modify new Affliated colleges
         >> Display Present Constituent COlleges
       }
 
-    >>   Grievance{  
+    >>   Grievance{
         Grievance form for Deparmental Issues
        }
 }

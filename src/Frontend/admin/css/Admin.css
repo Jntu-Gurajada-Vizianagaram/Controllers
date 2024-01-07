@@ -5,16 +5,16 @@
     /* align-items: center; */
     min-height: 30vh;
     min-width: 70vw;
-    background-color: rgb(46, 50, 48);
+    background-color: rgb(203, 210, 206);
 }
 .all-requests, .updates-requests, .dmc-requests, .news-requests, .dept-requests{
     min-height: 15vh;
     display: flex;
     flex-direction: column;
     gap: 15px;
-    margin: 2%;
-    padding: 2%;
-    background-color: rgb(20, 20, 20);
+    /* margin: 2%; */
+    /* padding: 2%; */
+    /* background-color: rgb(211, 211, 211); */
 
 }
 .admin-main a button{

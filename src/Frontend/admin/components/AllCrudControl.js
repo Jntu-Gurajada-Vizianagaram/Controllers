@@ -10,14 +10,14 @@ import AdminsCRUDControl from './AdminCRUDControl';
 const AllCrudControls = () => {
   return (
     <div>
-    
+    Click To expand
     <Accordion>
       <AccordionSummary
         expandIcon={<ExpandMoreIcon />}
         aria-controls="panel2a-content"
         id="panel2a-header"
       >
-        <Typography> Notifications CRUD</Typography>
+        <Typography> <h2 style={{display:"flex",textAlign:"center", fontFamily:"Timesnewroman" }}>Notifications CRUD</h2></Typography>
       </AccordionSummary>
       <AccordionDetails>
         <Typography>
@@ -31,7 +31,7 @@ const AllCrudControls = () => {
         aria-controls="panel3a-content"
         id="panel3a-header"
       >
-        <Typography>Admins CRUD</Typography>
+        <Typography><h2 style={{display:"flex",textAlign:"center", fontFamily:"Timesnewroman" }}>Admins CRUD</h2></Typography>
       </AccordionSummary>
       <AccordionDetails>
         <Typography>
