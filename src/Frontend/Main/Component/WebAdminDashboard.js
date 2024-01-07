@@ -180,6 +180,18 @@ open={open}>
     </ListItemButton>
   </ListItem>
 </List>
+<List>
+  <ListItem disablePadding>
+    <ListItemButton className='listview' component={RouterLink} to='/persons'>
+      <ListItemText primary={<span style={{ fontSize: '23px' }}>Profile</span>} />
+    </ListItemButton>
+  </ListItem>
+  <ListItem disablePadding>
+    <ListItemButton className='listview' component={RouterLink} to='/'>
+      <ListItemText primary={<span style={{ fontSize: '23px' }}>Logout</span>} />
+    </ListItemButton>
+  </ListItem>
+</List>
       </Drawer>
       <Main open={open}>
         <DrawerHeader />
