@@ -171,13 +171,13 @@ open={open}>
     </ListItemButton>
   </ListItem>
   <ListItem disablePadding>
-    <ListItemButton className='listview' component={RouterLink} to='all-requests'>
-    <ListItemText primary={<span style={{ fontSize: '23px' }}>Admin Requests</span>} />
+    <ListItemButton className='listview' component={RouterLink} to='all-consoles'>
+      <ListItemText primary={<span style={{ fontSize: '23px' }}>All Consoles</span>} />
     </ListItemButton>
   </ListItem>
   <ListItem disablePadding>
-    <ListItemButton className='listview' component={RouterLink} to='all-consoles'>
-      <ListItemText primary={<span style={{ fontSize: '23px' }}>All Consoles</span>} />
+    <ListItemButton className='listview' component={RouterLink} to='all-records'>
+    <ListItemText primary={<span style={{ fontSize: '23px' }}>All Records</span>} />
     </ListItemButton>
   </ListItem>
   <ListItem disablePadding>
