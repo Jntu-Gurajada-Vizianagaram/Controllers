@@ -86,7 +86,7 @@ const Updates = () => {
   const getEvents = async () =>{
 
     axios
-    .get(`http://${api_ip}:8888/api/updates/allevents`)
+    .get(`http://${api_ip}:8888/api/updates/all-updater-events`)
     .then((response) => {
       setEvents(response.data);
     })
@@ -102,7 +102,7 @@ const Updates = () => {
       // if(confirm(`Are you sure u want Delete ${event.title}`)==true){
         alert(`Deleting Event ${event.title}`)
         const id =event.id
-        const response = await axios.get(`http://${api_ip}:8888/api/updates/removeevent/${id}`);
+        const response = await axios.get(`http://${api_ip}:8888/api/updates/remove-event/${id}`);
       // }
       // else{
       //   alert('Event Not Deleted')
@@ -248,11 +248,11 @@ const Updates = () => {
             <Table>
               <TableHead>
                 <TableRow key={"Table Attributes"}>
-                  <TableCell>S.NO</TableCell>
                   <TableCell>Notification Date</TableCell>
                   <TableCell>Title</TableCell>
                   <TableCell>Status</TableCell>
-                  <TableCell>Notification Added By</TableCell>
+                  <TableCell>Update Added By</TableCell>
+                  <TableCell>Admin Approval</TableCell>
                   <TableCell>View File</TableCell>
                   <TableCell>Action</TableCell>
                 </TableRow>
@@ -260,11 +260,11 @@ const Updates = () => {
               <TableBody>
                 {events.map((event) => (
                   <TableRow key={event.id}>
-                    <TableCell>{event.id}</TableCell>
                     <TableCell>{event.date}</TableCell>
                     <TableCell>{event.title}</TableCell>
                     <TableCell>{event.update_status}</TableCell>
                     <TableCell>{event.submitted_by}</TableCell>
+                    <TableCell>{event.admin_approval}</TableCell>
                     <TableCell>
                       <a href={event.file_link} target="_blank">View File</a>
                     </TableCell>

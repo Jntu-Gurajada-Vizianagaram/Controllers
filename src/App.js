@@ -52,7 +52,7 @@ function App() {
             <Route path='/admindashboard' element={<Admindashboard />}>
               <Route index element={<Admin />} />
               <Route path='admin-home' element={<Admin />} />
-              <Route path='all-requests' element={<AllRequestControls />} />
+              <Route path='all-records' element={<AllRequestControls />} />
               <Route path='all-consoles' element={<AllCrudControls />} />
               <Route path='help' element={<FacultyGrievance />} />
             </Route>

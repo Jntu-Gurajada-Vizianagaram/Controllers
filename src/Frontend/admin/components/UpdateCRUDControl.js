@@ -86,7 +86,7 @@ const Updates = () => {
   const getEvents = async () =>{
 
     axios
-    .get(`http://${api_ip}:8888/api/updates/allevents`)
+    .get(`http://${api_ip}:8888/api/updates/all-admin-events`)
     .then((response) => {
       setEvents(response.data);
     })
@@ -102,7 +102,7 @@ const Updates = () => {
       // if(confirm(`Are you sure u want Delete ${event.title}`)==true){
         alert(`Deleting Event ${event.title}`)
         const id =event.id
-        const response = await axios.get(`http://${api_ip}:8888/api/updates/removeevent/${id}`);
+        const response = await axios.get(`http://${api_ip}:8888/api/updates/remove-event/${id}`);
       // }
       // else{
       //   alert('Event Not Deleted')

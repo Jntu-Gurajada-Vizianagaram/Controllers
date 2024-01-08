@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from 'react'
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from "@mui/material";
+import axios from 'axios';
 import "../css/Admin.css";
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -12,7 +14,51 @@ import AllRequestControls from "../components/AllRequestControl";
 
 
 const Admin = () => {
+  const [requests,setRequests] =useState([])
+  const ips = require("../../api.json");
+  const api_ip = ips.server_ip;
+  
+  
+  const get_requests = async () =>{
+    axios
+    .get(`http://${api_ip}:8888/api/updates/update-requests`)
+    .then((response) => {
+      setRequests(response.data);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+  } 
 
+  const request_accept = (request)=>{
+    axios.get(`http://${api_ip}:8888/api/updates/update-deny-request/${request.id}`)
+      .then((response)=>{
+        alert(response.data.message)
+        get_requests()
+      })
+      .catch((errot)=>{
+        console.log(error)
+      })
+      
+    }
+    const request_deny =(request)=>{
+      axios.get(`http://${api_ip}:8888/api/updates/update-accept-request/${request.id}`)
+        .then((response)=>{
+          // alert(response.data.message)   
+          get_requests()
+        })
+        .catch((errot)=>{
+          console.log(error)
+        })
+
+  }
+
+
+
+
+useEffect(()=>{
+  get_requests();
+},[])
   
   
   return (
@@ -24,6 +70,48 @@ const Admin = () => {
         </a>
         <div className="all-requests">
           <h1>All Pending or Active Requests</h1>
+        </div>
+        <div className="eventsdisplay">
+          <h2>Events</h2>
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead>
+                <TableRow key={"Table Attributes"}>
+                  <TableCell>S.NO</TableCell>
+                  <TableCell>Notification Date</TableCell>
+                  <TableCell>Title</TableCell>
+                  <TableCell>Status</TableCell>
+                  <TableCell>Update Added By</TableCell>
+                  <TableCell>View File</TableCell>
+                  <TableCell>Action</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {requests.map((request) => (
+                  <TableRow key={request.id}>
+                    <TableCell>{request.id}</TableCell>
+                    <TableCell>{request.date}</TableCell>
+                    <TableCell>{request.title}</TableCell>
+                    <TableCell>{request.update_status}</TableCell>
+                    <TableCell>{request.submitted_by}</TableCell>
+                    <TableCell>
+                      <a href={request.file_link} target="_blank">View File</a>
+                    </TableCell>
+                    <TableCell>
+                      <Button variant="contained" onClick={() => request_accept(request)}>
+                        Accept
+                      </Button>
+                    </TableCell>
+                    <TableCell>
+                      <Button variant="contained" color="error" onClick={() => request_deny(request)}>
+                        Deny
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
         </div>
       </div>
       <div className="all-consoles">
