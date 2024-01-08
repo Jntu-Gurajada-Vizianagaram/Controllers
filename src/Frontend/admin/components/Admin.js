@@ -47,8 +47,8 @@ const Admin = () => {
           // alert(response.data.message)   
           get_requests()
         })
-        .catch((errot)=>{
-          console.log(error)
+        .catch((err)=>{
+          console.log(err)
         })
 
   }
