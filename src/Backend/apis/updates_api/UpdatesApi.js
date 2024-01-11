@@ -1,6 +1,6 @@
 const multer = require('multer');
 const connection = require('../config')
-const api_ip =require("../api.json").server_ip
+const api_ip ="localhost"
 const storage = multer.diskStorage({
   destination: (req, file, cb )=>{
     return cb(null,'./storage/notifications/')
