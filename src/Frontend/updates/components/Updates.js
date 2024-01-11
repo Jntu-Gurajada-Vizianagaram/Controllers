@@ -67,7 +67,7 @@ const Updates = () => {
     formData.append("admin_approval",eventData.admin_approval)
     formData.append('file',file)
     try {
-      const response = await axios.post(`http://${api_ip}:8888/api/updates/addevent`,formData)
+      const response = await axios.post(`http://${api_ip}:8888/api/updates/add-event`,formData)
       console.log(response)
       if(response){
         alert("Event added"+response)
@@ -75,7 +75,7 @@ const Updates = () => {
         else{
           console.log("Event Not Added")
         }
-      window.location.href='/updates'
+      window.location.href='/Updatesdashboard'
       getEvents()
     } catch (error) {
       console.log(error)

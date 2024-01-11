@@ -9,26 +9,27 @@ const cookieparser = require('cookie-parser')
 const app = express()
 
 app.use(express.json());
+app.use(cors())
 
-app.use(cors({
-  origin :["http://localhost:3000"],
-  methods :["GET","POST"],
-  credentials : true,
-}))
+// app.use(cors({
+//   origin :["http://localhost:3000"],
+//   methods :["GET","POST"],
+//   credentials : true,
+// }))
 
-app.use(cookieparser())
-app.use(bodyparser.urlencoded({extended:true}));
+// app.use(cookieparser())
+// app.use(bodyparser.urlencoded({extended:true}));
 
-app.use(session({
-  key : "adminrole",
-  secret : "admins",
-  resave : false,
-  saveUninitialized : false,
-  cookie:{
-    expires: 60*60*24,
-  },
-})
-);
+// app.use(session({
+//   key : "adminrole",
+//   secret : "admins",
+//   resave : false,
+//   saveUninitialized : false,
+//   cookie:{
+//     expires: 60*60*24,
+//   },
+// })
+// );
 
 
 exports.alladmins = (req, res) => {
