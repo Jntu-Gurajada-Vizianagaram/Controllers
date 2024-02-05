@@ -2,6 +2,10 @@ import React, { useEffect, useState } from "react";
 import "../css/Login.css";
 import { MdLogin } from "react-icons/md";
 import { RiAdminFill, RiLockPasswordFill } from "react-icons/ri";
+import Alert from '@mui/material/Alert';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
+
 import library from "../media/jntu library.jpg";
 import axios from "axios";
 const ips =require('../../api.json')
@@ -13,23 +17,41 @@ const Login = () => {
 const [username, setUsername] = useState("");
 const [password, setPassword] = useState("");
 const [session, setSession] = useState("login"); 
+const [alert,setAlert] = useState({
+  message: "",
+  type:"warning",
+})
 const api_ip = ips.server_ip
 
 const login_handle = async () => {
   try {
-    const response = await axios.post(`${api_ip}api/admins/login`,
-      { credentials:{username, password} });
-      if (response.data.login) {
-        alert("Ok Logged In");
-        window.location.href = `/admin`;
+    const response = await axios.post(`http://${api_ip}:8888/api/admins/login`,
+    { credentials:{username, password} });
+    if(username == "" || password == ""){
+        setAlert({
+          message:"Fill the fields",
+          type:"warning"
+        })
+        return;
+    }
+    if (response.data.login) {
+      setAlert({
+          type:"success",
+          message:"Ok Logged In"
+        });
+        window.location.href = `/profiles`;
         console.log(response.data);
       } else {
-        console.log("Invalid Credentials");
         console.log(response.data.message);
-        alert(response.data.message);
+        setAlert({
+          type:"error",
+          message:response.data.message
+        });
       }
     } catch (error) {
-      alert("Server Can't be reached right now \nSorry for the inconvenience");
+      setAlert({
+        type:"warning",
+        message:"Server Can't be reached right now \nSorry for the inconvenience"});
       console.log(error);
     }
   };
@@ -44,6 +66,25 @@ const login_handle = async () => {
           <h3>All Admins:</h3>
         </div>
       ) : (
+        <div>
+          { alert.message ? (
+
+        <Stack 
+          sx={{ width: '70%' }} 
+          spacing={2}
+          style={{
+            display:"flex",
+            flexDirection:"column",
+            backgroundColor:"blue",
+            width:"50%",
+            alignItems:"center"
+            }}>
+              <Alert severity={alert.type} onClose={() => {setAlert(false)}}>
+                {alert.message}
+              </Alert>
+      
+        </Stack>
+          ):(<div></div>)}
         <div className="admin-login-form">
           <div className="login-form">
             <h2>Admin Login</h2>
@@ -83,6 +124,7 @@ const login_handle = async () => {
           <div className="library-image">
             <img src={library} height={400} width={900} className="library-image"/>
           </div>
+        </div>
         </div>
       )}
     </div>

@@ -17,7 +17,7 @@ const Firstpage=()=>{
         Academic Console
       </Typography>
       <br></br>
-  <Button variant='contained' ><NavLink to='/persons' style={{textDecoration:'none', color: "inherit"}}>Login</NavLink></Button>
+  <Button variant='contained' ><NavLink to='/login' style={{textDecoration:'none', color: "inherit"}}>Login</NavLink></Button>
   </div>
     );
 }

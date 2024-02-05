@@ -43,7 +43,7 @@ function App() {
         {/* <Navbar /> */}
         <Routes>
           <Route exact path="/" element={<FirstPage />}/>
-          <Route exact path="/persons" element={<Persons />}/>
+          <Route exact path="/profiles" element={<Persons />}/>
           <Route exact path='/Adminlogin' element={<Adminlogin />}/>
             <Route exact path='/webadminlogin' element={<Webadminlogin />}/>
             <Route exact path='/Hodlogin' element={<Hodlogin />}/>
