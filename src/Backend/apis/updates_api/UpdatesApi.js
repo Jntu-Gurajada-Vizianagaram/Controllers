@@ -19,8 +19,6 @@ exports.insert_event =  (req, res) => {
   console.log(update)
   console.log("File"+file.originalname)
   const int = 0;
-  // if(update.exteranl_txt != null){var ext_txt = update.exteranl_txt } else{ ext_text="#"}
-  // if(update.exteranl_lnk != null ){var ext_lnk = update.exteranl_lnk}else { ext_link="#"}
   const sql = 'INSERT INTO notification_updates (id, date, title,  file_path, external_text, external_link, main_page, scrolling, update_type, update_status, submitted_by, admin_approval) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?)';
   const values = [int, update.date, update.title,  file.originalname, update.external_txt, update.external_lnk, update.main_page, update.scrolling, update.update_type, update.update_status, update.submitted_by, update.admin_approval];
   console.log({values})
@@ -39,15 +37,15 @@ exports.delete_event=(req, res) => {
   const id = req.params.id;
   const sql = `DELETE FROM notification_updates WHERE id = ${id}`;
   
-  connection.query(sql, (err, result) => {
-    if (err) {
-      console.error('Error deleting data:', err);
-      res.status(500).json({ error: 'Error deleting data' });
-      return;
-    }
-    console.log('Data deleted successfully');
-    res.json({ message: 'Data deleted successfully' });
-  });
+  // connection.query(sql, (err, result) => {
+  //   if (err) {
+  //     console.error('Error deleting data:', err);
+  //     res.status(500).json({ error: 'Error deleting data' });
+  //     return;
+  //   }
+  //   console.log('Data deleted successfully');
+  //   res.json({ message: 'Data deleted successfully' });
+  // });
 };
 
 exports.update_event= (req, res) => {
@@ -124,7 +122,7 @@ exports.every_events=(req, res) => {
       return;
     }
     const final_events = results.map(eve=>{
-      const filelink =`http://${api_ip}:8888/files/${eve.file_path}`
+      const filelink =`http://${api_ip}:8888/media/${eve.file_path}`
       const outdate=new Date(eve.date)
 
       return{

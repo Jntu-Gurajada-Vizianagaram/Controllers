@@ -22,25 +22,25 @@ const Persons = () =>{
     <Box className="role-main-box">
           <Box className="role-box">
           <img src={AdminImage} width='130px' height='130px' alt='AdminImage'></img>
-            <Button variant="contained" component={RouterLink} to="/Adminlogin">Admin</Button>
+            <Button variant="contained" component={RouterLink} to="/admindashboard">Admin</Button>
           </Box>
           <Box className="role-box">
           <img src={WebAdmin} width='130px' height='130px' alt='AdminImage'></img>
-            <Button variant="contained" component={RouterLink} to="/webadminlogin">Web Admin</Button>
+            <Button variant="contained" component={RouterLink} to="/webadmindashboard">Web Admin</Button>
           </Box>
           <Box className="role-box">
           <img src={HOD} width='130px' height='130px' alt='AdminImage'></img>
-            <Button variant="contained" component={RouterLink} to="/Hodlogin">HOD</Button>
+            <Button variant="contained" component={RouterLink} to="/Hoddashboard">HOD</Button>
           </Box>
           </Box>
           <Box className="role-main-box">
           <Box className="role-box">
           <img src={AffliatedColleges} width='130px' height='130px' alt='AdminImage'></img>
-            <Button variant="contained" component={RouterLink} to="/Collegelogin" sx={{marginTop:"5px"}}>Colleges</Button>
+            <Button variant="contained" component={RouterLink} to="/Affliatedcollegesdashboard" sx={{marginTop:"5px"}}>Colleges</Button>
           </Box>
           <Box className="role-box">
           <img src={Updates} width='130px' height='130px' alt='AdminImage'></img>
-            <Button variant="contained" component={RouterLink} to="/Updatelogin">Updates</Button>
+            <Button variant="contained" component={RouterLink} to="/Updatesdashboard">Updates</Button>
           </Box>
         </Box>
       </div>

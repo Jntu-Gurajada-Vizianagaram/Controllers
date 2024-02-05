@@ -5,7 +5,9 @@
     padding: 10px;
     min-height: 100vh;
     justify-content: center;
+    text-align: center;
     align-items: center;
+    /* background-color: rgba(75, 75, 143, 0.637); */
 }
 
 .admin-login-form{
