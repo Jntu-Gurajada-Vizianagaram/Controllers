@@ -20,8 +20,9 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import { Switch } from '@mui/material';
-
+import All_Menu from './Menu';
 const drawerWidth = 240;
+
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -164,32 +165,25 @@ open={open}>
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <List>
-  <ListItem disablePadding>
-    <ListItemButton className='listview' component={RouterLink} to='admin-home'>
-    <ListItemText primary={<span style={{ fontSize: '23px' }}>Home</span>} />
+<List>
+  {
+    All_Menu["Developer"].map((menu_item, index)=>(
+      <ListItem disablePadding key={index}>
+    <ListItemButton className='listview' component={RouterLink} to={menu_item.to}>
+      <ListItemText primary={<span style={{ fontSize: '23px' }}>{menu_item.text}</span>} />
+        {/* <h1 style={{
+          color:"inherit"
+        }}>{menu_item.icon}</h1> */}
     </ListItemButton>
-  </ListItem>
-  <ListItem disablePadding>
-    <ListItemButton className='listview' component={RouterLink} to='all-consoles'>
-      <ListItemText primary={<span style={{ fontSize: '23px' }}>All Consoles</span>} />
-    </ListItemButton>
-  </ListItem>
-  <ListItem disablePadding>
-    <ListItemButton className='listview' component={RouterLink} to='all-records'>
-    <ListItemText primary={<span style={{ fontSize: '23px' }}>All Records</span>} />
-    </ListItemButton>
-  </ListItem>
-  <ListItem disablePadding>
-    <ListItemButton className='listview' component={RouterLink} to='help'>
-      <ListItemText primary={<span style={{ fontSize: '23px' }}>Help</span>} />
-    </ListItemButton>
-  </ListItem>
+    </ListItem>
+    ))
+  }
 </List>
+
 <List>
   <ListItem disablePadding>
-    <ListItemButton className='listview' component={RouterLink} to='/persons'>
-      <ListItemText primary={<span style={{ fontSize: '23px' }}>Profile</span>} />
+    <ListItemButton className='listview' component={RouterLink} to='/profiles'>
+      <ListItemText primary={<span style={{ fontSize: '23px' }}>Profile Logout</span>} />
     </ListItemButton>
   </ListItem>
   <ListItem disablePadding>

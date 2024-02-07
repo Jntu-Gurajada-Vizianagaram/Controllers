@@ -1,6 +1,6 @@
 const multer = require('multer');
 const connection = require('../config')
-const api_ip ="localhost"
+const api_ip ="api.jntugv.edu.in"
 const storage = multer.diskStorage({
   destination: (req, file, cb )=>{
     return cb(null,'./storage/notifications/')
@@ -122,7 +122,7 @@ exports.every_events=(req, res) => {
       return;
     }
     const final_events = results.map(eve=>{
-      const filelink =`http://${api_ip}:8888/media/${eve.file_path}`
+      const filelink =`https://${api_ip}/media/${eve.file_path}`
       const outdate=new Date(eve.date)
 
       return{
@@ -151,7 +151,7 @@ exports.all_admin_events=(req, res) => {
       return;
     }
     const final_events = results.map(eve=>{
-      const filelink =`http://${api_ip}:8888/files/${eve.file_path}`
+      const filelink =`https://${api_ip}/media/${eve.file_path}`
       const outdate=new Date(eve.date)
 
       return{
@@ -165,7 +165,7 @@ exports.all_admin_events=(req, res) => {
 
     console.log('Data retrieved successfully');
     // res.json({path:`api.jntugv.edu.in`})
-    // results.push('api.jntugv.edu.in/files/')
+    // results.push('api.jntugv.edu.in/media/')
     res.json(final_events);
   });
 };
@@ -180,7 +180,7 @@ exports.all_updater_events=(req, res) => {
       return;
     }
     const final_events = results.map(eve=>{
-      const filelink =`http://${api_ip}:8888/files/${eve.file_path}`
+      const filelink =`https://${api_ip}/media/${eve.file_path}`
       const outdate=new Date(eve.date)
 
       return{
@@ -194,7 +194,7 @@ exports.all_updater_events=(req, res) => {
 
     console.log('Data retrieved successfully');
     // res.json({path:`api.jntugv.edu.in`})
-    // results.push('api.jntugv.edu.in/files/')
+    // results.push('api.jntugv.edu.in/media/')
     res.json(final_events);
   });
 };
@@ -209,7 +209,7 @@ exports.update_requests=(req, res) => {
       return;
     }
     const final_events = results.map(eve=>{
-      const filelink =`http://${api_ip}:8888/files/${eve.file_path}`
+      const filelink =`https://${api_ip}/media/${eve.file_path}`
       const outdate=new Date(eve.date)
 
       return{
@@ -241,7 +241,7 @@ exports.get_notifiactions=(req, res) => {
       return;
     }
     const final_events = results.map(eve=>{
-      const filelink =`http://${api_ip}:8888/files/${eve.file_path}`
+      const filelink =`https://${api_ip}/files/${eve.file_path}`
       const outdate=new Date(eve.date)
       
       return{
