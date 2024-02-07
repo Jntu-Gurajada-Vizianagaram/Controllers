@@ -25,7 +25,7 @@ const api_ip = ips.server_ip
 
 const login_handle = async () => {
   try {
-    const response = await axios.post(`http://${api_ip}:8888/api/admins/login`,
+    const response = await axios.post(`https://${api_ip}/api/admins/login`,
     { credentials:{username, password} });
     if(username == "" || password == ""){
         setAlert({
