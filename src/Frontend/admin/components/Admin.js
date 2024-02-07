@@ -21,7 +21,7 @@ const Admin = () => {
   
   const get_requests = async () =>{
     axios
-    .get(`http://${api_ip}:8888/api/updates/update-requests`)
+    .get(`https://${api_ip}/api/updates/update-requests`)
     .then((response) => {
       setRequests(response.data);
     })
@@ -31,7 +31,7 @@ const Admin = () => {
   } 
 
   const request_accept = (request)=>{
-    axios.get(`http://${api_ip}:8888/api/updates/update-accept-request/${request.id}`)
+    axios.get(`https://${api_ip}/api/updates/update-accept-request/${request.id}`)
       .then((response)=>{
         alert(response.data.message)
         get_requests()
@@ -42,7 +42,7 @@ const Admin = () => {
       
     }
     const request_deny =(request)=>{
-      axios.get(`http://${api_ip}:8888/api/updates/update-deny-request/${request.id}`)
+      axios.get(`https://${api_ip}/api/updates/update-deny-request/${request.id}`)
         .then((response)=>{
           // alert(response.data.message)   
           get_requests()

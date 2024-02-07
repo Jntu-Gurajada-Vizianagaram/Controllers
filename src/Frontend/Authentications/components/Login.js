@@ -5,19 +5,19 @@ import { RiAdminFill, RiLockPasswordFill } from "react-icons/ri";
 import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
+import { Typography } from "@mui/material";
 
+import { Link, Link as RouterLink } from "react-router-dom";
 import library from "../media/jntu library.jpg";
 import axios from "axios";
 const ips =require('../../api.json')
 
-
-
 const Login = () => {
-  
+  const login_details = JSON.parse(localStorage.getItem("accesser"))
 const [username, setUsername] = useState("");
 const [password, setPassword] = useState("");
 const [session, setSession] = useState("login"); 
-const [alert,setAlert] = useState({
+const [erralert,setAlert] = useState({
   message: "",
   type:"warning",
 })
@@ -34,13 +34,14 @@ const login_handle = async () => {
         })
         return;
     }
-    if (response.data.login) {
+    if (response.data.islogin) {
       setAlert({
           type:"success",
           message:"Ok Logged In"
         });
+        localStorage.setItem("accesser",JSON.stringify(response.data))
         window.location.href = `/profiles`;
-        console.log(response.data);
+        // console.log(response.data);
       } else {
         console.log(response.data.message);
         setAlert({
@@ -60,14 +61,28 @@ const login_handle = async () => {
     
     return (
       <div className="admin-login-main">
-      {session != "login" ? (
+      {login_details ? (
         <div>
-          {/* <Admin /> */}
-          <h3>All Admins:</h3>
+          
+          <Typography variant="h5" gutterBottom margin={7}>
+            You are Already logged in as <h1>{login_details.admin}</h1>
+          </Typography>
+           <Typography variant="h5" gutterBottom margin={7}>
+            To Access your Dashboards <br/><br/>
+            <Button variant="contained" component={RouterLink} to='/profiles' >Go to Profiles </Button>
+          <br/><br/>or</Typography>
+       
+           <Typography variant="h5" gutterBottom margin={7}>
+            <Button variant="contained" component={RouterLink} to='/' 
+            onClick={(e)=>{
+              localStorage.removeItem("accesser")
+            }}
+            >Logout</Button>
+          </Typography>
         </div>
       ) : (
         <div>
-          { alert.message ? (
+          { erralert.message ? (
 
         <Stack 
           sx={{ width: '70%' }} 
@@ -79,8 +94,8 @@ const login_handle = async () => {
             width:"50%",
             alignItems:"center"
             }}>
-              <Alert severity={alert.type} onClose={() => {setAlert(false)}}>
-                {alert.message}
+              <Alert severity={erralert.type} onClose={() => {setAlert(false)}}>
+                {erralert.message}
               </Alert>
       
         </Stack>
