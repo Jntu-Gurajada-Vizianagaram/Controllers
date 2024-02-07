@@ -8,7 +8,7 @@ const AllRequestControls = () => {
   const api_ip = ips.server_ip;
   const get_update_events = async () =>{
     axios
-    .get(`http://${api_ip}:8888/api/updates/every-events`)
+    .get(`https://${api_ip}/api/updates/every-events`)
     .then((response) => {
       setRequests(response.data);
     })
@@ -21,7 +21,7 @@ const AllRequestControls = () => {
   //   alert(request.title)
   // }
   const deny =(request)=>{
-    axios.get(`http://${api_ip}:8888/api/updates/remove-event/${request.id}`)
+    axios.get(`https://${api_ip}/api/updates/remove-event/${request.id}`)
     .then((response)=>{
       alert(response.data.message)
       get_update_events()
@@ -30,8 +30,6 @@ const AllRequestControls = () => {
       console.log(error)
     })
   }
-
-
 
 
 useEffect(()=>{
