@@ -16,7 +16,7 @@ import ForgotPassword from "./Frontend/Authentications/components/ForgotPassword
 import Results from "./Frontend/results/components/Results";
 import FirstPage  from './Frontend/Main/Component/firstpage';
 import Persons from './Frontend/Main/Component/Persons';
-import Adminlogin from './Frontend/Main/Component/Logins/AdminLogin';
+import Profile from "./Frontend/Main/Component/Profile";
 import Webadminlogin from './Frontend/Main/Component/Logins/WebAdminlogin';
 import Updatelogin from './Frontend/Main/Component/Logins/Updateslogin';
 import Hodlogin from './Frontend/Main/Component/Logins/Hodlogin';
@@ -28,7 +28,7 @@ import WebAdminDashboard from './Frontend/Main/Component/WebAdminDashboard';
 import Affliatedcollegesdashboard from './Frontend/Main/Component/AffliatedCollegesdashboard';
 import Hoddashboard from './Frontend/Main/Component/Hoddashboard';
 import Updatesdashboard from './Frontend/Main/Component/UpdatesDashboard';
-// import Dashboard from "./Frontend/Main/Component/Dashboard";
+import Dashboard from "./Frontend/Main/Component/Dashboard";
 // import { Login } from "@mui/icons-material";
 
 function App() {
@@ -45,14 +45,14 @@ function App() {
         <Routes>
           <Route exact path="/" element={<FirstPage />}/>
           <Route exact path="/profiles" element={<Persons />}/>
-          {/* <Route exact path="/dashboard" element={<Dashboard />}/> */}
-          <Route exact path='/Adminlogin' element={<Adminlogin />}/>
+          <Route exact path="/profile" element={<Profile />}/>
+          <Route exact path="/dashboard" element={<Dashboard />}/>
             <Route exact path='/webadminlogin' element={<Webadminlogin />}/>
             <Route exact path='/Hodlogin' element={<Hodlogin />}/>
             <Route exact path='/collegeslogin' element={<Collegelogin />}/>
             <Route exact path='/Updatelogin' element={<Updatelogin />}/>
             <Route path='/admindashboard' element={<Admindashboard />}>
-            <Route index element={<AffiliatedColleges />} />
+            <Route index element={<Admin />} />
               <Route exact path="affiliated-college" element={<AffiliatedColleges />}/>
               <Route exact path="add-new-affliated-college" element={<AddCollege/>} />
               <Route path='help' element={<FacultyGrievance />} />

@@ -67,7 +67,7 @@ const Updates = () => {
     formData.append("admin_approval",eventData.admin_approval)
     formData.append('file',file)
     try {
-      const response = await axios.post(`http://${api_ip}:8888/api/updates/add-event`,formData)
+      const response = await axios.post(`https://${api_ip}/api/updates/add-event`,formData)
       console.log(response)
       if(response){
         alert("Event added"+response)
@@ -86,7 +86,7 @@ const Updates = () => {
   const getEvents = async () =>{
 
     axios
-    .get(`http://${api_ip}:8888/api/updates/all-updater-events`)
+    .get(`https://${api_ip}/api/updates/all-updater-events`)
     .then((response) => {
       setEvents(response.data);
     })
@@ -102,7 +102,7 @@ const Updates = () => {
       // if(confirm(`Are you sure u want Delete ${event.title}`)==true){
         alert(`Deleting Event ${event.title}`)
         const id =event.id
-        const response = await axios.get(`http://${api_ip}:8888/api/updates/remove-event/${id}`);
+        const response = await axios.get(`https://${api_ip}/api/updates/remove-event/${id}`);
       // }
       // else{
       //   alert('Event Not Deleted')

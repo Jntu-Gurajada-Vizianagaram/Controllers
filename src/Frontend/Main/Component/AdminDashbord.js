@@ -167,9 +167,10 @@ open={open}>
         <Divider />
 <List>
   {
-    All_Menu["Developer"].map((menu_item, index)=>(
+    All_Menu["AffliatedColleges"].map((menu_item, index)=>(
       <ListItem disablePadding key={index}>
     <ListItemButton className='listview' component={RouterLink} to={menu_item.to}>
+      {menu_item.icon}
       <ListItemText primary={<span style={{ fontSize: '23px' }}>{menu_item.text}</span>} />
         {/* <h1 style={{
           color:"inherit"

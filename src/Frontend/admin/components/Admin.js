@@ -44,7 +44,7 @@ const Admin = () => {
     const request_deny =(request)=>{
       axios.get(`https://${api_ip}/api/updates/update-deny-request/${request.id}`)
         .then((response)=>{
-          // alert(response.data.message)   
+          alert(response.data.message)   
           get_requests()
         })
         .catch((err)=>{
