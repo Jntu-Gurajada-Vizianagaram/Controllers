@@ -31,8 +31,6 @@ const AllRequestControls = () => {
   }
 
 
-
-
 useEffect(()=>{
   get_update_events();
 },[])
