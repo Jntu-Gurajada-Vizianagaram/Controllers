@@ -25,7 +25,7 @@ const AdminsCRUDControl = () => {
 
   const admins = async () => {
     try {
-      const response = await axios.get(`http://${api_ip}/api/admins/getadmins`);
+      const response = await axios.get(`${api_ip}/api/admins/getadmins`);
       if (response !== "") {
         setAlladmins(response.data);
         // console.log(response.data)
@@ -41,7 +41,7 @@ const AdminsCRUDControl = () => {
   const adding_handle = async()=>{
     try {
       const id =0;
-      const response = await axios.post(`http://${api_ip}/api/admins/add-hod`,
+      const response = await axios.post(`${api_ip}/api/admins/add-hod`,
       {data:{id,name,username,password,role}}
       )
       // alert("Adding Hod Credentials")
@@ -61,7 +61,7 @@ const remove_hod = async (admin) => {
   try {
         // if(confirm("Are you Sure! you want Remove Admin")==true){
         alert("Removing Admin" + admin.id);
-        const response = await axios.get(`http://${api_ip}/api/admins/remove-hod/${admin.id}`)
+        const response = await axios.get(`${api_ip}/api/admins/remove-hod/${admin.id}`)
         if(response.data.Success){
           alert("Admin Removed Successfully")
         }
@@ -210,7 +210,7 @@ export default AdminsCRUDControl
 
 //   const gen_password = async () =>{
 //     try {
-//       const response = await axios.get(`http://${api_ip}:8888/api/admins/generate-password`);
+//       const response = await axios.get(`https://${api_ip}:8888/api/admins/generate-password`);
 //       if (response !== null) {
 //         console.log(response.data)
 //         alert(response.data.pwd)

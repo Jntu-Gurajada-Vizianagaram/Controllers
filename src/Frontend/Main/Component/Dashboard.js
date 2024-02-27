@@ -20,7 +20,11 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import { Outlet, Route, Link as RouterLink } from "react-router-dom";
 import { ExitToApp, Logout } from "@mui/icons-material";
+import Avatar from '@mui/material/Avatar';
+import Stack from '@mui/material/Stack';
 import jntugvlogo from "../media/jntugv.png";
+import { Button } from "@mui/material";
+
 const drawerWidth = 240;
 
 const menu = mods;
@@ -116,6 +120,7 @@ export default function MiniDrawer() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+  document.title = `JNTUGV | ${mods.uds.admin} | Dashboard`
   // console.log(All_Menu);
   return (
     <Box sx={{ display: "flex" }}>
@@ -149,7 +154,7 @@ export default function MiniDrawer() {
             }}
           >
             <a href="https://jntugv.edu.in">
-              <img src={jntugvlogo} width="50" height="50" alt="JNTU Logo" />
+              <img src={jntugvlogo} width="70" height="70" alt="JNTU Logo" />
             </a>
             <a
               href="https://jntugv.edu.in"
@@ -165,10 +170,35 @@ export default function MiniDrawer() {
               </h1>
             </a>
           </Typography>
+          <Stack direction="row" spacing={2}>
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? "initial" : "center",
+                  px: 2.5,
+                }}
+                component={RouterLink}
+                to='profile'
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : "auto",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Avatar src="/broken-image.jpg" />
+                </ListItemIcon>
+                <ListItemText
+                  primary={mods.uds.admin}
+                  sx={{ opacity: open ? 1 : 0 }}
+                />
+              </ListItemButton>
+          </Stack>
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>
-        <DrawerHeader>
+        <DrawerHeader><h1 style={{textAlign:"center"}} >Main Menu</h1>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "rtl" ? (
               <ChevronRightIcon />

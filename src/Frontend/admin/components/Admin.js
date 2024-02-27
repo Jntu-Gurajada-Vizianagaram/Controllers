@@ -21,7 +21,7 @@ const Admin = () => {
   
   const get_requests = async () =>{
     axios
-    .get(`http://${api_ip}/api/updates/update-requests`)
+    .get(`${api_ip}/api/updates/update-requests`)
     .then((response) => {
       setRequests(response.data);
     })
@@ -31,7 +31,7 @@ const Admin = () => {
   } 
 
   const request_accept = (request)=>{
-    axios.get(`http://${api_ip}/api/updates/update-accept-request/${request.id}`)
+    axios.get(`${api_ip}/api/updates/update-accept-request/${request.id}`)
       .then((response)=>{
         alert(response.data.message)
         get_requests()
@@ -43,7 +43,7 @@ const Admin = () => {
     }
     
   //   const PWDCHECK =()=>{
-  //     axios.get(`http://${api_ip}/api/admins/generate-password`)
+  //     axios.get(`${api_ip}/api/admins/generate-password`)
   //       .then((response)=>{
   //         alert(response.data.pwd)   
   //         get_requests()

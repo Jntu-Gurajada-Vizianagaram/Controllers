@@ -21,6 +21,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import { Switch } from '@mui/material';
 import All_Menu from './Menu';
+import jntugvlogo from '../media/jntugv.png'
 const drawerWidth = 240;
 
 
@@ -136,7 +137,7 @@ open={open}>
             fontFamily:"Timesnewroman",
            }}>
               <a href="https://jtugv.edu.in">
-                  <img src="https://dhondi.ai/logos/jntugv.png" width="80" height="80" alt="JNTU Logo" />
+                  <img src={jntugvlogo} width="80" height="80" alt="JNTU Logo" />
               </a>
               <a href="https://jntugv.edu.in" style={{float:"right",marginTop:"0px",textDecoration:"none"}}>
                   <h1 style={{color:"white" }}>Jawaharlal Nehru Technological University - Gurajada, Vizianagaram</h1>

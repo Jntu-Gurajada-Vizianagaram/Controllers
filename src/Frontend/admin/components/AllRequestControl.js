@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from "@mui/material";
 import axios from 'axios';
-
 const AllRequestControls = () => {
   const [requests,setRequests] =useState([])
   const ips = require("../../api.json");
   const api_ip = ips.server_ip;
   const get_update_events = async () =>{
     axios
-    .get(`https://${api_ip}/api/updates/every-events`)
+    .get(`${api_ip}/api/updates/every-events`)
     .then((response) => {
       setRequests(response.data);
     })
@@ -20,8 +19,8 @@ const AllRequestControls = () => {
   // const accept =(request)=>{
   //   alert(request.title)
   // }
-  const deny =(request)=>{
-    axios.get(`https://${api_ip}/api/updates/remove-event/${request.id}`)
+  const del_notification =(request)=>{
+    axios.get(`${api_ip}/api/updates/remove-event/${request.id}`)
     .then((response)=>{
       alert(response.data.message)
       get_update_events()
@@ -83,7 +82,7 @@ useEffect(()=>{
                       </Button>
                     </TableCell> */}
                     <TableCell>
-                      <Button variant="contained" color="error" onClick={() => deny(request)}>
+                      <Button variant="contained" color="error" onClick={() => del_notification(request)}>
                         Delete
                       </Button>
                     </TableCell>

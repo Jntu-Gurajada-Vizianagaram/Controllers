@@ -67,7 +67,7 @@ const Upload = () => {
     formData.append("gallery_scrolling",eventData.gallery_scrolling)
     
     try {
-      const response = await axios.post(`http://${api_ip}:8888/api/upload/addimg`,formData)
+      const response = await axios.post(`${api_ip}/api/upload/addimg`,formData)
       console.log(response)
       if(response){
         alert("Event added"+response)
@@ -75,7 +75,6 @@ const Upload = () => {
         else{
           console.log("Event Not Added")
         }
-      // window.location.href='/admin';
       getEvents()
     } catch (error) {
       console.log(error)
@@ -86,7 +85,7 @@ const Upload = () => {
   const getEvents = async () =>{
 
     axios
-    .get(`http://${api_ip}:8888/api/upload/allimgs`)
+    .get(`${api_ip}/api/upload/allimgs`)
     .then((response) => {
       setEvents(response.data);
     })
@@ -102,7 +101,7 @@ const Upload = () => {
       // if(confirm(`Are you sure u want Delete ${event.title}`)==true){
         alert(`Deleting Event ${event.title}`)
         const id =event.id
-        const response = await axios.get(`http://${api_ip}:8888/api/upload/removeimg/${id}`);
+        const response = await axios.get(`${api_ip}/api/upload/removeimg/${id}`);
       // }
       // else{
       //   alert('Event Not Deleted')
@@ -244,7 +243,7 @@ const Upload = () => {
                     <TableCell>{event.title}</TableCell>
                     <TableCell>{event.update_status}</TableCell>
                     <TableCell>
-                      <a href={`http://api.jntugv.edu.in:8888/files/${event.file_path}`}>View File</a>
+                      <a href={`${api_ip}/files/${event.file_path}`}>View File</a>
                     </TableCell>
                     <TableCell>
                       <Button variant="contained" onClick={() => alert(event.title)}>

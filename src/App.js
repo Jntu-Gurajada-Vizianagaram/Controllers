@@ -17,7 +17,6 @@ import Results from "./Frontend/results/components/Results";
 import FirstPage  from './Frontend/Main/Component/firstpage';
 import Persons from './Frontend/Main/Component/Persons';
 import Profile from "./Frontend/Main/Component/Profile";
-
 import Updatelogin from './Frontend/Main/Component/Logins/Updateslogin';
 import Hodlogin from './Frontend/Main/Component/Logins/Hodlogin';
 import Collegelogin from './Frontend/Main/Component/Logins/Collegeslogin';
@@ -31,6 +30,7 @@ import Updatesdashboard from './Frontend/Main/Component/UpdatesDashboard';
 import Dashboard from "./Frontend/Main/Component/Dashboard";
 import DashboardHome from "./Frontend/Main/Component/DashboardHome";
 // import { Login } from "@mui/icons-material";
+// require('dotenv').config()
 
 function App() {
   
@@ -47,9 +47,9 @@ function App() {
           <Route exact path="/" element={<FirstPage />}/>
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/profiles" element={<Persons />}/>
-          <Route exact path="/profile" element={<Profile />}/>
           <Route exact path="/dashboard" element={<Dashboard />}>
             <Route index element={<DashboardHome/>} />
+            <Route exact path="profile" element={<Profile />}/>
             {/* Admin Routes */}
             <Route path='admin-home' element={<Admin />}/>
             <Route path='all-consoles' element={<AllCrudControls />} />

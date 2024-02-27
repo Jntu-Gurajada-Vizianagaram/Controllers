@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
-
+require('dotenv').config()
 //Routes Import
 const schemas = require("./Schemas/AllSchemas");
 const admins = require("./routes/admin_routes/AdminRoute");

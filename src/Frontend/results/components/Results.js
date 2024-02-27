@@ -10,7 +10,7 @@ const Results = () => {
     const getfile = async() =>{
 
         try{
-            const response = await axios.get(`http://${api_ip}:8888/api/results/R13PASSLIST`);
+            const response = await axios.get(`${api_ip}:8888/api/results/R13PASSLIST`);
             setFilenames(response.data.files);
         }catch(error){
             console.log(error);

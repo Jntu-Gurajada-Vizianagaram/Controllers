@@ -9,6 +9,9 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { styled } from "@mui/material/styles";
+import mods from "../../Main/Component/Logins/Login";
+
+
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
   clipPath: "inset(50%)",
@@ -38,7 +41,7 @@ const Updates = () => {
     scrolling: "",
     update_type: "",
     update_status: "",
-    submitted_by: "updaterXXX",
+    submitted_by: mods.uds.admin,
     admin_approval: "pending",
   });
 
@@ -67,7 +70,7 @@ const Updates = () => {
     formData.append("admin_approval",eventData.admin_approval)
     formData.append('file',file)
     try {
-      const response = await axios.post(`https://${api_ip}/api/updates/add-event`,formData)
+      const response = await axios.post(`${api_ip}/api/updates/add-event`,formData)
       console.log(response)
       if(response){
         alert("Event added"+response)
@@ -75,7 +78,6 @@ const Updates = () => {
         else{
           console.log("Event Not Added")
         }
-      window.location.href='/Updatesdashboard'
       getEvents()
     } catch (error) {
       console.log(error)
@@ -86,7 +88,7 @@ const Updates = () => {
   const getEvents = async () =>{
 
     axios
-    .get(`https://${api_ip}/api/updates/all-updater-events`)
+    .get(`${api_ip}/api/updates/all-updater-events/${mods.uds.admin}`)
     .then((response) => {
       setEvents(response.data);
     })
@@ -96,18 +98,20 @@ const Updates = () => {
   } 
 
 
+
+
+  
   const deleteEvent = async (event) => {
     try {
       console.log(event)
       // if(confirm(`Are you sure u want Delete ${event.title}`)==true){
         alert(`Deleting Event ${event.title}`)
         const id =event.id
-        const response = await axios.get(`https://${api_ip}/api/updates/remove-event/${id}`);
+        const response = await axios.get(`${api_ip}/api/updates/remove-event/${id}`);
       // }
       // else{
       //   alert('Event Not Deleted')
       // }
-      // window.location.href='/admin'
       getEvents()
 
     } catch (error) {
