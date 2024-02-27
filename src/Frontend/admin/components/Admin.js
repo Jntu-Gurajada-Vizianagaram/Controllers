@@ -41,6 +41,17 @@ const Admin = () => {
       })
       
     }
+  const request_deny = (request)=>{
+    axios.get(`${api_ip}/api/updates/update-deny-request/${request.id}`)
+      .then((response)=>{
+        alert(response.data.message)
+        get_requests()
+      })
+      .catch((err)=>{
+        console.log(err)
+      })
+      
+    }
     
   //   const PWDCHECK =()=>{
   //     axios.get(`${api_ip}/api/admins/generate-password`)
