@@ -21,7 +21,7 @@ const Admin = () => {
   
   const get_requests = async () =>{
     axios
-    .get(`https://${api_ip}/api/updates/update-requests`)
+    .get(`http://${api_ip}/api/updates/update-requests`)
     .then((response) => {
       setRequests(response.data);
     })
@@ -31,7 +31,7 @@ const Admin = () => {
   } 
 
   const request_accept = (request)=>{
-    axios.get(`https://${api_ip}/api/updates/update-accept-request/${request.id}`)
+    axios.get(`http://${api_ip}/api/updates/update-accept-request/${request.id}`)
       .then((response)=>{
         alert(response.data.message)
         get_requests()
@@ -41,18 +41,18 @@ const Admin = () => {
       })
       
     }
-    const request_deny =(request)=>{
-      axios.get(`https://${api_ip}/api/updates/update-deny-request/${request.id}`)
-        .then((response)=>{
-          alert(response.data.message)   
-          get_requests()
-        })
-        .catch((err)=>{
-          console.log(err)
-        })
-
-  }
-
+    
+  //   const PWDCHECK =()=>{
+  //     axios.get(`http://${api_ip}/api/admins/generate-password`)
+  //       .then((response)=>{
+  //         alert(response.data.pwd)   
+  //         get_requests()
+  //       })
+  //       .catch((err)=>{
+  //         console.log(err)
+  //         alert(err)
+  //       })
+  // }
 
 
 
@@ -73,6 +73,9 @@ useEffect(()=>{
         </div>
         <div className="eventsdisplay">
           <h2>Events</h2>
+          {/* <Button variant="contained" color="error" onClick={() => PWDCHECK()}>
+            Deny
+          </Button> */}
           <TableContainer component={Paper}>
             <Table>
               <TableHead>

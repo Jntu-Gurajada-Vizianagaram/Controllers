@@ -17,7 +17,7 @@ import Results from "./Frontend/results/components/Results";
 import FirstPage  from './Frontend/Main/Component/firstpage';
 import Persons from './Frontend/Main/Component/Persons';
 import Profile from "./Frontend/Main/Component/Profile";
-import Webadminlogin from './Frontend/Main/Component/Logins/WebAdminlogin';
+
 import Updatelogin from './Frontend/Main/Component/Logins/Updateslogin';
 import Hodlogin from './Frontend/Main/Component/Logins/Hodlogin';
 import Collegelogin from './Frontend/Main/Component/Logins/Collegeslogin';
@@ -29,6 +29,7 @@ import Affliatedcollegesdashboard from './Frontend/Main/Component/AffliatedColle
 import Hoddashboard from './Frontend/Main/Component/Hoddashboard';
 import Updatesdashboard from './Frontend/Main/Component/UpdatesDashboard';
 import Dashboard from "./Frontend/Main/Component/Dashboard";
+import DashboardHome from "./Frontend/Main/Component/DashboardHome";
 // import { Login } from "@mui/icons-material";
 
 function App() {
@@ -38,44 +39,51 @@ function App() {
     <div className="App">
       {/* <Login />
       <Main />
-      <Header/> */}
+    <Header/> */}
       
       <BrowserRouter>
         {/* <Navbar /> */}
         <Routes>
           <Route exact path="/" element={<FirstPage />}/>
+          <Route exact path="/login" element={<Login />} />
           <Route exact path="/profiles" element={<Persons />}/>
           <Route exact path="/profile" element={<Profile />}/>
-          <Route exact path="/dashboard" element={<Dashboard />}/>
-            <Route exact path='/webadminlogin' element={<Webadminlogin />}/>
-            <Route exact path='/Hodlogin' element={<Hodlogin />}/>
+          <Route exact path="/dashboard" element={<Dashboard />}>
+            <Route index element={<DashboardHome/>} />
+            {/* Admin Routes */}
+            <Route path='admin-home' element={<Admin />}/>
+            <Route path='all-consoles' element={<AllCrudControls />} />
+            <Route path='all-records' element={<AllRequestControls />} />
+            <Route path='help' element={<FacultyGrievance />} />
+            {/* Affiliated College Routes */}
+            <Route exact path="affiliated-college" element={<AffiliatedColleges />}/>
+            <Route exact path="add-new-affliated-college" element={<AddCollege/>} />
+            {/* Web Admin Routes */}
+            <Route path="gallery" element={<CompleteGallery />} />
+            <Route exact path="dmcupload" element={<DMCUpload />} />
+            {/* Updates Panel Routes */}
+            <Route exact path="updates" element={<Updates />} />
+            {/* Directors Panel Routes */}
+            <Route exact path="hods" element={<HODS />} />
+          </Route>
+            {/* <Route exact path='/Hodlogin' element={<Hodlogin />}/>
             <Route exact path='/collegeslogin' element={<Collegelogin />}/>
             <Route exact path='/Updatelogin' element={<Updatelogin />}/>
-            <Route path='/admindashboard' element={<Admindashboard />}>
             <Route index element={<Admin />} />
-              <Route exact path="affiliated-college" element={<AffiliatedColleges />}/>
-              <Route exact path="add-new-affliated-college" element={<AddCollege/>} />
               <Route path='help' element={<FacultyGrievance />} />
               <Route index element={<Admin />} />
               <Route path='admin-home' element={<Admin />} />
-              <Route path='all-records' element={<AllRequestControls />} />
-              <Route path='all-consoles' element={<AllCrudControls />} />
               <Route path='help' element={<FacultyGrievance />} />
-            </Route>
-            <Route path='/webadmindashboard' element={<WebAdminDashboard />}>
-              <Route index element={<CompleteGallery />} />
-              <Route path="gallery" element={<CompleteGallery />} />
-              <Route exact path="dmcupload" element={<DMCUpload />} />
-              <Route path='help' element={<FacultyGrievance />} />
-            </Route>
-            <Route path='/hoddashboard' element={<Hoddashboard />}>
+            </Route> */}
+            {/* <Route path='/webadmindashboard' element={<WebAdminDashboard />}>
+            </Route> */}
+            {/* <Route path='/hoddashboard' element={<Hoddashboard />}>
               <Route index element={<HODS />} />
               <Route exact path="hods" element={<HODS />} />
               <Route path='help' element={<FacultyGrievance />} />
             </Route>
             <Route path='/Updatesdashboard' element={<Updatesdashboard />}>
               <Route index element={<Updates />} />
-              <Route exact path="updates" element={<Updates />} />
               <Route path='help' element={<FacultyGrievance />} />
             </Route>
             <Route path='/affliatedcollegesdashboard' element={<Affliatedcollegesdashboard />}>
@@ -84,8 +92,7 @@ function App() {
               <Route exact path="add-new-affliated-college" element={<AddCollege/>} />
               <Route path='help' element={<FacultyGrievance />} />
             </Route>
-          <Route exact path="/login" element={<Login />} />
-          <Route exact path="/results" element={<Results/>} />
+          <Route exact path="/results" element={<Results/>} /> */}
           {/* <Route exact path="/admin" element={<Admin/>} /> */}
           {/* <Route exact path="/admin-control" element={<Admin />} /> */}
           {/* <Route exact path="/updates" element={<Updates />} /> */}
@@ -93,7 +100,6 @@ function App() {
           {/* <Route exact path="/dmc" element={<DMC />}/> */}
           {/* <Route path="/gallery" element={<CompleteGallery />} /> */}
           {/* <Route exact path="/upload" element={<DMCUpload />} /> */}
-        {/* <Route exact path="/hods" element={<HODS />} /> */}
         {/* <Route exact path="/affiliated-college" element={<AffiliatedColleges />}/> */}
         {/* <Route exact path="/add-new-affliated-college" element={<AddCollege/>} /> */}
         {/* <Route exact path="/grievances" element={<FacultyGrievance />} /> */}

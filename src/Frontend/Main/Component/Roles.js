@@ -14,31 +14,31 @@ import WebAdminimg from "../media/WebAdmin.png";
 const RoleAccess = {
     Admin:[
         {
-            to:"/admindashboard",
+            to:"/dashboard",
             icon: <AdminPanelSettingsIcon/>,
             role:"ADMIN",
             img: AdminImage
         },
         {
-            to:"/webadmindashboard",
+            to:"/dashboard",
             icon: <AdminPanelSettingsIcon/>,
             role:"WEB ADMIN",
             img: WebAdminimg
         },
         {
-            to:"/hoddashboard",
+            to:"/dashboard",
             icon: <AdminPanelSettingsIcon/>,
             role:"DIRECTORS",
             img: HODimg
         },
         {
-            to:"/Affliatedcollegesdashboard",
+            to:"/dashboard",
             icon: <AdminPanelSettingsIcon/>,
             role:" COLLEGES",
             img: AffliatedCollegesimg
         },
         {
-            to:"/Updatesdashboard",
+            to:"/dashboard",
             icon: <AdminPanelSettingsIcon/>,
             role:"UPDATES",
             img: Updatesimg
@@ -47,31 +47,31 @@ const RoleAccess = {
     ],
     Developer:[
         {
-            to:"/admindashboard",
+            to:"/dashboard",
             icon: <AdminPanelSettingsIcon/>,
             role:"ADMIN",
             img: AdminImage
         },
         {
-            to:"/webadmindashboard",
+            to:"/dashboard",
             icon: <AdminPanelSettingsIcon/>,
             role:"WEB ADMIN",
             img: WebAdminimg
         },
         {
-            to:"/hoddashboard",
+            to:"/dashboard",
             icon: <AdminPanelSettingsIcon/>,
             role:"DIRECTORS",
             img: HODimg
         },
         {
-            to:"/Affliatedcollegesdashboard",
+            to:"/dashboard",
             icon: <AdminPanelSettingsIcon/>,
             role:" COLLEGES",
             img: AffliatedCollegesimg
         },
         {
-            to:"/Updatesdashboard",
+            to:"/dashboard",
             icon: <AdminPanelSettingsIcon/>,
             role:"UPDATES",
             img: Updatesimg
@@ -80,13 +80,13 @@ const RoleAccess = {
     ],
     WebAdmin:[
         {
-            to:"/webadmindashboard",
+            to:"/dashboard",
             icon: <AdminPanelSettingsIcon/>,
             role:"WEB ADMIN",
             img: WebAdminimg
         },
         {
-            to:"/Updatesdashboard",
+            to:"/dashboard",
             icon: <AdminPanelSettingsIcon/>,
             role:"UPDATES",
             img: Updatesimg
@@ -95,7 +95,7 @@ const RoleAccess = {
    
     AffliatedColleges:[
         {
-            to:"/affliatedcollegesdashboard",
+            to:"/dashboard",
             icon: <AdminPanelSettingsIcon/>,
             role:"Affliated Colleges",
             img: AffliatedCollegesimg
@@ -106,6 +106,34 @@ const RoleAccess = {
             role:"Click To Login as College Admin",
             img: AdminImage
         },
+    ],
+    Updates:[
+        {
+            to:"/dashboard",
+            icon: <AdminPanelSettingsIcon/>,
+            role:"Updates Admin",
+            img: Updatesimg
+        },
+        // {
+        //     to:"/collegeslogin",
+        //     icon: <AdminPanelSettingsIcon/>,
+        //     role:"Click To Login as College Admin",
+        //     img: AdminImage
+        // },
+    ],
+    Directors:[
+        {
+            to:"/dashboard",
+            icon: <AdminPanelSettingsIcon/>,
+            role:"Directors",
+            img: HODimg
+        },
+        // {
+        //     to:"/collegeslogin",
+        //     icon: <AdminPanelSettingsIcon/>,
+        //     role:"Click To Login as College Admin",
+        //     img: AdminImage
+        // },
     ],
 };
 

@@ -25,10 +25,10 @@ const AdminsCRUDControl = () => {
 
   const admins = async () => {
     try {
-      const response = await axios.get(`http://${api_ip}:8888/api/admins/getadmins`);
+      const response = await axios.get(`http://${api_ip}/api/admins/getadmins`);
       if (response !== "") {
         setAlladmins(response.data);
-        console.log(response.data)
+        // console.log(response.data)
       } else {
         console.log("Datat Not Fetched");
       }
@@ -41,16 +41,17 @@ const AdminsCRUDControl = () => {
   const adding_handle = async()=>{
     try {
       const id =0;
-      const response = await axios.post(`http://${api_ip}:8888/api/admins/add-hod`,
+      const response = await axios.post(`http://${api_ip}/api/admins/add-hod`,
       {data:{id,name,username,password,role}}
       )
-      alert("Adding Hod Credentials")
+      // alert("Adding Hod Credentials")
       if(response.data.Success){
         alert("Hod Data Successfully added")
       }
       else{
         alert("Hod Data Not added \n Reason:"+response.data.MSG)
       }
+      admins()
     } catch (error) {
       alert("Exception"+error)
       console.log(error)
@@ -60,14 +61,15 @@ const remove_hod = async (admin) => {
   try {
         // if(confirm("Are you Sure! you want Remove Admin")==true){
         alert("Removing Admin" + admin.id);
-        const response = await axios.get(`http://${api_ip}:8888/api/admins/remove-hod/${admin.id}`)
+        const response = await axios.get(`http://${api_ip}/api/admins/remove-hod/${admin.id}`)
         if(response.data.Success){
           alert("Admin Removed Successfully")
         }
         else{
           console.log("Sm Thing error" + response.data.msg)
         }
-        window.location.href='/admin'
+        admins()
+        // window.location.href='/admin'
       }
       // else{
         // alert("Admin Removing Aborted")

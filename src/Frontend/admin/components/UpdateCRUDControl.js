@@ -75,7 +75,7 @@ const Updates = () => {
         else{
           console.log("Event Not Added")
         }
-      window.location.href='/admindashboard/all-consoles';
+      // window.location.href='/admindashboard/all-consoles';
       getEvents()
     } catch (error) {
       console.log(error)

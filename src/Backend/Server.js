@@ -51,9 +51,13 @@ app.use("/api/dmcupload", dmcupload);
 app.use("/api/affliated-colleges", affliatedColleges);
 app.use("/api/results", results);
 // app.use('/api/addhod',)
+// const check = require('./apis/ApiKeyAuth')
+// app.use('/checkip',check.checkip)
 
 // const gen = require('./apis/admin_api/Generate_password')
 // gen.generate_password()
+
+
 
 // server listener
 const port = 8888;

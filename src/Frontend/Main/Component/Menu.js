@@ -66,6 +66,24 @@ const All_Menu = {
             icon:<DoorbellIcon/>,
         },
     ],
+    WebAdmin:[
+        {
+            to:'gallery',
+            text:"Affiliated Colleges",
+            icon:<DoorbellIcon/>,
+        },
+        {
+            to:'dmcupload',
+            text:"Add New College",
+            icon:<QueueIcon/>,
+        },
+       
+        {
+            to:'help',
+            text:"Help",
+            icon:<DoorbellIcon/>,
+        },
+    ],
 }
 
 export default All_Menu

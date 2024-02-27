@@ -1,5 +1,7 @@
+const url = require('url');
+const dns = require('dns');
 const Apikeys = require('./ApiKeys.json')
-console.log(Apikeys)
+// console.log(Apikeys)
 exports.ApiKeyAuth=(Apikey)=>{
    return Apikeys.includes(Apikey)
 }
@@ -44,17 +46,28 @@ exports.ApiKeyAuth=(Apikey)=>{
 // const dns = require('dns');
 
 
-// app.get('/checkip', (req, res) => {
-//    const parsedUrl = url.parse("https://api.jntugv.edu.in/api/admins"); // Parse the URL
-//    const domain = parsedUrl.hostname; // Extract the domain from the parsed URL
+exports.checkip= (requestip) => {
+   let link = requestip
+   console.log(link)
+   link == "/" ? link = "http://localhost" : link = link
+   console.log(link) 
+   const parsedUrl = url.parse(link); // Parse the URL
+   const domain = parsedUrl.hostname; // Extract the domain from the parsed URL
+   console.log(domain)
 
-//    dns.lookup(domain, (err, address, family) => { // Use DNS module to look up IP address
-//        if (err) {
-//            console.error(err);
-//            res.status(500).json({ error: 'Failed to lookup IP address for the domain' });
-//        } else {
-//            res.json({ domain, ipAddress: address });
-//        }
-//    });
-// });
+   // return Apikeys.includes(link)
+   return Apikeys.includes(domain)
+
+   // dns.lookup(domain, (err, address, family) => { // Use DNS module to look up IP address
+   //     if (err) {
+   //         console.error(err);
+   //         res.status(500).json({ error: 'Failed to lookup IP address for the domain' });
+   //         return false
+   //     } else {
+   //         res.json({ domain, ipAddress: address ,family});
+   //         return true
+   //     }
+   // });
+
+}
 
