@@ -1,0 +1,8 @@
+.dashboard-main{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: right;
+    text-align: left;
+    min-height: 100vh;
+}

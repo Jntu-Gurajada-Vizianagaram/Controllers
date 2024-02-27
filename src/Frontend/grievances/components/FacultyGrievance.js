@@ -29,7 +29,7 @@ const FacultyGrievance = () => {
     formData.append("msg", msg);
     formData.append("file", file);
 
-    const response = await axios.post(`http://${api_ip}:8888/api/mailing/sendmail`, formData);
+    const response = await axios.post(`${api_ip}/api/mailing/sendmail`, formData);
 
     if (response.data.success === true) {
       alert("Grievance Mail Sent");

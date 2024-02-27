@@ -3,7 +3,7 @@ import Card from '@mui/material/Card';
 import ImageList from '@mui/material/ImageList';
 import { Box, Button, Typography } from "@mui/material";
 import { Link, Link as RouterLink } from "react-router-dom";
-
+import jntugvlogo from '../media/jntugv.png'
 import "../css/person.css"
 import Roleaccess from '../Component/Roles'
 
@@ -13,7 +13,7 @@ const Persons = () =>{
     return(
         <div>
             <div style={{textAlign:"center",paddingLeft:"15%",paddingRight:"15%"}}>
-            <img src='https://dhondi.ai/logos/jntugv.png' width='150px' height='150px' alt='logo'></img>
+            <img src={jntugvlogo} width='150px' height='150px' alt='logo'></img>
         <Typography variant="h5" gutterBottom margin={0}>
         Jawaharlal Nehru Technological University-Gurajada Vizianagaram<br></br>
 </Typography>

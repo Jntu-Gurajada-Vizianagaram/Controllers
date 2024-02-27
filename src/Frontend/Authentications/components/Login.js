@@ -14,10 +14,10 @@ const ips =require('../../api.json')
 
 const Login = () => {
   const login_details = JSON.parse(localStorage.getItem("accesser"))
-const [username, setUsername] = useState("");
-const [password, setPassword] = useState("");
-const [session, setSession] = useState("login"); 
-const [erralert,setAlert] = useState({
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [session, setSession] = useState("login"); 
+  const [erralert,setAlert] = useState({
   message: "",
   type:"warning",
 })
@@ -25,7 +25,7 @@ const api_ip = ips.server_ip
 
 const login_handle = async () => {
   try {
-    const response = await axios.post(`https://${api_ip}/api/admins/login`,
+    const response = await axios.post(`${api_ip}/api/admins/login`,
     { credentials:{username, password} });
     if(username == "" || password == ""){
         setAlert({

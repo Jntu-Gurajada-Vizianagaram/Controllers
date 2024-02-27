@@ -75,7 +75,6 @@ const Updates = () => {
         else{
           console.log("Event Not Added")
         }
-      window.location.href='/admindashboard/all-consoles';
       getEvents()
     } catch (error) {
       console.log(error)
@@ -86,7 +85,7 @@ const Updates = () => {
   const getEvents = async () =>{
 
     axios
-    .get(`https://${api_ip}/api/updates/all-admin-events`)
+    .get(`${api_ip}/api/updates/all-admin-events`)
     .then((response) => {
       setEvents(response.data);
     })
@@ -102,7 +101,7 @@ const Updates = () => {
       // if(confirm(`Are you sure u want Delete ${event.title}`)==true){
         alert(`Deleting Event ${event.title}`)
         const id =event.id
-        const response = await axios.get(`https://${api_ip}/api/updates/remove-event/${id}`);
+        const response = await axios.get(`${api_ip}/api/updates/remove-event/${id}`);
       // }
       // else{
       //   alert('Event Not Deleted')

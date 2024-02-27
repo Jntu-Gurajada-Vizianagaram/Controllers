@@ -1,6 +1,8 @@
 const multer = require('multer');
 const connection = require('../config')
-const api_ip ="api.jntugv.edu.in"
+require('dotenv').config()
+const api_ip = process.env.domainip
+
 const storage = multer.diskStorage({
   destination: (req, file, cb )=>{
     return cb(null,'./storage/notifications/')
@@ -122,7 +124,7 @@ exports.every_events=(req, res) => {
       return;
     }
     const final_events = results.map(eve=>{
-      const filelink =`https://${api_ip}/media/${eve.file_path}`
+      const filelink =`${api_ip}/media/${eve.file_path}`
       const outdate=new Date(eve.date)
 
       return{
@@ -151,7 +153,7 @@ exports.all_admin_events=(req, res) => {
       return;
     }
     const final_events = results.map(eve=>{
-      const filelink =`https://${api_ip}/media/${eve.file_path}`
+      const filelink =`${api_ip}/media/${eve.file_path}`
       const outdate=new Date(eve.date)
 
       return{
@@ -171,7 +173,8 @@ exports.all_admin_events=(req, res) => {
 };
 
 exports.all_updater_events=(req, res) => {
-  const sql = "SELECT * FROM notification_updates WHERE submitted_by='updaterxxx' ORDER BY id DESC";
+  adminid = req.params.adminid
+  const sql = `SELECT * FROM notification_updates WHERE submitted_by='${adminid}' ORDER BY id DESC`;
 
   connection.query(sql, (err, results) => {
     if (err) {
@@ -180,7 +183,7 @@ exports.all_updater_events=(req, res) => {
       return;
     }
     const final_events = results.map(eve=>{
-      const filelink =`https://${api_ip}/media/${eve.file_path}`
+      const filelink =`${api_ip}/media/${eve.file_path}`
       const outdate=new Date(eve.date)
 
       return{
@@ -209,7 +212,7 @@ exports.update_requests=(req, res) => {
       return;
     }
     const final_events = results.map(eve=>{
-      const filelink =`https://${api_ip}/media/${eve.file_path}`
+      const filelink =`${api_ip}/media/${eve.file_path}`
       const outdate=new Date(eve.date)
 
       return{
@@ -232,7 +235,7 @@ exports.update_requests=(req, res) => {
 
 // Api Methods For Frontend
 exports.get_notifiactions=(req, res) => {
-  const sql = "SELECT * FROM notification_updates WHERE update_status = 'update' AND  admin_approval='accepted'  ORDER BY id DESC";
+  const sql = "SELECT * FROM notification_updates WHERE update_status = 'update' AND  admin_approval='accepted' AND main_page = 'yes'  ORDER BY id DESC";
 
   connection.query(sql, (err, results) => {
     if (err) {
@@ -241,7 +244,7 @@ exports.get_notifiactions=(req, res) => {
       return;
     }
     const final_events = results.map(eve=>{
-      const filelink =`https://${api_ip}/files/${eve.file_path}`
+      const filelink =`${api_ip}/media/${eve.file_path}`
       const outdate=new Date(eve.date)
       
       return{
