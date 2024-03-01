@@ -215,11 +215,11 @@ const Updates = () => {
                 onChange={handleInputChange}
               >
                 <MenuItem value="notification">Notification</MenuItem>
-                <MenuItem value="tender">Tender</MenuItem>
-                <MenuItem value="exams">Exams</MenuItem>
+                {/* <MenuItem value="tender">Tender</MenuItem> */}
+                <MenuItem value="examination">Exams</MenuItem>
                 <MenuItem value="workshop">Workshop</MenuItem>
                 <MenuItem value="sports">Sports</MenuItem>
-                <MenuItem value="conference">Conference</MenuItem>
+                {/* <MenuItem value="conference">Conference</MenuItem> */}
                 <MenuItem value="recruitment">Recruitment</MenuItem>
               </Select>
             </FormControl>
@@ -272,11 +272,11 @@ const Updates = () => {
                     <TableCell>
                       <a href={event.file_link} target="_blank">View File</a>
                     </TableCell>
-                    <TableCell>
+                    {/* <TableCell>
                       <Button variant="contained" onClick={() => alert(event.title)}>
                         Edit
                       </Button>
-                    </TableCell>
+                    </TableCell> */}
                     <TableCell>
                       <Button variant="contained" color="error" onClick={() => deleteEvent(event)}>
                         Delete
