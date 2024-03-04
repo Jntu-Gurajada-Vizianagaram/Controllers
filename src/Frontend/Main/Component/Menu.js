@@ -20,6 +20,11 @@ const All_Menu = {
             icon:<FileCopyIcon/>,
         },
         {
+            to:'all-stored-files',
+            text:"All Database Files",
+            icon:<FileCopyIcon/>,
+        },
+        {
             to:'help',
             text:"Help",
             icon:<DoorbellIcon/>,
@@ -39,6 +44,11 @@ const All_Menu = {
         {
             to:'all-records',
             text:"All Records",
+            icon:<FileCopyIcon/>,
+        },
+        {
+            to:'all-stored-files',
+            text:"All Database Files",
             icon:<FileCopyIcon/>,
         },
         {
