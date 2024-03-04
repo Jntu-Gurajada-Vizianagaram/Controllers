@@ -127,7 +127,7 @@ exports.every_events=(req, res) => {
       const filelink =`${api_ip}/media/${eve.file_path}`
       const outdate=new Date(eve.date)
 
-      return{
+      return {
         ...eve,
         file_link:filelink,
         day:outdate.getDate(),

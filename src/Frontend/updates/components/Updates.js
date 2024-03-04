@@ -104,14 +104,10 @@ const Updates = () => {
   const deleteEvent = async (event) => {
     try {
       console.log(event)
-      // if(confirm(`Are you sure u want Delete ${event.title}`)==true){
         alert(`Deleting Event ${event.title}`)
         const id =event.id
         const response = await axios.get(`${api_ip}/api/updates/remove-event/${id}`);
-      // }
-      // else{
-      //   alert('Event Not Deleted')
-      // }
+      
       getEvents()
 
     } catch (error) {

@@ -67,7 +67,7 @@ const Updates = () => {
     formData.append("admin_approval",eventData.admin_approval)
     formData.append('file',file)
     try {
-      const response = await axios.post(`https://${api_ip}/api/updates/add-event`,formData)
+      const response = await axios.post(`${api_ip}/api/updates/add-event`,formData)
       console.log(response)
       if(response){
         alert("Event added"+response)
