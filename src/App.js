@@ -29,7 +29,7 @@ import Hoddashboard from './Frontend/Main/Component/Hoddashboard';
 import Updatesdashboard from './Frontend/Main/Component/UpdatesDashboard';
 import Dashboard from "./Frontend/Main/Component/Dashboard";
 import DashboardHome from "./Frontend/Main/Component/DashboardHome";
-import Allfiles from "./Frontend/admin/components/Allfiles";
+// import Allfiles from "./Frontend/admin/components/Allfiles";
 // import { Login } from "@mui/icons-material";
 // require('dotenv').config()
 
@@ -55,7 +55,7 @@ function App() {
             <Route path='admin-home' element={<Admin />}/>
             <Route path='all-consoles' element={<AllCrudControls />} />
             <Route path='all-records' element={<AllRequestControls />} />
-            <Route path='all-stored-files' element={<Allfiles />} />
+            {/* <Route path='all-stored-files' element={<Allfiles />} /> */}
             <Route path='help' element={<FacultyGrievance />} />
             {/* Affiliated College Routes */}
             <Route exact path="affiliated-college" element={<AffiliatedColleges />}/>
