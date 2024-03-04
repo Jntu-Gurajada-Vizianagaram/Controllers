@@ -39,7 +39,7 @@ const Updates = () => {
     update_type: "",
     update_status: "",
     submitted_by: "admin",
-    admin_approval: "accept",
+    admin_approval: "accepted",
   });
 
 
