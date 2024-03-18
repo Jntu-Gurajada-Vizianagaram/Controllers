@@ -11,11 +11,13 @@ const [allfiles,setAllfiles] =useState([])
   const ips = require("../../api.json");
   const api_ip = ips.server_ip;
   
-const files = async () =>{
+const Files = async () =>{
     try {
+        console.log("ALL STORED FILES")
         await axios.get(`${api_ip}/api/admins/allstoredfiles`)
         .then((response)=>{
-            console.log(response.data.data)
+            console.log(allfiles,"All Stored Files")
+            console.log(response.data)
             setAllfiles(response.data.files)
         }).catch((error)=>{
             console.log(error)
@@ -24,20 +26,19 @@ const files = async () =>{
         console.log(error)
     }   
 
-useEffect(()=>{
-    files()
-},[])
-files()
-console.log(allfiles)
 }
+useEffect(()=>{
+    Files()
+},[])
   return (
     <div>
     Allfiles
     <div>
         {allfiles.map((file,index)=>(
                 <div key={index}>
-                    <h1>{file.filename}</h1>
-                    <h1>{file.filelink}</h1>
+                    <h3>{file.filename}</h3>
+                    <a href={file.filelink}>OPEN
+                    <h4>{file.filename}</h4></a>
                 </div>
             ))}
     </div>
