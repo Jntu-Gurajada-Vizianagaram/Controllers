@@ -27,14 +27,15 @@ const FacultyGrievance = () => {
     formData.append("collegename", collegename);
     formData.append("category", category);
     formData.append("msg", msg);
+    formData.append("date", "18-03-2024");
     formData.append("file", file);
 
-    const response = await axios.post(`${api_ip}/api/mailing/sendmail`, formData);
-
+    console.log(formData)
+    const response = await axios.post(`${api_ip}/api/mailing/send-grievance`, formData);
     if (response.data.success === true) {
       alert("Grievance Mail Sent");
     } else {
-      alert("No response");
+      alert(response.data.success);
     }
   };
 
