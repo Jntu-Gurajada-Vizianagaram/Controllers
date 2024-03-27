@@ -8,132 +8,138 @@ import AffliatedCollegesimg from "../media/AffliatedColleges.png";
 import HODimg from "../media/HOD.png";
 import Updatesimg from "../media/Updates.png";
 import WebAdminimg from "../media/WebAdmin.png";
-
+import mods from './Logins/Login';
 
 // roles and their access//
+var adminrole = null
+if (mods.uds){
+    adminrole=mods.uds.role
+}
 const RoleAccess = {
     Admin:[
         {
-            to:"/dashboard",
+            to:`/dashboard/${adminrole}/admindashboard`,
+            page:`admindashboard`,
             icon: <AdminPanelSettingsIcon/>,
             role:"ADMIN",
             img: AdminImage
         },
         {
-            to:"/dashboard",
+            to:`/dashboard/${adminrole}/webadmindashboard`,
+            page:`webadmindashboard`,
             icon: <AdminPanelSettingsIcon/>,
-            role:"WEB ADMIN",
+            role:`WEB ADMIN`,
             img: WebAdminimg
         },
         {
-            to:"/dashboard",
+            to:`/dashboard/${adminrole}/directorsdashboard`,
+            page:`directorsdashboard`,
             icon: <AdminPanelSettingsIcon/>,
-            role:"DIRECTORS",
+            role:`DIRECTORS`,
             img: HODimg
         },
         {
-            to:"/dashboard",
+            to:`/dashboard/${adminrole}/collegesdashboard`,
+            page:`collegesdashboard`,
             icon: <AdminPanelSettingsIcon/>,
-            role:" COLLEGES",
+            role:` COLLEGES`,
             img: AffliatedCollegesimg
         },
         {
-            to:"/dashboard",
+            to:`/dashboard/${adminrole}/updatesdashboard`,
+            page:`updatesdashboard`,
             icon: <AdminPanelSettingsIcon/>,
-            role:"UPDATES",
+            role:`UPDATES`,
             img: Updatesimg
         },
 
     ],
-    Developer:[
+    Developer: [
         {
-            to:"/dashboard",
-            icon: <AdminPanelSettingsIcon/>,
-            role:"ADMIN",
+            to: `/dashboard/${adminrole}/admindashboard`,
+            page: `admindashboard`,
+            icon: <AdminPanelSettingsIcon />,
+            role: "ADMIN",
             img: AdminImage
         },
         {
-            to:"/dashboard",
-            icon: <AdminPanelSettingsIcon/>,
-            role:"WEB ADMIN",
+            to: `/dashboard/${adminrole}/webadmindashboard`,
+            page: `webadmindashboard`,
+            icon: <AdminPanelSettingsIcon />,
+            role: `WEB ADMIN`,
             img: WebAdminimg
         },
         {
-            to:"/dashboard",
-            icon: <AdminPanelSettingsIcon/>,
-            role:"DIRECTORS",
+            to: `/dashboard/${adminrole}/directorsdashboard`,
+            page: `directorsdashboard`,
+            icon: <AdminPanelSettingsIcon />,
+            role: `DIRECTORS`,
             img: HODimg
         },
         {
-            to:"/dashboard",
-            icon: <AdminPanelSettingsIcon/>,
-            role:" COLLEGES",
+            to: `/dashboard/${adminrole}/collegesdashboard`,
+            page: `collegesdashboard`,
+            icon: <AdminPanelSettingsIcon />,
+            role: ` COLLEGES`,
             img: AffliatedCollegesimg
         },
         {
-            to:"/dashboard",
-            icon: <AdminPanelSettingsIcon/>,
-            role:"UPDATES",
+            to: `/dashboard/${adminrole}/updatesdashboard`,
+            page: `updatesdashboard`,
+            icon: <AdminPanelSettingsIcon />,
+            role: `UPDATES`,
             img: Updatesimg
         },
-
     ],
-    WebAdmin:[
+    WebAdmin: [
         {
-            to:"/dashboard",
-            icon: <AdminPanelSettingsIcon/>,
-            role:"WEB ADMIN",
+            to: `/dashboard/${adminrole}/webadmindashboard`,
+            page: `webadmindashboard`,
+            icon: <AdminPanelSettingsIcon />,
+            role: `WEB ADMIN`,
             img: WebAdminimg
         },
         {
-            to:"/dashboard",
-            icon: <AdminPanelSettingsIcon/>,
-            role:"UPDATES",
+            to: `/dashboard/${adminrole}/updatesdashboard`,
+            page: `updatesdashboard`,
+            icon: <AdminPanelSettingsIcon />,
+            role: `UPDATES`,
             img: Updatesimg
         },
     ],
    
-    AffliatedColleges:[
+    AffliatedColleges: [
         {
-            to:"/dashboard",
-            icon: <AdminPanelSettingsIcon/>,
-            role:"Affliated Colleges",
+            to: `/dashboard/${adminrole}/affliatedcollegesdashboard`,
+            page: `affliatedcollegesdashboard`,
+            icon: <AdminPanelSettingsIcon />,
+            role: `Affliated Colleges`,
             img: AffliatedCollegesimg
         },
         {
-            to:"/collegeslogin",
-            icon: <AdminPanelSettingsIcon/>,
-            role:"Click To Login as College Admin",
+            to: `/collegeslogin`,
+            icon: <AdminPanelSettingsIcon />,
+            role: `Click To Login as College Admin`,
             img: AdminImage
         },
     ],
-    Updates:[
+    Updates: [
         {
-            to:"/dashboard",
-            icon: <AdminPanelSettingsIcon/>,
-            role:"Updates Admin",
+            to: `/dashboard/${adminrole}/updatesdashboard`,
+            page: `updatesdashboard`,
+            icon: <AdminPanelSettingsIcon />,
+            role: `Updates Admin`,
             img: Updatesimg
         },
-        // {
-        //     to:"/collegeslogin",
-        //     icon: <AdminPanelSettingsIcon/>,
-        //     role:"Click To Login as College Admin",
-        //     img: AdminImage
-        // },
     ],
-    Directors:[
+    Directors: [
         {
-            to:"/dashboard",
-            icon: <AdminPanelSettingsIcon/>,
-            role:"Directors",
+            to: `/dashboard/${adminrole}/directorsdashboard`,
+            page: `directorsdashboard`,
+            icon: <AdminPanelSettingsIcon />,
+            role: `Directors`,
             img: HODimg
         },
-        // {
-        //     to:"/collegeslogin",
-        //     icon: <AdminPanelSettingsIcon/>,
-        //     role:"Click To Login as College Admin",
-        //     img: AdminImage
-        // },
     ],
 };
 

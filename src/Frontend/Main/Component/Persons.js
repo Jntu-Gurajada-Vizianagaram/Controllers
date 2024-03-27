@@ -6,10 +6,13 @@ import { Link, Link as RouterLink } from "react-router-dom";
 import jntugvlogo from '../media/jntugv.png'
 import "../css/person.css"
 import Roleaccess from '../Component/Roles'
-
+import mods from "./Logins/Login";
 const Persons = () =>{
-  const admin_details =JSON.parse(localStorage.getItem("accesser"))
-  // console.log(admin_details.role)
+  const admin_details =mods.uds
+  if(!(mods.uds)){
+    window.location.href='/'
+  }
+  
     return(
         <div>
             <div style={{textAlign:"center",paddingLeft:"15%",paddingRight:"15%"}}>

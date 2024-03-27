@@ -3,8 +3,15 @@ import Typography from '@mui/material/Typography';
 import { Button } from '@mui/material';
 import { NavLink } from "react-router-dom";
 import jntugvlogo from '../media/jntugv.png'
+import mods from "./Logins/Login";
 
 const Firstpage=()=>{
+
+  if(mods.uds && mods.uds.islogin){
+    window.location.href='/profiles'
+  }
+  
+
     return(
         <div style={{textAlign:"center",paddingLeft:"15%",paddingRight:"15%"}}>
             <img src={jntugvlogo} width='200px' height='200px' alt='logo'></img>
