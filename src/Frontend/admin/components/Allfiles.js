@@ -3,15 +3,26 @@ import React, { useState, useEffect } from 'react';
 import { TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Paper, Button } from '@mui/material';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
+
+
+
 const Allfiles = () => {
     const [allfiles, setAllfiles] = useState([]);
+    const [loading, setLoading] = useState(null);
     
     const ips = require("../../api.json");
     const api_ip = ips.server_ip;
-  
+
+
     const fetchFiles = async () => {
         try {
+            setLoading(true)
             const response = await axios.get(`${api_ip}/api/admins/allstoredfiles`);
+            if(response){
+                setLoading(false)
+            }
             setAllfiles(response.data.files);
         } catch (error) {
             console.log(error);
@@ -41,6 +52,15 @@ const Allfiles = () => {
                 <AlertTitle>Warning</AlertTitle>
                     The Files which are deleted from here.. will be deleted Permanently.
             </Alert>
+            { loading ? 
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '50vh', fontSize: '2em' }}>
+                <h1>Loading... Files</h1>
+                <Box sx={{ display: 'flex' }}>
+                    <CircularProgress />
+                </Box>
+            </div>
+        
+             :
             <TableContainer component={Paper}>
                 <Table stickyHeader>
                     <TableHead>
@@ -72,6 +92,7 @@ const Allfiles = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
+            }
         </div>
     );
 }

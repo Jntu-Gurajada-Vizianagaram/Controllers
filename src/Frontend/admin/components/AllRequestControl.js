@@ -1,15 +1,25 @@
 import React, { useEffect, useState } from 'react'
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from "@mui/material";
 import axios from 'axios';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
+
+
+
 const AllRequestControls = () => {
   const [requests,setRequests] =useState([])
+  const [loading,setLoading] =useState([])
   const ips = require("../../api.json");
   const api_ip = ips.server_ip;
+
+
   const get_update_events = async () =>{
+    setLoading(true)
     axios
     .get(`${api_ip}/api/updates/every-events`)
     .then((response) => {
       setRequests(response.data);
+      setLoading(false)
     })
     .catch((error) => {
       console.error(error);
@@ -49,7 +59,15 @@ useEffect(()=>{
         </div>
         <div>
         <div className="eventsdisplay">
-          <h2>Updates</h2>
+          <h2>UPDATES</h2>
+          {loading ?
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '50vh', fontSize: '2em' }}>
+                <h1>Loading Events ...</h1>
+                <Box sx={{ display: 'flex' }}>
+                    <CircularProgress />
+                </Box>
+              </div> 
+              :
           <TableContainer component={Paper}>
             <Table>
               <TableHead>
@@ -63,7 +81,8 @@ useEffect(()=>{
                   <TableCell>Action</TableCell>
                 </TableRow>
               </TableHead>
-              <TableBody>
+              
+                <TableBody>
                 {requests.map((request) => (
                   <TableRow key={request.id}>
                     <TableCell>{request.id}</TableCell>
@@ -89,6 +108,7 @@ useEffect(()=>{
               </TableBody>
             </Table>
           </TableContainer>
+        }
         </div>
         </div>
       </div>

@@ -9,6 +9,9 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { styled } from "@mui/material/styles";
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
+
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
   clipPath: "inset(50%)",
@@ -27,6 +30,7 @@ const api_ip = ips.server_ip;
 const Updates = () => {
 
   const [file, setFile] = useState();
+  const [loading, setLoading] = useState();
   const [events, setEvents] = useState([]);
   const [eventData, setEventData] = useState({
     date: (new Date()),
@@ -83,12 +87,13 @@ const Updates = () => {
 
 
   const getEvents = async () =>{
-
+    setLoading(true)
     axios
     .get(`${api_ip}/api/updates/all-admin-events`)
     .then((response) => {
       setEvents(response.data);
     })
+    .then(setLoading(false))
     .catch((error) => {
       console.error(error);
     });
@@ -243,7 +248,15 @@ const Updates = () => {
 
         <div className="eventsdisplay">
           <h2>Events</h2>
-          <TableContainer component={Paper}>
+          {loading ?
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', fontSize: '2em' }}>
+            <h1>Loading... Files</h1>
+            <Box sx={{ display: 'flex' }}>
+                <CircularProgress />
+            </Box>
+          </div>
+          :
+            <TableContainer component={Paper}>
             <Table>
               <TableHead>
                 <TableRow key={"Table Attributes"}>
@@ -280,6 +293,7 @@ const Updates = () => {
               </TableBody>
             </Table>
           </TableContainer>
+          }
         </div>
       </div>
     </div>
