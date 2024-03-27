@@ -39,8 +39,8 @@ function App() {
   return (
     <div className="App">
       {/* <Login />
-      <Main />
-    <Header/> */}
+      <Main /> */}
+    {/* <Header/>  */}
       
       <BrowserRouter>
         {/* <Navbar /> */}
@@ -48,7 +48,7 @@ function App() {
           <Route exact path="/" element={<FirstPage />}/>
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/profiles" element={<Persons />}/>
-          <Route exact path="/dashboard" element={<Dashboard />}>
+          <Route exact path="/dashboard/:adminrole/:page" element={<Dashboard />}>
             <Route index element={<DashboardHome/>} />
             <Route exact path="profile" element={<Profile />}/>
             {/* Admin Routes */}

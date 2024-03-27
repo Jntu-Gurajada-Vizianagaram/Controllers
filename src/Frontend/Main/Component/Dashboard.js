@@ -110,6 +110,8 @@ const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== "open",}
 }));
 
 export default function MiniDrawer() {
+
+
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -153,11 +155,11 @@ export default function MiniDrawer() {
               fontFamily: "Timesnewroman",
             }}
           >
-            <a href="https://jntugv.edu.in">
+            <a href="https://admin.jntugv.edu.in">
               <img src={jntugvlogo} width="70" height="70" alt="JNTU Logo" />
             </a>
             <a
-              href="https://jntugv.edu.in"
+              href="https://admin.jntugv.edu.in"
               style={{
                 float: "right",
                 marginTop: "0px",
