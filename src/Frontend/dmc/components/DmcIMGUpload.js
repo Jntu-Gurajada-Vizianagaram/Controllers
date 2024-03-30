@@ -10,6 +10,8 @@ import Select from "@mui/material/Select";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { styled } from "@mui/material/styles";
 
+import mods from "../../Main/Component/Logins/Login";
+
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
   clipPath: "inset(50%)",
@@ -37,8 +39,8 @@ const Upload = () => {
     title: "",
     file_path: `${file}`,
     description: "",
-    submitted: "",
-    admin_approval: "",
+    submitted: mods.uds.admin,
+    admin_approval: "pending",
     carousel_scrolling: "", 
     gallery_scrolling: ""
     
@@ -67,7 +69,7 @@ const Upload = () => {
     formData.append("gallery_scrolling",eventData.gallery_scrolling)
     
     try {
-      const response = await axios.post(`${api_ip}/api/upload/addimg`,formData)
+      const response = await axios.post(`${api_ip}/api/webadmin/addimg`,formData)
       console.log(response)
       if(response){
         alert("Event added"+response)
@@ -85,7 +87,7 @@ const Upload = () => {
   const getEvents = async () =>{
 
     axios
-    .get(`${api_ip}/api/upload/allimgs`)
+    .get(`${api_ip}/api/webadmin/allimgs`)
     .then((response) => {
       setEvents(response.data);
     })
@@ -101,7 +103,7 @@ const Upload = () => {
       // if(confirm(`Are you sure u want Delete ${event.title}`)==true){
         alert(`Deleting Event ${event.title}`)
         const id =event.id
-        const response = await axios.get(`${api_ip}/api/upload/removeimg/${id}`);
+        const response = await axios.get(`${api_ip}/api/webadmin/removeimg/${id}`);
       // }
       // else{
       //   alert('Event Not Deleted')
@@ -160,15 +162,15 @@ const Upload = () => {
             </Button>
             <br></br>
 
-            <label for="submitted">Submitted By:</label>
+            {/* <label for="submitted">Submitted By:</label>
             <TextField
               label="Name of the person"
               variant="outlined"
               name="submitted"
               value={eventData.submitted}
               onChange={handleInputChange}
-            />
-            
+            /> */}
+{/*             
             <br></br>
 
             <FormControl fullWidth>
@@ -182,7 +184,7 @@ const Upload = () => {
               >
                 <MenuItem value="pending">Pending</MenuItem>
               </Select>
-            </FormControl>
+            </FormControl> */}
             <br></br>
             <FormControl fullWidth>
               <InputLabel id="carousel_scrolling">Carousel Scrolling</InputLabel>
@@ -243,7 +245,7 @@ const Upload = () => {
                     <TableCell>{event.title}</TableCell>
                     <TableCell>{event.update_status}</TableCell>
                     <TableCell>
-                      <a href={`${api_ip}/files/${event.file_path}`}>View File</a>
+                      <a href={event.imglink} target="_blank">View File</a>
                     </TableCell>
                     <TableCell>
                       <Button variant="contained" onClick={() => alert(event.title)}>
