@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../../css/dmc_css/Gallery.css';
+import '../css/Gallery.css';
 import { CG } from './CG'; // Import the array of image objects from CG.js
 
 function Gallery() {

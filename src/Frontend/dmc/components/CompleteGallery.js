@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import '../css/CompleteGallery.css';
 import { CG } from './CG';
 import { MdOutlineArrowBackIos } from "react-icons/md";
-
+import axios from 'axios';
+const ips = require("../../api.json");
+const api_ip = ips.server_ip;
 
 function CompleteGallery() {
-  const images = CG ? [...CG].reverse() : [];
+  // const images = CG ? [...CG].reverse() : [];
+  const [images,setImages] = useState([])
   const [selectedImage, setSelectedImage] = useState(null);
 
   const handleImageClick = (image, description) => {
@@ -17,6 +20,25 @@ function CompleteGallery() {
     setSelectedImage(null);
   };
 
+  const all_images = () =>{
+    try {
+      axios.get(`${api_ip}/api/webadmin/allimages`)
+      .then((response)=>{
+        console.log(response.data)
+        setImages(response.data)
+      })
+      
+    } catch (error) {
+      
+    }
+  }
+
+useEffect(()=>{
+  all_images()
+},[])
+
+
+
   return (
     <div className="complete-gallery-container">
       <h1>Gallery of JNTUGV</h1>
@@ -25,10 +47,10 @@ function CompleteGallery() {
         {images.map((imageObj, index) => (
           <div key={index} className="image-wrapper">
             <img
-              src={imageObj.image}
+              src={imageObj.imglink}
               alt={`JNTUGV ${images.length - index}`}
               className="grid-image"
-              onClick={() => handleImageClick(imageObj.image, imageObj.description)}
+              onClick={() => handleImageClick(imageObj.imglink, imageObj.description)}
             />
           </div>
         ))}

@@ -6,7 +6,7 @@ import Box from '@mui/material/Box';
 
 
 
-const AllRequestControls = () => {
+const AllRecordsControls = () => {
   const [requests,setRequests] =useState([])
   const [loading,setLoading] =useState([])
   const ips = require("../../api.json");
@@ -47,19 +47,17 @@ useEffect(()=>{
 
   return (
     <div>
-       
-        <div className="admin-main">
+      <div className="all-requests">
+        <h1> All Updates and Events will be Shown here</h1>
+      </div>
+      <div className="admin-main">
       <div>
         <a href="/">
          
           <br />
         </a>
-        <div className="all-requests">
-          <h1> All Updates and Events will be Shown here</h1>
-        </div>
         <div>
         <div className="eventsdisplay">
-          <h2>UPDATES</h2>
           {loading ?
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '50vh', fontSize: '2em' }}>
                 <h1>Loading Events ...</h1>
@@ -99,7 +97,7 @@ useEffect(()=>{
                       </Button>
                     </TableCell> */}
                     <TableCell>
-                      <Button variant="contained" color="error" onClick={() => del_notification(request)}>
+                      <Button variant="contained"  color="error" onClick={() => del_notification(request)}>
                         Delete
                       </Button>
                     </TableCell>
@@ -149,4 +147,4 @@ useEffect(()=>{
   )
 }
 
-export default AllRequestControls
+export default AllRecordsControls

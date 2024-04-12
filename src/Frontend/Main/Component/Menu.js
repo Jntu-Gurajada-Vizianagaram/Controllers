@@ -52,6 +52,21 @@ const All_Menu = {
             icon:<FileCopyIcon/>,
         },
         {
+            to:'gallery',
+            text:"WebAdmin Carousel ",
+            icon:<DoorbellIcon/>,
+        },
+        {
+            to:'dmcupload',
+            text:"Add New Photo",
+            icon:<QueueIcon/>,
+        },
+        {
+            to:'carousel',
+            text:"Carousel",
+            icon:<QueueIcon/>,
+        },
+        {
             to:'help',
             text:"Help",
             icon:<DoorbellIcon/>,
@@ -84,6 +99,11 @@ const All_Menu = {
         },
         {
             to:'dmcupload',
+            text:"Add New College",
+            icon:<QueueIcon/>,
+        },
+        {
+            to:'carousel',
             text:"Add New College",
             icon:<QueueIcon/>,
         },
