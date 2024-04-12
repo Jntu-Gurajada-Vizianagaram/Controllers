@@ -6,6 +6,7 @@ import Main from "./Frontend/Main/components/Main"
 import Admin from "./Frontend/admin/components/Admin";
 import Updates from "./Frontend/updates/components/Updates";
 import DMC from "./Frontend/dmc/components/DMC";
+import Gallery from './Frontend/dmc/components/Gallery'
 import DMCUpload from "./Frontend/dmc/components/DmcIMGUpload";
 import CompleteGallery from "./Frontend/dmc/components/CompleteGallery";
 import HODS from "./Frontend/hods/components/HODS";
@@ -21,7 +22,7 @@ import Updatelogin from './Frontend/Main/Component/Logins/Updateslogin';
 import Hodlogin from './Frontend/Main/Component/Logins/Hodlogin';
 import Collegelogin from './Frontend/Main/Component/Logins/Collegeslogin';
 import Admindashboard from './Frontend/Main/Component/AdminDashbord';
-import AllRequestControls from './Frontend/admin/components/AllRequestControl'
+import AllRecordsControls from './Frontend/admin/components/AllRecordsControl'
 import AllCrudControls from "./Frontend/admin/components/AllCrudControl";
 import WebAdminDashboard from './Frontend/Main/Component/WebAdminDashboard';
 import Affliatedcollegesdashboard from './Frontend/Main/Component/AffliatedCollegesdashboard';
@@ -54,7 +55,7 @@ function App() {
             {/* Admin Routes */}
             <Route path='admin-home' element={<Admin />}/>
             <Route path='all-consoles' element={<AllCrudControls />} />
-            <Route path='all-records' element={<AllRequestControls />} />
+            <Route path='all-records' element={<AllRecordsControls />} />
             <Route path='all-stored-files' element={<Allfiles />} />
             <Route path='help' element={<FacultyGrievance />} />
             {/* Affiliated College Routes */}
@@ -63,6 +64,7 @@ function App() {
             {/* Web Admin Routes */}
             <Route path="gallery" element={<CompleteGallery />} />
             <Route exact path="dmcupload" element={<DMCUpload />} />
+            <Route exact path="carousel" element={<Gallery />} />
             {/* Updates Panel Routes */}
             <Route exact path="updates" element={<Updates />} />
             {/* Directors Panel Routes */}

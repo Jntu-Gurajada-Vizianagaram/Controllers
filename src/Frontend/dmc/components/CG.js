@@ -24,6 +24,8 @@ import gal25 from '../media/gallery/gal25.jpg';
 import gal26 from '../media/gallery/gal26.jpg';
 
 
+import axios from 'axios';
+
 export const CG = [
     {
       image: gal2,

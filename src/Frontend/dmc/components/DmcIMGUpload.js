@@ -69,7 +69,7 @@ const Upload = () => {
     formData.append("gallery_scrolling",eventData.gallery_scrolling)
     
     try {
-      const response = await axios.post(`${api_ip}/api/webadmin/addimg`,formData)
+      const response = await axios.post(`${api_ip}/api/webadmin/addimage`,formData)
       console.log(response)
       if(response){
         alert("Event added"+response)
@@ -87,7 +87,7 @@ const Upload = () => {
   const getEvents = async () =>{
 
     axios
-    .get(`${api_ip}/api/webadmin/allimgs`)
+    .get(`${api_ip}/api/webadmin/allimages`)
     .then((response) => {
       setEvents(response.data);
     })
@@ -232,7 +232,7 @@ const Upload = () => {
                   <TableCell>S.NO</TableCell>
                   <TableCell>Notification Date</TableCell>
                   <TableCell>Title</TableCell>
-                  <TableCell>Status</TableCell>
+                  <TableCell>Approval Status</TableCell>
                   <TableCell>View File</TableCell>
                   <TableCell>Action</TableCell>
                 </TableRow>
@@ -243,7 +243,7 @@ const Upload = () => {
                     <TableCell>{event.id}</TableCell>
                     <TableCell>{event.date}</TableCell>
                     <TableCell>{event.title}</TableCell>
-                    <TableCell>{event.update_status}</TableCell>
+                    <TableCell>{event.admin_approval}</TableCell>
                     <TableCell>
                       <a href={event.imglink} target="_blank">View File</a>
                     </TableCell>

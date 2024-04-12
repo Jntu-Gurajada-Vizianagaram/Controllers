@@ -1,11 +1,13 @@
 .admin-main{
     display:flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: start;
+    padding: 10px;
     /* align-items: center; */
-    min-height: 30vh;
+    /* min-height: 20vh; */
     min-width: 70vw;
-    background-color: rgb(203, 210, 206);
+    border-radius: 10px;
+    background-color: rgb(132, 159, 171);
 }
 .all-requests, .updates-requests, .dmc-requests, .news-requests, .dept-requests{
     min-height: 15vh;
