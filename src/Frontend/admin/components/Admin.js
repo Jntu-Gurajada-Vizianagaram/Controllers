@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 
 import UpdatesRequests from './requests/UpdatesRequests';
 import WebAdminRequests from './requests/WebAdminRequests';
+import EventPhotosRequests from './requests/EventPhotosRequests';
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -75,19 +76,14 @@ export default function CustomizedAccordions() {
          <WebAdminRequests/>
         </AccordionDetails>
       </Accordion>
-      {/* <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
+      <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
         <AccordionSummary aria-controls="panel3d-content" id="panel3d-header">
-          <Typography>Collapsible Group Item #3</Typography>
+          <Typography>EVENT PHOTOS REQUESTS</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget. Lorem ipsum dolor
-            sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-            sit amet blandit leo lobortis eget.
-          </Typography>
+          <EventPhotosRequests/>
         </AccordionDetails>
-      </Accordion> */}
+      </Accordion>
     </div>
   );
 }

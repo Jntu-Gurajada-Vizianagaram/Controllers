@@ -24,7 +24,7 @@ import Collegelogin from './Frontend/Main/Component/Logins/Collegeslogin';
 import Admindashboard from './Frontend/Main/Component/AdminDashbord';
 import AllRecordsControls from './Frontend/admin/components/AllRecordsControl'
 import AllCrudControls from "./Frontend/admin/components/AllCrudControl";
-import WebAdminDashboard from './Frontend/Main/Component/WebAdminDashboard';
+import EventPhotosUpload from './Frontend/dmc/components/EventPhotosUpload';
 import Affliatedcollegesdashboard from './Frontend/Main/Component/AffliatedCollegesdashboard';
 import Hoddashboard from './Frontend/Main/Component/Hoddashboard';
 import Updatesdashboard from './Frontend/Main/Component/UpdatesDashboard';
@@ -64,6 +64,7 @@ function App() {
             {/* Web Admin Routes */}
             <Route path="gallery" element={<CompleteGallery />} />
             <Route exact path="dmcupload" element={<DMCUpload />} />
+            <Route exact path="eventphotosupload" element={<EventPhotosUpload />} />
             <Route exact path="carousel" element={<Gallery />} />
             {/* Updates Panel Routes */}
             <Route exact path="updates" element={<Updates />} />

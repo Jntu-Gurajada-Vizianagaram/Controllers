@@ -57,6 +57,11 @@ const All_Menu = {
             icon:<DoorbellIcon/>,
         },
         {
+            to:'eventphotosupload   ',
+            text:"Add Event Photos",
+            icon:<QueueIcon/>,
+        },
+        {
             to:'dmcupload',
             text:"Add New Photo",
             icon:<QueueIcon/>,
