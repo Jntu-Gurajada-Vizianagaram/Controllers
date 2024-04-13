@@ -3,6 +3,8 @@ import { Button, Container, TextField, FormControl, InputLabel, Select, MenuItem
 import axios from 'axios';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import mods from '../../Main/Component/Logins/Login'
+const ips = require("../../api.json");
+const api_ip = ips.server_ip;
 const EventPhotosUpload = () => {
   const [event_details, setEventDetails] = useState({
     event_name: "",
@@ -35,7 +37,7 @@ const EventPhotosUpload = () => {
       formData.append('files', files[i]);
     }
 
-    axios.post('http://localhost:8888/api/webadmin/add-event-photos', formData)
+    axios.post(`${api_ip}/api/webadmin/add-event-photos`, formData)
       .then(response => {
         console.log(response.data);
         // Show success message or handle response accordingly
