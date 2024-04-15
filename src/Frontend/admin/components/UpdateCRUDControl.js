@@ -130,7 +130,7 @@ const Updates = () => {
     <div>
       <div className="updates-main">
       <div>
-        <Button variant="contained" startIcon={<AddIcon />} onClick={() => setShowModal(true)}>Add Admin</Button>
+        <Button variant="contained" startIcon={<AddIcon />} onClick={() => setShowModal(true)}>Add Notification</Button>
       </div>
       <Modal open={showModal} onClose={() => setShowModal(false)}>
         <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', backdropFilter: 'blur(2px)' }}>
