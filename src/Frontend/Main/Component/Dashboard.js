@@ -28,6 +28,7 @@ import { Button } from "@mui/material";
 const drawerWidth = 240;
 
 const menu = mods;
+
 // console.log(menu);
 const default_routes = [
   {
@@ -110,6 +111,9 @@ const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== "open",}
 }));
 
 export default function MiniDrawer() {
+
+
+
 
 
   const theme = useTheme();

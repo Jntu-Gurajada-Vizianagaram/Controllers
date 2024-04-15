@@ -1,33 +1,62 @@
 import DoorbellIcon from '@mui/icons-material/Doorbell';
 import QueueIcon from '@mui/icons-material/Queue';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
+import HomeIcon from '@mui/icons-material/Home';
+import DevicesIcon from '@mui/icons-material/Devices';
+import DescriptionIcon from '@mui/icons-material/Description';
+import StorageIcon from '@mui/icons-material/Storage';
+import SlideshowIcon from '@mui/icons-material/Slideshow';
+import PhotoLibraryIcon from '@mui/icons-material/PhotoLibrary';
+import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
+import ViewCarouselIcon from '@mui/icons-material/ViewCarousel';
+import HelpIcon from '@mui/icons-material/Help';
 
 const All_Menu = {
     Admin:[
         {
             to:'admin-home',
             text:"HOME",
-            icon:<DoorbellIcon/>,
+            icon:<HomeIcon />,
         },
         {
             to:'all-consoles',
             text:"All Consoles",
-            icon:<QueueIcon/>,
+            icon:<DevicesIcon/>,
         },
         {
             to:'all-records',
             text:"All Records",
-            icon:<FileCopyIcon/>,
+            icon:<DescriptionIcon/>,
         },
         {
             to:'all-stored-files',
             text:"All Database Files",
-            icon:<FileCopyIcon/>,
+            icon:<StorageIcon/>,
+        },
+        {
+            to:'gallery',
+            text:"WebAdmin Carousel ",
+            icon:<SlideshowIcon/>,
+        },
+        {
+            to:'eventphotosupload   ',
+            text:"Add Event Photos",
+            icon:<PhotoLibraryIcon/>,
+        },
+        {
+            to:'dmcupload',
+            text:"Add New Photo",
+            icon:<AddPhotoAlternateIcon/>,
+        },
+        {
+            to:'carousel',
+            text:"Carousel",
+            icon:<ViewCarouselIcon/>,
         },
         {
             to:'help',
             text:"Help",
-            icon:<DoorbellIcon/>,
+            icon:<HelpIcon/>,
         },
     ],
     Developer:[

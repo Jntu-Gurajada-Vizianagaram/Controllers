@@ -21,7 +21,7 @@ import Profile from "./Frontend/Main/Component/Profile";
 import Updatelogin from './Frontend/Main/Component/Logins/Updateslogin';
 import Hodlogin from './Frontend/Main/Component/Logins/Hodlogin';
 import Collegelogin from './Frontend/Main/Component/Logins/Collegeslogin';
-import Admindashboard from './Frontend/Main/Component/AdminDashbord';
+import RestricetedPage from './Frontend/Main/Component/RestricetedPage';
 import AllRecordsControls from './Frontend/admin/components/AllRecordsControl'
 import AllCrudControls from "./Frontend/admin/components/AllCrudControl";
 import EventPhotosUpload from './Frontend/dmc/components/EventPhotosUpload';
@@ -49,6 +49,7 @@ function App() {
           <Route exact path="/" element={<FirstPage />}/>
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/profiles" element={<Persons />}/>
+          <Route exact path="/restrictedaccess" element= {<RestricetedPage/>}/>
           <Route exact path="/dashboard/:adminrole/:page" element={<Dashboard />}>
             <Route index element={<DashboardHome/>} />
             <Route exact path="profile" element={<Profile />}/>
