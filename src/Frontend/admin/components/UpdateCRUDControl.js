@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../css/Updates.css"
 import axios from "axios";
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from "@mui/material";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button,  Modal, Typography } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -11,6 +11,8 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { styled } from "@mui/material/styles";
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
+import AddIcon from '@mui/icons-material/Add';
+import CloseIcon from '@mui/icons-material/Close';
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -32,6 +34,7 @@ const Updates = () => {
   const [file, setFile] = useState();
   const [loading, setLoading] = useState();
   const [events, setEvents] = useState([]);
+  const [showModal, setShowModal] = useState(false);
   const [eventData, setEventData] = useState({
     date: (new Date()),
     title: "",
@@ -126,8 +129,25 @@ const Updates = () => {
   return (
     <div>
       <div className="updates-main">
-      <div><h1>Add New notifiaction</h1></div>
-        <div>
+      <div>
+        <Button variant="contained" startIcon={<AddIcon />} onClick={() => setShowModal(true)}>Add Admin</Button>
+      </div>
+      <Modal open={showModal} onClose={() => setShowModal(false)}>
+        <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', backdropFilter: 'blur(2px)' }}>
+          <div style={{ width:  800, backgroundColor: 'rgba(255, 255, 255, 0.5)', borderRadius: 8, boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.2)', padding: 20 }}>
+            <div style={{display:'flex', flexDirection:'row',justifyContent:'space-between', padding:10}}>
+            <Typography variant="h5" gutterBottom>
+              Add New notifiaction
+            </Typography>
+              <Button variant="contained" startIcon={<CloseIcon />} onClick={() => setShowModal(false)}>Close</Button>
+            </div>
+            <div style={{ 
+              backgroundColor: 'rgba(255, 255, 255, 0.5)', 
+              borderRadius: 8, 
+              boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.2)', 
+              padding: 10,
+              overflowY: 'auto', // Add this line to enable vertical scrolling
+              maxHeight: '80vh',}}>
           <form>
             <label for="date">Date:</label>
             <input type="date" id="date" name="date" value={eventData.date} onChange={handleInputChange} required />
@@ -245,6 +265,10 @@ const Updates = () => {
             <br></br>
           </form>
         </div>
+          </div>
+        </div>
+      </Modal>
+        
 
         <div className="eventsdisplay">
           <h2>Events</h2>
@@ -256,6 +280,8 @@ const Updates = () => {
             </Box>
           </div>
           :
+          <div>
+            {events != ""?
             <TableContainer component={Paper}>
             <Table>
               <TableHead>
@@ -293,6 +319,11 @@ const Updates = () => {
               </TableBody>
             </Table>
           </TableContainer>
+          :
+          <div>
+          <h1> No Notifications Added (or) Server is Busy while Loading the Notifications</h1>
+          </div>}
+          </div>
           }
         </div>
       </div>
