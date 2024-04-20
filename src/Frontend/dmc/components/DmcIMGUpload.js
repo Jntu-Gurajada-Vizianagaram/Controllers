@@ -103,7 +103,7 @@ const Upload = () => {
       // if(confirm(`Are you sure u want Delete ${event.title}`)==true){
         alert(`Deleting Event ${event.title}`)
         const id =event.id
-        const response = await axios.get(`${api_ip}/api/webadmin/removeimg/${id}`);
+        const response = await axios.get(`${api_ip}/api/webadmin/removeimage/${id}`);
       // }
       // else{
       //   alert('Event Not Deleted')

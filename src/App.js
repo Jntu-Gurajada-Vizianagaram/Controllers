@@ -6,7 +6,7 @@ import Main from "./Frontend/Main/components/Main"
 import Admin from "./Frontend/admin/components/Admin";
 import Updates from "./Frontend/updates/components/Updates";
 import DMC from "./Frontend/dmc/components/DMC";
-import Gallery from './Frontend/dmc/components/Gallery'
+import CarouselDisplay from './Frontend/dmc/components/CarouselDisplay'
 import DMCUpload from "./Frontend/dmc/components/DmcIMGUpload";
 import CompleteGallery from "./Frontend/dmc/components/CompleteGallery";
 import HODS from "./Frontend/hods/components/HODS";
@@ -66,7 +66,7 @@ function App() {
             <Route path="gallery" element={<CompleteGallery />} />
             <Route exact path="dmcupload" element={<DMCUpload />} />
             <Route exact path="eventphotosupload" element={<EventPhotosUpload />} />
-            <Route exact path="carousel" element={<Gallery />} />
+            <Route exact path="carousel" element={<CarouselDisplay />} />
             {/* Updates Panel Routes */}
             <Route exact path="updates" element={<Updates />} />
             {/* Directors Panel Routes */}
