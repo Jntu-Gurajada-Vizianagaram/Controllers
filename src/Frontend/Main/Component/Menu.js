@@ -63,47 +63,47 @@ const All_Menu = {
         {
             to:'admin-home',
             text:"HOME",
-            icon:<DoorbellIcon/>,
+            icon:<HomeIcon />,
         },
         {
             to:'all-consoles',
             text:"All Consoles",
-            icon:<QueueIcon/>,
+            icon:<DevicesIcon/>,
         },
         {
             to:'all-records',
             text:"All Records",
-            icon:<FileCopyIcon/>,
+            icon:<DescriptionIcon/>,
         },
         {
             to:'all-stored-files',
             text:"All Database Files",
-            icon:<FileCopyIcon/>,
+            icon:<StorageIcon/>,
         },
         {
             to:'gallery',
             text:"WebAdmin Carousel ",
-            icon:<DoorbellIcon/>,
+            icon:<SlideshowIcon/>,
         },
         {
             to:'eventphotosupload   ',
             text:"Add Event Photos",
-            icon:<QueueIcon/>,
+            icon:<PhotoLibraryIcon/>,
         },
         {
             to:'dmcupload',
             text:"Add New Photo",
-            icon:<QueueIcon/>,
+            icon:<AddPhotoAlternateIcon/>,
         },
         {
             to:'carousel',
             text:"Carousel",
-            icon:<QueueIcon/>,
+            icon:<ViewCarouselIcon/>,
         },
         {
             to:'help',
             text:"Help",
-            icon:<DoorbellIcon/>,
+            icon:<HelpIcon/>,
         },
     ],
 
@@ -122,7 +122,7 @@ const All_Menu = {
         {
             to:'help',
             text:"Help",
-            icon:<DoorbellIcon/>,
+            icon:<HelpIcon/>,
         },
     ],
     WebAdmin:[
@@ -145,7 +145,7 @@ const All_Menu = {
         {
             to:'help',
             text:"Help",
-            icon:<DoorbellIcon/>,
+            icon:<HelpIcon/>,
         },
     ],
     Updates:[
@@ -163,7 +163,7 @@ const All_Menu = {
         {
             to:'help',
             text:"Help",
-            icon:<DoorbellIcon/>,
+            icon:<HelpIcon/>,
         },
     ],
 }

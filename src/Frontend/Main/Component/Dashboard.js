@@ -112,6 +112,9 @@ const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== "open",}
 
 export default function MiniDrawer() {
 
+  if(!menu.uds){
+    window.location.href = '/login'
+  }
 
 
 
