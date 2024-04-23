@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../css/Login.css";
 import { MdLogin } from "react-icons/md";
 import { RiAdminFill, RiLockPasswordFill } from "react-icons/ri";
+import APIs from '../../Main/apis_data/APIs'
 import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
@@ -10,7 +11,6 @@ import { Typography } from "@mui/material";
 import { Link, Link as RouterLink } from "react-router-dom";
 import library from "../media/jntu library.jpg";
 import axios from "axios";
-const ips =require('../../api.json')
 
 const Login = () => {
   const login_details = JSON.parse(localStorage.getItem("accesser"))
@@ -21,11 +21,9 @@ const Login = () => {
   message: "",
   type:"warning",
 })
-const api_ip = ips.server_ip
-
 const login_handle = async () => {
   try {
-    const response = await axios.post(`${api_ip}/api/admins/login`,
+    const response = await axios.post(`${APIs.admin_apis.login}`,
     { credentials:{username, password} });
     if(username == "" || password == ""){
         setAlert({

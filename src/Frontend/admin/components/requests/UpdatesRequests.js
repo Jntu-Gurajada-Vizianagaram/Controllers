@@ -2,18 +2,15 @@ import React, { useEffect, useState } from 'react'
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from "@mui/material";
 import axios from 'axios';
 import "../../css/Admin.css";
-
+import api from '../../../Main/apis_data/APIs'
 
 
 const UpdatesRequests = () => {
   const [requests,setRequests] =useState([])
-  const ips = require("../../../api.json");
-  const api_ip = ips.server_ip;
-  
   
   const get_requests = async () =>{
     axios
-    .get(`${api_ip}/api/updates/update-requests`)
+    .get(`${api.updates_requests.notification_reqs}`)
     .then((response) => {
       setRequests(response.data);
     })
@@ -23,7 +20,7 @@ const UpdatesRequests = () => {
   } 
 
   const request_accept = (request)=>{
-    axios.get(`${api_ip}/api/updates/update-accept-request/${request.id}`)
+    axios.get(`${api.updates_requests.notification_accept}/${request.id}`)
       .then((response)=>{
         alert(response.data.message)
         get_requests()
@@ -34,7 +31,7 @@ const UpdatesRequests = () => {
       
     }
   const request_deny = (request)=>{
-    axios.get(`${api_ip}/api/updates/update-deny-request/${request.id}`)
+    axios.get(`${api.updates_requests.notification_deny}/${request.id}`)
       .then((response)=>{
         alert(response.data.message)
         get_requests()

@@ -2,18 +2,16 @@ import React, { useEffect, useState } from 'react'
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from "@mui/material";
 import axios from 'axios';
 import "../../css/Admin.css";
-
+import api from '../../../Main/apis_data/APIs'
 
 
 const WebAdminRequests = () => {
   const [requests,setRequests] =useState([])
-  const ips = require("../../../api.json");
-  const api_ip = ips.server_ip;
   
   
   const get_requests = async () =>{
     axios
-    .get(`${api_ip}/api/webadmin/webadmin-requests`)
+    .get(`${api.webadmin_requests.webadmin_requests}`)
     .then((response) => {
       setRequests(response.data);
     })
@@ -23,7 +21,7 @@ const WebAdminRequests = () => {
   } 
 
   const request_accept = (request)=>{
-    axios.get(`${api_ip}/api/webadmin/webadmin-accept-request/${request.id}`)
+    axios.get(`${api.webadmin_requests.webadmin_request_accept}/${request.id}`)
       .then((response)=>{
         alert(response.data.message)
         get_requests()
@@ -34,7 +32,7 @@ const WebAdminRequests = () => {
       
     }
   const request_deny = (request)=>{
-    axios.get(`${api_ip}/api/webadmin/webadmin-deny-request/${request.id}`)
+    axios.get(`${api.webadmin_requests.webadmin_request_deny}/${request.id}`)
       .then((response)=>{
         alert(response.data.message)
         get_requests()

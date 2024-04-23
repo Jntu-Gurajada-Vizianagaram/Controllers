@@ -3,20 +3,17 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 import axios from 'axios';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
-
+import api from '../../Main/apis_data/APIs'
 
 
 const AllRecordsControls = () => {
   const [requests,setRequests] =useState([])
   const [loading,setLoading] =useState([])
-  const ips = require("../../api.json");
-  const api_ip = ips.server_ip;
-
 
   const get_update_events = async () =>{
     setLoading(true)
     axios
-    .get(`${api_ip}/api/updates/every-events`)
+    .get(`${api.updates_apis.every_event}`)
     .then((response) => {
       setRequests(response.data);
       setLoading(false)
@@ -30,7 +27,7 @@ const AllRecordsControls = () => {
   //   alert(request.title)
   // }
   const del_notification =(request)=>{
-    axios.get(`${api_ip}/api/updates/remove-event/${request.id}`)
+    axios.get(`${api.updates_apis.remove_event}/${request.id}`)
     .then((response)=>{
       alert(response.data.message)
       get_update_events()

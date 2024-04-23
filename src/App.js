@@ -18,15 +18,10 @@ import Results from "./Frontend/results/components/Results";
 import FirstPage  from './Frontend/Main/Component/firstpage';
 import Persons from './Frontend/Main/Component/Persons';
 import Profile from "./Frontend/Main/Component/Profile";
-import Updatelogin from './Frontend/Main/Component/Logins/Updateslogin';
-import Hodlogin from './Frontend/Main/Component/Logins/Hodlogin';
-import Collegelogin from './Frontend/Main/Component/Logins/Collegeslogin';
 import RestricetedPage from './Frontend/Main/Component/RestricetedPage';
 import AllRecordsControls from './Frontend/admin/components/AllRecordsControl'
 import AllCrudControls from "./Frontend/admin/components/AllCrudControl";
 import EventPhotosUpload from './Frontend/dmc/components/EventPhotosUpload';
-import Affliatedcollegesdashboard from './Frontend/Main/Component/AffliatedCollegesdashboard';
-import Hoddashboard from './Frontend/Main/Component/Hoddashboard';
 import Updatesdashboard from './Frontend/Main/Component/UpdatesDashboard';
 import Dashboard from "./Frontend/Main/Component/Dashboard";
 import DashboardHome from "./Frontend/Main/Component/DashboardHome";
@@ -110,6 +105,7 @@ function App() {
         {/* <Route exact path="/add-new-affliated-college" element={<AddCollege/>} /> */}
         {/* <Route exact path="/grievances" element={<FacultyGrievance />} /> */}
         <Route exact path="/passwordreset" element={<ForgotPassword />} />
+        <Route exact path="/*" element={<RestricetedPage />} />
       </Routes>
     </BrowserRouter>
     </div >

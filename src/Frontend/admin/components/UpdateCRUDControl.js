@@ -13,6 +13,8 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
+import api from '../../Main/apis_data/APIs'
+
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -25,9 +27,6 @@ const VisuallyHiddenInput = styled("input")({
   whiteSpace: "nowrap",
   width: 1,
 });
-
-const ips = require("../../api.json");
-const api_ip = ips.server_ip;
 
 const Updates = () => {
 
@@ -74,7 +73,7 @@ const Updates = () => {
     formData.append("admin_approval",eventData.admin_approval)
     formData.append('file',file)
     try {
-      const response = await axios.post(`${api_ip}/api/updates/add-event`,formData)
+      const response = await axios.post(`${api.updates_apis.add_event}`,formData)
       console.log(response)
       if(response){
         alert("Event added"+response)
@@ -92,7 +91,7 @@ const Updates = () => {
   const getEvents = async () =>{
     setLoading(true)
     axios
-    .get(`${api_ip}/api/updates/all-admin-events`)
+    .get(`${api.updates_apis.all_admin_event}`)
     .then((response) => {
       setEvents(response.data);
     })
@@ -109,7 +108,7 @@ const Updates = () => {
       // if(confirm(`Are you sure u want Delete ${event.title}`)==true){
         alert(`Deleting Event ${event.title}`)
         const id =event.id
-        const response = await axios.get(`${api_ip}/api/updates/remove-event/${id}`);
+        const response = await axios.get(`${api.updates_apis.remove_event}/${id}`);
       // }
       // else{
       //   alert('Event Not Deleted')
