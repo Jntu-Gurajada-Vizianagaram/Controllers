@@ -12,7 +12,7 @@ import { Card, Modal, Typography, TextField, Grid, Box } from '@mui/material';
 import { RiAdminFill, RiLockPasswordFill } from "react-icons/ri";
 import { GiCharacter } from "react-icons/gi";
 import AddIcon from '@mui/icons-material/Add';
-
+import api from '../../Main/apis_data/APIs'
 const AdminsCRUDControl = () => {
   const [allAdmins, setAllAdmins] = useState([]);
   const [name, setName] = useState("");
@@ -20,12 +20,10 @@ const AdminsCRUDControl = () => {
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
   const [showModal, setShowModal] = useState(false);
-  const ips = require('../../api.json');
-  const api_ip = ips.server_ip;
 
   const admins = async () => {
     try {
-      const response = await axios.get(`${api_ip}/api/admins/getadmins`);
+      const response = await axios.get(`${api.admin_apis.all_admins}`);
       if (response.data) {
         setAllAdmins(response.data);
       } else {
@@ -38,7 +36,7 @@ const AdminsCRUDControl = () => {
 
   const adding_handle = async () => {
     try {
-      const response = await axios.post(`${api_ip}/api/admins/add-hod`, {
+      const response = await axios.post(`${api.admin_apis.add_hod}`, {
         data: { name, username, password, role }
       });
       if (response.data.Success) {
@@ -57,7 +55,7 @@ const AdminsCRUDControl = () => {
   const remove_hod = async (admin) => {
     try {
       alert("Removing Admin: " + admin.id);
-      const response = await axios.get(`${api_ip}/api/admins/remove-hod/${admin.id}`);
+      const response = await axios.get(`${api.admin_apis.remove_hod}/${admin.id}`);
       if (response.data.Success) {
         alert("Admin Removed Successfully");
         admins();

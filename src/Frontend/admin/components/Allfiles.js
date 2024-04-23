@@ -5,21 +5,17 @@ import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
-
+import api from '../../Main/apis_data/APIs'
 
 
 const Allfiles = () => {
     const [allfiles, setAllfiles] = useState([]);
     const [loading, setLoading] = useState(null);
-    
-    const ips = require("../../api.json");
-    const api_ip = ips.server_ip;
-
 
     const fetchFiles = async () => {
         try {
             setLoading(true)
-            const response = await axios.get(`${api_ip}/api/admins/allstoredfiles`);
+            const response = await axios.get(`${api.admin_apis.all_stored_files}`);
             if(response){
                 setLoading(false)
             }

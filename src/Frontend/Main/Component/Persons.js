@@ -1,18 +1,18 @@
-import React from "react";
-import Card from '@mui/material/Card';
-import ImageList from '@mui/material/ImageList';
+import React, { useEffect } from "react";
 import { Box, Button, Typography } from "@mui/material";
 import { Link, Link as RouterLink } from "react-router-dom";
 import jntugvlogo from '../media/jntugv.png'
 import "../css/person.css"
+import apis from './../apis_data/APIs'
 import Roleaccess from '../Component/Roles'
 import mods from "./Logins/Login";
 const Persons = () =>{
   const admin_details =mods.uds
+
+
   if(!(mods.uds)){
     window.location.href='/'
   }
-  
     return(
         <div>
             <div style={{textAlign:"center",paddingLeft:"15%",paddingRight:"15%"}}>
