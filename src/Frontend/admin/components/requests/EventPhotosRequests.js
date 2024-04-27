@@ -11,7 +11,7 @@ const EventPhotosRequests = () => {
   
   const get_requests = async () =>{
     axios
-    .get(`${api.webadmin_requests.webadmin_requests}`)
+    .get(`${api.webadmin_requests.webadmin_event_requests}`)
     .then((response) => {
       setRequests(response.data);
     })
