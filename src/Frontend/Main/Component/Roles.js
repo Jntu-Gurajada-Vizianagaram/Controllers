@@ -12,48 +12,86 @@ import mods from './Logins/Login';
 
 // roles and their access//
 var adminrole = null
-if (mods.uds){
-    adminrole=mods.uds.role
+if (mods.uds) {
+    adminrole = mods.uds.role
 }
 const RoleAccess = {
-    Admin:[
+    Admin: [
         {
-            to:`/dashboard/${adminrole}/admindashboard`,
-            page:`admindashboard`,
-            icon: <AdminPanelSettingsIcon/>,
-            role:"ADMIN",
+            to: `/dashboard/${adminrole}/admindashboard`,
+            page: `admindashboard`,
+            icon: <AdminPanelSettingsIcon />,
+            role: "ADMIN",
             img: AdminImage
         },
         {
-            to:`/dashboard/${adminrole}/webadmindashboard`,
-            page:`webadmindashboard`,
-            icon: <AdminPanelSettingsIcon/>,
-            role:`WEB ADMIN`,
+            to: `/dashboard/${adminrole}/webadmindashboard`,
+            page: `webadmindashboard`,
+            icon: <AdminPanelSettingsIcon />,
+            role: `WEB ADMIN`,
             img: WebAdminimg
         },
         {
-            to:`/dashboard/${adminrole}/directorsdashboard`,
-            page:`directorsdashboard`,
-            icon: <AdminPanelSettingsIcon/>,
-            role:`DIRECTORS`,
+            to: `/dashboard/${adminrole}/directorsdashboard`,
+            page: `directorsdashboard`,
+            icon: <AdminPanelSettingsIcon />,
+            role: `DIRECTORS`,
             img: HODimg
         },
         {
-            to:`/dashboard/${adminrole}/collegesdashboard`,
-            page:`collegesdashboard`,
-            icon: <AdminPanelSettingsIcon/>,
-            role:` COLLEGES`,
+            to: `/dashboard/${adminrole}/collegesdashboard`,
+            page: `collegesdashboard`,
+            icon: <AdminPanelSettingsIcon />,
+            role: ` COLLEGES`,
             img: AffliatedCollegesimg
         },
         {
-            to:`/dashboard/${adminrole}/updatesdashboard`,
-            page:`updatesdashboard`,
-            icon: <AdminPanelSettingsIcon/>,
-            role:`UPDATES`,
+            to: `/dashboard/${adminrole}/updatesdashboard`,
+            page: `updatesdashboard`,
+            icon: <AdminPanelSettingsIcon />,
+            role: `UPDATES`,
             img: Updatesimg
         },
 
     ],
+    Controller: [
+        {
+            to: `/dashboard/${adminrole}/admindashboard`,
+            page: `admindashboard`,
+            icon: <AdminPanelSettingsIcon />,
+            role: "ADMIN",
+            img: AdminImage
+        },
+        {
+            to: `/dashboard/${adminrole}/webadmindashboard`,
+            page: `webadmindashboard`,
+            icon: <AdminPanelSettingsIcon />,
+            role: `WEB ADMIN`,
+            img: WebAdminimg
+        },
+        {
+            to: `/dashboard/${adminrole}/directorsdashboard`,
+            page: `directorsdashboard`,
+            icon: <AdminPanelSettingsIcon />,
+            role: `DIRECTORS`,
+            img: HODimg
+        },
+        {
+            to: `/dashboard/${adminrole}/collegesdashboard`,
+            page: `collegesdashboard`,
+            icon: <AdminPanelSettingsIcon />,
+            role: ` COLLEGES`,
+            img: AffliatedCollegesimg
+        },
+        {
+            to: `/dashboard/${adminrole}/updatesdashboard`,
+            page: `updatesdashboard`,
+            icon: <AdminPanelSettingsIcon />,
+            role: `UPDATES`,
+            img: Updatesimg
+        },
+    ],
+
     Developer: [
         {
             to: `/dashboard/${adminrole}/admindashboard`,
@@ -107,7 +145,7 @@ const RoleAccess = {
             img: Updatesimg
         },
     ],
-   
+
     AffliatedColleges: [
         {
             to: `/dashboard/${adminrole}/affliatedcollegesdashboard`,

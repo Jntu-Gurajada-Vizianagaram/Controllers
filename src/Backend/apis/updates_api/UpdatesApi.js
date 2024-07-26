@@ -4,6 +4,7 @@ const connection = require('../config')
 require('dotenv').config()
 // const api_ip = process.env.domainip
 const api_ip = 'https://api.jntugv.edu.in'
+//const api_ip ='http://localhost:8888'
 
 const storage = multer.diskStorage({
   destination: (req, file, cb )=>{
