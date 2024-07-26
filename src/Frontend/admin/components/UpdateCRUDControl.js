@@ -6,24 +6,24 @@ import {
   Button,
   Checkbox,
   CircularProgress,
+  FormControl,
   FormControlLabel,
   FormGroup,
+  InputLabel,
+  MenuItem,
   Modal,
   Paper,
+  Select,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
+  TextField,
   Typography,
 } from "@mui/material";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
 import { styled } from "@mui/material/styles";
-import TextField from "@mui/material/TextField";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import api from '../../Main/apis_data/APIs';
@@ -62,10 +62,10 @@ const Updates = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setEventData({
-      ...eventData,
+    setEventData((prevState) => ({
+      ...prevState,
       [name]: value,
-    });
+    }));
   };
 
   const handleCheckboxChange = (e) => {
@@ -103,9 +103,8 @@ const Updates = () => {
 
     try {
       const response = await axios.post(`${api.updates_apis.add_event}`, formData);
-      console.log(response);
       if (response) {
-        alert("Event added" + response);
+        alert("Event added successfully");
       } else {
         console.log("Event Not Added");
       }
@@ -117,23 +116,20 @@ const Updates = () => {
 
   const getEvents = async () => {
     setLoading(true);
-    axios
-      .get(`${api.updates_apis.all_admin_event}`)
-      .then((response) => {
-        setEvents(response.data);
-      })
-      .then(() => setLoading(false))
-      .catch((error) => {
-        console.error(error);
-      });
+    try {
+      const response = await axios.get(`${api.updates_apis.all_admin_event}`);
+      setEvents(response.data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const deleteEvent = async (event) => {
     try {
-      console.log(event);
-      alert(`Deleting Event ${event.title}`);
       const id = event.id;
-      const response = await axios.get(`${api.updates_apis.remove_event}/${id}`);
+      await axios.get(`${api.updates_apis.remove_event}/${id}`);
       getEvents();
     } catch (error) {
       console.log(error);
@@ -204,7 +200,7 @@ const Updates = () => {
                   borderRadius: 8,
                   boxShadow: "0px 0px 20px rgba(0, 0, 0, 0.2)",
                   padding: 10,
-                  overflowY: "auto", // Add this line to enable vertical scrolling
+                  overflowY: "auto",
                   maxHeight: "80vh",
                 }}
               >
@@ -228,27 +224,24 @@ const Updates = () => {
                     onChange={handleInputChange}
                   />
                   <br />
-                  <label htmlFor="file-path">Path/Upload File:</label>
+                  <label htmlFor="file">Path/Upload File:</label>
                   <Button
                     component="label"
                     variant="contained"
                     startIcon={<CloudUploadIcon />}
                   >
-                    {file != null ? file.name + " Uploaded" : "UPLOAD FILE"}
+                    {file ? file.name + " Uploaded" : "UPLOAD FILE"}
                     <VisuallyHiddenInput
                       type="file"
                       name="file"
-                      onChange={(e) => {
-                        setFile(e.target.files[0]);
-                      }}
-                      required
+                      onChange={(e) => setFile(e.target.files[0])}
                     />
                   </Button>
                   <br />
-                  <label htmlFor="title">
+                  <label htmlFor="external_text">
                     External Text:
                     <br />
-                    (Ex.Click here, Register Now,Read more)
+                    (Ex. Click here, Register Now, Read more)
                   </label>
                   <TextField
                     label="External Text For Link"
@@ -258,10 +251,10 @@ const Updates = () => {
                     onChange={handleInputChange}
                   />
                   <br />
-                  <label htmlFor="title">
+                  <label htmlFor="external_link">
                     External Link:
                     <br />
-                    Note: full link (http://** or https://** )
+                    Note: full link (http://** or https://**)
                   </label>
                   <TextField
                     label="External Link"
@@ -389,7 +382,11 @@ const Updates = () => {
                     </Select>
                   </FormControl>
                   <br />
-                  <Button component="label" variant="contained" onClick={addEvent}>
+                  <Button
+                    component="label"
+                    variant="contained"
+                    onClick={addEvent}
+                  >
                     Submit
                   </Button>
                   <br />
@@ -419,11 +416,11 @@ const Updates = () => {
             </div>
           ) : (
             <div>
-              {events != "" ? (
+              {events.length > 0 ? (
                 <TableContainer component={Paper}>
                   <Table>
                     <TableHead>
-                      <TableRow key={"Table Attributes"}>
+                      <TableRow>
                         <TableCell>S.NO</TableCell>
                         <TableCell>Notification Date</TableCell>
                         <TableCell>Title</TableCell>
@@ -440,7 +437,7 @@ const Updates = () => {
                           <TableCell>{event.title}</TableCell>
                           <TableCell>{event.update_status}</TableCell>
                           <TableCell>
-                            <a href={event.file_link} target="_blank">
+                            <a href={event.file_link} target="_blank" rel="noopener noreferrer">
                               View File
                             </a>
                           </TableCell>
@@ -465,11 +462,7 @@ const Updates = () => {
                 </TableContainer>
               ) : (
                 <div>
-                  <h1>
-                    {" "}
-                    No Notifications Added (or) Server is Busy while Loading the
-                    Notifications
-                  </h1>
+                  <h1>No Notifications Added (or) Server is Busy while Loading the Notifications</h1>
                 </div>
               )}
             </div>
