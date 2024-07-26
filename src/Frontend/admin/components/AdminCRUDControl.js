@@ -8,6 +8,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 import { Card, Modal, Typography, TextField, Grid, Box } from '@mui/material';
 import { RiAdminFill, RiLockPasswordFill } from "react-icons/ri";
 import { GiCharacter } from "react-icons/gi";
@@ -115,7 +117,13 @@ const AdminsCRUDControl = () => {
       </div>}
       <Modal open={showModal} onClose={() => setShowModal(false)}>
         <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', backdropFilter: 'blur(2px)' }}>
-          <div style={{ width: 400, backgroundColor: 'rgba(255, 255, 255, 0.8)', borderRadius: 8, boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.2)', padding: 20 }}>
+          <div style={{ width: 400, backgroundColor: 'rgba(255, 255, 255, 0.8)', borderRadius: 8, boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.2)', padding: 20, position: 'relative' }}>
+            <IconButton
+              style={{ position: 'absolute', top: 10, right: 10 }}
+              onClick={() => setShowModal(false)}
+            >
+              <CloseIcon />
+            </IconButton>
             <Typography variant="h5" gutterBottom>
               Add Admin
             </Typography>
@@ -145,6 +153,7 @@ const AdminsCRUDControl = () => {
 }
 
 export default AdminsCRUDControl;
+
 
 
 
@@ -183,3 +192,4 @@ export default AdminsCRUDControl;
 // }
 
 // export default AdminsControl
+

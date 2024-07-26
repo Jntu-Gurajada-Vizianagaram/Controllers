@@ -38,7 +38,7 @@ const Updates = () => {
   const [eventData, setEventData] = useState({
     date: new Date().toISOString().split('T')[0],
     title: "",
-    file_path: "",
+    file_path: `${file}`,
     external_link: "",
     external_text: "",
     main_page: "",

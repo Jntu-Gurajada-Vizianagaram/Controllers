@@ -5,7 +5,6 @@ desc admins;
 -- drop table admins;-- 
 insert into admins values(0,'Dannana Sai Ajith Kumar','dsak.official@gmail.com','1437890','developer');
 insert into admins values(0,'Main Admin','admin','pwd@admin','controller');
-insert into admins values(0,'Anil Sinnthu','anilsinthu','Anil@JNTUGV','developer');
 select * from admins;
 select name from admins where username='admin' and password='pwd@admin' and role='controller';
 select name from admins where username='dsak.official@gmail.com' and password='1437890' and role='developer';
