@@ -6,26 +6,26 @@ require('dotenv').config()
 const api_ip = 'https://api.jntugv.edu.in'
 
 const storage = multer.diskStorage({
-  destination: (req, file, cb )=>{
-    return cb(null,'./storage/notifications/')
+  destination: (req, file, cb) => {
+    return cb(null, './storage/notifications/')
   },
-  filename: (req, file, cb)=>{
-    return cb(null,`${file.originalname}`)
+  filename: (req, file, cb) => {
+    return cb(null, `${file.originalname}`)
   }
 })
 
-exports.Upload = multer({storage}).single('file')
+exports.Upload = multer({ storage }).single('file')
 
-exports.insert_event =  (req, res) => {
+exports.insert_event = (req, res) => {
 
-  const  update  = req.body;
-  const  file  = req.file;
+  const update = req.body;
+  const file = req.file;
   console.log(update)
-  console.log("File"+file.originalname)
+  console.log("File" + file.originalname)
   const int = 0;
   const sql = 'INSERT INTO notification_updates (id, date, title,  file_path, external_text, external_link, main_page, scrolling, update_type, update_status, submitted_by, admin_approval) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?)';
-  const values = [int, update.date, update.title,  file.originalname, update.external_txt, update.external_lnk, update.main_page, update.scrolling, update.update_type, update.update_status, update.submitted_by, update.admin_approval];
-  console.log({values})
+  const values = [int, update.date, update.title, file.originalname, update.external_txt, update.external_lnk, update.main_page, update.scrolling, update.update_type, update.update_status, update.submitted_by, update.admin_approval];
+  console.log({ values })
   connection.query(sql, values, (err, result) => {
     if (err) {
       console.error('Error inserting data:', err);
@@ -37,34 +37,34 @@ exports.insert_event =  (req, res) => {
   });
 };
 
-exports.delete_event=(req, res) => {
+exports.delete_event = (req, res) => {
   // const filepath = './storage/notifications/'
   const id = req.params.id;
   const sel = `SELECT * FROM notification_updates WHERE id = ${id}`;
   const del = `DELETE FROM notification_updates WHERE id = ${id}`;
-  
+
   connection.query(sel, (err, result) => {
     if (err) {
       console.error('Error deleting data:', err);
       res.status(500).json({ error: 'Error deleting data' });
       return;
     }
-    
+
     const filepath = `./storage/notifications/${result[0].file_path}`
-    
-    connection.query(del, (err,result)=>{
-      if(err){
+
+    connection.query(del, (err, result) => {
+      if (err) {
         console.log(err);
         res.status(500).json({ error: 'No Records Found!' });
         return;
-      }else{
+      } else {
         fs.access(filepath, fs.constants.F_OK, (err) => {
-          if(err) {
+          if (err) {
             res.json(err)
             console.error('File does not exist');
             return;
           }
-          
+
           // If the file exists, remove it
           fs.unlink(filepath, (err) => {
             if (err) {
@@ -78,18 +78,18 @@ exports.delete_event=(req, res) => {
     });
 
     console.log('Data deleted successfully');
-    res.json({ message: 'Data deleted successfully'});
+    res.json({ message: 'Data deleted successfully' });
   });
-  
-  
+
+
 };
 
-exports.update_event= (req, res) => {
+exports.update_event = (req, res) => {
   const updateId = req.params.id;
   const { update } = req.body;
 
   const sql = 'UPDATE notification_updates SET date=?, title=?,  fil_path=?, main_Page=?, scrolling=? update_type=? update_status=? WHERE id=?';
-  const values = [update.date, update.title,  update.filepath, update.mainpage, update.scrolling, update.type,update.status, updateId];
+  const values = [update.date, update.title, update.filepath, update.mainpage, update.scrolling, update.type, update.status, updateId];
 
   connection.query(sql, values, (err, result) => {
     if (err) {
@@ -103,68 +103,69 @@ exports.update_event= (req, res) => {
 };
 
 
-exports.update_request_accept = (req, res) =>{
+exports.update_request_accept = (req, res) => {
   const update = req.params.id;
   console.log(update)
   const sql = `select * from notification_updates WHERE id =${update}`
-  connection.query(sql ,(err,result)=>{
-    if(err){
+  connection.query(sql, (err, result) => {
+    if (err) {
       console.log(err)
-      res.status(500).json({error:`error in accepting update ${err}`});
+      res.status(500).json({ error: `error in accepting update ${err}` });
     }
-    if(result.length > 0){
+    if (result.length > 0) {
       console.log(result)
-      connection.query(`UPDATE notification_updates set admin_approval='accepted' WHERE id=${update}`,(uperr,upres)=>{
-        if(uperr){
-          res.status(500).json({error:`error in accepting update ${err}`})
+      connection.query(`UPDATE notification_updates set admin_approval='accepted' WHERE id=${update}`, (uperr, upres) => {
+        if (uperr) {
+          res.status(500).json({ error: `error in accepting update ${err}` })
         }
-        res.json({message:"Update Accepted Sueccfully"})
+        res.json({ message: "Update Accepted Sueccfully" })
       })
 
     }
-    else{
+    else {
       console.log("edho eroor")
     }
   })
 }
-exports.update_request_deny = (req, res) =>{
+exports.update_request_deny = (req, res) => {
   const update = req.params.id;
   const sql = `select * from notification_updates WHERE id =${update}`
-  connection.query(sql ,(err,result)=>{
-    if(err){
-      res.status(500).json({error:`error in accepting update ${err}`})
+  connection.query(sql, (err, result) => {
+    if (err) {
+      res.status(500).json({ error: `error in accepting update ${err}` })
     }
-    else if(result.length > 0){
-      connection.query(`UPDATE notification_updates set admin_approval='denied' WHERE id=${update}`,(uperr,upres)=>{
-        if(uperr){
-          res.status(500).json({error:`error in accepting update ${err}`})
+    else if (result.length > 0) {
+      connection.query(`UPDATE notification_updates set admin_approval='denied' WHERE id=${update}`, (uperr, upres) => {
+        if (uperr) {
+          res.status(500).json({ error: `error in accepting update ${err}` })
         }
-        res.json({message:"Update denied Sueccfully"})
+        res.json({ message: "Update denied Sueccfully" })
       })
 
     }
   })
 }
 
+
 // Api for Admins
 //
-exports.every_events=(req, res) => {
+exports.every_events = (req, res) => {
   const sql = "SELECT * FROM notification_updates ORDER BY id DESC";
 
   connection.query(sql, (err, results) => {
     if (err) {
       console.error('Error retrieving data:', err);
-      res.status(500).json({ error: `Error retrieving data${err} `});
+      res.status(500).json({ error: `Error retrieving data${err} ` });
       return;
     }
-    const final_events = results.map(eve=>{
-      const filelink =`${api_ip}/media/${eve.file_path}`
-      const outdate=new Date(eve.date)
+    const final_events = results.map(eve => {
+      const filelink = `${api_ip}/media/${eve.file_path}`
+      const outdate = new Date(eve.date)
 
       return {
         ...eve,
-        file_link:filelink,
-        day:outdate.getDate(),
+        file_link: filelink,
+        day: outdate.getDate(),
         month: outdate.toLocaleString('en-US', { month: 'short' }),
         year: outdate.getFullYear(),
       }
@@ -177,23 +178,23 @@ exports.every_events=(req, res) => {
   });
 };
 
-exports.all_admin_events=(req, res) => {
+exports.all_admin_events = (req, res) => {
   const sql = "SELECT * FROM notification_updates WHERE submitted_by='admin' ORDER BY id DESC";
 
   connection.query(sql, (err, results) => {
     if (err) {
       console.error('Error retrieving data:', err);
-      res.status(500).json({ error: `Error retrieving data${err} `});
+      res.status(500).json({ error: `Error retrieving data${err} ` });
       return;
     }
-    const final_events = results.map(eve=>{
-      const filelink =`${api_ip}/media/${eve.file_path}`
-      const outdate=new Date(eve.date)
+    const final_events = results.map(eve => {
+      const filelink = `${api_ip}/media/${eve.file_path}`
+      const outdate = new Date(eve.date)
 
-      return{
+      return {
         ...eve,
-        file_link:filelink,
-        day:outdate.getDate(),
+        file_link: filelink,
+        day: outdate.getDate(),
         month: outdate.toLocaleString('en-US', { month: 'short' }),
         year: outdate.getFullYear(),
       }
@@ -206,24 +207,24 @@ exports.all_admin_events=(req, res) => {
   });
 };
 
-exports.all_updater_events=(req, res) => {
+exports.all_updater_events = (req, res) => {
   adminid = req.params.adminid
   const sql = `SELECT * FROM notification_updates WHERE submitted_by='${adminid}' ORDER BY id DESC`;
 
   connection.query(sql, (err, results) => {
     if (err) {
       console.error('Error retrieving data:', err);
-      res.status(500).json({ error: `Error retrieving data${err} `});
+      res.status(500).json({ error: `Error retrieving data${err} ` });
       return;
     }
-    const final_events = results.map(eve=>{
-      const filelink =`${api_ip}/media/${eve.file_path}`
-      const outdate=new Date(eve.date)
+    const final_events = results.map(eve => {
+      const filelink = `${api_ip}/media/${eve.file_path}`
+      const outdate = new Date(eve.date)
 
-      return{
+      return {
         ...eve,
-        file_link:filelink,
-        day:outdate.getDate(),
+        file_link: filelink,
+        day: outdate.getDate(),
         month: outdate.toLocaleString('en-US', { month: 'short' }),
         year: outdate.getFullYear(),
       }
@@ -236,23 +237,23 @@ exports.all_updater_events=(req, res) => {
   });
 };
 
-exports.update_requests=(req, res) => {
+exports.update_requests = (req, res) => {
   const sql = "SELECT * FROM notification_updates WHERE admin_approval='pending' ORDER BY id DESC";
 
   connection.query(sql, (err, results) => {
     if (err) {
       console.error('Error retrieving data:', err);
-      res.status(500).json({ error: `Error retrieving data${err} `});
+      res.status(500).json({ error: `Error retrieving data${err} ` });
       return;
     }
-    const final_events = results.map(eve=>{
-      const filelink =`${api_ip}/media/${eve.file_path}`
-      const outdate=new Date(eve.date)
+    const final_events = results.map(eve => {
+      const filelink = `${api_ip}/media/${eve.file_path}`
+      const outdate = new Date(eve.date)
 
-      return{
+      return {
         ...eve,
-        file_link:filelink,
-        day:outdate.getDate(),
+        file_link: filelink,
+        day: outdate.getDate(),
         month: outdate.toLocaleString('en-US', { month: 'short' }),
         year: outdate.getFullYear(),
       }
@@ -268,23 +269,23 @@ exports.update_requests=(req, res) => {
 
 
 // Api Methods For Frontend
-exports.get_notifiactions=(req, res) => {
+exports.get_notifiactions = (req, res) => {
   const sql = "SELECT * FROM notification_updates WHERE update_status = 'update' AND  admin_approval='accepted' AND main_page = 'yes'  ORDER BY id DESC";
 
   connection.query(sql, (err, results) => {
     if (err) {
       console.error('Error retrieving data:', err);
-      res.status(500).json({ error: `Error retrieving data${err} `});
+      res.status(500).json({ error: `Error retrieving data${err} ` });
       return;
     }
-    const final_events = results.map(eve=>{
-      const filelink =`${api_ip}/media/${eve.file_path}`
-      const outdate=new Date(eve.date)
-      
-      return{
+    const final_events = results.map(eve => {
+      const filelink = `${api_ip}/media/${eve.file_path}`
+      const outdate = new Date(eve.date)
+
+      return {
         ...eve,
-        file_link:filelink,
-        day:outdate.getDate(),
+        file_link: filelink,
+        day: outdate.getDate(),
         month: outdate.toLocaleString('en-US', { month: 'short' }),
         year: outdate.getFullYear(),
       }
@@ -297,13 +298,13 @@ exports.get_notifiactions=(req, res) => {
 };
 
 
-exports.get_scrolling_notifiactions=(req, res) => {
+exports.get_scrolling_notifiactions = (req, res) => {
   const sql = "SELECT * FROM notification_updates WHERE update_status = 'update' && scrolling = 'yes' ORDER BY id DESC";
 
   connection.query(sql, (err, results) => {
     if (err) {
       console.error('Error retrieving data:', err);
-      res.status(500).json({ error: `Error retrieving data${err} `});
+      res.status(500).json({ error: `Error retrieving data${err} ` });
       return;
     }
     console.log('Scrolling Notifications Data retrieved successfully');
@@ -311,3 +312,38 @@ exports.get_scrolling_notifiactions=(req, res) => {
   });
 };
 
+exports.update_event = (req, res) => {
+  const updateId = req.params.id;
+  const { date, title, external_text, external_link, main_page, scrolling, update_type, update_status } = req.body;
+  const file = req.file;
+
+  // If a new file was uploaded, set file_path to the new file name; otherwise, retain the old file path
+  let file_path = req.body.existing_file_path; // This should be set to the existing file path if no new file is uploaded
+
+  if (file) {
+    file_path = file.originalname;
+  }
+
+  const sql = `UPDATE notification_updates SET date = ?,
+    title = ?,
+    file_path = ?,
+    external_text = ?,
+    external_link = ?,
+    main_page = ?,
+    scrolling = ?,
+    update_type = ?,
+    update_status = ?
+    WHERE id = ?`;
+
+  const values = [date, title, file_path, external_text, external_link, main_page, scrolling, update_type, update_status, updateId];
+
+  connection.query(sql, values, (err, result) => {
+    if (err) {
+      console.error('Error updating data:', err);
+      res.status(500).json({ error: 'Error updating data' });
+      return;
+    }
+    console.log('Data updated successfully');
+    res.json({ message: 'Data updated successfully' });
+  });
+};

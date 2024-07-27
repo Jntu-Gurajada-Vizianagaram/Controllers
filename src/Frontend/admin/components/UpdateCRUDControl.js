@@ -1,23 +1,9 @@
-import AddIcon from "@mui/icons-material/Add";
-import CloseIcon from "@mui/icons-material/Close";
+import AddIcon from '@mui/icons-material/Add';
+import CloseIcon from '@mui/icons-material/Close';
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import {
-  Box,
-  Button,
-  Checkbox,
-  CircularProgress,
-  FormControlLabel,
-  FormGroup,
-  Modal,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-} from "@mui/material";
+import { Button, Modal, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -28,6 +14,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import api from '../../Main/apis_data/APIs';
 import "../css/Updates.css";
+
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -42,23 +29,25 @@ const VisuallyHiddenInput = styled("input")({
 });
 
 const Updates = () => {
+
   const [file, setFile] = useState();
   const [loading, setLoading] = useState();
   const [events, setEvents] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [eventData, setEventData] = useState({
-    date: new Date().toISOString().split('T')[0],
+    date: (new Date()),
     title: "",
     file_path: `${file}`,
     external_link: "",
     external_text: "",
     main_page: "",
     scrolling: "",
-    update_type: ["notification"], // default to notification
+    update_type: "",
     update_status: "",
     submitted_by: "admin",
     admin_approval: "accepted",
   });
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -68,158 +57,103 @@ const Updates = () => {
     });
   };
 
-  const handleCheckboxChange = (e) => {
-    const { name, checked } = e.target;
-    setEventData((prevState) => {
-      const update_type = checked
-        ? [...prevState.update_type, name]
-        : prevState.update_type.filter((type) => type !== name);
 
-      // Ensure notification is always checked
-      if (!update_type.includes("notification")) {
-        update_type.push("notification");
-      }
-
-      return {
-        ...prevState,
-        update_type,
-      };
-    });
-  };
 
   const addEvent = async () => {
-    const formData = new FormData();
-    formData.append("date", eventData.date);
-    formData.append("title", eventData.title);
-    formData.append("external_txt", eventData.external_text);
-    formData.append("external_lnk", eventData.external_link);
-    formData.append("main_page", eventData.main_page);
-    formData.append("scrolling", eventData.scrolling);
-    formData.append("update_type", JSON.stringify(eventData.update_type));
-    formData.append("update_status", eventData.update_status);
-    formData.append("submitted_by", eventData.submitted_by);
-    formData.append("admin_approval", eventData.admin_approval);
-    if (file) formData.append("file", file);
-
+    const formData = new FormData()
+    formData.append("date", eventData.date)
+    formData.append("title", eventData.title)
+    formData.append("external_txt", eventData.external_text)
+    formData.append("external_lnk", eventData.external_link)
+    formData.append("main_page", eventData.main_page)
+    formData.append("scrolling", eventData.scrolling)
+    formData.append("update_type", eventData.update_type)
+    formData.append("update_status", eventData.update_status)
+    formData.append("submitted_by", eventData.submitted_by)
+    formData.append("admin_approval", eventData.admin_approval)
+    formData.append('file', file)
     try {
-      const response = await axios.post(`${api.updates_apis.add_event}`, formData);
-      console.log(response);
+      const response = await axios.post(`${api.updates_apis.add_event}`, formData)
+      console.log(response)
       if (response) {
-        alert("Event added" + response);
-      } else {
-        console.log("Event Not Added");
+        alert("Event added" + response)
       }
-      getEvents();
+      else {
+        console.log("Event Not Added")
+      }
+      getEvents()
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
+  }
+
 
   const getEvents = async () => {
-    setLoading(true);
+    setLoading(true)
     axios
       .get(`${api.updates_apis.all_admin_event}`)
       .then((response) => {
         setEvents(response.data);
       })
-      .then(() => setLoading(false))
+      .then(setLoading(false))
       .catch((error) => {
         console.error(error);
       });
-  };
+  }
+
 
   const deleteEvent = async (event) => {
     try {
-      console.log(event);
-      alert(`Deleting Event ${event.title}`);
-      const id = event.id;
+      console.log(event)
+      // if(confirm(`Are you sure u want Delete ${event.title}`)==true){
+      alert(`Deleting Event ${event.title}`)
+      const id = event.id
       const response = await axios.get(`${api.updates_apis.remove_event}/${id}`);
-      getEvents();
+      // }
+      // else{
+      //   alert('Event Not Deleted')
+      // }
+      // window.location.href='/admin'
+      getEvents()
+
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
+  }
 
   useEffect(() => {
-    getEvents();
+    getEvents()
   }, []);
 
   return (
     <div>
       <div className="updates-main">
         <div>
-          <Button
-            variant="contained"
-            startIcon={<AddIcon />}
-            onClick={() => setShowModal(true)}
-          >
-            Add Notification
-          </Button>
+          <Button variant="contained" startIcon={<AddIcon />} onClick={() => setShowModal(true)}>Add Notification</Button>
         </div>
         <Modal open={showModal} onClose={() => setShowModal(false)}>
-          <div
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              backdropFilter: "blur(2px)",
-            }}
-          >
-            <div
-              style={{
-                width: 800,
-                backgroundColor: "rgba(255, 255, 255, 0.5)",
-                borderRadius: 8,
-                boxShadow: "0px 0px 20px rgba(0, 0, 0, 0.2)",
-                padding: 20,
-              }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  padding: 10,
-                }}
-              >
+          <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', backdropFilter: 'blur(2px)' }}>
+            <div style={{ width: 800, backgroundColor: 'rgba(255, 255, 255, 0.5)', borderRadius: 8, boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.2)', padding: 20 }}>
+              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', padding: 10 }}>
                 <Typography variant="h5" gutterBottom>
-                  Add New Notification
+                  Add New notifiaction
                 </Typography>
-                <Button
-                  variant="contained"
-                  startIcon={<CloseIcon />}
-                  onClick={() => setShowModal(false)}
-                >
-                  Close
-                </Button>
+                <Button variant="contained" startIcon={<CloseIcon />} onClick={() => setShowModal(false)}>Close</Button>
               </div>
-              <div
-                style={{
-                  backgroundColor: "rgba(255, 255, 255, 0.5)",
-                  borderRadius: 8,
-                  boxShadow: "0px 0px 20px rgba(0, 0, 0, 0.2)",
-                  padding: 10,
-                  overflowY: "auto", // Add this line to enable vertical scrolling
-                  maxHeight: "80vh",
-                }}
-              >
+              <div style={{
+                backgroundColor: 'rgba(255, 255, 255, 0.5)',
+                borderRadius: 8,
+                boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.2)',
+                padding: 10,
+                overflowY: 'auto', // Add this line to enable vertical scrolling
+                maxHeight: '80vh',
+              }}>
                 <form>
-                  <label htmlFor="date">Date:</label>
-                  <input
-                    type="date"
-                    id="date"
-                    name="date"
-                    value={eventData.date}
-                    onChange={handleInputChange}
-                    required
-                  />
-                  <br />
-                  <label htmlFor="title">Notification Title:</label>
+                  <label for="date">Date:</label>
+                  <input type="date" id="date" name="date" value={eventData.date} onChange={handleInputChange} required />
+                  <br></br>
+
+                  <label for="title">Notification Title:</label>
                   <TextField
                     label="Notification Title"
                     variant="outlined"
@@ -227,29 +161,22 @@ const Updates = () => {
                     value={eventData.title}
                     onChange={handleInputChange}
                   />
-                  <br />
-                  <label htmlFor="file-path">Path/Upload File:</label>
+                  <br></br>
+
+                  <label for="file-path">Path/Upload File:</label>
                   <Button
                     component="label"
                     variant="contained"
                     startIcon={<CloudUploadIcon />}
                   >
                     {file != null ? file.name + " Uploaded" : "UPLOAD FILE"}
-                    <VisuallyHiddenInput
-                      type="file"
-                      name="file"
-                      onChange={(e) => {
-                        setFile(e.target.files[0]);
-                      }}
-                      required
-                    />
+                    <VisuallyHiddenInput type="file" name='file' onChange={(e) => {
+                      setFile(e.target.files[0])
+
+                    }} required />
                   </Button>
-                  <br />
-                  <label htmlFor="title">
-                    External Text:
-                    <br />
-                    (Ex.Click here, Register Now,Read more)
-                  </label>
+                  <br></br>
+                  <label for="title">External Text:<br />(Ex.Click here, Register Now,Read more)</label>
                   <TextField
                     label="External Text For Link"
                     variant="outlined"
@@ -257,20 +184,17 @@ const Updates = () => {
                     value={eventData.external_text}
                     onChange={handleInputChange}
                   />
-                  <br />
-                  <label htmlFor="title">
-                    External Link:
-                    <br />
-                    Note: full link (http://** or https://** )
-                  </label>
+                  <br></br>
+                  <label for="title">External Link:<br />Note: full link (http://** or https://** ) </label>
                   <TextField
-                    label="External Link"
+                    label="Notification Title"
                     variant="outlined"
                     name="external_link"
                     value={eventData.external_link}
                     onChange={handleInputChange}
                   />
-                  <br />
+                  <br></br>
+
                   <FormControl fullWidth>
                     <InputLabel id="main-page-label">Main Page Publish</InputLabel>
                     <Select
@@ -284,7 +208,8 @@ const Updates = () => {
                       <MenuItem value="no">NO</MenuItem>
                     </Select>
                   </FormControl>
-                  <br />
+                  <br></br>
+
                   <FormControl fullWidth>
                     <InputLabel id="scrolling-label">Flash Scrolling</InputLabel>
                     <Select
@@ -294,87 +219,34 @@ const Updates = () => {
                       value={eventData.scrolling}
                       onChange={handleInputChange}
                     >
-                      <MenuItem value="yes">YES</MenuItem>
+                      <MenuItem value="yes" >YES</MenuItem>
                       <MenuItem value="no">NO</MenuItem>
                     </Select>
                   </FormControl>
-                  <br />
-                  <FormControl component="fieldset" fullWidth>
-                    <label id="update-type-label">Type of Update</label>
-                    <FormGroup className="checkbox-group">
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={eventData.update_type.includes("notification")}
-                            onChange={handleCheckboxChange}
-                            name="notification"
-                            disabled
-                          />
-                        }
-                        label="Notification"
-                      />
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={eventData.update_type.includes("tender")}
-                            onChange={handleCheckboxChange}
-                            name="tender"
-                          />
-                        }
-                        label="Tender"
-                      />
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={eventData.update_type.includes("exams")}
-                            onChange={handleCheckboxChange}
-                            name="exams"
-                          />
-                        }
-                        label="Exams"
-                      />
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={eventData.update_type.includes("workshop")}
-                            onChange={handleCheckboxChange}
-                            name="workshop"
-                          />
-                        }
-                        label="Workshop"
-                      />
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={eventData.update_type.includes("sports")}
-                            onChange={handleCheckboxChange}
-                            name="sports"
-                          />
-                        }
-                        label="Sports"
-                      />
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={eventData.update_type.includes("conference")}
-                            onChange={handleCheckboxChange}
-                            name="conference"
-                          />
-                        }
-                        label="Conference"
-                      />
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={eventData.update_type.includes("recruitment")}
-                            onChange={handleCheckboxChange}
-                            name="recruitment"
-                          />
-                        }
-                        label="Recruitment"
-                      />
-                    </FormGroup>
+                  <br></br>
+
+                  <FormControl fullWidth>
+                    <InputLabel id="update-type-label">Type of Update</InputLabel>
+                    <Select
+                      labelId="update-type-label"
+                      id="update-type"
+                      name="update_type"
+                      value={eventData.update_type}
+                      onChange={handleInputChange}
+                    >
+                      <MenuItem value="exams">Exams</MenuItem>
+                      <MenuItem value="calendar">Academic Calender</MenuItem>
+                      <MenuItem value="regulation">Academic Regulation</MenuItem>
+                      <MenuItem value="syallabus">Academic Syallabus</MenuItem>
+                      <MenuItem value="tender">Tender</MenuItem>
+                      <MenuItem value="workshop">Workshop</MenuItem>
+                      <MenuItem value="sports">Sports</MenuItem>
+                      <MenuItem value="conference">Conference</MenuItem>
+                      <MenuItem value="recruitment">Recruitment</MenuItem>
+                    </Select>
                   </FormControl>
+                  <br></br>
+
                   <FormControl fullWidth>
                     <InputLabel id="update-status-label">Status</InputLabel>
                     <Select
@@ -388,38 +260,30 @@ const Updates = () => {
                       <MenuItem value="draft">Draft</MenuItem>
                     </Select>
                   </FormControl>
-                  <br />
+                  <br></br>
                   <Button component="label" variant="contained" onClick={addEvent}>
                     Submit
                   </Button>
-                  <br />
+                  <br></br>
                 </form>
               </div>
             </div>
           </div>
         </Modal>
 
+
         <div className="eventsdisplay">
           <h2>Events</h2>
-          {loading ? (
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                height: "100vh",
-                fontSize: "2em",
-              }}
-            >
+          {loading ?
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', fontSize: '2em' }}>
               <h1>Loading... Files</h1>
-              <Box sx={{ display: "flex" }}>
+              <Box sx={{ display: 'flex' }}>
                 <CircularProgress />
               </Box>
             </div>
-          ) : (
+            :
             <div>
-              {events != "" ? (
+              {events != "" ?
                 <TableContainer component={Paper}>
                   <Table>
                     <TableHead>
@@ -440,9 +304,7 @@ const Updates = () => {
                           <TableCell>{event.title}</TableCell>
                           <TableCell>{event.update_status}</TableCell>
                           <TableCell>
-                            <a href={event.file_link} target="_blank">
-                              View File
-                            </a>
+                            <a href={event.file_link} target="_blank">View File</a>
                           </TableCell>
                           <TableCell>
                             <Button variant="contained" onClick={() => alert(event.title)}>
@@ -450,11 +312,7 @@ const Updates = () => {
                             </Button>
                           </TableCell>
                           <TableCell>
-                            <Button
-                              variant="contained"
-                              color="error"
-                              onClick={() => deleteEvent(event)}
-                            >
+                            <Button variant="contained" color="error" onClick={() => deleteEvent(event)}>
                               Delete
                             </Button>
                           </TableCell>
@@ -463,17 +321,12 @@ const Updates = () => {
                     </TableBody>
                   </Table>
                 </TableContainer>
-              ) : (
+                :
                 <div>
-                  <h1>
-                    {" "}
-                    No Notifications Added (or) Server is Busy while Loading the
-                    Notifications
-                  </h1>
-                </div>
-              )}
+                  <h1> No Notifications Added (or) Server is Busy while Loading the Notifications</h1>
+                </div>}
             </div>
-          )}
+          }
         </div>
       </div>
     </div>
