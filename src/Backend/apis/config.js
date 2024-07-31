@@ -8,19 +8,5 @@ const mysql = require("mysql2");
 //   database: "jntugv",
 //   port: "3306"  ,
 // });
-const con = mysql.createConnection({
-  host: "3.7.40.139",
-  user: "JNTUGV",
-  password: "password",
-  database: "jntugv",
-  port: "3306",
-});
-// const con=mysql.createConnection({
-//     host:"localhost",
-//     user:"root",
-//     password:"Anil@73",
-//     database:"jntugv",
-//     port:"3306"
-// })
 
 module.exports = con;

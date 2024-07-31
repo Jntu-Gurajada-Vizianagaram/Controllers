@@ -28,6 +28,7 @@ const allapis= {
         every_event:`${api_ip}/api/updates/every-events`,
         all_admin_event:`${api_ip}/api/updates/all-admin-events`,
         all_updater_event:`${api_ip}/api/updates/all-updater-events`,
+        update_single_event:`${api_ip}/api/updtes/all-admin-events`
     },
     webadmin_apis:{
         all_images:`${api_ip}/api/webadmin/allimages`,

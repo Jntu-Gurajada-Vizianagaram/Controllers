@@ -16,7 +16,7 @@ exports.insert_img =  (req, res) => {
 
   const  dmcupload  = req.body;
   const  file  = req.file;
-  console.log(upload )
+  console.log(dmcupload)
   console.log("File"+file.originalname)
   const int = 0;
   const sql = 'INSERT INTO dmc_upload (id, date, title,  file_path, description, submitted, admin_approval, carousel_scrolling, gallery_scrolling) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';

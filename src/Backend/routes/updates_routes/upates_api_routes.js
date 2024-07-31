@@ -1,6 +1,8 @@
 const express = require('express')
 const router = express.Router();
 const updates= require('../../apis/updates_api/UpdatesApi')
+const multer = require('multer');
+const upload = multer();
 
 
 
@@ -13,8 +15,9 @@ router.get('/all-admin-events',updates.all_admin_events); //api for only admin u
 router.get('/all-updater-events/:adminid',updates.all_updater_events); //api for only admin update events added by updater
 router.post('/add-event',updates.Upload,updates.insert_event)
 router.get('/remove-event/:id',updates.delete_event)
-// router.patch('/update-event',router.update_event)
-
+//router.patch('/update-event',router.update_event)
+//API s for Update the events such as // notifications ,admins,Gallery,stored files
+router.put('/all-admin-events/:id', upload.none(), updates.update_event);
 //---Request APIS---//
 router.get('/update-requests',updates.update_requests); //api for only admin update events added by updater
 router.get('/update-accept-request/:id',updates.update_request_accept); //api for only admin to accept events added by updater
