@@ -1,31 +1,28 @@
-import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import "./App.css";
 import Login from "./Frontend/Authentications/components/Login";
-import Main from "./Frontend/Main/components/Main"
 // import { useState } from "react";
 import Admin from "./Frontend/admin/components/Admin";
-import Updates from "./Frontend/updates/components/Updates";
-import DMC from "./Frontend/dmc/components/DMC";
-import CarouselDisplay from './Frontend/dmc/components/CarouselDisplay'
-import DMCUpload from "./Frontend/dmc/components/DmcIMGUpload";
-import CompleteGallery from "./Frontend/dmc/components/CompleteGallery";
-import HODS from "./Frontend/hods/components/HODS";
+import AllCrudControls from "./Frontend/admin/components/AllCrudControl";
+import Allfiles from "./Frontend/admin/components/Allfiles";
+import AllRecordsControls from './Frontend/admin/components/AllRecordsControl';
+import GalleryImagesUpload from './Frontend/admin/components/requests/GalleryImagesRequests';
+import AddCollege from './Frontend/affliated_colleges/components/AddCollege';
 import AffiliatedColleges from "./Frontend/affliated_colleges/components/AffliatedColleges";
-import AddCollege from './Frontend/affliated_colleges/components/AddCollege'
-import FacultyGrievance from "./Frontend/grievances/components/FacultyGrievance";
 import ForgotPassword from "./Frontend/Authentications/components/ForgotPassword";
-import Results from "./Frontend/results/components/Results";
-import FirstPage  from './Frontend/Main/Component/firstpage';
+import CarouselDisplay from './Frontend/dmc/components/CarouselDisplay';
+import CompleteGallery from "./Frontend/dmc/components/CompleteGallery";
+import DMCUpload from "./Frontend/dmc/components/DmcIMGUpload";
+import EventPhotosUpload from './Frontend/dmc/components/EventPhotosUpload';
+import FacultyGrievance from "./Frontend/grievances/components/FacultyGrievance";
+import HODS from "./Frontend/hods/components/HODS";
+import Dashboard from "./Frontend/Main/Component/Dashboard";
+import DashboardHome from "./Frontend/Main/Component/DashboardHome";
+import FirstPage from './Frontend/Main/Component/firstpage';
 import Persons from './Frontend/Main/Component/Persons';
 import Profile from "./Frontend/Main/Component/Profile";
 import RestricetedPage from './Frontend/Main/Component/RestricetedPage';
-import AllRecordsControls from './Frontend/admin/components/AllRecordsControl'
-import AllCrudControls from "./Frontend/admin/components/AllCrudControl";
-import EventPhotosUpload from './Frontend/dmc/components/EventPhotosUpload';
-import Updatesdashboard from './Frontend/Main/Component/UpdatesDashboard';
-import Dashboard from "./Frontend/Main/Component/Dashboard";
-import DashboardHome from "./Frontend/Main/Component/DashboardHome";
-import Allfiles from "./Frontend/admin/components/Allfiles";
+import Updates from "./Frontend/updates/components/Updates";
 // import { Login } from "@mui/icons-material";
 // require('dotenv').config()
 
@@ -62,6 +59,7 @@ function App() {
             <Route exact path="dmcupload" element={<DMCUpload />} />
             <Route exact path="eventphotosupload" element={<EventPhotosUpload />} />
             <Route exact path="carousel" element={<CarouselDisplay />} />
+            <Route exact path="galleryImagesUpload" element={<GalleryImagesUpload/>}></Route>
             {/* Updates Panel Routes */}
             <Route exact path="updates" element={<Updates />} />
             {/* Directors Panel Routes */}

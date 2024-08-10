@@ -42,6 +42,7 @@ const allapis= {
         get_event_photos:`${api_ip}/api/webadmin/get-event-photos`,
         webadmin_main_carousel:`${api_ip}/api/webadmin/main-carousel-images'`,
         main_event_photos:`${api_ip}/api/webadmin/main-carousel-images'`,
+        gallery_images:`${api_ip}/api/webadmin/galleryImages`
     },
     webadmin_requests:{
         webadmin_event_requests:`${api_ip}/api/webadmin/webadmin-event-requests`,

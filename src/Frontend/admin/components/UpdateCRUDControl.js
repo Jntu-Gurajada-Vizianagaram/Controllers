@@ -30,14 +30,14 @@ const VisuallyHiddenInput = styled("input")({
 
 const Updates = () => {
 
-  const [file, setFile] = useState();
+  const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [events, setEvents] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [editingEvent, setEditingEvent] = useState(null);
   const [eventData, setEventData] = useState({
-    date: new Date().toISOString().split('T')[0],
+    id: null,
+    date: new Date().toISOString().slice(0, 10),
     title: "",
     file_path: "",
     external_link: "",
@@ -70,13 +70,15 @@ const Updates = () => {
     formData.append("update_status", eventData.update_status);
     formData.append("submitted_by", eventData.submitted_by);
     formData.append("admin_approval", eventData.admin_approval);
-    formData.append('file', file);
+    if (file) {
+      formData.append('file', file);
+    }
 
     try {
       const response = await axios.post(`${api.updates_apis.add_event}`, formData);
       console.log(response);
       if (response) {
-        alert("Event added");
+        alert("Event added successfully");
       } else {
         console.log("Event Not Added");
       }
@@ -89,18 +91,50 @@ const Updates = () => {
 
   const getEvents = async () => {
     setLoading(true);
+    axios
+      .get(`${api.updates_apis.all_admin_event}`)
+      .then((response) => {
+        setEvents(response.data);
+      })
+      .then(() => setLoading(false))
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const deleteEvent = async (event) => {
     try {
-      const response = await axios.get(`${api.updates_apis.all_admin_event}`);
-      setEvents(response.data);
-      setLoading(false);
+      console.log(event);
+      alert(`Deleting Event ${event.title}`);
+      const id = event.id;
+      const response = await axios.get(`${api.updates_apis.remove_event}/${id}`);
+      getEvents();
     } catch (error) {
-      console.error(error);
-      setLoading(false);
+      console.log(error);
     }
   };
-  const editEvent = async () => {
-    const id = editingEvent.id; 
-    console.log(id)// Ensure the ID is correct
+
+  const editEvent = (event) => {
+    setEventData({
+      id: event.id,
+      date: event.date,
+      title: event.title,
+      file_path: event.file_path,
+      external_link: event.external_link,
+      external_text: event.external_text,
+      main_page: event.main_page,
+      scrolling: event.scrolling,
+      update_type: event.update_type,
+      update_status: event.update_status,
+      submitted_by: event.submitted_by,
+      admin_approval: event.admin_approval,
+    });
+    setFile(null);
+    setIsEditing(true);
+    setShowModal(true);
+  };
+
+  const updateEvent = async () => {
     const formData = new FormData();
     formData.append("date", eventData.date);
     formData.append("title", eventData.title);
@@ -115,32 +149,27 @@ const Updates = () => {
     if (file) {
       formData.append('file', file);
     }
-  
-    try {
-      const response = await axios.put(`${api.updates_apis.all_admin_events}/${id}`, formData);
-      if (response.status === 200) {
-        alert("Event updated successfully");
-        setShowModal(false);
-        getEvents();
-      } else {
-        console.log("Event not updated", response);
-      }
-    } catch (error) {
-      console.log("Error updating event:", error);
-    }
-  };
-  
-  
 
-  const deleteEvent = async (event) => {
     try {
-      console.log(event);
-      alert(`Deleting Event ${event.title}`);
-      const id = event.id;
-      await axios.delete(`${api.updates_apis.remove_event}/${id}`);
+      const response = await axios.post(`${api.updates_apis.update_event}/${eventData.id}`, formData);
+      console.log(response);
+      if (response) {
+        alert("Event updated successfully");
+      } else {
+        console.log("Event Not Updated");
+      }
       getEvents();
+      setShowModal(false);
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const handleSubmit = () => {
+    if (isEditing) {
+      updateEvent();
+    } else {
+      addEvent();
     }
   };
 
@@ -148,45 +177,18 @@ const Updates = () => {
     getEvents();
   }, []);
 
-  const openEditModal = (event) => {
-    setEditingEvent(event);
-    setEventData({
-      date: event.date,
-      title: event.title,
-      external_link: event.external_link,
-      external_text: event.external_text,
-      main_page: event.main_page,
-      scrolling: event.scrolling,
-      update_type: event.update_type,
-      update_status: event.update_status,
-      submitted_by: event.submitted_by,
-      admin_approval: event.admin_approval,
-    });
-    setShowModal(true);
-  };
-
-  const handleSubmit = () => {
-    if (isEditing && editingEvent) {
-      editEvent();
-    } else {
-      addEvent();
-    }
-  };
-
   return (
     <div>
       <div className="updates-main">
         <div>
-          <Button variant="contained" startIcon={<AddIcon />} onClick={() => { setShowModal(true); setEditingEvent(null); }}>
-            Add Notification
-          </Button>
+          <Button variant="contained" startIcon={<AddIcon />} onClick={() => { setShowModal(true); setIsEditing(false); }}>Add Notification</Button>
         </div>
         <Modal open={showModal} onClose={() => setShowModal(false)}>
           <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', backdropFilter: 'blur(2px)' }}>
             <div style={{ width: 800, backgroundColor: 'rgba(255, 255, 255, 0.5)', borderRadius: 8, boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.2)', padding: 20 }}>
               <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', padding: 10 }}>
                 <Typography variant="h5" gutterBottom>
-                  {editingEvent ? "Edit Notification" : "Add New Notification"}
+                  {isEditing ? "Edit Notification" : "Add New Notification"}
                 </Typography>
                 <Button variant="contained" startIcon={<CloseIcon />} onClick={() => setShowModal(false)}>Close</Button>
               </div>
@@ -201,7 +203,7 @@ const Updates = () => {
                 <form>
                   <label htmlFor="date">Date:</label>
                   <input type="date" id="date" name="date" value={eventData.date} onChange={handleInputChange} required />
-                  <br />
+                  <br></br>
 
                   <label htmlFor="title">Notification Title:</label>
                   <TextField
@@ -211,7 +213,7 @@ const Updates = () => {
                     value={eventData.title}
                     onChange={handleInputChange}
                   />
-                  <br />
+                  <br></br>
 
                   <label htmlFor="file-path">Path/Upload File:</label>
                   <Button
@@ -219,12 +221,14 @@ const Updates = () => {
                     variant="contained"
                     startIcon={<CloudUploadIcon />}
                   >
-                    {file ? `${file.name} Uploaded` : "UPLOAD FILE"}
-                    <VisuallyHiddenInput type="file" name='file' onChange={(e) => setFile(e.target.files[0])} />
+                    {file != null ? file.name + " Uploaded" : "UPLOAD FILE"}
+                    <VisuallyHiddenInput type="file" name='file' onChange={(e) => {
+                      setFile(e.target.files[0]);
+                    }} />
                   </Button>
-                  <br />
+                  <br></br>
 
-                  <label htmlFor="external_text">External Text:<br />(Ex.Click here, Register Now,Read more)</label>
+                  <label htmlFor="external_text">External Text:<br />(Ex. Click here, Register Now, Read more)</label>
                   <TextField
                     label="External Text For Link"
                     variant="outlined"
@@ -232,7 +236,7 @@ const Updates = () => {
                     value={eventData.external_text}
                     onChange={handleInputChange}
                   />
-                  <br />
+                  <br></br>
 
                   <label htmlFor="external_link">External Link:<br />Note: full link (http://** or https://** ) </label>
                   <TextField
@@ -242,7 +246,7 @@ const Updates = () => {
                     value={eventData.external_link}
                     onChange={handleInputChange}
                   />
-                  <br />
+                  <br></br>
 
                   <FormControl fullWidth>
                     <InputLabel id="main-page-label">Main Page Publish</InputLabel>
@@ -257,7 +261,7 @@ const Updates = () => {
                       <MenuItem value="no">NO</MenuItem>
                     </Select>
                   </FormControl>
-                  <br />
+                  <br></br>
 
                   <FormControl fullWidth>
                     <InputLabel id="scrolling-label">Flash Scrolling</InputLabel>
@@ -272,7 +276,7 @@ const Updates = () => {
                       <MenuItem value="no">NO</MenuItem>
                     </Select>
                   </FormControl>
-                  <br />
+                  <br></br>
 
                   <FormControl fullWidth>
                     <InputLabel id="update-type-label">Type of Update</InputLabel>
@@ -294,7 +298,7 @@ const Updates = () => {
                       <MenuItem value="recruitment">Recruitment</MenuItem>
                     </Select>
                   </FormControl>
-                  <br />
+                  <br></br>
 
                   <FormControl fullWidth>
                     <InputLabel id="update-status-label">Status</InputLabel>
@@ -309,12 +313,11 @@ const Updates = () => {
                       <MenuItem value="draft">Draft</MenuItem>
                     </Select>
                   </FormControl>
-                  <br />
-
+                  <br></br>
                   <Button component="label" variant="contained" onClick={handleSubmit}>
-                    Submit
+                    {isEditing ? "Update" : "Submit"}
                   </Button>
-                  <br />
+                  <br></br>
                 </form>
               </div>
             </div>
@@ -332,7 +335,7 @@ const Updates = () => {
             </div>
             :
             <div>
-              {events.length > 0 ?
+              {events.length ?
                 <TableContainer component={Paper}>
                   <Table>
                     <TableHead>
@@ -353,10 +356,10 @@ const Updates = () => {
                           <TableCell>{event.title}</TableCell>
                           <TableCell>{event.update_status}</TableCell>
                           <TableCell>
-                            <a href={event.file_link} target="_blank">View File</a>
+                            <a href={event.file_link} target="_blank" rel="noopener noreferrer">View File</a>
                           </TableCell>
                           <TableCell>
-                            <Button variant="contained" onClick={() => openEditModal(event)}>
+                            <Button variant="contained" onClick={() => editEvent(event)}>
                               Edit
                             </Button>
                           </TableCell>
@@ -372,13 +375,13 @@ const Updates = () => {
                 </TableContainer>
                 :
                 <div>
-                  <h1>No Notifications Added (or) Server is Busy while Loading the Notifications</h1>
+                  <h1> No Notifications Added (or) Server is Busy while Loading the Notifications</h1>
                 </div>}
             </div>
           }
         </div>
       </div>
-    </div >
+    </div>
   );
 };
 
