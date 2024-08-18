@@ -39,6 +39,11 @@ const All_Menu = {
             icon: <SlideshowIcon />,
         },
         {
+            to: 'galleryimagesupload',
+            text: "Gallery Images",
+            icon: <ImageIcon/>,
+        },
+        {
             to: 'eventphotosupload',
             text: "Add Event Photos",
             icon: <PhotoLibraryIcon />,
@@ -86,7 +91,7 @@ const All_Menu = {
             icon: <SlideshowIcon />,
         },
         {
-            to: '',
+            to: 'galleryimagesupload',
             text: "Gallery Images",
             icon: <ImageIcon/>,
         },
@@ -133,6 +138,16 @@ const All_Menu = {
             to: 'gallery',
             text: "Affiliated Colleges",
             icon: <DoorbellIcon />,
+        },
+        {
+            to: 'galleryimagesupload',
+            text: "Gallery Images",
+            icon: <ImageIcon/>,
+        },
+        {
+            to: 'galleryimagesupload',
+            text: "Gallery Images",
+            icon: <ImageIcon/>,
         },
         {
             to: 'dmcupload',

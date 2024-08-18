@@ -10,6 +10,7 @@ import EventPhotosRequests from './requests/EventPhotosRequests';
 import UpdatesRequests from './requests/UpdatesRequests';
 import WebAdminRequests from './requests/WebAdminRequests';
 
+
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
 ))(({ theme }) => ({
@@ -86,7 +87,7 @@ export default function CustomizedAccordions() {
       </Accordion>
       <Accordion expanded={expanded === 'panel4'} onChange={handleChange('panel4')}>
         <AccordionSummary aria-controls="panel4d-content" id="panel4d-header">
-          <Typography>Gallery PHOTOS REQUESTS</Typography>
+          <Typography>GALLERY PHOTOS REQUESTS</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <EventPhotosRequests/>

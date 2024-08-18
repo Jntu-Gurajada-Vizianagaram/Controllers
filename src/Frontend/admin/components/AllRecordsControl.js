@@ -24,8 +24,9 @@ const AllRecordsControls = () => {
   } 
 
   // const accept =(request)=>{
-  //   alert(request.title)
-  // }
+  //    alert(request.title)
+  //    axios.post(`$api.`)
+  //  }
   const del_notification =(request)=>{
     axios.get(`${api.updates_apis.remove_event}/${request.id}`)
     .then((response)=>{
@@ -86,13 +87,13 @@ useEffect(()=>{
                     <TableCell>{request.update_status}</TableCell>
                     <TableCell>{request.submitted_by}</TableCell>
                     <TableCell>
-                      <a href={request.file_link} target="_blank">View File</a>
+                      <a href={request.file_link} target="_blank" rel="noreferrer">View File</a>
                     </TableCell>
-                    {/* <TableCell>
-                      <Button variant="contained" onClick={() => accept(request)}>
+                    <TableCell>
+                      {/* <Button variant="contained" onClick={() => accept(request)}>
                         Accept
-                      </Button>
-                    </TableCell> */}
+                      </Button> */}
+                    </TableCell>
                     <TableCell>
                       <Button variant="contained"  color="error" onClick={() => del_notification(request)}>
                         Delete

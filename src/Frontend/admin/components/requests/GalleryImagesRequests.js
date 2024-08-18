@@ -1,140 +1,109 @@
-import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import api from '../../../Main/apis_data/APIs';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { useEffect, useState } from 'react';
+import ips from '../../../api.json'; // assuming api.json is in the same directory
 import "../../css/Admin.css";
+import "../../css/updates.css";
 
 const GalleryImagesRequests = () => {
-  const [requests, setRequests] = useState([])
+  const [requests, setRequests] = useState([]);
 
+  // Use environment variables to manage API URLs
+  const api_ip = ips.server_ip || 'http://localhost:8888';
 
   const get_requests = async () => {
-    axios
-      .get(` /api/webadmin/gallery-requests`)
-      .then((response) => {
-        setRequests(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
+    try {
+      const response = await axios.get(`${api_ip}/api/webadmin/gallery-requests`);
+      setRequests(response.data);
+    } catch (error) {
+      console.error('Error fetching requests:', error);
+    }
+  };
 
-  const request_accept = (request) => {
-    axios.get(`${api.webadmin_requests.webadmin_request_accept}/${request.id}`)
-      .then((response) => {
-        alert(response.data.message)
-        get_requests()
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+  const request_accept = async (request) => {
+    try {
+      const response = await axios.get(`${api_ip}/api/webadmin/accept-request/${request.id}`);
+      alert(response.data.message);
+      get_requests();
+    } catch (err) {
+      console.error('Error accepting request:', err);
+    }
+  };
 
-  }
-  const request_deny = (request) => {
-    axios.get(`${api.webadmin_requests.webadmin_request_deny}/${request.id}`)
-      .then((response) => {
-        alert(response.data.message)
-        get_requests()
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-
-  }
-
-
-
+  const request_deny = async (request) => {
+    try {
+      const response = await axios.get(`${api_ip}/api/webadmin/deny-request/${request.id}`);
+      alert(response.data.message);
+      get_requests();
+    } catch (err) {
+      console.error('Error denying request:', err);
+    }
+  };
 
   useEffect(() => {
     get_requests();
-  }, [])
-
+  }, []);
 
   return (
-    <div className="admin-main">
-      <div>
-
-        <div className="eventsdisplay">
-
-          {requests !== "" ? <TableContainer component={Paper}>
-            <Table>
-              <TableHead>
-                <TableRow key={"Table Attributes"}>
-                  <TableCell>S.NO</TableCell>
-                  <TableCell>Notification Date</TableCell>
-                  <TableCell>Title</TableCell>
-                  <TableCell>Thumbnail</TableCell>
-                  <TableCell>Update Added By</TableCell>
-                  <TableCell>Photos Count</TableCell>
-                  <TableCell>Action</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {requests.map((request) => (
-                  <TableRow key={request.id}>
-                    <TableCell>{request.id}</TableCell>
-                    <TableCell>{request.uploaded_date}</TableCell>
-                    <TableCell>{request.event_name}</TableCell>
-                    <TableCell>
-                      <img src={request.event_photos[0]} alt={request.event_name + "Thumbnail"} height={70} width={50} />
-                    </TableCell>
-                    <TableCell>{request.added_by}</TableCell>
-                    <TableCell>
-                      {request.event_photos.length}
-                    </TableCell>
-                    <TableCell>
-                      <Button variant="contained" onClick={() => request_accept(request)}>
-                        Accept
-                      </Button>
-                    </TableCell>
-                    <TableCell>
-                      <Button variant="contained" color="error" onClick={() => request_deny(request)}>
-                        Deny
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-            :
+    <div className="container admin-main">
+      <div className="row">
+        <div className="col-12 eventsdisplay">
+          {requests.length > 0 ? (
+            <div className="table-responsive">
+              <table className="table table-bordered">
+                <thead className="thead-dark">
+                  <tr>
+                    <th scope="col">S.NO</th>
+                    <th scope="col">Notification Date</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Thumbnail</th>
+                    <th scope="col">Update Added By</th>
+                    <th scope="col">Photos Count</th>
+                    <th scope="col">Accept</th>
+                    <th scope="col">Deny</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {requests.map((request, index) => (
+                    <tr key={request.id}>
+                      <td>{index + 1}</td>
+                      <td>{request.uploaded_date}</td>
+                      <td>{request.event_name}</td>
+                      <td>
+                        <img
+                          src={`${api_ip}/uploads/gallery/${request.event_photos[0]}`}
+                          alt={`${request.event_name} Thumbnail`}
+                          height={70}
+                          width={50}
+                        />
+                      </td>
+                      <td>{request.added_by}</td>
+                      <td>{request.event_photos.length}</td>
+                      <td>
+                        <button className="btn btn-success" onClick={() => request_accept(request)}>
+                          Accept
+                        </button>
+                      </td>
+                      <td>
+                        <button className="btn btn-danger" onClick={() => request_deny(request)}>
+                          Deny
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
             <div>
-              <h1> No New Requests</h1>
-            </div>}
+              <h1>No New Requests</h1>
+            </div>
+          )}
         </div>
       </div>
-      <div className="all-consoles">
-
+      <div className="row all-consoles">
+        {/* Other components can be included here */}
       </div>
-      {/* <AdminsCRUDControl/> */}
-      {/* <Accordion>
-      <AccordionSummary
-        expandIcon={<ExpandMoreIcon />}
-        aria-controls="panel2a-content"
-        id="panel2a-header"
-      >
-        <Typography> Admins Requests </Typography>
-      </AccordionSummary>
-      <AccordionDetails>
-        <Typography>
-          <AllRequestControls/>
-        </Typography>
-      </AccordionDetails>
-    </Accordion>
-    <Accordion >
-      <AccordionSummary
-        expandIcon={<ExpandMoreIcon />}
-        aria-controls="panel3a-content"
-        id="panel3a-header"
-      >
-        <Typography>ALL Consoles</Typography>
-      </AccordionSummary>
-      <AccordionDetails>
-        <Typography>
-          <AllCrudControls/>
-        </Typography>
-      </AccordionDetails>
-    </Accordion>*/}
     </div>
   );
 };
