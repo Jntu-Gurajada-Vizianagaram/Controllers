@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import "../css/DMCUpload.css";
 import "../css/Gallery.css";
 
-const api_ip = 'http://localhost:8888' || 'https://api.jntugv.edu.in'; // Update this to your server's IP or domain
+const api_ip = 'https://api.jntugv.edu.in' || 'http:localhost:8888'; // Update this to your server's IP or domain
 
 const GalleryImagesUpload = () => {
   const [eventDetails, setEventDetails] = useState({
