@@ -1,14 +1,15 @@
-import * as React from 'react';
-import { styled } from '@mui/material/styles';
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import MuiAccordion from '@mui/material/Accordion';
-import MuiAccordionSummary from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
+import MuiAccordionSummary from '@mui/material/AccordionSummary';
+import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
+import * as React from 'react';
 
+import EventPhotosRequests from './requests/EventPhotosRequests';
 import UpdatesRequests from './requests/UpdatesRequests';
 import WebAdminRequests from './requests/WebAdminRequests';
-import EventPhotosRequests from './requests/EventPhotosRequests';
+
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -79,6 +80,14 @@ export default function CustomizedAccordions() {
       <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
         <AccordionSummary aria-controls="panel3d-content" id="panel3d-header">
           <Typography>EVENT PHOTOS REQUESTS</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <EventPhotosRequests/>
+        </AccordionDetails>
+      </Accordion>
+      <Accordion expanded={expanded === 'panel4'} onChange={handleChange('panel4')}>
+        <AccordionSummary aria-controls="panel4d-content" id="panel4d-header">
+          <Typography>GALLERY PHOTOS REQUESTS</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <EventPhotosRequests/>

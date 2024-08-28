@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { Button, Container, TextField, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
-import axios from 'axios';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import mods from '../../Main/Component/Logins/Login'
+import { Button, Container, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
+import axios from 'axios';
+import React, { useState } from 'react';
+import mods from '../../Main/Component/Logins/Login';
 const ips = require("../../api.json");
 const api_ip = ips.server_ip;
 const EventPhotosUpload = () => {

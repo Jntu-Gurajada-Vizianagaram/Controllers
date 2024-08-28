@@ -14,7 +14,6 @@
     "axios": "^1.5.1",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
-    "concurrently": "^8.2.2",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
@@ -36,7 +35,7 @@
   "scripts": {
     "client": "set PORT=3000 && react-scripts start",
     "server": "cd src/Backend && nodemon Server",
-    "start": "npm run client",
+    "start": "concurrently \"npm run client\" \"npm run server\"",
     "dev": "concurrently \"npm run client\" \"npm run server\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -60,8 +59,14 @@
       "last 1 safari version"
     ]
   },
+<<<<<<< HEAD
   "description": "Clone the repo \r git clone https://github.com/Jntu-Gurajada-Vizianagaram/Controllers.git",
   "main": "index.js",
   "author": "",
   "license": "ISC"
+=======
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+>>>>>>> a01a64e52be8af460fed62cb2cbe5b234d5a2296
 }
