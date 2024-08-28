@@ -59,5 +59,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "description": "Clone the repo \r git clone https://github.com/Jntu-Gurajada-Vizianagaram/Controllers.git",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC"
 }
