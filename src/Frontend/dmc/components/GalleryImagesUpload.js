@@ -1,11 +1,12 @@
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { Button, Container, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography, Box } from '@mui/material';
+import { Box, Button, Container, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import "../css/DMCUpload.css";
 import "../css/Gallery.css";
+const ips =require('../api.json');
 
-const api_ip = 'https://api.jntugv.edu.in' || 'http:localhost:8888'; // Update this to your server's IP or domain
+const api_ip = ips.server_ip; // Replace with your server's IP or domain
 
 const GalleryImagesUpload = () => {
   const [eventDetails, setEventDetails] = useState({
@@ -45,7 +46,7 @@ const GalleryImagesUpload = () => {
       formData.append('files', files[i]);
     }
 
-    axios.post(`${api_ip}/api/webadmin/add-gallery-images`, formData)
+    axios.post(`${api_ip}/api/gallery/add-gallery-images`, formData)
       .then(response => {
         console.log(response.data);
         fetchGalleryItems(); // Refresh the gallery list
@@ -57,7 +58,7 @@ const GalleryImagesUpload = () => {
   };
 
   const fetchGalleryItems = () => {
-    axios.get(`${api_ip}/api/webadmin/all-gallery-images`)
+    axios.get(`${api_ip}/api/gallery/all-gallery-images`)
       .then(response => {
         setGalleryItems(response.data);
       })
@@ -67,7 +68,7 @@ const GalleryImagesUpload = () => {
   };
 
   const handleDelete = (id) => {
-    axios.delete(`${api_ip}/api/webadmin/delete-gallery-image/${id}`)
+    axios.delete(`${api_ip}/api/gallery/delete-gallery-image/${id}`)
       .then(response => {
         console.log(response.data);
         fetchGalleryItems(); // Refresh the gallery list after deletion
@@ -155,7 +156,7 @@ const GalleryImagesUpload = () => {
         {galleryItems.map((item) => (
           <Grid item xs={6} sm={4} md={3} key={item.id} sx={{ textAlign: 'center' }}>
             <img
-              src={`${api_ip}/uploads/${item.filename}`}
+              src={item.imagelink}
               alt={item.filename}
               style={{ height: '100px', width: '100%', objectFit: 'cover', borderRadius: '4px' }}
             />
