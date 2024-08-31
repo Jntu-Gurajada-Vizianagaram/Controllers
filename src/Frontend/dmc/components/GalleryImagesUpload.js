@@ -4,9 +4,12 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import "../css/DMCUpload.css";
 import "../css/Gallery.css";
-const ips =require('../../api.json');
 
-const api_ip = ips.server_ip; // Replace with your server's IP or domain
+const ips = require("../../api.json");
+const api_ip = ips.server_ip;
+
+
+//const api_ip = 'https://api.jntugv.edu.in' || 'http://localhost:8888'; // Replace with your server's IP or domain
 
 const GalleryImagesUpload = () => {
   const [eventDetails, setEventDetails] = useState({
