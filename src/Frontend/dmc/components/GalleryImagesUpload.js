@@ -4,7 +4,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import "../css/DMCUpload.css";
 import "../css/Gallery.css";
-const ips =require('../api.json');
+const ips =require('../../api.json');
 
 const api_ip = ips.server_ip; // Replace with your server's IP or domain
 
