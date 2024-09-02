@@ -85,14 +85,14 @@ export default function CustomizedAccordions() {
           <EventPhotosRequests/>
         </AccordionDetails>
       </Accordion>
-      <Accordion expanded={expanded === 'panel4'} onChange={handleChange('panel4')}>
+      {/* <Accordion expanded={expanded === 'panel4'} onChange={handleChange('panel4')}>
         <AccordionSummary aria-controls="panel4d-content" id="panel4d-header">
           <Typography>GALLERY PHOTOS REQUESTS</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <EventPhotosRequests/>
         </AccordionDetails>
-      </Accordion>
+      </Accordion> */}
     </div>
   );
 }
