@@ -1,15 +1,14 @@
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { Box, Button, Container, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
+import { Box, Button, Container, Grid, TextField, Typography } from '@mui/material';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import "../css/DMCUpload.css";
 import "../css/Gallery.css";
 
-const ips = require("../../api.json");
-const api_ip = ips.server_ip;
+// const ips = require("../../api.json");
+// const api_ip = ips.server_ip;
 
-
-//const api_ip = 'https://api.jntugv.edu.in' || 'http://localhost:8888'; // Replace with your server's IP or domain
+const api_ip = 'http://localhost:8888' || 'https://api.jntugv.edu.in'; // Replace with your server's IP or domain
 
 const GalleryImagesUpload = () => {
   const [eventDetails, setEventDetails] = useState({
@@ -71,14 +70,19 @@ const GalleryImagesUpload = () => {
   };
 
   const handleDelete = (id) => {
-    axios.delete(`${api_ip}/api/gallery/delete-gallery-image/${id}`)
-      .then(response => {
-        console.log(response.data);
-        fetchGalleryItems(); // Refresh the gallery list after deletion
-      })
-      .catch(error => {
-        console.error('Error deleting image:', error);
-      });
+    axios.delete(`${api_ip}/api/gallery/delete-gallery-image/${id}`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true, // Include cookies if your API uses them for authentication
+    })
+    .then(response => {
+      console.log(response.data);
+      fetchGalleryItems(); // Refresh the gallery list after deletion
+    })
+    .catch(error => {
+      console.error('Error deleting image:', error);
+    });
   };
 
   return (
@@ -115,18 +119,6 @@ const GalleryImagesUpload = () => {
           multiline
           rows={4}
         />
-        <FormControl fullWidth margin="normal" variant="outlined">
-          <InputLabel>Main Page</InputLabel>
-          <Select
-            name="main_page"
-            value={eventDetails.main_page}
-            onChange={handleChange}
-            label="Main Page"
-          >
-            <MenuItem value="yes">Yes</MenuItem>
-            <MenuItem value="no">No</MenuItem>
-          </Select>
-        </FormControl>
         <Box sx={{ marginTop: '20px', textAlign: 'center' }}>
           <Button
             component="label"
