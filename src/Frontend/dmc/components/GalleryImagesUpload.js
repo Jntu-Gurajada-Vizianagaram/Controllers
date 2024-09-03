@@ -15,8 +15,6 @@ const GalleryImagesUpload = () => {
     event_name: "",
     uploaded_date: new Date().toISOString().split('T')[0],
     description: "",
-    main_page: "",
-    admin_approval: "pending",
     added_by: "webadmin" // Replace with dynamic admin user if necessary
   });
 
