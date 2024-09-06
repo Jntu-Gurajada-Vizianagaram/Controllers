@@ -7,6 +7,7 @@ const allapis= {
         all_admins:`${api_ip}/api/admins/getadmins`,
         add_hod:`${api_ip}/api/admins/add-hod`,
         remove_hod:`${api_ip}/api/admins/remove-hod`,
+        update_hod:`${api_ip}/api/admins/update_hod`,
         genrate_pwd:`${api_ip}/api/admins/generate-password`,
         all_stored_files:`${api_ip}/api/admins/allstoredfiles`,
         all_exam_pdfs:`${api_ip}/api/admins/allexampdfs`,
