@@ -48,7 +48,8 @@ const GalleryImagesUpload = () => {
 
     axios.post(`${api_ip}/api/gallery/add-gallery-images`, formData)
       .then(response => {
-        console.log(response.data);
+        //console.log(response.data);
+        alert("Gallery Image added Sucessfull");
         fetchGalleryItems(); // Refresh the gallery list
         setFiles([]); // Reset file input after upload
       })
@@ -75,11 +76,12 @@ const GalleryImagesUpload = () => {
       withCredentials: true, // Include cookies if your API uses them for authentication
     })
     .then(response => {
-      console.log(response.data);
+      //console.log(response.data);
+      alert(`Image deleted:`);
       fetchGalleryItems(); // Refresh the gallery list after deletion
     })
     .catch(error => {
-      console.error('Error deleting image:', error);
+      alert('Error deleting image:', error);
     });
   };
 
