@@ -97,7 +97,7 @@ const AdminsCRUDControl = () => {
         <div className="hods-crud-console">
           <div>
             <Typography variant="h5" color="error">
-              Click EDIT BUTTON ONCE TO GENERATE HASH PASSWORD
+              All Passwords hashed .. Don't click edit Button...
             </Typography>
             <Button variant="contained" startIcon={<AddIcon />} onClick={() => setShowModal(true)}>Add Admin</Button>
           </div>

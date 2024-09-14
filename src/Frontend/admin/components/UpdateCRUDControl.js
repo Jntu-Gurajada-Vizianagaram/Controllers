@@ -1,35 +1,52 @@
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import { Button, Modal, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
-import Box from '@mui/material/Box';
-import CircularProgress from '@mui/material/CircularProgress';
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
-import { styled } from "@mui/material/styles";
-import TextField from "@mui/material/TextField";
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import {
+  Box,
+  Button,
+  CircularProgress,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Modal,
+  Paper,
+  Select,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TextField,
+  Typography
+} from '@mui/material';
+import { styled } from '@mui/material/styles';
+import axios from 'axios';
+import { saveAs } from 'file-saver';
+import { PDFDocument } from 'pdf-lib';
+import QRCode from 'qrcode';
+import React, { useEffect, useState } from 'react';
 import api from '../../Main/apis_data/APIs';
-import "../css/Updates.css";
+import '../css/Updates.css';
 
+// Accessing favicon using URL
+const favicon = `${process.env.PUBLIC_URL}/jntugv.ico`;
 
-const VisuallyHiddenInput = styled("input")({
-  clip: "rect(0 0 0 0)",
-  clipPath: "inset(50%)",
+// Hidden input for file uploads
+const VisuallyHiddenInput = styled('input')({
+  clip: 'rect(0 0 0 0)',
+  clipPath: 'inset(50%)',
   height: 1,
-  overflow: "hidden",
-  position: "absolute",
+  overflow: 'hidden',
+  position: 'absolute',
   bottom: 0,
   left: 0,
-  whiteSpace: "nowrap",
+  whiteSpace: 'nowrap',
   width: 1,
 });
 
 const Updates = () => {
-
+  
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [events, setEvents] = useState([]);
@@ -46,9 +63,13 @@ const Updates = () => {
     scrolling: "",
     update_type: "",
     update_status: "",
-    submitted_by: "admin",
-    admin_approval: "accepted",
+    submitted_by: 'admin',
+    admin_approval: 'accepted',
   });
+
+  const handleFileChange = (event) => {
+    setFile(event.target.files[0]);
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -60,54 +81,37 @@ const Updates = () => {
 
   const addEvent = async () => {
     const formData = new FormData();
-    formData.append("date", eventData.date);
-    formData.append("title", eventData.title);
-    formData.append("external_txt", eventData.external_text);
-    formData.append("external_lnk", eventData.external_link);
-    formData.append("main_page", eventData.main_page);
-    formData.append("scrolling", eventData.scrolling);
-    formData.append("update_type", eventData.update_type);
-    formData.append("update_status", eventData.update_status);
-    formData.append("submitted_by", eventData.submitted_by);
-    formData.append("admin_approval", eventData.admin_approval);
-    if (file) {
-      formData.append('file', file);
-    }
+    Object.keys(eventData).forEach((key) => formData.append(key, eventData[key]));
+    if (file) formData.append('file', file);
 
     try {
-      const response = await axios.post(`${api.updates_apis.add_event}`, formData);
-      console.log(response);
-      if (response) {
-        alert("Event added successfully");
-      } else {
-        console.log("Event Not Added");
-      }
+      await axios.post(api.updates_apis.add_event, formData);
+      alert('Event added successfully');
       getEvents();
       setShowModal(false);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
   const getEvents = async () => {
     setLoading(true);
-    axios
-      .get(`${api.updates_apis.all_admin_event}`)
-      .then((response) => {
-        setEvents(response.data);
-      })
-      .then(() => setLoading(false))
-      .catch((error) => {
-        console.error(error);
-      });
+    try {
+      const response = await axios.get(api.updates_apis.all_admin_event);
+      setEvents(response.data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const deleteEvent = async (event) => {
     try {
-      console.log(event);
+      // console.log(event);
       alert(`Deleting Event ${event.title}`);
       const id = event.id;
-      const response = await axios.get(`${api.updates_apis.remove_event}/${id}`);
+      await axios.get(`${api.updates_apis.remove_event}/${id}`);
       getEvents();
     } catch (error) {
       console.log(error);
@@ -116,270 +120,327 @@ const Updates = () => {
 
   const editEvent = (event) => {
     setEventData({
-      id: event.id,
-      date: event.date,
-      title: event.title,
-      file_path: event.file_path,
-      external_link: event.external_link,
-      external_text: event.external_text,
-      main_page: event.main_page,
-      scrolling: event.scrolling,
-      update_type: event.update_type,
-      update_status: event.update_status,
-      submitted_by: event.submitted_by,
-      admin_approval: event.admin_approval,
+      ...event,
+      date: event.date.slice(0, 10),
     });
     setFile(null);
     setIsEditing(true);
     setShowModal(true);
   };
 
-  const updateEvent = async () => {
-    const formData = new FormData();
-    formData.append("date", eventData.date);
-    formData.append("title", eventData.title);
-    formData.append("external_txt", eventData.external_text);
-    formData.append("external_lnk", eventData.external_link);
-    formData.append("main_page", eventData.main_page);
-    formData.append("scrolling", eventData.scrolling);
-    formData.append("update_type", eventData.update_type);
-    formData.append("update_status", eventData.update_status);
-    formData.append("submitted_by", eventData.submitted_by);
-    formData.append("admin_approval", eventData.admin_approval);
-    if (file) {
-      formData.append('file', file);
+const updateEvent = async () => {
+  const id = eventData.id; // Assuming eventData has an 'id' property
+  const formData = new FormData();
+  Object.keys(eventData).forEach((key) => formData.append(key, eventData[key]));
+  if (file) formData.append('file', file);
+
+  try {
+    const response =await axios.post(`${api.updates_apis.update_event}/${id}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    console.log(response);
+    alert('Event updated successfully');
+    getEvents();
+    setShowModal(false);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+  const handleSubmit = () => {
+    isEditing ? updateEvent() : addEvent();
+  };
+
+  const generateQRCodePDF = async () => {
+    if (!file) {
+      alert('Please upload a file first.');
+      return;
     }
 
+    const fileName = file.name.split('.').slice(0, -1).join('.');
+    const qrLink = `https://api.jntugv.edu.in/media/${fileName}.pdf`;
+
     try {
-      const response = await axios.post(`${api.updates_apis.update_event}/${eventData.id}`, formData);
-      console.log(response);
-      if (response) {
-        alert("Event updated successfully");
-      } else {
-        console.log("Event Not Updated");
-      }
-      getEvents();
-      setShowModal(false);
+      const qrCodeCanvas = document.createElement('canvas');
+      await QRCode.toCanvas(qrCodeCanvas, qrLink, { errorCorrectionLevel: 'H' });
+
+      const qrCodeContext = qrCodeCanvas.getContext('2d');
+      const logoImg = await loadImage(favicon);
+
+      const logoSize = qrCodeCanvas.width / 2;
+      const x = (qrCodeCanvas.width - logoSize) / 2;
+      const y = (qrCodeCanvas.height - logoSize) / 2;
+      qrCodeContext.drawImage(logoImg, x, y, logoSize, logoSize);
+
+      const qrCodeBlob = await new Promise((resolve) => qrCodeCanvas.toBlob(resolve, 'image/png'));
+
+      const pdfBytes = await appendQRCodeToPdf(qrCodeBlob, file);
+      saveAs(new Blob([pdfBytes]), `${fileName}.pdf`);
     } catch (error) {
-      console.log(error);
+      console.error('Error generating QR code:', error);
     }
   };
 
-  const handleSubmit = () => {
-    if (isEditing) {
-      updateEvent();
-    } else {
-      addEvent();
-    }
+  const loadImage = (src) => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = reject;
+      img.src = src;
+    });
+  };
+
+  const appendQRCodeToPdf = async (qrCodeBlob, pdfFile) => {
+    const pdfBytes = await pdfFile.arrayBuffer();
+    const pdfDoc = await PDFDocument.load(pdfBytes);
+
+    const lastPage = pdfDoc.getPages()[pdfDoc.getPageCount() - 1];
+    const { width, height } = lastPage.getSize();
+
+    const qrImage = await pdfDoc.embedPng(await qrCodeBlob.arrayBuffer());
+    const qrSize = 75;
+    lastPage.drawImage(qrImage, {
+      x: width - qrSize - 10,
+      y: 10,
+      width: qrSize,
+      height: qrSize,
+    });
+
+    return pdfDoc.save();
   };
 
   useEffect(() => {
     getEvents();
   }, []);
 
+  const openModalForAdding = () => {
+    setEventData({
+      id: null,
+      date: new Date().toISOString().slice(0, 10),
+      title: "",
+      file_path: "",
+      external_link: "",
+      external_text: '',
+      main_page: "",
+      scrolling: "",
+      update_type: "",
+      update_status: "",
+      submitted_by: 'admin',
+      admin_approval: 'accepted',
+    });
+    setFile(null);
+    setIsEditing(false);
+    setShowModal(true);
+  };
+
   return (
     <div>
-      <div className="updates-main">
-        <div>
-          <Button variant="contained" startIcon={<AddIcon />} onClick={() => { setShowModal(true); setIsEditing(false); }}>Add Notification</Button>
-        </div>
-        <Modal open={showModal} onClose={() => setShowModal(false)}>
-          <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', backdropFilter: 'blur(2px)' }}>
-            <div style={{ width: 800, backgroundColor: 'rgba(255, 255, 255, 0.5)', borderRadius: 8, boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.2)', padding: 20 }}>
-              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', padding: 10 }}>
-                <Typography variant="h5" gutterBottom>
-                  {isEditing ? "Edit Notification" : "Add New Notification"}
-                </Typography>
-                <Button variant="contained" startIcon={<CloseIcon />} onClick={() => setShowModal(false)}>Close</Button>
-              </div>
-              <div style={{
-                backgroundColor: 'rgba(255, 255, 255, 0.5)',
-                borderRadius: 8,
-                boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.2)',
-                padding: 10,
-                overflowY: 'auto',
-                maxHeight: '80vh',
-              }}>
-                <form>
-                  <label htmlFor="date">Date:</label>
-                  <input type="date" id="date" name="date" value={eventData.date} onChange={handleInputChange} required />
-                  <br></br>
+      <Button variant="contained" startIcon={<AddIcon />} onClick={openModalForAdding} sx={{ mb: 2 }}>
+        Add New Notification
+      </Button>
+      <Modal open={showModal} onClose={() => setShowModal(false)}>
+        <Box
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: { xs: '90%', sm: '80%', md: '70%' },
+            maxWidth: '600px',
+            bgcolor: 'background.paper',
+            borderRadius: 2,
+            p: 3,
+            overflowY: 'auto',
+            maxHeight: '80vh',
+          }}
+        >
+          <Typography variant="h5" component="h2">
+            {isEditing ? 'Edit Notification' : 'Add Notification'}
+          </Typography>
+          <Button
+            variant="contained"
+            startIcon={<CloseIcon />}
+            onClick={() => setShowModal(false)}
+            sx={{ mb: 2 }}
+          >
+            Close
+          </Button>
+          <form>
+            <Box sx={{ mb: 2 }}>
+              <TextField
+                fullWidth
+                type="date"
+                label="Date"
+                name="date"
+                value={eventData.date}
+                onChange={handleInputChange}
+                required
+                InputLabelProps={{ shrink: true }}
+              />
+            </Box>
+            <Box sx={{ mb: 2 }}>
+              <TextField
+                fullWidth
+                label="Notification Title"
+                name="title"
+                value={eventData.title}
+                onChange={handleInputChange}
+              />
+            </Box>
+            <Box sx={{ mb: 2 }}>
+              <TextField
+                fullWidth
+                label="External Text For Links"
+                name="external_text"
+                value={eventData.external_text}
+                onChange={handleInputChange}
+              />
+            </Box>
+            <Box sx={{ mb: 2 }}>
+              <TextField
+                fullWidth
+                label="External Link"
+                name="external_link"
+                value={eventData.external_link}
+                onChange={handleInputChange}
+              />
+            </Box>
+            <Box sx={{ mb: 2 }}>
+              <FormControl fullWidth>
+                <InputLabel>Main Page</InputLabel>
+                <Select
+                  name="main_page"
+                  value={eventData.main_page}
+                  onChange={handleInputChange}
+                >
+                  <MenuItem value="yes">YES</MenuItem>
+                  <MenuItem value="no">NO</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
+            <Box sx={{ mb: 2 }}>
+              <FormControl fullWidth>
+                <InputLabel>Flash Scrolling</InputLabel>
+                <Select
+                  name="scrolling"
+                  value={eventData.scrolling}
+                  onChange={handleInputChange}
+                >
+                  <MenuItem value="yes">YES</MenuItem>
+                  <MenuItem value="no">NO</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
+            <Box sx={{ mb: 2 }}>
+              <FormControl fullWidth>
+                <InputLabel>Type of Update</InputLabel>
+                <Select
+                  name="update_type"
+                  value={eventData.update_type}
+                  onChange={handleInputChange}
+                >
+                  <MenuItem value="circular">Circular</MenuItem>
+                  <MenuItem value="exams">Exams</MenuItem>
+                  <MenuItem value="calendar">Academic Calendar</MenuItem>
+                  <MenuItem value="regulation">Academic Regulation</MenuItem>
+                  <MenuItem value="syllabus">Academic Syllabus</MenuItem>
+                  <MenuItem value="tender">Tender</MenuItem>
+                  <MenuItem value="workshop">Workshop</MenuItem>
+                  <MenuItem value="sports">Sports</MenuItem>
+                  <MenuItem value="conference">Conference</MenuItem>
+                  <MenuItem value="recruitment">Recruitment</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
+            <Box sx={{ mb: 2 }}>
+              <FormControl fullWidth>
+                <InputLabel>Status</InputLabel>
+                <Select
+                  name="update_status"
+                  value={eventData.update_status}
+                  onChange={handleInputChange}
+                >
+                  <MenuItem value="update">Update</MenuItem>
+                  <MenuItem value="draft">Draft</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
+            <Box sx={{ mb: 2 }}>
+              <Button variant="contained" component="label" startIcon={<CloudUploadIcon />}>
+                Upload PDF File
+                <VisuallyHiddenInput type="file" accept="application/pdf" onChange={handleFileChange} />
+              </Button>
+            </Box>
+            <Box sx={{ mb: 2 }}>
+              <Button fullWidth variant="contained" color="primary" onClick={handleSubmit}>
+                {isEditing ? 'Update Notification' : 'Add Notification'}
+              </Button>
+            </Box>
+            <Box sx={{ mb: 2 }}>
+              <Button fullWidth variant="contained" color="secondary" onClick={generateQRCodePDF} disabled={!file}>
+                Generate QR Code and Download PDF
+              </Button>
+            </Box>
+          </form>
+        </Box>
+      </Modal>
 
-                  <label htmlFor="title">Notification Title:</label>
-                  <TextField
-                    label="Notification Title"
-                    variant="outlined"
-                    name="title"
-                    value={eventData.title}
-                    onChange={handleInputChange}
-                  />
-                  <br></br>
-
-                  <label htmlFor="file-path">Path/Upload File:</label>
-                  <Button
-                    component="label"
-                    variant="contained"
-                    startIcon={<CloudUploadIcon />}
-                  >
-                    {file != null ? file.name + " Uploaded" : "UPLOAD FILE"}
-                    <VisuallyHiddenInput type="file" name='file' onChange={(e) => {
-                      setFile(e.target.files[0]);
-                    }} />
-                  </Button>
-                  <br></br>
-
-                  <label htmlFor="external_text">External Text:<br />(Ex. Click here, Register Now, Read more)</label>
-                  <TextField
-                    label="External Text For Link"
-                    variant="outlined"
-                    name="external_text"
-                    value={eventData.external_text}
-                    onChange={handleInputChange}
-                  />
-                  <br></br>
-
-                  <label htmlFor="external_link">External Link:<br />Note: full link (http://** or https://** ) </label>
-                  <TextField
-                    label="External Link"
-                    variant="outlined"
-                    name="external_link"
-                    value={eventData.external_link}
-                    onChange={handleInputChange}
-                  />
-                  <br></br>
-
-                  <FormControl fullWidth>
-                    <InputLabel id="main-page-label">Main Page Publish</InputLabel>
-                    <Select
-                      labelId="main-page-label"
-                      id="main-page"
-                      name="main_page"
-                      value={eventData.main_page}
-                      onChange={handleInputChange}
-                    >
-                      <MenuItem value="yes">YES</MenuItem>
-                      <MenuItem value="no">NO</MenuItem>
-                    </Select>
-                  </FormControl>
-                  <br></br>
-
-                  <FormControl fullWidth>
-                    <InputLabel id="scrolling-label">Flash Scrolling</InputLabel>
-                    <Select
-                      labelId="scrolling-label"
-                      id="scrolling"
-                      name="scrolling"
-                      value={eventData.scrolling}
-                      onChange={handleInputChange}
-                    >
-                      <MenuItem value="yes">YES</MenuItem>
-                      <MenuItem value="no">NO</MenuItem>
-                    </Select>
-                  </FormControl>
-                  <br></br>
-
-                  <FormControl fullWidth>
-                    <InputLabel id="update-type-label">Type of Update</InputLabel>
-                    <Select
-                      labelId="update-type-label"
-                      id="update-type"
-                      name="update_type"
-                      value={eventData.update_type}
-                      onChange={handleInputChange}
-                    >
-                      <MenuItem value="exams">Exams</MenuItem>
-                      <MenuItem value="calendar">Academic Calendar</MenuItem>
-                      <MenuItem value="regulation">Academic Regulation</MenuItem>
-                      <MenuItem value="syllabus">Academic Syllabus</MenuItem>
-                      <MenuItem value="tender">Tender</MenuItem>
-                      <MenuItem value="workshop">Workshop</MenuItem>
-                      <MenuItem value="sports">Sports</MenuItem>
-                      <MenuItem value="conference">Conference</MenuItem>
-                      <MenuItem value="recruitment">Recruitment</MenuItem>
-                    </Select>
-                  </FormControl>
-                  <br></br>
-
-                  <FormControl fullWidth>
-                    <InputLabel id="update-status-label">Status</InputLabel>
-                    <Select
-                      labelId="update-status-label"
-                      id="update-status"
-                      name="update_status"
-                      value={eventData.update_status}
-                      onChange={handleInputChange}
-                    >
-                      <MenuItem value="update">Update</MenuItem>
-                      <MenuItem value="draft">Draft</MenuItem>
-                    </Select>
-                  </FormControl>
-                  <br></br>
-                  <Button component="label" variant="contained" onClick={handleSubmit}>
-                    {isEditing ? "Update" : "Submit"}
-                  </Button>
-                  <br></br>
-                </form>
-              </div>
-            </div>
+      <div className="eventsdisplay">
+        <Typography variant="h4" gutterBottom>
+          Notifications
+        </Typography>
+        {loading ? (
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', fontSize: '2em' }}>
+            <Typography>Loading... Files</Typography>
+            <CircularProgress />
           </div>
-        </Modal>
-
-        <div className="eventsdisplay">
-          <h2>Events</h2>
-          {loading ?
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', fontSize: '2em' }}>
-              <h1>Loading... Files</h1>
-              <Box sx={{ display: 'flex' }}>
-                <CircularProgress />
-              </Box>
-            </div>
-            :
-            <div>
-              {events.length ?
-                <TableContainer component={Paper}>
-                  <Table>
-                    <TableHead>
-                      <TableRow key={"Table Attributes"}>
-                        <TableCell>S.NO</TableCell>
-                        <TableCell>Notification Date</TableCell>
-                        <TableCell>Title</TableCell>
-                        <TableCell>Status</TableCell>
-                        <TableCell>View File</TableCell>
-                        <TableCell>Action</TableCell>
+        ) : (
+          <div>
+            {events.length ? (
+              <TableContainer component={Paper}>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>S.NO</TableCell>
+                      <TableCell>Notification Date</TableCell>
+                      <TableCell>Title</TableCell>
+                      <TableCell>Status</TableCell>
+                      <TableCell>View File</TableCell>
+                      <TableCell>Action</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {events.map((event) => (
+                      <TableRow key={event.id}>
+                        <TableCell>{event.id}</TableCell>
+                        <TableCell>{event.date}</TableCell>
+                        <TableCell>{event.title}</TableCell>
+                        <TableCell>{event.update_status}</TableCell>
+                        <TableCell>
+                          <a href={event.file_link} target="_blank" rel="noopener noreferrer">View File</a>
+                        </TableCell>
+                        <TableCell>
+                          <Button variant="contained" onClick={() => editEvent(event)}>
+                            Edit
+                          </Button>
+                        </TableCell>
+                        <TableCell>
+                          <Button variant="contained" color="error" onClick={() => deleteEvent(event)}>
+                            Delete
+                          </Button>
+                        </TableCell>
                       </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {events.map((event) => (
-                        <TableRow key={event.id}>
-                          <TableCell>{event.id}</TableCell>
-                          <TableCell>{event.date}</TableCell>
-                          <TableCell>{event.title}</TableCell>
-                          <TableCell>{event.update_status}</TableCell>
-                          <TableCell>
-                            <a href={event.file_link} target="_blank" rel="noopener noreferrer">View File</a>
-                          </TableCell>
-                          <TableCell>
-                            <Button variant="contained" onClick={() => editEvent(event)}>
-                              Edit
-                            </Button>
-                          </TableCell>
-                          <TableCell>
-                            <Button variant="contained" color="error" onClick={() => deleteEvent(event)}>
-                              Delete
-                            </Button>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-                :
-                <div>
-                  <h1> No Notifications Added (or) Server is Busy while Loading the Notifications</h1>
-                </div>}
-            </div>
-          }
-        </div>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            ) : (
+              <Typography variant="h6">No Notifications Added (or) Server is Busy while Loading the Notifications</Typography>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
