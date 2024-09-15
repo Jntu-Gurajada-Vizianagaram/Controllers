@@ -1,19 +1,20 @@
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { Button, Container, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography, Box } from '@mui/material';
+import { Box, Button, Container, Grid, TextField, Typography } from '@mui/material';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import "../css/DMCUpload.css";
 import "../css/Gallery.css";
 
-const api_ip = 'https://api.jntugv.edu.in' || 'http:localhost:8888'; // Update this to your server's IP or domain
+const ips = require("../../api.json");
+const api_ip = ips.server_ip;
+
+//const api_ip = 'http://localhost:8888' || 'https://api.jntugv.edu.in'; // Replace with your server's IP or domain
 
 const GalleryImagesUpload = () => {
   const [eventDetails, setEventDetails] = useState({
     event_name: "",
     uploaded_date: new Date().toISOString().split('T')[0],
     description: "",
-    main_page: "",
-    admin_approval: "pending",
     added_by: "webadmin" // Replace with dynamic admin user if necessary
   });
 
@@ -45,9 +46,10 @@ const GalleryImagesUpload = () => {
       formData.append('files', files[i]);
     }
 
-    axios.post(`${api_ip}/api/webadmin/add-gallery-images`, formData)
+    axios.post(`${api_ip}/api/gallery/add-gallery-images`, formData)
       .then(response => {
-        console.log(response.data);
+        //console.log(response.data);
+        alert("Gallery Image added Sucessfull");
         fetchGalleryItems(); // Refresh the gallery list
         setFiles([]); // Reset file input after upload
       })
@@ -57,7 +59,7 @@ const GalleryImagesUpload = () => {
   };
 
   const fetchGalleryItems = () => {
-    axios.get(`${api_ip}/api/webadmin/all-gallery-images`)
+    axios.get(`${api_ip}/api/gallery/all-gallery-images`)
       .then(response => {
         setGalleryItems(response.data);
       })
@@ -67,14 +69,20 @@ const GalleryImagesUpload = () => {
   };
 
   const handleDelete = (id) => {
-    axios.delete(`${api_ip}/api/webadmin/delete-gallery-image/${id}`)
-      .then(response => {
-        console.log(response.data);
-        fetchGalleryItems(); // Refresh the gallery list after deletion
-      })
-      .catch(error => {
-        console.error('Error deleting image:', error);
-      });
+    axios.delete(`${api_ip}/api/gallery/delete-gallery-image/${id}`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true, // Include cookies if your API uses them for authentication
+    })
+    .then(response => {
+      //console.log(response.data);
+      alert(`Image deleted:`);
+      fetchGalleryItems(); // Refresh the gallery list after deletion
+    })
+    .catch(error => {
+      alert('Error deleting image:', error);
+    });
   };
 
   return (
@@ -111,18 +119,6 @@ const GalleryImagesUpload = () => {
           multiline
           rows={4}
         />
-        <FormControl fullWidth margin="normal" variant="outlined">
-          <InputLabel>Main Page</InputLabel>
-          <Select
-            name="main_page"
-            value={eventDetails.main_page}
-            onChange={handleChange}
-            label="Main Page"
-          >
-            <MenuItem value="yes">Yes</MenuItem>
-            <MenuItem value="no">No</MenuItem>
-          </Select>
-        </FormControl>
         <Box sx={{ marginTop: '20px', textAlign: 'center' }}>
           <Button
             component="label"
@@ -155,7 +151,7 @@ const GalleryImagesUpload = () => {
         {galleryItems.map((item) => (
           <Grid item xs={6} sm={4} md={3} key={item.id} sx={{ textAlign: 'center' }}>
             <img
-              src={`${api_ip}/uploads/${item.filename}`}
+              src={item.imagelink}
               alt={item.filename}
               style={{ height: '100px', width: '100%', objectFit: 'cover', borderRadius: '4px' }}
             />
