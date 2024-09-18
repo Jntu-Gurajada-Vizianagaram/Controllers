@@ -81,12 +81,26 @@ const Updates = () => {
 
   const addEvent = async () => {
     const formData = new FormData();
-    Object.keys(eventData).forEach((key) => formData.append(key, eventData[key]));
-    if (file) formData.append('file', file);
+  
+    formData.append("date", eventData.date);
+    formData.append("title", eventData.title);
+    formData.append("external_txt", eventData.external_text);
+    formData.append("external_lnk", eventData.external_link);
+    formData.append("main_page", eventData.main_page);
+    formData.append("scrolling", eventData.scrolling);
+    formData.append("update_type", eventData.update_type);
+    formData.append("update_status", eventData.update_status);
+    formData.append("submitted_by", eventData.submitted_by);
+    formData.append("admin_approval", eventData.admin_approval);
+    if (file) {
+      formData.append('file', file);
+    }
+
 
     try {
-      await axios.post(api.updates_apis.add_event, formData);
+      await axios.post(`${api.updates_apis.add_event}`, formData);
       alert('Event added successfully');
+      console.log(eventData)
       getEvents();
       setShowModal(false);
     } catch (error) {
@@ -97,7 +111,7 @@ const Updates = () => {
   const getEvents = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(api.updates_apis.all_admin_event);
+      const response = await axios.get(`${api.updates_apis.all_admin_event}`);
       setEvents(response.data);
     } catch (error) {
       console.error(error);
@@ -111,7 +125,7 @@ const Updates = () => {
       // console.log(event);
       alert(`Deleting Event ${event.title}`);
       const id = event.id;
-      await axios.get(`${api.updates_apis.remove_event}/${id}`);
+      await axios.delete(`${api.updates_apis.remove_event}/${id}`);
       getEvents();
     } catch (error) {
       console.log(error);
@@ -131,7 +145,17 @@ const Updates = () => {
 const updateEvent = async () => {
   const id = eventData.id; // Assuming eventData has an 'id' property
   const formData = new FormData();
-  Object.keys(eventData).forEach((key) => formData.append(key, eventData[key]));
+  formData.append("date", eventData.date);
+    formData.append("title", eventData.title);
+    formData.append("external_txt", eventData.external_text);
+    formData.append("external_lnk", eventData.external_link);
+    formData.append("main_page", eventData.main_page);
+    formData.append("scrolling", eventData.scrolling);
+    formData.append("update_type", eventData.update_type);
+    formData.append("update_status", eventData.update_status);
+    formData.append("submitted_by", eventData.submitted_by);
+    formData.append("admin_approval", eventData.admin_approval);
+  
   if (file) formData.append('file', file);
 
   try {
@@ -221,8 +245,8 @@ const updateEvent = async () => {
       date: new Date().toISOString().slice(0, 10),
       title: "",
       file_path: "",
+      external_text: "",
       external_link: "",
-      external_text: '',
       main_page: "",
       scrolling: "",
       update_type: "",
