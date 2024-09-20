@@ -8,8 +8,6 @@ import "../css/Gallery.css";
 const ips = require("../../api.json");
 const api_ip = ips.server_ip;
 
-//const api_ip = 'http://localhost:8888' || 'https://api.jntugv.edu.in'; // Replace with your server's IP or domain
-
 const GalleryImagesUpload = () => {
   const [eventDetails, setEventDetails] = useState({
     event_name: "",
@@ -24,13 +22,22 @@ const GalleryImagesUpload = () => {
   useEffect(() => {
     fetchGalleryItems();
   }, []);
-
   const handleChange = (event) => {
     const { name, value } = event.target;
     setEventDetails((prevState) => ({
       ...prevState,
       [name]: value,
     }));
+  };
+
+  const clearForm = () => {
+    setEventDetails({
+      event_name: "",
+      uploaded_date: new Date().toISOString().split('T')[0],
+      description: "",
+      added_by: "webadmin"
+    });
+    setFiles([]);
   };
 
   const handleFileChange = (event) => {
@@ -48,10 +55,9 @@ const GalleryImagesUpload = () => {
 
     axios.post(`${api_ip}/api/gallery/add-gallery-images`, formData)
       .then(response => {
-        //console.log(response.data);
-        alert("Gallery Image added Sucessfull");
+        alert("Gallery Image added Successfully");
         fetchGalleryItems(); // Refresh the gallery list
-        setFiles([]); // Reset file input after upload
+        clearForm(); // Clear the form after successful upload
       })
       .catch(error => {
         console.error('Error uploading files:', error);

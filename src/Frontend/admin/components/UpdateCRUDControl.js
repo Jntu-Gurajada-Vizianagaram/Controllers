@@ -81,7 +81,6 @@ const Updates = () => {
 
   const addEvent = async () => {
     const formData = new FormData();
-  
     formData.append("date", eventData.date);
     formData.append("title", eventData.title);
     formData.append("external_txt", eventData.external_text);
@@ -95,16 +94,18 @@ const Updates = () => {
     if (file) {
       formData.append('file', file);
     }
-
+    else{
+      formData.append('file','')
+    }
 
     try {
       await axios.post(`${api.updates_apis.add_event}`, formData);
       alert('Event added successfully');
-      console.log(eventData)
       getEvents();
       setShowModal(false);
     } catch (error) {
-      console.error(error);
+      //console.error(error);
+      alert("Event Failed to Add..");
     }
   };
 
@@ -114,7 +115,6 @@ const Updates = () => {
       const response = await axios.get(`${api.updates_apis.all_admin_event}`);
       setEvents(response.data);
     } catch (error) {
-      console.error(error);
     } finally {
       setLoading(false);
     }
@@ -122,60 +122,72 @@ const Updates = () => {
 
   const deleteEvent = async (event) => {
     try {
-      // console.log(event);
       alert(`Deleting Event ${event.title}`);
       const id = event.id;
       await axios.delete(`${api.updates_apis.remove_event}/${id}`);
       getEvents();
     } catch (error) {
-      console.log(error);
+      alert("Event Not Deleted..");
+      //console.log(error)
     }
   };
 
-  const editEvent = (event) => {
+  const openEditModal = (event) => {
+    // Populate the form with the event data and format the date correctly
     setEventData({
-      ...event,
-      date: event.date.slice(0, 10),
+        ...event,
+        date: event.date.slice(0, 10),  // Format date to YYYY-MM-DD
     });
-    setFile(null);
-    setIsEditing(true);
-    setShowModal(true);
-  };
+    setFile(null);  // Reset the file input
+    setIsEditing(true);  // Set the editing mode
+    setShowModal(true);  // Show the modal
+};
 
-const updateEvent = async () => {
-  const id = eventData.id; // Assuming eventData has an 'id' property
-  const formData = new FormData();
-  formData.append("date", eventData.date);
+const editEvent = async () => {
+    const id = eventData.id;
+    const formData = new FormData();
+    formData.append("date", eventData.date);
     formData.append("title", eventData.title);
-    formData.append("external_txt", eventData.external_text);
-    formData.append("external_lnk", eventData.external_link);
+    formData.append("external_text", eventData.external_text);
+    formData.append("external_link", eventData.external_link);
     formData.append("main_page", eventData.main_page);
     formData.append("scrolling", eventData.scrolling);
     formData.append("update_type", eventData.update_type);
     formData.append("update_status", eventData.update_status);
     formData.append("submitted_by", eventData.submitted_by);
     formData.append("admin_approval", eventData.admin_approval);
-  
-  if (file) formData.append('file', file);
 
-  try {
-    const response =await axios.post(`${api.updates_apis.update_event}/${id}`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-    console.log(response);
-    alert('Event updated successfully');
-    getEvents();
-    setShowModal(false);
-  } catch (error) {
-    console.error(error);
-  }
+    // Append the file if it exists
+    if (file) {
+        formData.append('file', file);
+    }
+
+    try {
+        const response = await axios.put(`${api.updates_apis.update_event}/${id}`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+
+        if (response.status === 200) {
+            alert('Event updated successfully');
+            getEvents();
+            setShowModal(false);
+        } else {
+            alert('Failed to update the event. Please try again.');
+        }
+    } catch (error) {
+        alert('Error updating event. Please try again.');
+    }
 };
 
-  const handleSubmit = () => {
-    isEditing ? updateEvent() : addEvent();
-  };
+const handleSubmit = () => {
+    if (isEditing) {
+        editEvent();
+    } else {
+        addEvent();
+    }
+};
 
   const generateQRCodePDF = async () => {
     if (!file) {
@@ -220,12 +232,13 @@ const updateEvent = async () => {
     const pdfBytes = await pdfFile.arrayBuffer();
     const pdfDoc = await PDFDocument.load(pdfBytes);
 
-    const lastPage = pdfDoc.getPages()[pdfDoc.getPageCount() - 1];
-    const { width, height } = lastPage.getSize();
+    const firstPage = pdfDoc.getPages()[0];
+    const { width, height } = firstPage.getSize();
+    
 
     const qrImage = await pdfDoc.embedPng(await qrCodeBlob.arrayBuffer());
     const qrSize = 75;
-    lastPage.drawImage(qrImage, {
+    firstPage.drawImage(qrImage, {
       x: width - qrSize - 10,
       y: 10,
       width: qrSize,
@@ -446,7 +459,7 @@ const updateEvent = async () => {
                           <a href={event.file_link} target="_blank" rel="noopener noreferrer">View File</a>
                         </TableCell>
                         <TableCell>
-                          <Button variant="contained" onClick={() => editEvent(event)}>
+                          <Button variant="contained" onClick={() => openEditModal(event)}>
                             Edit
                           </Button>
                         </TableCell>
