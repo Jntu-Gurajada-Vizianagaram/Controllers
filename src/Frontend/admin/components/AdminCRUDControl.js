@@ -13,6 +13,7 @@ import TableRow from '@mui/material/TableRow';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import api from '../../Main/apis_data/APIs';
+
 const AdminsCRUDControl = () => {
   const [allAdmins, setAllAdmins] = useState([]);
   const [name, setName] = useState("");
@@ -20,6 +21,11 @@ const AdminsCRUDControl = () => {
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [editingAdmin, setEditingAdmin] = useState(null);
+  const [editName, setEditName] = useState("");
+  const [editUsername, setEditUsername] = useState("");
+  const [editPassword, setEditPassword] = useState("");
+  const [editRole, setEditRole] = useState("");
 
   const admins = async () => {
     try {
@@ -27,10 +33,11 @@ const AdminsCRUDControl = () => {
       if (response.data) {
         setAllAdmins(response.data);
       } else {
-        console.log("Data Not Fetched");
+        //console.log("Data Not Fetched");
       }
     } catch (error) {
-      console.log("Something went wrong:", error);
+      //console.error("Error fetching admins:", error);
+      alert("Something went wrong while fetching admins");
     }
   };
 
@@ -40,50 +47,71 @@ const AdminsCRUDControl = () => {
         data: { name, username, password, role }
       });
       if (response.data.Success) {
-        alert("HOD Data Successfully added");
+        alert("Admin Data Successfully added");
         admins();
-        setShowModal(false); // Close modal after adding admin
+        setShowModal(false);
       } else {
-        alert("HOD Data Not added. Reason: " + response.data.MSG);
+        alert("Admin Data Not added. Reason: " + response.data.MSG);
       }
     } catch (error) {
-      alert("Exception: " + error);
-      console.log(error);
+      //console.error("Error adding admin:", error);
+      alert("An error occurred while adding the admin");
     }
   }
-  const update_hod = async (admin) => {
+
+  const openEditModal = (admin) => {
+    setEditName(admin.name);
+    setEditUsername(admin.username);
+    setEditPassword("");
+    setEditRole(admin.role);
+  };
+
+  const closeEditModal = () => {
+    setEditingAdmin(null);
+  };
+
+  const update_hod = async () => {
     try {
-      // Display an alert to show that the update process has started
-      alert("Updating Admin: " + admin.id);
+      if (!editingAdmin) return;
 
-      // Make a PUT request to update the admin's data (Assuming PUT for update)
-      const response = await axios.put(`${api.admin_apis.update_hod}/${admin.id}`, admin);
+      const updatedAdmin = {
+        id: editingAdmin.id,
+        name: editingAdmin.name,
+        username: editUsername,
+        password: editingAdmin.password,
+        role: editingAdmin.role
+      };
 
-      // Check if the response indicates success
+      const response = await axios.put(`${api.admin_apis.update_hod}/${editingAdmin.id}`, updatedAdmin);
+
       if (response.data.Success) {
         alert("Admin updated successfully!");
+        admins();
+        closeEditModal();
       } else {
         alert("Failed to update Admin: " + response.data.MSG);
       }
     } catch (error) {
-      console.error("Error updating Admin:", error);
+      //console.error("Error updating Admin:", error);
       alert("An error occurred while updating the admin. Please try again.");
     }
   };
 
-
   const remove_hod = async (admin) => {
     try {
-      alert("Removing Admin: " + admin.id);
-      const response = await axios.delete(`${api.admin_apis.remove_hod}/${admin.id}`);
-      if (response.data.Success) {
-        alert("Admin Removed Successfully");
-        admins();
-      } else {
-        console.log("Something went wrong: " + response.data.msg);
+      const confirmDelete = window.confirm(`Are you sure you want to remove Admin: ${admin.name}?`);
+      if (confirmDelete) {
+        const response = await axios.delete(`${api.admin_apis.remove_hod}/${admin.id}`);
+        if (response.data.Success) {
+          alert("Admin Removed Successfully");
+          admins();
+        } else {
+          alert("Something went wrong: " + response.data.msg);
+        }
       }
     } catch (error) {
-      console.log(error);
+     // console.error("Error removing admin:", error);
+      alert("An error occurred while removing the admin");
     }
   }
 
@@ -97,13 +125,13 @@ const AdminsCRUDControl = () => {
         <div className="hods-crud-console">
           <div>
             <Typography variant="h5" color="error">
-              All Passwords hashed .. Don't click edit Button...
+              NOW EDIT Function Enabled..
             </Typography>
             <Button variant="contained" startIcon={<AddIcon />} onClick={() => setShowModal(true)}>Add Admin</Button>
           </div>
         </div>
       </div>
-      {allAdmins != "" ?
+      {allAdmins.length > 0 ? (
         <TableContainer component={Card}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
@@ -119,24 +147,22 @@ const AdminsCRUDControl = () => {
               {allAdmins.map((admin) => (
                 <TableRow key={admin.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                   <TableCell component="th" scope="row">{admin.name}</TableCell>
-                  <TableCell align="left">{admin.username}</TableCell>
-                  <TableCell align="left">{admin.role}</TableCell>
+                  <TableCell align="center">{admin.username}</TableCell>
+                  <TableCell align="center">{admin.role}</TableCell>
                   <TableCell align="center">
-                    <Button variant="contained" color="success" onClick={() => { update_hod(admin) }}>Edit</Button>
+                    <Button variant="contained" color="primary" onClick={() => openEditModal(admin)}>Edit</Button>
                   </TableCell>
                   <TableCell align="center">
-                    <Button variant="outlined" color="error" onClick={() => { remove_hod(admin) }} startIcon={<DeleteIcon />}>Delete {admin.id}</Button>
-
+                    <Button variant="outlined" color="error" onClick={() => remove_hod(admin)} startIcon={<DeleteIcon />}>Delete</Button>
                   </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
-        :
-        <div>
-          <h1> No Admins to Show (or) Server Busy to Load ADMINS</h1>
-        </div>}
+      ) : (
+        <Typography variant="h6" align="center">No Admins to Show or Server is Busy Loading Admins</Typography>
+      )}
       <Modal open={showModal} onClose={() => setShowModal(false)}>
         <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', backdropFilter: 'blur(2px)' }}>
           <div style={{ width: 400, backgroundColor: 'rgba(255, 255, 255, 0.8)', borderRadius: 8, boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.2)', padding: 20, position: 'relative' }}>
@@ -169,7 +195,38 @@ const AdminsCRUDControl = () => {
           </div>
         </div>
       </Modal>
-
+      <Modal open={!!editingAdmin} onClose={closeEditModal}>
+        <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', backdropFilter: 'blur(2px)' }}>
+          <div style={{ width: 400, backgroundColor: 'rgba(255, 255, 255, 0.8)', borderRadius: 8, boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.2)', padding: 20, position: 'relative' }}>
+            <IconButton
+              style={{ position: 'absolute', top: 10, right: 10 }}
+              onClick={closeEditModal}
+            >
+              <CloseIcon />
+            </IconButton>
+            <Typography variant="h5" gutterBottom>
+              Edit Admin
+            </Typography>
+            <Box mt={2}>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <TextField fullWidth label="Name" variant="outlined" value={editName} onChange={(e) => setEditName(e.target.value)} />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField fullWidth label="Username" variant="outlined" value={editUsername} onChange={(e) => setEditUsername(e.target.value)} />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField fullWidth label="New Password" variant="outlined" type="password" value={editPassword} onChange={(e) => setEditPassword(e.target.value)} />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField fullWidth label="Role" variant="outlined" value={editRole} onChange={(e) => setEditRole(e.target.value)} />
+                </Grid>
+              </Grid>
+            </Box>
+            <Button variant="contained" onClick={update_hod} style={{ marginTop: 20 }}>Update</Button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 }
