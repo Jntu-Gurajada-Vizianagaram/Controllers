@@ -27,16 +27,20 @@ const AdminsCRUDControl = () => {
   const [editPassword, setEditPassword] = useState("");
   const [editRole, setEditRole] = useState("");
 
+  // Fetching all admins on component load
+  useEffect(() => {
+    admins();
+  }, []);
+
   const admins = async () => {
     try {
       const response = await axios.get(`${api.admin_apis.all_admins}`);
       if (response.data) {
         setAllAdmins(response.data);
       } else {
-        //console.log("Data Not Fetched");
+        alert("No data available or server issue.");
       }
     } catch (error) {
-      //console.error("Error fetching admins:", error);
       alert("Something went wrong while fetching admins");
     }
   };
@@ -44,30 +48,32 @@ const AdminsCRUDControl = () => {
   const adding_handle = async () => {
     try {
       const response = await axios.post(`${api.admin_apis.add_hod}`, {
-        data: { name, username, password, role }
+        name, username, password, role
       });
       if (response.data.Success) {
         alert("Admin Data Successfully added");
-        admins();
+        admins();  // Reload admins list
         setShowModal(false);
+        clearAddForm();  // Clear the form
       } else {
         alert("Admin Data Not added. Reason: " + response.data.MSG);
       }
     } catch (error) {
-      //console.error("Error adding admin:", error);
       alert("An error occurred while adding the admin");
     }
-  }
+  };
 
   const openEditModal = (admin) => {
+    setEditingAdmin(admin);
     setEditName(admin.name);
     setEditUsername(admin.username);
-    setEditPassword("");
+    setEditPassword("");  // Reset password field
     setEditRole(admin.role);
   };
 
   const closeEditModal = () => {
     setEditingAdmin(null);
+    clearEditForm();
   };
 
   const update_hod = async () => {
@@ -76,23 +82,22 @@ const AdminsCRUDControl = () => {
 
       const updatedAdmin = {
         id: editingAdmin.id,
-        name: editingAdmin.name,
+        name: editName,
         username: editUsername,
-        password: editingAdmin.password,
-        role: editingAdmin.role
+        password: editPassword, // If password is provided, it will be updated
+        role: editRole
       };
 
       const response = await axios.put(`${api.admin_apis.update_hod}/${editingAdmin.id}`, updatedAdmin);
 
       if (response.data.Success) {
         alert("Admin updated successfully!");
-        admins();
+        admins();  // Reload admins list
         closeEditModal();
       } else {
         alert("Failed to update Admin: " + response.data.MSG);
       }
     } catch (error) {
-      //console.error("Error updating Admin:", error);
       alert("An error occurred while updating the admin. Please try again.");
     }
   };
@@ -104,20 +109,29 @@ const AdminsCRUDControl = () => {
         const response = await axios.delete(`${api.admin_apis.remove_hod}/${admin.id}`);
         if (response.data.Success) {
           alert("Admin Removed Successfully");
-          admins();
+          admins();  // Reload admins list
         } else {
           alert("Something went wrong: " + response.data.msg);
         }
       }
     } catch (error) {
-     // console.error("Error removing admin:", error);
       alert("An error occurred while removing the admin");
     }
-  }
+  };
 
-  useEffect(() => {
-    admins();
-  }, []);
+  const clearAddForm = () => {
+    setName("");
+    setUsername("");
+    setPassword("");
+    setRole("");
+  };
+
+  const clearEditForm = () => {
+    setEditName("");
+    setEditUsername("");
+    setEditPassword("");
+    setEditRole("");
+  };
 
   return (
     <div>
@@ -131,6 +145,7 @@ const AdminsCRUDControl = () => {
           </div>
         </div>
       </div>
+
       {allAdmins.length > 0 ? (
         <TableContainer component={Card}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -163,6 +178,8 @@ const AdminsCRUDControl = () => {
       ) : (
         <Typography variant="h6" align="center">No Admins to Show or Server is Busy Loading Admins</Typography>
       )}
+
+      {/* Add Admin Modal */}
       <Modal open={showModal} onClose={() => setShowModal(false)}>
         <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', backdropFilter: 'blur(2px)' }}>
           <div style={{ width: 400, backgroundColor: 'rgba(255, 255, 255, 0.8)', borderRadius: 8, boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.2)', padding: 20, position: 'relative' }}>
@@ -178,16 +195,16 @@ const AdminsCRUDControl = () => {
             <Box mt={2}>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
-                  <TextField fullWidth label="Name" variant="outlined" onChange={(e) => setName(e.target.value)} />
+                  <TextField fullWidth label="Name" variant="outlined" value={name} onChange={(e) => setName(e.target.value)} />
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField fullWidth label="Username" variant="outlined" onChange={(e) => setUsername(e.target.value)} />
+                  <TextField fullWidth label="Username" variant="outlined" value={username} onChange={(e) => setUsername(e.target.value)} />
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField fullWidth label="Password" variant="outlined" type="password" onChange={(e) => setPassword(e.target.value)} />
+                  <TextField fullWidth label="Password" variant="outlined" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField fullWidth label="Role" variant="outlined" onChange={(e) => setRole(e.target.value)} />
+                  <TextField fullWidth label="Role" variant="outlined" value={role} onChange={(e) => setRole(e.target.value)} />
                 </Grid>
               </Grid>
             </Box>
@@ -195,40 +212,44 @@ const AdminsCRUDControl = () => {
           </div>
         </div>
       </Modal>
-      <Modal open={!!editingAdmin} onClose={closeEditModal}>
-        <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', backdropFilter: 'blur(2px)' }}>
-          <div style={{ width: 400, backgroundColor: 'rgba(255, 255, 255, 0.8)', borderRadius: 8, boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.2)', padding: 20, position: 'relative' }}>
-            <IconButton
-              style={{ position: 'absolute', top: 10, right: 10 }}
-              onClick={closeEditModal}
-            >
-              <CloseIcon />
-            </IconButton>
-            <Typography variant="h5" gutterBottom>
-              Edit Admin
-            </Typography>
-            <Box mt={2}>
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <TextField fullWidth label="Name" variant="outlined" value={editName} onChange={(e) => setEditName(e.target.value)} />
+
+      {/* Edit Admin Modal */}
+      {editingAdmin && (
+        <Modal open={Boolean(editingAdmin)} onClose={closeEditModal}>
+          <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', backdropFilter: 'blur(2px)' }}>
+            <div style={{ width: 400, backgroundColor: 'rgba(255, 255, 255, 0.8)', borderRadius: 8, boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.2)', padding: 20, position: 'relative' }}>
+              <IconButton
+                style={{ position: 'absolute', top: 10, right: 10 }}
+                onClick={closeEditModal}
+              >
+                <CloseIcon />
+              </IconButton>
+              <Typography variant="h5" gutterBottom>
+                Edit Admin
+              </Typography>
+              <Box mt={2}>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <TextField fullWidth label="Name" variant="outlined" value={editName} onChange={(e) => setEditName(e.target.value)} />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField fullWidth label="Username" variant="outlined" value={editUsername} onChange={(e) => setEditUsername(e.target.value)} />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField fullWidth label="Password" variant="outlined" type="password" value={editPassword} onChange={(e) => setEditPassword(e.target.value)} />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField fullWidth label="Role" variant="outlined" value={editRole} onChange={(e) => setEditRole(e.target.value)} />
+                  </Grid>
                 </Grid>
-                <Grid item xs={12}>
-                  <TextField fullWidth label="Username" variant="outlined" value={editUsername} onChange={(e) => setEditUsername(e.target.value)} />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField fullWidth label="New Password" variant="outlined" type="password" value={editPassword} onChange={(e) => setEditPassword(e.target.value)} />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField fullWidth label="Role" variant="outlined" value={editRole} onChange={(e) => setEditRole(e.target.value)} />
-                </Grid>
-              </Grid>
-            </Box>
-            <Button variant="contained" onClick={update_hod} style={{ marginTop: 20 }}>Update</Button>
+              </Box>
+              <Button variant="contained" onClick={update_hod} style={{ marginTop: 20 }}>Update</Button>
+            </div>
           </div>
-        </div>
-      </Modal>
+        </Modal>
+      )}
     </div>
   );
-}
+};
 
 export default AdminsCRUDControl;
