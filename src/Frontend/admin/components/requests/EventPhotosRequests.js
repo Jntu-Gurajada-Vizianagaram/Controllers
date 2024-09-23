@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from "@mui/material";
+import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import api from '../../../Main/apis_data/APIs';
 import "../../css/Admin.css";
-import api from '../../../Main/apis_data/APIs'
 
 
 const EventPhotosRequests = () => {
@@ -17,35 +17,37 @@ const EventPhotosRequests = () => {
     })
     .catch((error) => {
       console.error(error);
+      alert("Error in getting requests")
     });
   } 
 
-  const request_accept = (request)=>{
-    axios.get(`${api.webadmin_requests.webadmin_request_accept}/${request.id}`)
-      .then((response)=>{
-        alert(response.data.message)
-        get_requests()
+  const request_accept = (request) => {
+   const response = axios.get(`${api.webadmin_requests.webadmin_event_accept}/${request.id}`)
+      .then((response) => {
+        console.log(response);
+        alert("Request Accepted");
+        alert(response.data.message);
+        get_requests();
       })
-      .catch((err)=>{
-        console.log(err)
-      })
-      
-    }
+      .catch((err) => {
+        console.error(err);
+        alert("Error in accepting request");
+      });
+  }
   const request_deny = (request)=>{
-    axios.get(`${api.webadmin_requests.webadmin_request_deny}/${request.id}`)
+    const response = axios.get(`${api.webadmin_requests.webadmin_event_deny}/${request.id}`)
       .then((response)=>{
+        alert('Request Denied')
         alert(response.data.message)
         get_requests()
       })
       .catch((err)=>{
         console.log(err)
+        alert("Error in denying request")
       })
       
     }
-    
  
-
-
 useEffect(()=>{
   get_requests();
 },[])

@@ -52,9 +52,9 @@ const AdminsCRUDControl = () => {
       });
       if (response.data.Success) {
         alert("Admin Data Successfully added");
-        admins();  // Reload admins list
+        admins();
         setShowModal(false);
-        clearAddForm();  // Clear the form
+        clearAddForm();
       } else {
         alert("Admin Data Not added. Reason: " + response.data.MSG);
       }
@@ -67,9 +67,10 @@ const AdminsCRUDControl = () => {
     setEditingAdmin(admin);
     setEditName(admin.name);
     setEditUsername(admin.username);
-    setEditPassword("");  // Reset password field
+    setEditPassword();
     setEditRole(admin.role);
   };
+
 
   const closeEditModal = () => {
     setEditingAdmin(null);
@@ -84,7 +85,7 @@ const AdminsCRUDControl = () => {
         id: editingAdmin.id,
         name: editName,
         username: editUsername,
-        password: editPassword, // If password is provided, it will be updated
+        password: editPassword ? editPassword : editingAdmin.password,
         role: editRole
       };
 
@@ -92,7 +93,7 @@ const AdminsCRUDControl = () => {
 
       if (response.data.Success) {
         alert("Admin updated successfully!");
-        admins();  // Reload admins list
+        admins();
         closeEditModal();
       } else {
         alert("Failed to update Admin: " + response.data.MSG);
@@ -109,7 +110,7 @@ const AdminsCRUDControl = () => {
         const response = await axios.delete(`${api.admin_apis.remove_hod}/${admin.id}`);
         if (response.data.Success) {
           alert("Admin Removed Successfully");
-          admins();  // Reload admins list
+          admins();
         } else {
           alert("Something went wrong: " + response.data.msg);
         }
