@@ -40,7 +40,7 @@ const Login = () => {
           window.location.href = `/profiles`;
           // console.log(response.data);
         } else {
-          console.log(response.data.message);
+          //console.log(response.data.message);
           setAlert({
             type:"error",
             message:response.data.message

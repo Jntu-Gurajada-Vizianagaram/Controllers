@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import '../css/DMCUpload.css'
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from "@mui/material";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Modal, Box, Typography } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -28,12 +28,9 @@ const ips = require("../../api.json");
 const api_ip = ips.server_ip;
 
 const Upload = () => {
-
-
-
-
-  const [file, setFile] = useState();
+  const [file, setFile] = useState(null);
   const [events, setEvents] = useState([]);
+  const [editingEvent, setEditingEvent] = useState(null);
   const [eventData, setEventData] = useState({
     date: (new Date()),
     title: "",
@@ -41,11 +38,10 @@ const Upload = () => {
     description: "",
     submitted: mods.uds.admin,
     admin_approval: "pending",
-    carousel_scrolling: "", 
+    carousel_scrolling: "",
     gallery_scrolling: ""
-    
   });
-
+  const [openModal, setOpenModal] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -55,69 +51,106 @@ const Upload = () => {
     });
   };
 
- 
-
-  const addEvent = async () =>{
+  const addEvent = async () => {
     const formData = new FormData()
-    formData.append("date",eventData.date)
-    formData.append("title",eventData.title)
-    formData.append("description",eventData.description)
-    formData.append("submitted",eventData.submitted)
-    formData.append('file',file)
-    formData.append("admin_approval",eventData.admin_approval)
-    formData.append("carousel_scrolling",eventData.carousel_scrolling)
-    formData.append("gallery_scrolling",eventData.gallery_scrolling)
+    formData.append("date", eventData.date)
+    formData.append("title", eventData.title)
+    formData.append("description", eventData.description)
+    formData.append("submitted", eventData.submitted)
+    formData.append('file', file)
+    formData.append("admin_approval", eventData.admin_approval)
+    formData.append("carousel_scrolling", eventData.carousel_scrolling)
+    formData.append("gallery_scrolling", eventData.gallery_scrolling)
     
     try {
-      const response = await axios.post(`${api_ip}/api/webadmin/addimage`,formData)
-      console.log(response)
-      if(response){
-        alert("Event added"+response)
+      const response = await axios.post(`${api_ip}/api/webadmin/addimage`, formData)
+      if(response.data){
+        alert("Event added successfully")
+        resetForm()
+        getEvents()
+      } else {
+        alert("Event Not Added")
       }
-        else{
-          console.log("Event Not Added")
-        }
-      getEvents()
     } catch (error) {
-      console.log(error)
+      alert("Error adding event: " + error.message)
     }
   }
 
-
-  const getEvents = async () =>{
-
-    axios
-    .get(`${api_ip}/api/webadmin/allimages`)
-    .then((response) => {
-      setEvents(response.data);
-    })
-    .catch((error) => {
-      console.error(error);
+  const resetForm = () => {
+    setEventData({
+      date: new Date().toISOString().split('T')[0],
+      title: "",
+      description: "",
+      submitted: mods.uds.admin,
+      admin_approval: "pending",
+      carousel_scrolling: "",
+      gallery_scrolling: ""
     });
+    setFile(null);
   }
 
+  const getEvents = async () => {
+    try {
+      const response = await axios.get(`${api_ip}/api/webadmin/allimages`);
+      setEvents(response.data);
+    } catch (error) {
+      console.error("Error fetching events:", error);
+    }
+  }
 
   const deleteEvent = async (event) => {
     try {
-      console.log(event)
-      // if(confirm(`Are you sure u want Delete ${event.title}`)==true){
-        alert(`Deleting Event ${event.title}`)
-        const id =event.id
-        const response = await axios.get(`${api_ip}/api/webadmin/removeimage/${id}`);
-      // }
-      // else{
-      //   alert('Event Not Deleted')
-      // }
-      // window.location.href='/admin'
-      getEvents()
-
+      await axios.get(`${api_ip}/api/webadmin/removeimage/${event.id}`);
+      alert(`Event ${event.title} deleted successfully`);
+      getEvents();
     } catch (error) {
-      console.log(error)
+      console.error("Error deleting event:", error);
+      alert("Error deleting event");
+    }
+  }
+
+  const handleEdit = (event) => {
+    setEditingEvent(event);
+    setEventData({
+      date: event.date,
+      title: event.title,
+      description: event.description,
+      submitted: event.submitted,
+      admin_approval: event.admin_approval,
+      carousel_scrolling: event.carousel_scrolling,
+      gallery_scrolling: event.gallery_scrolling
+    });
+    setOpenModal(true);
+  }
+
+  const updateEvent = async () => {
+    const formData = new FormData()
+    formData.append("dmcupload[date]", eventData.date)
+    formData.append("dmcupload[title]", eventData.title)
+    formData.append("dmcupload[description]", eventData.description)
+    formData.append("dmcupload[submitted]", eventData.submitted)
+    if (file) {
+      formData.append('file', file)
+    }
+    formData.append("dmcupload[admin_approval]", eventData.admin_approval)
+    formData.append("dmcupload[carousel_scrolling]", eventData.carousel_scrolling)
+    formData.append("dmcupload[gallery_scrolling]", eventData.gallery_scrolling)
+    
+    try {
+      const response = await axios.put(`${api_ip}/api/webadmin/update-carousel-image/${editingEvent.id}`, formData)
+      if(response.data){
+        alert("Event updated successfully")
+        setOpenModal(false);
+        resetForm();
+        getEvents();
+      }
+    } catch (error) {
+      console.error("Error updating event:", error);
+      alert("Error updating event");
     }
   }
 
   useEffect(() => {
-  
     getEvents()
   }, []);
 
@@ -126,71 +159,53 @@ const Upload = () => {
       <div className="updates-main">
         <div>
           <form className="form_container">
-            <label for="date">Date:</label>
-            <input type="text" id="date" name="date" value={eventData.date} onChange={handleInputChange} required />
-            <br></br>
-           
-            <label for="title">Title of the event:</label>
             <TextField
+              fullWidth
+              margin="normal"
+              label="Date"
+              type="date"
+              name="date"
+              value={eventData.date}
+              onChange={handleInputChange}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+            <TextField
+              fullWidth
+              margin="normal"
               label="Title of the event"
-              variant="outlined"
               name="title"
               value={eventData.title}
               onChange={handleInputChange}
             />
-            <br></br>
-            <label for="description">Description:</label>
-            <textarea 
-              id="description" 
+            <TextField
+              fullWidth
+              margin="normal"
+              label="Description"
               name="description"
+              multiline
+              rows={4}
               value={eventData.description}
-              onChange={handleInputChange} required>
-            </textarea>
-          <br></br>
-
-            <label for="file-path">Path/Upload File:</label>
+              onChange={handleInputChange}
+            />
             <Button
               component="label"
               variant="contained"
               startIcon={<CloudUploadIcon />}
+              style={{ marginTop: '20px', marginBottom: '20px' }}
             >
-              {file != null ? file.name + " Uploaded" : "UPLOAD FILE"}
-              <VisuallyHiddenInput type="file" name='file' onChange={(e)=>{
-                setFile(e.target.files[0]) 
-                
-                }} required />
+              {file ? file.name + " Uploaded" : "UPLOAD FILE"}
+              <VisuallyHiddenInput 
+                type="file" 
+                name='file' 
+                onChange={(e) => setFile(e.target.files[0])} 
+                required 
+              />
             </Button>
-            <br></br>
-
-            {/* <label for="submitted">Submitted By:</label>
-            <TextField
-              label="Name of the person"
-              variant="outlined"
-              name="submitted"
-              value={eventData.submitted}
-              onChange={handleInputChange}
-            /> */}
-{/*             
-            <br></br>
-
-            <FormControl fullWidth>
-              <InputLabel id="admin_approval">Admin Approval</InputLabel>
+            <FormControl fullWidth margin="normal">
+              <InputLabel>Carousel Scrolling</InputLabel>
               <Select
-                labelId="admin_approval"
-                id="admin_approval"
-                name="admin_approval"
-                value={eventData.admin_approval}
-                onChange={handleInputChange}
-              >
-                <MenuItem value="pending">Pending</MenuItem>
-              </Select>
-            </FormControl> */}
-            <br></br>
-            <FormControl fullWidth>
-              <InputLabel id="carousel_scrolling">Carousel Scrolling</InputLabel>
-              <Select
-                labelId="carousel_scrolling"
-                id="carousel_scrolling"
                 name="carousel_scrolling"
                 value={eventData.carousel_scrolling}
                 onChange={handleInputChange}
@@ -199,13 +214,9 @@ const Upload = () => {
                 <MenuItem value="no">NO</MenuItem>
               </Select>
             </FormControl>
-            <br></br>
-
-            <FormControl fullWidth>
-              <InputLabel id="gallery_scrolling">Gallery Scrolling:</InputLabel>
+            <FormControl fullWidth margin="normal">
+              <InputLabel>Gallery Scrolling</InputLabel>
               <Select
-                labelId="gallery_scrolling"
-                id="gallery_scrolling"
                 name="gallery_scrolling"
                 value={eventData.gallery_scrolling}
                 onChange={handleInputChange}
@@ -214,12 +225,15 @@ const Upload = () => {
                 <MenuItem value="no">NO</MenuItem>
               </Select>
             </FormControl>
-            <br></br>
-
-            <Button component="label" className="button" variant="contained" onClick={addEvent}>
-              Submit
+            <Button 
+              fullWidth
+              variant="contained" 
+              color="primary" 
+              onClick={addEvent}
+              style={{ marginTop: '20px' }}
+            >
+              Add Event
             </Button>
-            <br></br>
           </form>
         </div>
 
@@ -245,10 +259,10 @@ const Upload = () => {
                     <TableCell>{event.title}</TableCell>
                     <TableCell>{event.admin_approval}</TableCell>
                     <TableCell>
-                      <a href={event.imglink} target="_blank">View File</a>
+                      <a href={event.imglink} target="_blank" rel="noopener noreferrer">View File</a>
                     </TableCell>
                     <TableCell>
-                      <Button variant="contained" onClick={() => alert(event.title)}>
+                      <Button variant="contained" onClick={() => handleEdit(event)}>
                         Edit
                       </Button>
                     </TableCell>
@@ -264,6 +278,105 @@ const Upload = () => {
           </TableContainer>
         </div>
       </div>
+
+      <Modal
+        open={openModal}
+        onClose={() => setOpenModal(false)}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: 400,
+          bgcolor: 'background.paper',
+          border: '2px solid #000',
+          boxShadow: 24,
+          p: 4,
+        }}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Edit Event
+          </Typography>
+          <form>
+            <TextField
+              fullWidth
+              margin="normal"
+              label="Date"
+              type="date"
+              name="date"
+              value={eventData.date}
+              onChange={handleInputChange}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+            <TextField
+              fullWidth
+              margin="normal"
+              label="Title"
+              name="title"
+              value={eventData.title}
+              onChange={handleInputChange}
+            />
+            <TextField
+              fullWidth
+              margin="normal"
+              label="Description"
+              name="description"
+              multiline
+              rows={4}
+              value={eventData.description}
+              onChange={handleInputChange}
+            />
+            <Button
+              component="label"
+              variant="contained"
+              startIcon={<CloudUploadIcon />}
+              style={{ marginTop: '20px', marginBottom: '20px' }}
+            >
+              {file ? file.name + " Uploaded" : "UPLOAD NEW FILE"}
+              <VisuallyHiddenInput 
+                type="file" 
+                name='file' 
+                onChange={(e) => setFile(e.target.files[0])} 
+              />
+            </Button>
+            <FormControl fullWidth margin="normal">
+              <InputLabel>Carousel Scrolling</InputLabel>
+              <Select
+                name="carousel_scrolling"
+                value={eventData.carousel_scrolling}
+                onChange={handleInputChange}
+              >
+                <MenuItem value="yes">YES</MenuItem>
+                <MenuItem value="no">NO</MenuItem>
+              </Select>
+            </FormControl>
+            <FormControl fullWidth margin="normal">
+              <InputLabel>Gallery Scrolling</InputLabel>
+              <Select
+                name="gallery_scrolling"
+                value={eventData.gallery_scrolling}
+                onChange={handleInputChange}
+              >
+                <MenuItem value="yes">YES</MenuItem>
+                <MenuItem value="no">NO</MenuItem>
+              </Select>
+            </FormControl>
+            <Button
+              fullWidth
+              variant="contained"
+              color="primary"
+              onClick={updateEvent}
+              style={{ marginTop: '20px' }}
+            >
+              Update Event
+            </Button>
+          </form>
+        </Box>
+      </Modal>
     </div>
   );
 };
