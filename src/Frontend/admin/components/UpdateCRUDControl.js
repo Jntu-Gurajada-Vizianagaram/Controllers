@@ -94,9 +94,6 @@ const Updates = () => {
     if (file) {
       formData.append('file', file);
     }
-    else{
-      formData.append('file','')
-    }
 
     try {
       await axios.post(`${api.updates_apis.add_event}`, formData);
@@ -104,7 +101,6 @@ const Updates = () => {
       getEvents();
       setShowModal(false);
     } catch (error) {
-      //console.error(error);
       alert("Event Failed to Add..");
     }
   };
@@ -128,7 +124,6 @@ const Updates = () => {
       getEvents();
     } catch (error) {
       alert("Event Not Deleted..");
-      //console.log(error)
     }
   };
 
@@ -191,7 +186,7 @@ const handleSubmit = () => {
 
   const generateQRCodePDF = async () => {
     if (!file) {
-      alert('Please upload a file first.');
+      alert('Please upload File First to Append QR Code.');
       return;
     }
 
@@ -409,6 +404,7 @@ const handleSubmit = () => {
                 Upload PDF File
                 <VisuallyHiddenInput type="file" accept="application/pdf" onChange={handleFileChange} />
               </Button>
+              {file && <Typography variant="body2">{file.name}</Typography>}
             </Box>
             <Box sx={{ mb: 2 }}>
               <Button fullWidth variant="contained" color="primary" onClick={handleSubmit}>
@@ -456,7 +452,11 @@ const handleSubmit = () => {
                         <TableCell>{event.title}</TableCell>
                         <TableCell>{event.update_status}</TableCell>
                         <TableCell>
-                          <a href={event.file_link} target="_blank" rel="noopener noreferrer">View File</a>
+                          {event.file_link ? (
+                            <a href={event.file_link} target="_blank" rel="noopener noreferrer">View File</a>
+                          ) : (
+                            <a href ={event.external_link} target ="_blank" rel ="noopener northerner noreferrer">{event.external_link}</a>
+                          )}
                         </TableCell>
                         <TableCell>
                           <Button variant="contained" onClick={() => openEditModal(event)}>

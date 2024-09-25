@@ -24,7 +24,7 @@ function CompleteGallery() {
     try {
       axios.get(`${api_ip}/api/webadmin/allimages`)
       .then((response)=>{
-        console.log(response.data)
+        //console.log(response.data)
         setImages(response.data)
       })
       

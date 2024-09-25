@@ -15,7 +15,7 @@ const maincarousel = ()=>{
   try {
     axios.get(`${api_ip}/api/webadmin/carousel-images-preview`)
     .then((response)=>{
-      console.log(response)
+     // console.log(response)
       setCarouselImages(response.data)
     })
     .catch((err)=>{
@@ -30,7 +30,7 @@ const allimgs = ()=>{
   try {
     axios.get(`${api_ip}/api/webadmin/allimages`)
     .then((response)=>{
-      console.log(response)
+     // console.log(response)
       setAllImages(response.data)
     })
     .catch((err)=>{
@@ -52,7 +52,7 @@ const allimgs = ()=>{
   const add_to_carousel =(image)=>{
     axios.get(`${api_ip}/api/webadmin/add-to-carousel/${image.id}`)
     .then((response)=>{
-      console.log(response)
+     // console.log(response)
       allimgs()
       maincarousel()
     })
@@ -63,7 +63,7 @@ const allimgs = ()=>{
   const remove_from_carousel =(image)=>{
     axios.get(`${api_ip}/api/webadmin/remove-from-carousel/${image.id}`)
     .then((response)=>{
-      console.log(response)
+      //console.log(response)
       maincarousel()
       allimgs()
     })
@@ -74,7 +74,7 @@ const allimgs = ()=>{
   const remove_image =(image)=>{
     axios.get(`${api_ip}/api/webadmin/removeimage/${image.id}`)
     .then((response)=>{
-      console.log(response)
+      //console.log(response)
       maincarousel()
       allimgs()
     })

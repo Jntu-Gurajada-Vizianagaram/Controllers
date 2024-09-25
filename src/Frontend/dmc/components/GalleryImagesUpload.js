@@ -22,6 +22,7 @@ const GalleryImagesUpload = () => {
   useEffect(() => {
     fetchGalleryItems();
   }, []);
+
   const handleChange = (event) => {
     const { name, value } = event.target;
     setEventDetails((prevState) => ({
@@ -53,7 +54,11 @@ const GalleryImagesUpload = () => {
       formData.append('files', files[i]);
     }
 
-    axios.post(`${api_ip}/api/gallery/add-gallery-images`, formData)
+    axios.post(`${api_ip}/api/gallery/add-gallery-images`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
       .then(response => {
         alert("Gallery Image added Successfully");
         fetchGalleryItems(); // Refresh the gallery list
@@ -82,8 +87,7 @@ const GalleryImagesUpload = () => {
       withCredentials: true, // Include cookies if your API uses them for authentication
     })
     .then(response => {
-      //console.log(response.data);
-      alert(`Image deleted:`);
+      alert(`Image deleted successfully`);
       fetchGalleryItems(); // Refresh the gallery list after deletion
     })
     .catch(error => {
@@ -156,19 +160,25 @@ const GalleryImagesUpload = () => {
       <Grid container spacing={2} sx={{ marginTop: '10px' }}>
         {galleryItems.map((item) => (
           <Grid item xs={6} sm={4} md={3} key={item.id} sx={{ textAlign: 'center' }}>
-            <img
-              src={item.imagelink}
-              alt={item.filename}
-              style={{ height: '100px', width: '100%', objectFit: 'cover', borderRadius: '4px' }}
-            />
-            <Button
-              variant="contained"
-              color="error"
-              onClick={() => handleDelete(item.id)}
-              sx={{ marginTop: '10px' }}
-            >
-              Delete
-            </Button>
+            <Box sx={{ border: '2px solid #ddd', borderRadius: '8px', padding: '10px', height: '100%', display: 'flex', flexDirection: 'column' }}>
+              <img
+                src={item.imglink}
+                alt={item.event_name}
+                style={{ height: '150px', width: '100%', objectFit: 'contain', borderRadius: '4px', marginBottom: '10px' }}
+              />
+              <Typography variant="body2" sx={{ marginTop: '5px', flexGrow: 1 }}>{item.description}</Typography>
+              <Typography variant="caption" display="block" sx={{ marginBottom: '5px' }}>
+                {new Date(item.uploaded_date).toLocaleDateString()}
+              </Typography>
+              <Button
+                variant="contained"
+                color="error"
+                onClick={() => handleDelete(item.id)}
+                sx={{ marginTop: '5px' }}
+              >
+                Delete
+              </Button>
+            </Box>
           </Grid>
         ))}
       </Grid>
