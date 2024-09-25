@@ -162,7 +162,7 @@ const GalleryImagesUpload = () => {
           <Grid item xs={6} sm={4} md={3} key={item.id} sx={{ textAlign: 'center' }}>
             <Box sx={{ border: '2px solid #ddd', borderRadius: '8px', padding: '10px', height: '100%', display: 'flex', flexDirection: 'column' }}>
               <img
-                src={item.imglink}
+                src={item.imagelink}
                 alt={item.event_name}
                 style={{ height: '150px', width: '100%', objectFit: 'contain', borderRadius: '4px', marginBottom: '10px' }}
               />
