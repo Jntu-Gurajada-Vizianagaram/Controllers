@@ -1,7 +1,22 @@
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { Box, Button, Container, Grid, TextField, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Container,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Grid,
+  TextField,
+  Typography,
+} from '@mui/material';
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import "../css/DMCUpload.css";
 import "../css/Gallery.css";
 
@@ -13,15 +28,22 @@ const GalleryImagesUpload = () => {
     event_name: "",
     uploaded_date: new Date().toISOString().split('T')[0],
     description: "",
-    added_by: "webadmin" // Replace with dynamic admin user if necessary
+    added_by: "webadmin"
   });
-
   const [files, setFiles] = useState([]);
   const [galleryItems, setGalleryItems] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+
+  const fetchGalleryItems = useCallback(() => {
+    axios.get(`${api_ip}/api/gallery/all-gallery-images`)
+      .then(response => setGalleryItems(response.data))
+      .catch(error => console.error('Error fetching gallery items:', error));
+  }, []);
 
   useEffect(() => {
     fetchGalleryItems();
-  }, []);
+  }, [fetchGalleryItems]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -42,7 +64,7 @@ const GalleryImagesUpload = () => {
   };
 
   const handleFileChange = (event) => {
-    setFiles(event.target.files);
+    setFiles(Array.from(event.target.files));
   };
 
   const handleUpload = () => {
@@ -50,55 +72,61 @@ const GalleryImagesUpload = () => {
     Object.entries(eventDetails).forEach(([key, value]) => {
       formData.append(key, value);
     });
-    for (let i = 0; i < files.length; i++) {
-      formData.append('files', files[i]);
-    }
+    files.forEach((file) => formData.append('files', file));
 
     axios.post(`${api_ip}/api/gallery/add-gallery-images`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
+      headers: { 'Content-Type': 'multipart/form-data' },
     })
-      .then(response => {
+      .then(() => {
         alert("Gallery Image added Successfully");
-        fetchGalleryItems(); // Refresh the gallery list
-        clearForm(); // Clear the form after successful upload
+        fetchGalleryItems();
+        clearForm();
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('Error uploading files:', error);
-      });
-  };
-
-  const fetchGalleryItems = () => {
-    axios.get(`${api_ip}/api/gallery/all-gallery-images`)
-      .then(response => {
-        setGalleryItems(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching gallery items:', error);
+        alert('Failed to upload images. Please try again.');
       });
   };
 
   const handleDelete = (id) => {
     axios.delete(`${api_ip}/api/gallery/delete-gallery-image/${id}`, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      withCredentials: true, // Include cookies if your API uses them for authentication
+      headers: { 'Content-Type': 'application/json' },
+      withCredentials: true,
     })
-    .then(response => {
-      alert(`Image deleted successfully`);
-      fetchGalleryItems(); // Refresh the gallery list after deletion
-    })
-    .catch(error => {
-      alert('Error deleting image:', error);
-    });
+      .then(() => {
+        alert('Image deleted successfully');
+        fetchGalleryItems();
+      })
+      .catch((error) => {
+        console.error('Error deleting image:', error);
+        alert('Failed to delete the image. Please try again.');
+      });
+  };
+
+  const handleOpenModal = (item) => {
+    setSelectedItem(item);
+    setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+    setSelectedItem(null);
   };
 
   return (
     <Container>
-      <Box sx={{ padding: '20px', backgroundColor: '#f5f5f5', borderRadius: '8px', boxShadow: 3, marginTop: '20px' }}>
-        <Typography variant="h4" gutterBottom align="center">Upload Gallery Images</Typography>
+      <Box
+        sx={{
+          padding: 3,
+          backgroundColor: '#f5f5f5',
+          borderRadius: 2,
+          boxShadow: 3,
+          mt: 3,
+        }}
+      >
+        <Typography variant="h4" gutterBottom align="center">
+          Upload Gallery Images
+        </Typography>
         <TextField
           label="Event Name"
           name="event_name"
@@ -129,12 +157,12 @@ const GalleryImagesUpload = () => {
           multiline
           rows={4}
         />
-        <Box sx={{ marginTop: '20px', textAlign: 'center' }}>
+        <Box sx={{ mt: 2, textAlign: 'center' }}>
           <Button
             component="label"
             variant="contained"
             startIcon={<CloudUploadIcon />}
-            sx={{ marginBottom: '20px', marginRight: '10px' }}
+            sx={{ mr: 2 }}
           >
             {files.length > 0 ? `${files.length} files selected` : "UPLOAD Photos"}
             <input
@@ -149,39 +177,86 @@ const GalleryImagesUpload = () => {
             variant="contained"
             color="primary"
             onClick={handleUpload}
-            disabled={!eventDetails.event_name || !eventDetails.uploaded_date || files.length === 0}
-            sx={{ marginTop: '10px' }}
+            disabled={!eventDetails.event_name || files.length === 0}
           >
             Upload
           </Button>
         </Box>
       </Box>
-      <Typography variant="h5" gutterBottom style={{ marginTop: '20px', textAlign: 'center' }}>Gallery Items</Typography>
-      <Grid container spacing={2} sx={{ marginTop: '10px' }}>
+
+      <Typography variant="h5" gutterBottom align="center" sx={{ mt: 3 }}>
+        Gallery Items
+      </Typography>
+      <Grid container spacing={3} sx={{ mt: 2 }}>
         {galleryItems.map((item) => (
-          <Grid item xs={6} sm={4} md={3} key={item.id} sx={{ textAlign: 'center' }}>
-            <Box sx={{ border: '2px solid #ddd', borderRadius: '8px', padding: '10px', height: '100%', display: 'flex', flexDirection: 'column' }}>
-              <img
-                src={item.imagelink}
+          <Grid item xs={12} sm={6} md={4} key={item.id}>
+            <Card
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                boxShadow: 3,
+                borderRadius: 2,
+                height: '100%',
+              }}
+            >
+              <CardMedia
+                component="img"
+                height="200"
+                image={item.imagelink}
                 alt={item.event_name}
-                style={{ height: '150px', width: '100%', objectFit: 'contain', borderRadius: '4px', marginBottom: '10px' }}
+                sx={{
+                  objectFit: 'fill',
+                  borderRadius: '4px 4px 0 0',
+                }}
               />
-              <Typography variant="body2" sx={{ marginTop: '5px', flexGrow: 1 }}>{item.description}</Typography>
-              <Typography variant="caption" display="block" sx={{ marginBottom: '5px' }}>
-                {new Date(item.uploaded_date).toLocaleDateString()}
-              </Typography>
-              <Button
-                variant="contained"
-                color="error"
-                onClick={() => handleDelete(item.id)}
-                sx={{ marginTop: '5px' }}
-              >
-                Delete
-              </Button>
-            </Box>
+              <CardContent sx={{ flexGrow: 1 }}>
+                {/* <Typography variant="h6" gutterBottom>{item.event_name}</Typography> */}
+                <Typography variant="body2" color="text.secondary" gutterBottom>
+                  {item.description.length > 75
+                    ? `${item.description.slice(0, 100)}...`
+                    : item.description}
+                </Typography>
+                {item.description.length > 75 && (
+                  <Button
+                    size="small"
+                    onClick={() => handleOpenModal(item)}
+                  >
+                  <Typography variant="body2" color="text.secondary" gutterBottom>Read more</Typography> 
+                  </Button>
+                )}
+                <Typography variant="caption" display="block" sx={{ mt: 1 }}>
+                  {new Date(item.uploaded_date).toLocaleDateString()}
+                </Typography>
+              </CardContent>
+              <CardActions sx={{ justifyContent: 'flex-end' }}>
+                <Button
+                  variant="contained"
+                  color="error"
+                  onClick={() => handleDelete(item.id)}
+                >
+                  Delete
+                </Button>
+              </CardActions>
+            </Card>
           </Grid>
         ))}
       </Grid>
+
+      {selectedItem && (
+        <Dialog open={openModal} onClose={handleCloseModal} maxWidth="sm" fullWidth>
+          <DialogTitle>{selectedItem.event_name}</DialogTitle>
+          <DialogContent>
+            <Typography variant="body1" gutterBottom>
+              {selectedItem.description}
+            </Typography>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseModal} color="primary">
+              Close
+            </Button>
+          </DialogActions>
+        </Dialog>
+      )}
     </Container>
   );
 };
