@@ -40,12 +40,12 @@ const EventPhotosUpload = () => {
     axios.post(`${api_ip}/api/webadmin/add-event-photos`, formData)
       .then(response => {
         alert(`successfully uploaded ${files.length} photos for ${event_details.event_name}`)
-        //console.log(response.data);
+        console.log(response.data);
         // Show success message or handle response accordingly
       })
       .catch(error => {
         alert(error)
-        //console.error('Error uploading files:', error);
+        console.error('Error uploading files:', error);
         // Show error message or handle error accordingly
       });
   };

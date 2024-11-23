@@ -400,6 +400,9 @@ const handleSubmit = () => {
               </FormControl>
             </Box>
             <Box sx={{ mb: 2 }}>
+              <Typography variant="body2" color="text.secondary">
+                Note: File Name should be in the format of Notification Title with Date.pdf to avoid errors with multiple files with same Notification Title Type.
+              </Typography>
               <Button variant="contained" component="label" startIcon={<CloudUploadIcon />}>
                 Upload PDF File
                 <VisuallyHiddenInput type="file" accept="application/pdf" onChange={handleFileChange} />

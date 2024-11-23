@@ -1,15 +1,14 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
-import Login from "./Frontend/Authentications/components/Login";
-// import { useState } from "react";
 import Admin from "./Frontend/admin/components/Admin";
 import AllCrudControls from "./Frontend/admin/components/AllCrudControl";
 import Allfiles from "./Frontend/admin/components/Allfiles";
 import AllRecordsControls from './Frontend/admin/components/AllRecordsControl';
-//import GalleryImagesRequests from './Frontend/admin/components/requests/GalleryImagesRequests';
 import AddCollege from './Frontend/affliated_colleges/components/AddCollege';
 import AffiliatedColleges from "./Frontend/affliated_colleges/components/AffliatedColleges";
 import ForgotPassword from "./Frontend/Authentications/components/ForgotPassword";
+import GoogleAuthRedirect from "./Frontend/Authentications/components/GoogleAuthRedirect";
+import Login from "./Frontend/Authentications/components/Login";
 import CarouselDisplay from './Frontend/dmc/components/CarouselDisplay';
 import CompleteGallery from "./Frontend/dmc/components/CompleteGallery";
 import DMCUpload from "./Frontend/dmc/components/DmcIMGUpload";
@@ -24,12 +23,9 @@ import Persons from './Frontend/Main/Component/Persons';
 import Profile from "./Frontend/Main/Component/Profile";
 import RestricetedPage from './Frontend/Main/Component/RestricetedPage';
 import Updates from "./Frontend/updates/components/Updates";
-// import { Login } from "@mui/icons-material";
-// require('dotenv').config()
-
+import GoogleOAuthCallback from "./Frontend/Authentications/components/GoogleOAuthCallback";
+// Removed duplicate import of Login component
 function App() {
-  
-  
   return (
     <div className="App">
       {/* <Login />
@@ -41,8 +37,10 @@ function App() {
         <Routes>
           <Route exact path="/" element={<FirstPage />}/>
           <Route exact path="/login" element={<Login />} />
+          <Route exact path="/auth/google" element={<GoogleAuthRedirect />} />
+          <Route exact path="/auth/google/callback/success" element={<GoogleOAuthCallback />} />
           <Route exact path="/profiles" element={<Persons />}/>
-          <Route exact path="/restrictedaccess" element= {<RestricetedPage/>}/>
+          <Route exact path="/restrictedaccess" element={<RestricetedPage/>}/>
           <Route exact path="/dashboard/:adminrole/:page" element={<Dashboard />}>
             <Route index element={<DashboardHome/>} />
             <Route exact path="profile" element={<Profile />}/>
