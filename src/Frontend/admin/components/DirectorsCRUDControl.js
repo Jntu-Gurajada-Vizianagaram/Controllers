@@ -28,6 +28,7 @@ const DirectorForm = () => {
   const [directors, setDirectors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [modalTitle, setModalTitle] = useState("Add Director");
   const [formData, setFormData] = useState({
     full_name: "",
     email: "",
