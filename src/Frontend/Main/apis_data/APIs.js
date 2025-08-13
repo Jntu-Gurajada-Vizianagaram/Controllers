@@ -11,6 +11,11 @@ const allapis= {
         genrate_pwd:`${api_ip}/api/admins/generate-password`,
         all_stored_files:`${api_ip}/api/admins/allstoredfiles`,
         all_exam_pdfs:`${api_ip}/api/admins/allexampdfs`,
+        directors:`${api_ip}/api/directors/all-directors`,
+        add_director:`${api_ip}/api/directors/add-director`,
+        remove_director:`${api_ip}/api/directors/delete-director`,
+        update_director:`${api_ip}/api/directors/update-director`,
+        
     },
     mailing_api:{
         send_mail :`${api_ip}/api/admins/sendmail`,

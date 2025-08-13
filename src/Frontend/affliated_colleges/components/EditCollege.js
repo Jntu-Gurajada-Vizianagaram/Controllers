@@ -1,15 +1,15 @@
-import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import Box from '@mui/material/Box';
 import CorporateFareIcon from '@mui/icons-material/CorporateFare';
-import Typography from '@mui/material/Typography';
+import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
+import CssBaseline from '@mui/material/CssBaseline';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import "../css/AffliatedColleges.css";
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 import axios from 'axios';
+import * as React from 'react';
+import "../css/AffliatedColleges.css";
 
 const defaultTheme = createTheme();
 
@@ -27,7 +27,7 @@ export default function EDIT(props) {
     };
     
     try {
-      const response = await axios.post(`http://localhost:8888/insert`, formData);
+      const response = await axios.post(`${api_ip}/insert`, formData);
       console.log(response.data);
     } catch (error) {
       console.error('Error Updating data:', error);

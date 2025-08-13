@@ -46,7 +46,7 @@ const VisuallyHiddenInput = styled('input')({
 });
 
 const Updates = () => {
-  
+
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [events, setEvents] = useState([]);
@@ -60,7 +60,7 @@ const Updates = () => {
     external_link: "",
     external_text: "",
     main_page: "",
-    scrolling: "",
+    scrolling: 'no',
     update_type: "",
     update_status: "",
     submitted_by: 'admin',
@@ -128,17 +128,16 @@ const Updates = () => {
   };
 
   const openEditModal = (event) => {
-    // Populate the form with the event data and format the date correctly
     setEventData({
-        ...event,
-        date: event.date.slice(0, 10),  // Format date to YYYY-MM-DD
+      ...event,
+      date: event.date.slice(0, 10),
     });
     setFile(null);  // Reset the file input
     setIsEditing(true);  // Set the editing mode
     setShowModal(true);  // Show the modal
-};
+  };
 
-const editEvent = async () => {
+  const editEvent = async () => {
     const id = eventData.id;
     const formData = new FormData();
     formData.append("date", eventData.date);
@@ -151,38 +150,36 @@ const editEvent = async () => {
     formData.append("update_status", eventData.update_status);
     formData.append("submitted_by", eventData.submitted_by);
     formData.append("admin_approval", eventData.admin_approval);
-
-    // Append the file if it exists
     if (file) {
-        formData.append('file', file);
+      formData.append('file', file);
     }
 
     try {
-        const response = await axios.put(`${api.updates_apis.update_event}/${id}`, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-        });
+      const response = await axios.put(`${api.updates_apis.update_event}/${id}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
 
-        if (response.status === 200) {
-            alert('Event updated successfully');
-            getEvents();
-            setShowModal(false);
-        } else {
-            alert('Failed to update the event. Please try again.');
-        }
+      if (response.status === 200) {
+        alert('Event updated successfully');
+        getEvents();
+        setShowModal(false);
+      } else {
+        alert('Failed to update the event. Please try again.');
+      }
     } catch (error) {
-        alert('Error updating event. Please try again.');
+      alert('Error updating event. Please try again.');
     }
-};
+  };
 
-const handleSubmit = () => {
+  const handleSubmit = () => {
     if (isEditing) {
-        editEvent();
+      editEvent();
     } else {
-        addEvent();
+      addEvent();
     }
-};
+  };
 
   const generateQRCodePDF = async () => {
     if (!file) {
@@ -229,7 +226,7 @@ const handleSubmit = () => {
 
     const firstPage = pdfDoc.getPages()[0];
     const { width, height } = firstPage.getSize();
-    
+
 
     const qrImage = await pdfDoc.embedPng(await qrCodeBlob.arrayBuffer());
     const qrSize = 75;
@@ -363,6 +360,9 @@ const handleSubmit = () => {
                   <MenuItem value="yes">YES</MenuItem>
                   <MenuItem value="no">NO</MenuItem>
                 </Select>
+                <Typography variant="caption" color="text.secondary" sx={{ mt: 1 }}>
+                  Note: By default, flash scrolling is set to <strong>NO</strong>. Set this to <strong>YES</strong> only if the update should appear in the <em>live scrolling banner</em> on the homepage.
+                </Typography>
               </FormControl>
             </Box>
             <Box sx={{ mb: 2 }}>
@@ -400,10 +400,10 @@ const handleSubmit = () => {
               </FormControl>
             </Box>
             <Typography variant="body2" color="text.secondary">
-                Note: File Name should be in the format of Notification Title with Date.pdf to avoid errors with multiple files with same Notification Title Type.
+              Note: File Name should be in the format of Notification Title with Date.pdf to avoid errors with multiple files with same Notification Title Type.
             </Typography>
             <Box sx={{ mb: 2 }}>
-             
+
               <Button variant="contained" component="label" startIcon={<CloudUploadIcon />}>
                 Upload PDF File
                 <VisuallyHiddenInput type="file" accept="application/pdf" onChange={handleFileChange} />
@@ -459,7 +459,7 @@ const handleSubmit = () => {
                           {event.file_link ? (
                             <a href={event.file_link} target="_blank" rel="noopener noreferrer">View File</a>
                           ) : (
-                            <a href ={event.external_link} target ="_blank" rel ="noopener northerner noreferrer">{event.external_link}</a>
+                            <a href={event.external_link} target="_blank" rel="noopener northerner noreferrer">{event.external_link}</a>
                           )}
                         </TableCell>
                         <TableCell>

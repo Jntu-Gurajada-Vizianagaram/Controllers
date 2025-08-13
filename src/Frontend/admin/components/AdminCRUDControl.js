@@ -139,9 +139,6 @@ const AdminsCRUDControl = () => {
       <div className="admin-crud-consoles">
         <div className="hods-crud-console">
           <div>
-            <Typography variant="h5" color="error">
-              NOW EDIT Function Enabled..
-            </Typography>
             <Button variant="contained" startIcon={<AddIcon />} onClick={() => setShowModal(true)}>Add Admin</Button>
           </div>
         </div>
