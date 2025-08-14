@@ -18,7 +18,6 @@ const GoogleAuthRedirect = () => {
 
     try {
       const resultFromGoogle = await signInWithPopup(auth, provider);
-      // The signed-in user info.
       
       const res = await fetch ('/api/auth/google',{
         method: "POST",
