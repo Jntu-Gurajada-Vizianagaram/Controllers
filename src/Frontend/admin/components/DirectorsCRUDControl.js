@@ -72,8 +72,6 @@ const DirectorForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Validate required fields
     const requiredFields = [
       "full_name",
       "email",
