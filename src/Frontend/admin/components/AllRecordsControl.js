@@ -23,10 +23,6 @@ const AllRecordsControls = () => {
     });
   } 
 
-  // const accept =(request)=>{
-  //    alert(request.title)
-  //    axios.post(`$api.`)
-  //  }
   const del_notification =(request)=>{
     axios.get(`${api.updates_apis.remove_event}/${request.id}`)
     .then((response)=>{

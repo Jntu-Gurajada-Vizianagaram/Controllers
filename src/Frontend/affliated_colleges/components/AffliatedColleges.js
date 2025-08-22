@@ -24,7 +24,7 @@ const Affliated_colleges = () => {
   useEffect(() => {
     async function fetchCollegeData() {
       try {
-        const response = await fetch(`http://${api_ip}:8888/api/affliated-colleges/all-colleges`);
+        const response = await fetch(`http://${api_ip}/api/affliated-colleges/all-colleges`);
         const data = await response.json();
         setCollegeData(data);
         setSearchResults(data);
