@@ -26,21 +26,21 @@ const All_Menu = {
         {
             to: 'all-records',
             text: "All Records",
-            icon: <DescriptionIcon />,
-        },
-        {
-            to: 'all-stored-files',
-            text: "All Database Files",
             icon: <StorageIcon />,
         },
+        // {
+        //     to: 'all-stored-files',
+        //     text: "All Database Files",
+        //     icon: <StorageIcon />,
+        // },
         {
             to: 'gallery',
-            text: "WebAdmin Carousel",
+            text: "View Carousal",
             icon: <SlideshowIcon />,
         },
         {
             to: 'galleryimagesupload',
-            text: "Gallery Images",
+            text: "Add News and Event Articles ",
             icon: <ImageIcon/>,
         },
         {
@@ -50,12 +50,12 @@ const All_Menu = {
         },
         {
             to: 'dmcupload',
-            text: "Add New Photo",
+            text: "Add New Carousal Photo",
             icon: <AddPhotoAlternateIcon />,
         },
         {
             to: 'carousel',
-            text: "Carousel",
+            text: "Carsusal Management",
             icon: <ViewCarouselIcon />,
         },
         {
@@ -78,21 +78,16 @@ const All_Menu = {
         {
             to: 'all-records',
             text: "All Records",
-            icon: <DescriptionIcon />,
-        },
-        {
-            to: 'all-stored-files',
-            text: "All Database Files",
             icon: <StorageIcon />,
         },
-        {
-            to: 'gallery',
-            text: "WebAdmin Carousel",
-            icon: <SlideshowIcon />,
-        },
-        {
+        // {
+        //     to: 'all-stored-files',
+        //     text: "All Database Files",
+        //     icon: <StorageIcon />,
+        // },
+       {
             to: 'galleryimagesupload',
-            text: "Gallery Images",
+            text: "Add News and Event Articles ",
             icon: <ImageIcon/>,
         },
         {
@@ -102,12 +97,12 @@ const All_Menu = {
         },
         {
             to: 'dmcupload',
-            text: "Add New Photo",
+            text: "Add New Carousal Photo",
             icon: <AddPhotoAlternateIcon />,
         },
         {
             to: 'carousel',
-            text: "Carousel",
+            text: "Carsusal Management",
             icon: <ViewCarouselIcon />,
         },
         {
@@ -136,34 +131,34 @@ const All_Menu = {
     WebAdmin: [
         {
             to: 'gallery',
-            text: "Affiliated Colleges",
+            text: "View Gallery",
             icon: <DoorbellIcon />,
         },
-        {
+       {
             to: 'galleryimagesupload',
-            text: "Gallery Images",
+            text: "Add News and Event Articles ",
             icon: <ImageIcon/>,
         },
         {
-            to: 'galleryimagesupload',
-            text: "Gallery Images",
-            icon: <ImageIcon/>,
+            to: 'eventphotosupload',
+            text: "Add Event Photos",
+            icon: <PhotoLibraryIcon />,
         },
         {
             to: 'dmcupload',
-            text: "Add New College",
-            icon: <QueueIcon />,
+            text: "Add New Carousal Photo",
+            icon: <AddPhotoAlternateIcon />,
         },
         {
             to: 'carousel',
-            text: "Add New College",
-            icon: <QueueIcon />,
+            text: "Carsusal Management",
+            icon: <ViewCarouselIcon />,
         },
         {
             to: 'help',
             text: "Help",
             icon: <HelpIcon />,
-        },
+        }
     ],
     Updates: [
         {
