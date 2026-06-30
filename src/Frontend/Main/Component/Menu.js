@@ -89,9 +89,62 @@ const adminMenu = [
     },
 ];
 
+const developerMenu = [
+    {
+        to: 'gallery',
+        text: 'Gallery Overview',
+        icon: <SlideshowIcon />,
+    },
+    {
+        to: 'galleryimagesupload',
+        text: 'News & Event Articles',
+        icon: <ImageIcon/>,
+    },
+    {
+        to: 'eventphotosupload',
+        text: 'Event Photos',
+        icon: <PhotoLibraryIcon />,
+    },
+    {
+        to: 'dmcupload',
+        text: 'Carousel Photos',
+        icon: <AddPhotoAlternateIcon />,
+    },
+    {
+        to: 'carousel',
+        text: 'Carousel Management',
+        icon: <ViewCarouselIcon />,
+    },
+    {
+        to: 'updates',
+        text: 'Notifications & Updates',
+        icon: <DoorbellIcon />,
+    },
+    {
+        to: 'hods',
+        text: 'Directorate Uploads',
+        icon: <DescriptionIcon />,
+    },
+    {
+        to: 'affiliated-college',
+        text: 'Affiliated Colleges',
+        icon: <DoorbellIcon />,
+    },
+    {
+        to: 'add-new-affliated-college',
+        text: 'Add College',
+        icon: <QueueIcon />,
+    },
+    {
+        to: 'help',
+        text: 'Support',
+        icon: <HelpIcon />,
+    },
+];
+
 const All_Menu = {
     Admin: adminMenu,
-    Developer: adminMenu,
+    Developer: developerMenu,
     AffiliatedColleges: [
         {
             to: 'affiliated-college',

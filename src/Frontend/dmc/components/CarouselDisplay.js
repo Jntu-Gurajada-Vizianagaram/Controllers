@@ -3,10 +3,14 @@ import '../css/Gallery.css';
 import { CG } from './CG'; // Import the array of image objects from CG.js
 import axios, { all } from 'axios';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from "@mui/material";
+import { useAuth } from '../../Authentications/AuthContext';
+import { canDeleteRecords } from '../../Authentications/accessControl';
 const ips = require("../../api.json");
 const api_ip = ips.server_ip;
 
 function CarouselDisplay() {
+  const user = useAuth();
+  const canDelete = canDeleteRecords(user?.role);
 
   const [allimages,setAllImages]=useState([])
   const [carouselimages,setCarouselImages]=useState([])
@@ -129,7 +133,7 @@ const allimgs = ()=>{
                   <TableCell>Update Added By</TableCell>
                   <TableCell>Carousel Status</TableCell>
                   <TableCell>Carousel Action<br></br>(ADD/REMOVE)</TableCell>
-                  <TableCell>Action</TableCell>
+                  {canDelete && <TableCell>Action</TableCell>}
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -153,13 +157,13 @@ const allimgs = ()=>{
                       </Button>
                       }
                     </TableCell>
-                    <TableCell>
-                    </TableCell>
-                    <TableCell>
-                      <Button variant="contained" color="error" onClick={() => remove_image(request)}>
-                        Delete
-                      </Button>
-                    </TableCell>
+                    {canDelete && (
+                      <TableCell>
+                        <Button variant="contained" color="error" onClick={() => remove_image(request)}>
+                          Delete
+                        </Button>
+                      </TableCell>
+                    )}
                   </TableRow>
                 ))}
               </TableBody>

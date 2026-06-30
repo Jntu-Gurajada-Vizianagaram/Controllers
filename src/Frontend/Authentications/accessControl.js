@@ -20,7 +20,19 @@ const allPages = [
 const rolePages = {
   rootadmin: allPages,
   admin: allPages,
-  developer: allPages,
+  developer: [
+    'affiliated-college',
+    'add-new-affliated-college',
+    'gallery',
+    'dmcupload',
+    'eventphotosupload',
+    'carousel',
+    'galleryimagesupload',
+    'updates',
+    'hods',
+    'help',
+    'profile',
+  ],
   webadmin: [
     'gallery',
     'galleryimagesupload',
@@ -39,7 +51,7 @@ const rolePages = {
 const defaultPages = {
   rootadmin: 'admin-home',
   admin: 'admin-home',
-  developer: 'admin-home',
+  developer: 'gallery',
   webadmin: 'gallery',
   updates: 'updates',
   affiliatedcolleges: 'affiliated-college',
@@ -48,6 +60,10 @@ const defaultPages = {
 };
 
 export const normalizeRole = (role) => String(role || '').trim().toLowerCase();
+
+export const isAdminRole = (role) => ['admin', 'rootadmin'].includes(normalizeRole(role));
+
+export const canDeleteRecords = (role) => isAdminRole(role);
 
 export const canAccessPage = (role, page) => {
   const allowedPages = rolePages[normalizeRole(role)] || [];

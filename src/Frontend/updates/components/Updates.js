@@ -9,6 +9,8 @@ import TextField from "@mui/material/TextField";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import mods from "../../Main/Component/Logins/Login";
+import { useAuth } from "../../Authentications/AuthContext";
+import { canDeleteRecords } from "../../Authentications/accessControl";
 
 
 const VisuallyHiddenInput = styled("input")({
@@ -27,6 +29,8 @@ const ips = require("../../api.json");
 const api_ip = ips.server_ip;
 
 const Updates = () => {
+  const user = useAuth();
+  const canDelete = canDeleteRecords(user?.role);
 
   const [file, setFile] = useState();
   const [events, setEvents] = useState([]);
@@ -105,7 +109,7 @@ const Updates = () => {
       console.log(event)
         alert(`Deleting Event ${event.title}`)
         const id =event.id
-        const response = await axios.get(`${api_ip}/api/updates/remove-event/${id}`);
+        const response = await axios.delete(`${api_ip}/api/updates/remove-event/${id}`);
       
       getEvents()
 
@@ -253,7 +257,7 @@ const Updates = () => {
                   <TableCell>Update Added By</TableCell>
                   <TableCell>Admin Approval</TableCell>
                   <TableCell>View File</TableCell>
-                  <TableCell>Action</TableCell>
+                  {canDelete && <TableCell>Action</TableCell>}
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -272,11 +276,13 @@ const Updates = () => {
                         Edit
                       </Button>
                     </TableCell> */}
-                    <TableCell>
-                      <Button variant="contained" color="error" onClick={() => deleteEvent(event)}>
-                        Delete
-                      </Button>
-                    </TableCell>
+                    {canDelete && (
+                      <TableCell>
+                        <Button variant="contained" color="error" onClick={() => deleteEvent(event)}>
+                          Delete
+                        </Button>
+                      </TableCell>
+                    )}
                   </TableRow>
                 ))}
               </TableBody>

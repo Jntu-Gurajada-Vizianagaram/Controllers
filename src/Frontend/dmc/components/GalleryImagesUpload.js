@@ -17,6 +17,8 @@ import {
 } from '@mui/material';
 import axios from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
+import { useAuth } from '../../Authentications/AuthContext';
+import { canDeleteRecords } from '../../Authentications/accessControl';
 import "../css/DMCUpload.css";
 import "../css/Gallery.css";
 
@@ -24,6 +26,8 @@ const ips = require("../../api.json");
 const api_ip = ips.server_ip;
 
 const GalleryImagesUpload = () => {
+  const user = useAuth();
+  const canDelete = canDeleteRecords(user?.role);
   const [eventDetails, setEventDetails] = useState({
     event_name: "",
     uploaded_date: new Date().toISOString().split('T')[0],
@@ -228,15 +232,17 @@ const GalleryImagesUpload = () => {
                   {new Date(item.uploaded_date).toLocaleDateString()}
                 </Typography>
               </CardContent>
-              <CardActions sx={{ justifyContent: 'flex-end' }}>
-                <Button
-                  variant="contained"
-                  color="error"
-                  onClick={() => handleDelete(item.id)}
-                >
-                  Delete
-                </Button>
-              </CardActions>
+              {canDelete && (
+                <CardActions sx={{ justifyContent: 'flex-end' }}>
+                  <Button
+                    variant="contained"
+                    color="error"
+                    onClick={() => handleDelete(item.id)}
+                  >
+                    Delete
+                  </Button>
+                </CardActions>
+              )}
             </Card>
           </Grid>
         ))}

@@ -12,8 +12,12 @@ import { Button, InputBase, IconButton } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import EDIT from "./EditCollege";
 import api from '../../Main/apis_data/APIs';
+import { useAuth } from "../../Authentications/AuthContext";
+import { canDeleteRecords } from "../../Authentications/accessControl";
 
 const Affliated_colleges = () => {
+  const user = useAuth();
+  const canDelete = canDeleteRecords(user?.role);
   const [collegeData, setCollegeData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
@@ -119,7 +123,7 @@ const Affliated_colleges = () => {
               <TableCell>COLLEGE ADDRESS</TableCell>
               <TableCell>VISIT</TableCell>
               <TableCell>EDIT</TableCell>
-              <TableCell>DELETE</TableCell>
+              {canDelete && <TableCell>DELETE</TableCell>}
             </TableRow>
           </TableHead>
           <TableBody>
@@ -153,18 +157,18 @@ const Affliated_colleges = () => {
                     EDIT
                   </Button>
                 </TableCell>
-                <TableCell>
-                <TableCell>
-                  <Button
-                    type="button"
-                    variant="contained"
-                    onClick={() => handleDeleteClick(college.id)} // Passing the college id
-                  >
-                  DELETE
-                  </Button>
-</TableCell>
-
-                </TableCell>
+                {canDelete && (
+                  <TableCell>
+                    <Button
+                      type="button"
+                      variant="contained"
+                      color="error"
+                      onClick={() => handleDeleteClick(college.id)}
+                    >
+                      DELETE
+                    </Button>
+                  </TableCell>
+                )}
               </TableRow>
             ))}
           </TableBody>

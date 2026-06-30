@@ -11,6 +11,8 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { styled } from "@mui/material/styles";
 
 import mods from "../../Main/Component/Logins/Login";
+import { useAuth } from "../../Authentications/AuthContext";
+import { canDeleteRecords } from "../../Authentications/accessControl";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -28,6 +30,8 @@ const ips = require("../../api.json");
 const api_ip = ips.server_ip;
 
 const Upload = () => {
+  const user = useAuth();
+  const canDelete = canDeleteRecords(user?.role);
   const [file, setFile] = useState(null);
   const [events, setEvents] = useState([]);
   const [editingEvent, setEditingEvent] = useState(null);
@@ -249,6 +253,7 @@ const Upload = () => {
                   <TableCell>Approval Status</TableCell>
                   <TableCell>View File</TableCell>
                   <TableCell>Action</TableCell>
+                  {canDelete && <TableCell>Delete</TableCell>}
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -266,11 +271,13 @@ const Upload = () => {
                         Edit
                       </Button>
                     </TableCell>
-                    <TableCell>
-                      <Button variant="contained" color="error" onClick={() => deleteEvent(event)}>
-                        Delete
-                      </Button>
-                    </TableCell>
+                    {canDelete && (
+                      <TableCell>
+                        <Button variant="contained" color="error" onClick={() => deleteEvent(event)}>
+                          Delete
+                        </Button>
+                      </TableCell>
+                    )}
                   </TableRow>
                 ))}
               </TableBody>
