@@ -11,106 +11,87 @@ import SlideshowIcon from '@mui/icons-material/Slideshow';
 import StorageIcon from '@mui/icons-material/Storage';
 import ViewCarouselIcon from '@mui/icons-material/ViewCarousel';
 
+const adminMenu = [
+    {
+        to: 'admin-home',
+        text: 'Dashboard Home',
+        icon: <HomeIcon />,
+    },
+    {
+        to: 'all-consoles',
+        text: 'Console Management',
+        icon: <DevicesIcon />,
+    },
+    {
+        to: 'all-records',
+        text: 'Records',
+        icon: <StorageIcon />,
+    },
+    {
+        to: 'all-stored-files',
+        text: 'Stored Files',
+        icon: <StorageIcon />,
+    },
+    {
+        to: 'directors',
+        text: 'Directors',
+        icon: <DescriptionIcon />,
+    },
+    {
+        to: 'affiliated-college',
+        text: 'Affiliated Colleges',
+        icon: <DoorbellIcon />,
+    },
+    {
+        to: 'add-new-affliated-college',
+        text: 'Add College',
+        icon: <QueueIcon />,
+    },
+    {
+        to: 'gallery',
+        text: 'Gallery Overview',
+        icon: <SlideshowIcon />,
+    },
+    {
+        to: 'galleryimagesupload',
+        text: 'News & Event Articles',
+        icon: <ImageIcon/>,
+    },
+    {
+        to: 'eventphotosupload',
+        text: 'Event Photos',
+        icon: <PhotoLibraryIcon />,
+    },
+    {
+        to: 'dmcupload',
+        text: 'Carousel Photos',
+        icon: <AddPhotoAlternateIcon />,
+    },
+    {
+        to: 'carousel',
+        text: 'Carousel Management',
+        icon: <ViewCarouselIcon />,
+    },
+    {
+        to: 'updates',
+        text: 'Notifications & Updates',
+        icon: <DoorbellIcon />,
+    },
+    {
+        to: 'hods',
+        text: 'Directorate Uploads',
+        icon: <DescriptionIcon />,
+    },
+    {
+        to: 'help',
+        text: 'Support',
+        icon: <HelpIcon />,
+    },
+];
+
 const All_Menu = {
-    Admin: [
-        {
-            to: 'admin-home',
-            text: "HOME",
-            icon: <HomeIcon />,
-        },
-        {
-            to: 'all-consoles',
-            text: "All Consoles",
-            icon: <DevicesIcon />,
-        },
-        {
-            to: 'all-records',
-            text: "All Records",
-            icon: <StorageIcon />,
-        },
-        // {
-        //     to: 'all-stored-files',
-        //     text: "All Database Files",
-        //     icon: <StorageIcon />,
-        // },
-        {
-            to: 'gallery',
-            text: "View Carousal",
-            icon: <SlideshowIcon />,
-        },
-        {
-            to: 'galleryimagesupload',
-            text: "Add News and Event Articles ",
-            icon: <ImageIcon/>,
-        },
-        {
-            to: 'eventphotosupload',
-            text: "Add Event Photos",
-            icon: <PhotoLibraryIcon />,
-        },
-        {
-            to: 'dmcupload',
-            text: "Add New Carousal Photo",
-            icon: <AddPhotoAlternateIcon />,
-        },
-        {
-            to: 'carousel',
-            text: "Carsusal Management",
-            icon: <ViewCarouselIcon />,
-        },
-        {
-            to: 'help',
-            text: "Help",
-            icon: <HelpIcon />,
-        },
-    ],
-    Developer: [
-        {
-            to: 'admin-home',
-            text: "HOME",
-            icon: <HomeIcon />,
-        },
-        {
-            to: 'all-consoles',
-            text: "All Consoles",
-            icon: <DevicesIcon />,
-        },
-        {
-            to: 'all-records',
-            text: "All Records",
-            icon: <StorageIcon />,
-        },
-        // {
-        //     to: 'all-stored-files',
-        //     text: "All Database Files",
-        //     icon: <StorageIcon />,
-        // },
-       {
-            to: 'galleryimagesupload',
-            text: "Add News and Event Articles ",
-            icon: <ImageIcon/>,
-        },
-        {
-            to: 'eventphotosupload',
-            text: "Add Event Photos",
-            icon: <PhotoLibraryIcon />,
-        },
-        {
-            to: 'dmcupload',
-            text: "Add New Carousal Photo",
-            icon: <AddPhotoAlternateIcon />,
-        },
-        {
-            to: 'carousel',
-            text: "Carsusal Management",
-            icon: <ViewCarouselIcon />,
-        },
-        {
-            to: 'help',
-            text: "Help",
-            icon: <HelpIcon />,
-        },
-    ],
+    Admin: adminMenu,
+    Developer: adminMenu,
     AffiliatedColleges: [
         {
             to: 'affiliated-college',
@@ -118,60 +99,75 @@ const All_Menu = {
             icon: <DoorbellIcon />,
         },
         {
-            to: 'add-new-affiliated-college',
-            text: "Add New College",
+            to: 'add-new-affliated-college',
+            text: "Add College",
             icon: <QueueIcon />,
         },
         {
             to: 'help',
-            text: "Help",
+            text: "Support",
             icon: <HelpIcon />,
         },
     ],
     WebAdmin: [
         {
             to: 'gallery',
-            text: "View Gallery",
+            text: "Gallery Overview",
             icon: <DoorbellIcon />,
         },
        {
             to: 'galleryimagesupload',
-            text: "Add News and Event Articles ",
+            text: "News & Event Articles",
             icon: <ImageIcon/>,
         },
         {
             to: 'eventphotosupload',
-            text: "Add Event Photos",
+            text: "Event Photos",
             icon: <PhotoLibraryIcon />,
         },
         {
             to: 'dmcupload',
-            text: "Add New Carousal Photo",
+            text: "Carousel Photos",
             icon: <AddPhotoAlternateIcon />,
         },
         {
             to: 'carousel',
-            text: "Carsusal Management",
+            text: "Carousel Management",
             icon: <ViewCarouselIcon />,
         },
         {
             to: 'help',
-            text: "Help",
+            text: "Support",
             icon: <HelpIcon />,
         }
     ],
     Updates: [
         {
             to: 'updates',
-            text: "Affiliated Colleges",
+            text: "Notifications & Updates",
             icon: <DoorbellIcon />,
         },
         {
             to: 'help',
-            text: "Help",
+            text: "Support",
+            icon: <HelpIcon />,
+        },
+    ],
+    Directors: [
+        {
+            to: 'hods',
+            text: 'Directorates',
+            icon: <DescriptionIcon />,
+        },
+        {
+            to: 'help',
+            text: 'Support',
             icon: <HelpIcon />,
         },
     ],
 }
+
+All_Menu.AffliatedColleges = All_Menu.AffiliatedColleges;
+All_Menu.RootAdmin = All_Menu.Admin;
 
 export default All_Menu;

@@ -22,7 +22,7 @@ const EventPhotosRequests = () => {
   } 
 
   const request_accept = (request) => {
-   const response = axios.get(`${api.webadmin_requests.webadmin_event_accept}/${request.id}`)
+   axios.put(`${api.webadmin_requests.webadmin_event_accept}/${request.id}`)
       .then((response) => {
         console.log(response);
         alert("Request Accepted");
@@ -35,7 +35,7 @@ const EventPhotosRequests = () => {
       });
   }
   const request_deny = (request)=>{
-    const response = axios.get(`${api.webadmin_requests.webadmin_event_deny}/${request.id}`)
+    axios.put(`${api.webadmin_requests.webadmin_event_deny}/${request.id}`)
       .then((response)=>{
         alert('Request Denied')
         alert(response.data.message)

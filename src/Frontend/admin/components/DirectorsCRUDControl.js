@@ -108,19 +108,19 @@ const DirectorForm = () => {
       }
 
       // POST request to the API
-      const response = await axios.post(
-        `${api.admin_apis.add_director}`,
-        formDataToSubmit,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const endpoint = selectedDirector
+        ? `${api.admin_apis.update_director}/${selectedDirector.id}`
+        : api.admin_apis.add_director;
+      const response = await axios({
+        method: selectedDirector ? 'put' : 'post',
+        url: endpoint,
+        data: formDataToSubmit,
+      });
 
-      if (response.status === 201) {
-        alert("Director added successfully!");
+      if (response.status === 200 || response.status === 201) {
+        alert(selectedDirector ? "Director updated successfully!" : "Director added successfully!");
         handleCloseModal();
+        window.location.reload();
       } else {
         throw new Error("Unexpected response from the server.");
       }

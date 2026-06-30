@@ -26,11 +26,42 @@ const AdminsCRUDControl = () => {
   const [editUsername, setEditUsername] = useState("");
   const [editPassword, setEditPassword] = useState("");
   const [editRole, setEditRole] = useState("");
+  const [allowlist, setAllowlist] = useState([]);
+  const [allowlistEmail, setAllowlistEmail] = useState("");
 
   // Fetching all admins on component load
   useEffect(() => {
     admins();
+    loadAllowlist();
   }, []);
+
+  const loadAllowlist = async () => {
+    try {
+      const response = await axios.get(api.admin_apis.allowlist);
+      setAllowlist(response.data);
+    } catch (error) {
+      console.error('Unable to load organizational email allowlist', error);
+    }
+  };
+
+  const allowEmail = async () => {
+    try {
+      await axios.post(api.admin_apis.allowlist, { email: allowlistEmail });
+      setAllowlistEmail('');
+      loadAllowlist();
+    } catch (error) {
+      alert(error.response?.data?.message || 'Unable to allow this email');
+    }
+  };
+
+  const disableEmail = async (email) => {
+    try {
+      await axios.delete(`${api.admin_apis.allowlist}/${encodeURIComponent(email)}`);
+      loadAllowlist();
+    } catch (error) {
+      alert(error.response?.data?.message || 'Unable to disable this email');
+    }
+  };
 
   const admins = async () => {
     try {
@@ -177,6 +208,39 @@ const AdminsCRUDControl = () => {
         <Typography variant="h6" align="center">No Admins to Show or Server is Busy Loading Admins</Typography>
       )}
 
+      <Box sx={{ mt: 4 }}>
+        <Typography variant="h6">Approved organizational emails</Typography>
+        <Box sx={{ display: 'flex', gap: 2, my: 2 }}>
+          <TextField
+            fullWidth
+            type="email"
+            label="Username or organizational email"
+            placeholder="username@jntugv.edu.in"
+            value={allowlistEmail}
+            onChange={(event) => setAllowlistEmail(event.target.value.toLowerCase())}
+          />
+          <Button variant="contained" onClick={allowEmail} disabled={!allowlistEmail.trim()}>
+            Allow
+          </Button>
+        </Box>
+        <TableContainer component={Card}>
+          <Table size="small">
+            <TableHead><TableRow><TableCell>Email</TableCell><TableCell>Status</TableCell><TableCell>Action</TableCell></TableRow></TableHead>
+            <TableBody>
+              {allowlist.map((entry) => (
+                <TableRow key={entry.email}>
+                  <TableCell>{entry.email}</TableCell>
+                  <TableCell>{entry.enabled ? 'Enabled' : 'Disabled'}</TableCell>
+                  <TableCell>
+                    {entry.enabled && <Button color="error" onClick={() => disableEmail(entry.email)}>Disable</Button>}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Box>
+
       {/* Add Admin Modal */}
       <Modal open={showModal} onClose={() => setShowModal(false)}>
         <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', backdropFilter: 'blur(2px)' }}>
@@ -196,7 +260,7 @@ const AdminsCRUDControl = () => {
                   <TextField fullWidth label="Name" variant="outlined" value={name} onChange={(e) => setName(e.target.value)} />
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField fullWidth label="Username" variant="outlined" value={username} onChange={(e) => setUsername(e.target.value)} />
+                  <TextField fullWidth label="Organizational Email" type="email" placeholder="username@jntugv.edu.in" variant="outlined" value={username} onChange={(e) => setUsername(e.target.value.toLowerCase())} />
                 </Grid>
                 <Grid item xs={12}>
                   <TextField fullWidth label="Password" variant="outlined" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
@@ -231,7 +295,7 @@ const AdminsCRUDControl = () => {
                     <TextField fullWidth label="Name" variant="outlined" value={editName} onChange={(e) => setEditName(e.target.value)} />
                   </Grid>
                   <Grid item xs={12}>
-                    <TextField fullWidth label="Username" variant="outlined" value={editUsername} onChange={(e) => setEditUsername(e.target.value)} />
+                    <TextField fullWidth label="Organizational Email" type="email" placeholder="username@jntugv.edu.in" variant="outlined" value={editUsername} onChange={(e) => setEditUsername(e.target.value.toLowerCase())} />
                   </Grid>
                   <Grid item xs={12}>
                     <TextField fullWidth label="Password" variant="outlined" type="password" value={editPassword} onChange={(e) => setEditPassword(e.target.value)} />

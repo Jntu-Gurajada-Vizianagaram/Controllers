@@ -100,7 +100,7 @@ const Upload = () => {
 
   const deleteEvent = async (event) => {
     try {
-      await axios.get(`${api_ip}/api/webadmin/removeimage/${event.id}`);
+      await axios.delete(`${api_ip}/api/webadmin/removeimage/${event.id}`);
       alert(`Event ${event.title} deleted successfully`);
       getEvents();
     } catch (error) {

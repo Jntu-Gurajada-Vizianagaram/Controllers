@@ -1,0 +1,117 @@
+.admin-sidebar {
+  color: #111827;
+  background: linear-gradient(180deg, #ffffff 0%, #f4f8ff 52%, #edf5ff 100%);
+  border-right: 1px solid #dbe4f0;
+}
+
+.admin-sidebar-brand-title {
+  color: #111827;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.admin-sidebar-brand-subtitle,
+.admin-user-email {
+  color: #475569;
+}
+
+.admin-sidebar-close {
+  color: #111827;
+}
+
+.admin-user-card {
+  background: #ffffff;
+  border: 1px solid #dbe4f0;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
+}
+
+.admin-user-name {
+  color: #111827;
+  font-weight: 800;
+}
+
+.admin-role-chip {
+  color: #0f172a !important;
+  background: #eef6ff !important;
+  border-color: #bfdbfe !important;
+}
+
+.admin-sidebar-divider {
+  border-color: #dbe4f0 !important;
+}
+
+.admin-menu-overline {
+  color: #64748b;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.admin-menu-item {
+  color: #111827 !important;
+}
+
+.admin-menu-item .MuiListItemIcon-root {
+  min-width: 42px;
+  color: #1f2937 !important;
+}
+
+.admin-menu-text {
+  color: #111827;
+  font-weight: 800;
+}
+
+.admin-menu-item:hover {
+  background: #eaf3ff !important;
+}
+
+.admin-menu-item:hover .MuiListItemIcon-root,
+.admin-menu-item:hover .admin-menu-text {
+  color: #0c4a8f !important;
+}
+
+.admin-menu-item-active,
+.admin-menu-item-active.Mui-selected {
+  color: #ffffff !important;
+  background: linear-gradient(135deg, #0c4a8f 0%, #1268c8 100%) !important;
+  box-shadow: 0 14px 30px rgba(12, 74, 143, 0.22);
+}
+
+.admin-menu-item-active .MuiListItemIcon-root,
+.admin-menu-item-active .admin-menu-text {
+  color: #ffffff !important;
+}
+
+.admin-menu-item-active:hover,
+.admin-menu-item-active.Mui-selected:hover {
+  background: linear-gradient(135deg, #0a3e78 0%, #0f5eae 100%) !important;
+}
+
+.admin-sidebar-footer {
+  border-top: 1px solid #dbe4f0;
+}
+
+.admin-logout-button {
+  color: #ffffff !important;
+  background: #b42318 !important;
+}
+
+.admin-logout-button:hover {
+  background: #8f1d14 !important;
+  box-shadow: none !important;
+}
+
+.admin-dashboard-main {
+  overflow-x: hidden;
+}
+
+.admin-dashboard-content {
+  width: 100%;
+}
+
+.admin-dashboard-content .MuiTableContainer-root {
+  max-width: 100%;
+}
+
+.admin-dashboard-content .MuiTableCell-root {
+  overflow-wrap: anywhere;
+}

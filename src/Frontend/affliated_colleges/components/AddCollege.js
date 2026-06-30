@@ -10,6 +10,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import "../css/AffliatedColleges.css";
 import axios from 'axios';
+import api from '../../Main/apis_data/APIs';
 
 const defaultTheme = createTheme();
 
@@ -25,7 +26,7 @@ export default function ADD() {
     };
 
     try {
-      const response = await axios.post('http://localhost:3001/insert', formData);
+      const response = await axios.post(api.affliated_colleges_apis.add_college, formData);
       console.log(response.data);
     } catch (error) {
       console.error('Error inserting data:', error);

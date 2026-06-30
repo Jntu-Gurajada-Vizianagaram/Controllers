@@ -1,0 +1,145 @@
+.console-management-page {
+  width: 100%;
+}
+
+.console-management-hero {
+  margin-bottom: 22px;
+  padding: 24px;
+  border-radius: 22px;
+  color: #ffffff;
+  background: linear-gradient(135deg, #082044 0%, #0c4a8f 58%, #1d74c7 100%);
+}
+
+.console-management-eyebrow {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.console-management-title {
+  color: #ffffff;
+  font-weight: 900 !important;
+  line-height: 1.12 !important;
+}
+
+.console-management-subtitle {
+  max-width: 780px;
+  margin-top: 8px;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.console-management-chip {
+  color: #082044 !important;
+  background: #ffffff !important;
+  font-weight: 900;
+}
+
+.console-management-accordions {
+  width: 100%;
+}
+
+.console-management-accordion {
+  width: 100%;
+  overflow: hidden;
+  margin-bottom: 16px !important;
+  border: 1px solid #dbe4f0;
+  border-radius: 18px !important;
+  box-shadow: none !important;
+}
+
+.console-management-accordion::before {
+  display: none;
+}
+
+.console-management-summary {
+  min-height: 78px !important;
+  background: #f8fafc !important;
+}
+
+.console-management-icon {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border-radius: 14px;
+  color: #0c4a8f;
+  background: #e8f2ff;
+}
+
+.console-management-section-title {
+  color: #0f172a;
+  font-weight: 900 !important;
+}
+
+.console-management-section-desc {
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.console-management-details {
+  padding: 0 !important;
+  border-top: 1px solid #e2e8f0;
+  background: #ffffff;
+}
+
+.console-management-table-area {
+  width: 100%;
+  max-width: 100%;
+  padding: 20px;
+  overflow-x: auto;
+}
+
+.console-management-table-area > div,
+.console-management-table-area .MuiBox-root {
+  max-width: 100%;
+}
+
+.console-management-table-area .MuiTableContainer-root {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  box-shadow: none;
+}
+
+.console-management-table-area .MuiTable-root {
+  width: 100%;
+  min-width: 980px;
+}
+
+.console-management-table-area .MuiTableCell-head {
+  color: #0f172a;
+  font-weight: 900;
+  white-space: nowrap;
+  background: #f8fafc;
+}
+
+.console-management-table-area .MuiTableCell-body {
+  color: #1f2937;
+  vertical-align: middle;
+}
+
+.console-management-table-area .MuiTableCell-root {
+  padding: 12px 14px;
+}
+
+.console-management-table-area .MuiButton-root {
+  white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+  .console-management-hero {
+    padding: 18px;
+  }
+
+  .console-management-table-area {
+    padding: 12px;
+  }
+
+  .console-management-table-area .MuiTable-root {
+    min-width: 820px;
+  }
+}

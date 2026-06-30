@@ -20,7 +20,7 @@ const UpdatesRequests = () => {
   } 
 
   const request_accept = (request)=>{
-    axios.get(`${api.updates_requests.notification_accept}/${request.id}`)
+    axios.put(`${api.updates_requests.notification_accept}/${request.id}`)
       .then((response)=>{
         alert(response.data.message)
         get_requests()
@@ -31,7 +31,7 @@ const UpdatesRequests = () => {
       
     }
   const request_deny = (request)=>{
-    axios.get(`${api.updates_requests.notification_deny}/${request.id}`)
+    axios.put(`${api.updates_requests.notification_deny}/${request.id}`)
       .then((response)=>{
         alert(response.data.message)
         get_requests()

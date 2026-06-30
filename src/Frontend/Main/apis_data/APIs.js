@@ -1,9 +1,13 @@
 import api from '../../api.json'
-const api_ip = api.server_ip
+const api_ip = process.env.REACT_APP_API_URL || api.server_ip
 
 const allapis= {
     admin_apis:{
         login:`${api_ip}/api/admins/login`,
+        logout:`${api_ip}/api/admins/logout`,
+        session:`${api_ip}/api/admins/getrole`,
+        google_login:`${api_ip}/api/admins/auth/google`,
+        allowlist:`${api_ip}/api/admins/allowlist`,
         all_admins:`${api_ip}/api/admins/getadmins`,
         add_hod:`${api_ip}/api/admins/add-hod`,
         remove_hod:`${api_ip}/api/admins/remove-hod`,
@@ -18,10 +22,10 @@ const allapis= {
         
     },
     mailing_api:{
-        send_mail :`${api_ip}/api/admins/sendmail`,
-        recieve_mail :`${api_ip}/api/admins/recieve`,
-        send_grievance :`${api_ip}/api/admins/send-grivance`,
-        recieve_grievance :`${api_ip}/api/admins/sendmail`,
+        send_mail :`${api_ip}/api/mailing/sendmail`,
+        recieve_mail :`${api_ip}/api/mailing/recieve`,
+        send_grievance :`${api_ip}/api/mailing/send-grievance`,
+        recieve_grievance :`${api_ip}/api/mailing/recieve-grievance`,
     },
     updates_requests : {
         notification_reqs:`${api_ip}/api/updates/update-requests`,
@@ -47,9 +51,8 @@ const allapis= {
         add_to_carousel:`${api_ip}/api/webadmin/add-to-carousel`,
         add_event_photos:`${api_ip}/api/webadmin/add-event-photos`,
         get_event_photos:`${api_ip}/api/webadmin/get-event-photos`,
-        webadmin_main_carousel:`${api_ip}/api/webadmin/main-carousel-images'`,
-        main_event_photos:`${api_ip}/api/webadmin/main-carousel-images'`,
-        gallery_images:`${api_ip}/api/webadmin/galleryImages`
+        webadmin_main_carousel:`${api_ip}/api/webadmin/main-carousel-images`,
+        main_event_photos:`${api_ip}/api/webadmin/get-main-event-photos`
     },
     webadmin_requests:{
         webadmin_event_requests:`${api_ip}/api/webadmin/webadmin-event-requests`,
@@ -61,9 +64,10 @@ const allapis= {
 
     },
     affliated_colleges_apis:{
-        add_college :`${api_ip}/api/affliated-colleges/all-colleges`,
-        remove_college :`${api_ip}/api/affliated-colleges/remove-colleges`,
-        all_admin_event_college :`${api_ip}/api/affliated-colleges/all-colleges`,
+        add_college :`${api_ip}/api/affliated-colleges/add-new-college`,
+        update_college :`${api_ip}/api/affliated-colleges/update-college`,
+        remove_college :`${api_ip}/api/affliated-colleges/remove-college`,
+        all_colleges :`${api_ip}/api/affliated-colleges/all-colleges`,
     }
 }
 

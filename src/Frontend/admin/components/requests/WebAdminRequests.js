@@ -21,7 +21,7 @@ const WebAdminRequests = () => {
   } 
 
   const request_accept = (request)=>{
-    axios.get(`${api.webadmin_requests.webadmin_request_accept}/${request.id}`)
+    axios.put(`${api.webadmin_requests.webadmin_request_accept}/${request.id}`)
       .then((response)=>{
         alert(response.data.message)
         get_requests()
@@ -32,7 +32,7 @@ const WebAdminRequests = () => {
       
     }
   const request_deny = (request)=>{
-    axios.get(`${api.webadmin_requests.webadmin_request_deny}/${request.id}`)
+    axios.put(`${api.webadmin_requests.webadmin_request_deny}/${request.id}`)
       .then((response)=>{
         alert(response.data.message)
         get_requests()

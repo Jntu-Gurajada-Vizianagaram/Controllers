@@ -10,9 +10,7 @@ import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import * as React from 'react';
 import "../css/AffliatedColleges.css";
-
-const ips =require('../../api.json')
-const api_ip = ips.server_ip
+import api from '../../Main/apis_data/APIs';
 
 const defaultTheme = createTheme();
 
@@ -30,7 +28,7 @@ export default function EDIT(props) {
     };
     
     try {
-      const response = await axios.post(`${api_ip}/api/affliated-colleges/update-college`, formData);
+      const response = await axios.put(`${api.affliated_colleges_apis.update_college}/${id}`, formData);
       console.log(response.data);
     } catch (error) {
       console.error('Error Updating data:', error);

@@ -1,105 +1,127 @@
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import EditIcon from '@mui/icons-material/Edit';
-import { Avatar, Box, Button, Divider, Grid, Paper, Tooltip, Typography } from '@mui/material';
+import BadgeIcon from '@mui/icons-material/Badge';
+import EmailIcon from '@mui/icons-material/Email';
+import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
+import {
+  Avatar,
+  Box,
+  Chip,
+  Divider,
+  Grid,
+  Paper,
+  Stack,
+  Typography,
+} from '@mui/material';
 import React from 'react';
-import hodimg from '../media/HOD.png';
-import mods from './Logins/Login';
+import { useAuth } from '../../Authentications/AuthContext';
 
 const Profile = () => {
-  // Fallbacks in case localStorage is empty or malformed
-  const username = mods?.uds?.admin || "Unknown User";
-  const role = mods?.uds?.role || "Unknown Role";
+  const user = useAuth();
+  const username = user?.name || 'Unknown User';
+  const role = user?.role || 'Unknown Role';
 
-  const handleEditProfile = () => {
-    // Placeholder for edit profile functionality
-    alert("Edit profile feature coming soon!");
-  };
+  const details = [
+    {
+      icon: <BadgeIcon color="primary" />,
+      label: 'Display name',
+      value: username,
+    },
+    {
+      icon: <EmailIcon color="primary" />,
+      label: 'Organizational email',
+      value: user?.email || 'Not available',
+    },
+    {
+      icon: <VerifiedUserIcon color="primary" />,
+      label: 'Access role',
+      value: role,
+    },
+  ];
 
   return (
-    <Box
-      sx={{
-        minHeight: '60vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        background: 'linear-gradient(135deg, #e3f2fd 0%, #fce4ec 100%)',
-        py: 4,
-      }}
-    >
+    <Box>
       <Paper
-        elevation={6}
+        elevation={0}
         sx={{
-          p: 4,
+          overflow: 'hidden',
           borderRadius: 4,
-          minWidth: 340,
-          maxWidth: 400,
-          width: '100%',
-          textAlign: 'center',
-          boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.15)',
+          border: '1px solid #e2e8f0',
         }}
       >
-        <Grid container direction="column" alignItems="center" spacing={2}>
-          <Grid item>
+        <Box
+          sx={{
+            p: { xs: 3, md: 4 },
+            color: '#fff',
+            background:
+              'linear-gradient(135deg, #082044 0%, #0c4a8f 58%, #1d74c7 100%)',
+          }}
+        >
+          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2.5} alignItems={{ xs: 'flex-start', sm: 'center' }}>
             <Avatar
-              alt="User Avatar"
-              src={hodimg}
               sx={{
-                width: 110,
-                height: 110,
-                boxShadow: '0 4px 16px rgba(0,0,0,0.10)',
-                mb: 1,
-                border: '3px solid #1976d2',
-                backgroundColor: '#fff',
+                width: 88,
+                height: 88,
+                bgcolor: '#fff',
+                color: '#0c4a8f',
+                border: '4px solid rgba(255,255,255,.35)',
               }}
             >
-              <AccountCircleIcon sx={{ fontSize: 80, color: '#1976d2' }} />
+              <AccountCircleIcon sx={{ fontSize: 64 }} />
             </Avatar>
-          </Grid>
-          <Grid item>
-            <Typography variant="h4" sx={{ fontWeight: 700, color: '#1976d2' }}>
-              {username}'s Profile
-            </Typography>
-          </Grid>
-          <Divider sx={{ width: '80%', my: 2 }} />
-          <Grid item container spacing={1} justifyContent="center">
-            <Grid item xs={12}>
-              <Typography variant="subtitle1" color="text.secondary" sx={{ fontWeight: 500 }}>
-                Username:
+            <Box>
+              <Typography variant="overline" sx={{ color: 'rgba(255,255,255,.72)', fontWeight: 800 }}>
+                Signed-in administrator
               </Typography>
-              <Typography variant="h6" sx={{ mb: 1 }}>
+              <Typography variant="h4" sx={{ fontWeight: 900, lineHeight: 1.1 }}>
                 {username}
               </Typography>
-            </Grid>
-            <Grid item xs={12}>
-              <Typography variant="subtitle1" color="text.secondary" sx={{ fontWeight: 500 }}>
-                Role:
-              </Typography>
-              <Typography variant="h6" sx={{ mb: 1 }}>
-                {role}
-              </Typography>
-            </Grid>
-          </Grid>
-          <Divider sx={{ width: '80%', my: 2 }} />
-          <Grid item>
-            <Tooltip title="Edit Profile" arrow>
-              <Button
-                variant="contained"
-                color="primary"
-                startIcon={<EditIcon />}
-                onClick={handleEditProfile}
+              <Chip
+                label={role}
                 sx={{
-                  borderRadius: 2,
-                  textTransform: 'none',
-                  px: 3,
-                  fontWeight: 600,
-                  boxShadow: '0 2px 8px rgba(25, 118, 210, 0.10)',
+                  mt: 1.3,
+                  color: '#082044',
+                  bgcolor: '#fff',
+                  fontWeight: 800,
                 }}
-              >
-                Edit Profile
-              </Button>
-            </Tooltip>
+              />
+            </Box>
+          </Stack>
+        </Box>
+
+        <Box sx={{ p: { xs: 3, md: 4 } }}>
+          <Typography variant="h6" sx={{ fontWeight: 800, mb: 0.5 }}>
+            Account information
+          </Typography>
+          <Typography color="text.secondary" sx={{ mb: 3 }}>
+            This profile is used for admin console permissions and audit visibility.
+          </Typography>
+          <Divider sx={{ mb: 3 }} />
+          <Grid container spacing={2.5}>
+            {details.map((item) => (
+              <Grid item xs={12} md={4} key={item.label}>
+                <Box
+                  sx={{
+                    height: '100%',
+                    p: 2.5,
+                    borderRadius: 3,
+                    bgcolor: '#f8fafc',
+                    border: '1px solid #e2e8f0',
+                  }}
+                >
+                  <Stack direction="row" spacing={1.2} alignItems="center" sx={{ mb: 1 }}>
+                    {item.icon}
+                    <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 700 }}>
+                      {item.label}
+                    </Typography>
+                  </Stack>
+                  <Typography sx={{ fontWeight: 800, wordBreak: 'break-word' }}>
+                    {item.value}
+                  </Typography>
+                </Box>
+              </Grid>
+            ))}
           </Grid>
-        </Grid>
+        </Box>
       </Paper>
     </Box>
   );

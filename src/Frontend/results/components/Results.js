@@ -10,7 +10,7 @@ const Results = () => {
     const getfile = async() =>{
 
         try{
-            const response = await axios.get(`${api_ip}:8888/api/results/R13PASSLIST`);
+            const response = await axios.get(`${api_ip}/api/results/R13PASSLIST`);
             setFilenames(response.data.files);
         }catch(error){
             console.log(error);
@@ -27,7 +27,7 @@ useEffect(()=>{
         {
             filenames.map((file,index)=>(
                 <div>
-                    <a href={`http://${api_ip}:3000/../Storage/Results/BTECH3-2/R13PASSLIST/${file}`} download={file}><h4 key={index}>{file}</h4></a>
+                    <a href={`${api_ip}/exam-files/BTECH3-2/R13PASSLIST/${encodeURIComponent(file)}`} download={file}><h4 key={index}>{file}</h4></a>
                 </div>
             ))
         }

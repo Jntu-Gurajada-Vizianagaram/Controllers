@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MdLogin } from 'react-icons/md';
 import { RiAdminFill, RiLockPasswordFill } from 'react-icons/ri';
 import { useNavigate } from "react-router-dom";
@@ -45,6 +45,7 @@ const GoogleIconSVG = () => (
 const Login = () => {
   const navigate = useNavigate();
   const login_details = JSON.parse(localStorage.getItem("accesser"));
+  const isLocallyAuthenticated = Boolean(login_details?.islogin);
 
   const [formData, setFormData] = useState({
     username: "",
@@ -58,6 +59,23 @@ const Login = () => {
 
   const [loading, setLoading] = useState(false);
   const [focusField, setFocusField] = useState("");
+  useEffect(() => {
+    const errorCode = new URLSearchParams(window.location.search).get('google_error');
+    if (!errorCode) return;
+    const messages = {
+      authentication_failed: 'Google authentication was cancelled or failed.',
+      organizational_email_required: 'Google login requires an approved JNTU-GV Workspace account.',
+      not_allowlisted: 'This account is not approved for admin access.',
+      account_identity_changed: 'This Google account must be re-approved by an administrator.',
+      not_configured: 'Google login is not configured on the server.',
+      server_error: 'Google login could not be completed. Please try again.',
+    };
+    setAlert({ type: 'error', message: messages[errorCode] || 'Google login failed.' });
+    window.history.replaceState({}, document.title, window.location.pathname);
+  }, []);
+  useEffect(() => {
+    if (isLocallyAuthenticated) navigate('/dashboard', { replace: true });
+  }, [isLocallyAuthenticated, navigate]);
   const handleChange = (field) => (e) => {
     const value = e.target.value;
     setFormData(prev => ({
@@ -76,28 +94,22 @@ const Login = () => {
     }
     const msg = serverMsg.toLowerCase();
 
-    // Username not found
-    if (msg.includes("not found") || msg.includes("no user") || msg.includes("username does not exist")) {
-      return {
-        type: "error",
-        message: "The username you entered does not exist. Please check your username."
-      };
-    }
-    // Incorrect password
-    if (msg.includes("incorrect password") || msg.includes("wrong password")) {
-      return {
-        type: "error",
-        message: "The password you entered is incorrect. Please try again."
-      };
-    }
-    // Both wrong (generic)
+    // Keep login failures generic so we do not reveal valid usernames.
     if (
-      (msg.includes("invalid credentials") || msg.includes("invalid username or password") || msg.includes("authentication failed"))
+      (msg.includes("invalid credentials")
+        || msg.includes("invalid username")
+        || msg.includes("invalid username/email")
+        || msg.includes("invalid organizational email")
+        || msg.includes("not found")
+        || msg.includes("no user")
+        || msg.includes("incorrect password")
+        || msg.includes("wrong password")
+        || msg.includes("authentication failed"))
       && username && password
     ) {
       return {
         type: "error",
-        message: "The username and password combination is incorrect. Please try again."
+        message: "Invalid login credentials. Please try again."
       };
     }
     // Account disabled
@@ -132,7 +144,6 @@ const Login = () => {
       });
       return;
     }
-
     setLoading(true);
     try {
       const response = await axios.post(APIs.admin_apis.login, { credentials: { username, password } });
@@ -143,7 +154,7 @@ const Login = () => {
           message: "Login successful"
         });
         localStorage.setItem("accesser", JSON.stringify(response.data));
-        setTimeout(() => navigate('/profiles'), 500);
+        setTimeout(() => navigate('/dashboard'), 500);
       } else {
         // User-friendly error handling
         let errorObj;
@@ -181,13 +192,8 @@ const Login = () => {
     }
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("accesser");
-    navigate('/logout');
-  };
-
   const handleGoogleLogin = () => {
-    window.location.href = '/auth/google';
+    window.location.assign(APIs.admin_apis.google_login);
   };
 
   const styles = {
@@ -314,67 +320,9 @@ const Login = () => {
       border: "1.5px solid #e0e0e0",
       cursor: "not-allowed"
     },
-    alreadyLogged: {
-      margin: "40px auto",
-      padding: "32px 40px",
-      background: "#f5f7fa",
-      borderRadius: 12,
-      boxShadow: "0 2px 12px rgba(0,0,0,0.07)",
-      textAlign: "center",
-      maxWidth: 480
-    },
-    alreadyH1: {
-      fontSize: "1.5rem",
-      color: "#1976d2",
-      margin: "10px 0 0 0"
-    },
-    alreadyBtn: {
-      padding: "10px 28px",
-      background: "#1976d2",
-      color: "#fff",
-      fontWeight: 600,
-      fontSize: 16,
-      border: "none",
-      borderRadius: 6,
-      cursor: "pointer",
-      margin: "10px 0",
-      transition: "background 0.2s"
-    },
-    alreadyBtnSecondary: {
-      background: "#f44336"
-    }
   };
 
-  if (login_details) {
-    return (
-      <div className="admin-login-main">
-        <div style={styles.alreadyLogged}>
-          <div style={{ fontSize: "1.2rem", color: "#333", marginBottom: 12 }}>
-            You are already logged in as
-            <h1 style={styles.alreadyH1}>{login_details.admin}</h1>
-          </div>
-          <div style={{ fontSize: "1.1rem", color: "#444", marginBottom: 18 }}>
-            To access your dashboards <br /><br />
-            <button
-              style={styles.alreadyBtn}
-              onClick={() => navigate('/profiles')}
-            >
-              Go to Profiles
-            </button>
-            <br /><br />or
-          </div>
-          <div>
-            <button
-              style={{ ...styles.alreadyBtn, ...styles.alreadyBtnSecondary }}
-              onClick={handleLogout}
-            >
-              Logout
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  if (isLocallyAuthenticated) return null;
 
   return (
     <div className="admin-login-main">
@@ -390,12 +338,12 @@ const Login = () => {
 
           <div className="form-group" style={styles.formGroup}>
             <label htmlFor="admin-username" style={styles.label}>
-              <RiAdminFill style={{ fontSize: 18, color: "#1976d2" }} /> Admin Username:
+              <RiAdminFill style={{ fontSize: 18, color: "#1976d2" }} /> Username / Organizational Email:
             </label>
             <input
               type="text"
               id="admin-username"
-              placeholder="Enter your username"
+              placeholder="Enter username or organizational email"
               value={formData.username.toLowerCase()}
               onChange={e => {
                 const value = e.target.value.toLowerCase();
@@ -478,7 +426,7 @@ const Login = () => {
             disabled={loading}
           >
             <GoogleIconSVG />
-            Login with Google
+            Login with JNTU-GV Google Workspace
           </button>
         </div>
 

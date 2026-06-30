@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Admin from "./Frontend/admin/components/Admin";
 import AllCrudControls from "./Frontend/admin/components/AllCrudControl";
@@ -9,6 +9,9 @@ import AddCollege from './Frontend/affliated_colleges/components/AddCollege';
 import AffiliatedColleges from "./Frontend/affliated_colleges/components/AffliatedColleges";
 import ForgotPassword from "./Frontend/Authentications/components/ForgotPassword";
 import Login from "./Frontend/Authentications/components/Login";
+import ProtectedRoute from "./Frontend/Authentications/components/ProtectedRoute";
+import AuthorizedRoute from "./Frontend/Authentications/components/AuthorizedRoute";
+import RoleHomeRedirect from "./Frontend/Authentications/components/RoleHomeRedirect";
 import CarouselDisplay from './Frontend/dmc/components/CarouselDisplay';
 import CompleteGallery from "./Frontend/dmc/components/CompleteGallery";
 import DMCUpload from "./Frontend/dmc/components/DmcIMGUpload";
@@ -17,97 +20,48 @@ import GalleryImagesUpload from "./Frontend/dmc/components/GalleryImagesUpload";
 import FacultyGrievance from "./Frontend/grievances/components/FacultyGrievance";
 import HODS from "./Frontend/hods/components/HODS";
 import Dashboard from "./Frontend/Main/Component/Dashboard";
-import DashboardHome from "./Frontend/Main/Component/DashboardHome";
 import FirstPage from './Frontend/Main/Component/firstpage';
-import Persons from './Frontend/Main/Component/Persons';
 import Profile from "./Frontend/Main/Component/Profile";
 import RestricetedPage from './Frontend/Main/Component/RestricetedPage';
 // import Header from "./Frontend/Main/components/Header";
 import Updates from "./Frontend/updates/components/Updates";
-// import GoogleOAuthCallback from "./Frontend/Authentications/components/GoogleOAuthCallback";
-// Removed duplicate import of Login component
 function App() {
   return (
     <div className="App">
-      {/* <Login />
-      <Main /> */}
-    {/* <Header/> */}
-      
       <BrowserRouter>
-        {/* <Navbar /> */}
         <Routes>
-          <Route exact path="/" element={<FirstPage />}/>
-          <Route exact path="/login" element={<Login />} />
-          {/* <Route exact path="/auth/google" element={<GoogleAuthRedirect />} />
-          <Route exact path="/auth/google/callback/success" element={<GoogleOAuthCallback />} /> */}
-          <Route exact path="/profiles" element={<Persons />}/>
-          <Route exact path="/restrictedaccess" element={<RestricetedPage/>}/>
-          <Route exact path="/dashboard/:adminrole/:page" element={<Dashboard />}>
-            <Route index element={<DashboardHome/>} />
-            <Route exact path="profile" element={<Profile />}/>
-            {/* Admin Routes */}
-            <Route path='admin-home' element={<Admin />}/>
-            <Route path='directors' element={<DirectorsCRUDControl />} />
-            <Route path='all-consoles' element={<AllCrudControls />} />
-            <Route path='all-records' element={<AllRecordsControls />} />
-            <Route path='all-stored-files' element={<Allfiles />} />
-            <Route path='help' element={<FacultyGrievance />} />
-            {/* Affiliated College Routes */}
-            <Route exact path="affiliated-college" element={<AffiliatedColleges />}/>
-            <Route exact path="add-new-affliated-college" element={<AddCollege/>} />
-            {/* Web Admin Routes */}
-            <Route path="gallery" element={<CompleteGallery />} />
-            <Route exact path="dmcupload" element={<DMCUpload />} />
-            <Route exact path="eventphotosupload" element={<EventPhotosUpload />} />
-            <Route exact path="carousel" element={<CarouselDisplay />} />
-            <Route exact path="galleryImagesUpload" element={<GalleryImagesUpload/>}></Route>
-            {/* Updates Panel Routes */}
-            <Route exact path="updates" element={<Updates />} />
-            {/* Directors Panel Routes */}
-            <Route exact path="hods" element={<HODS />} />
+          <Route path="/" element={<FirstPage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/passwordreset" element={<ForgotPassword />} />
+
+          <Route element={<ProtectedRoute />}>
+            <Route path="/restrictedaccess" element={<RestricetedPage />} />
+            <Route path="/dashboard" element={<Dashboard />}>
+              <Route index element={<RoleHomeRedirect />} />
+              <Route path="profile" element={<AuthorizedRoute page="profile"><Profile /></AuthorizedRoute>} />
+              <Route path="admin-home" element={<AuthorizedRoute page="admin-home"><Admin /></AuthorizedRoute>} />
+              <Route path="directors" element={<AuthorizedRoute page="directors"><DirectorsCRUDControl /></AuthorizedRoute>} />
+              <Route path="all-consoles" element={<AuthorizedRoute page="all-consoles"><AllCrudControls /></AuthorizedRoute>} />
+              <Route path="all-records" element={<AuthorizedRoute page="all-records"><AllRecordsControls /></AuthorizedRoute>} />
+              <Route path="all-stored-files" element={<AuthorizedRoute page="all-stored-files"><Allfiles /></AuthorizedRoute>} />
+              <Route path="help" element={<AuthorizedRoute page="help"><FacultyGrievance /></AuthorizedRoute>} />
+              <Route path="affiliated-college" element={<AuthorizedRoute page="affiliated-college"><AffiliatedColleges /></AuthorizedRoute>} />
+              <Route path="add-new-affliated-college" element={<AuthorizedRoute page="add-new-affliated-college"><AddCollege /></AuthorizedRoute>} />
+              <Route path="gallery" element={<AuthorizedRoute page="gallery"><CompleteGallery /></AuthorizedRoute>} />
+              <Route path="dmcupload" element={<AuthorizedRoute page="dmcupload"><DMCUpload /></AuthorizedRoute>} />
+              <Route path="eventphotosupload" element={<AuthorizedRoute page="eventphotosupload"><EventPhotosUpload /></AuthorizedRoute>} />
+              <Route path="carousel" element={<AuthorizedRoute page="carousel"><CarouselDisplay /></AuthorizedRoute>} />
+              <Route path="galleryimagesupload" element={<AuthorizedRoute page="galleryimagesupload"><GalleryImagesUpload /></AuthorizedRoute>} />
+              <Route path="updates" element={<AuthorizedRoute page="updates"><Updates /></AuthorizedRoute>} />
+              <Route path="hods" element={<AuthorizedRoute page="hods"><HODS /></AuthorizedRoute>} />
+              <Route path="*" element={<Navigate to="/restrictedaccess" replace />} />
+            </Route>
           </Route>
-            {/* <Route exact path='/Hodlogin' element={<Hodlogin />}/>
-            <Route exact path='/collegeslogin' element={<Collegelogin />}/>
-            <Route exact path='/Updatelogin' element={<Updatelogin />}/>
-            <Route index element={<Admin />} />
-              <Route path='help' element={<FacultyGrievance />} />
-              <Route index element={<Admin />} />
-              <Route path='admin-home' element={<Admin />} />
-              <Route path='help' element={<FacultyGrievance />} />
-            </Route> */}
-            {/* <Route path='/webadmindashboard' element={<WebAdminDashboard />}>
-            </Route> */}
-            {/* <Route path='/hoddashboard' element={<Hoddashboard />}>
-              <Route index element={<HODS />} />
-              <Route exact path="hods" element={<HODS />} />
-              <Route path='help' element={<FacultyGrievance />} />
-            </Route>
-            <Route path='/Updatesdashboard' element={<Updatesdashboard />}>
-              <Route index element={<Updates />} />
-              <Route path='help' element={<FacultyGrievance />} />
-            </Route>
-            <Route path='/affliatedcollegesdashboard' element={<Affliatedcollegesdashboard />}>
-              <Route index element={<AffiliatedColleges />} />
-              <Route exact path="affiliated-college" element={<AffiliatedColleges />}/>
-              <Route exact path="add-new-affliated-college" element={<AddCollege/>} />
-              <Route path='help' element={<FacultyGrievance />} />
-            </Route>
-          <Route exact path="/results" element={<Results/>} /> */}
-          {/* <Route exact path="/admin" element={<Admin/>} /> */}
-          {/* <Route exact path="/admin-control" element={<Admin />} /> */}
-          {/* <Route exact path="/updates" element={<Updates />} /> */}
-          {/* <Route exact path="/updates" element={<Updates />} /> */}
-          {/* <Route exact path="/dmc" element={<DMC />}/> */}
-          {/* <Route path="/gallery" element={<CompleteGallery />} /> */}
-          {/* <Route exact path="/upload" element={<DMCUpload />} /> */}
-        {/* <Route exact path="/affiliated-college" element={<AffiliatedColleges />}/> */}
-        {/* <Route exact path="/add-new-affliated-college" element={<AddCollege/>} /> */}
-        {/* <Route exact path="/grievances" element={<FacultyGrievance />} /> */}
-        <Route exact path="/passwordreset" element={<ForgotPassword />} />
-        <Route exact path="/*" element={<RestricetedPage />} />
+
+          <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
-    </div >
+    </div>
   );
 }
 

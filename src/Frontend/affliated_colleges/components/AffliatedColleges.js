@@ -11,9 +11,7 @@ import Paper from "@mui/material/Paper";
 import { Button, InputBase, IconButton } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import EDIT from "./EditCollege";
-
-const ips =require('../../api.json')
-const api_ip = ips.server_ip
+import api from '../../Main/apis_data/APIs';
 
 const Affliated_colleges = () => {
   const [collegeData, setCollegeData] = useState([]);
@@ -24,7 +22,7 @@ const Affliated_colleges = () => {
   useEffect(() => {
     async function fetchCollegeData() {
       try {
-        const response = await fetch(`http://${api_ip}/api/affliated-colleges/all-colleges`);
+        const response = await fetch(api.affliated_colleges_apis.all_colleges, { credentials: 'include' });
         const data = await response.json();
         setCollegeData(data);
         setSearchResults(data);
@@ -50,9 +48,9 @@ const Affliated_colleges = () => {
 
   const handleDeleteClick = async (id) => {
     try {
-      const url = new URL(`http://${api_ip}:8888/delete/${id}`);
-      const response = await fetch(url.toString(), {
+      const response = await fetch(`${api.affliated_colleges_apis.remove_college}/${id}`, {
         method: 'DELETE',
+        credentials: 'include',
       });
       if (response.ok) {
         const updatedResults = searchResults.filter((college) => college.id !== id);
@@ -83,7 +81,7 @@ const Affliated_colleges = () => {
   return (
     <div className="main_div">
       <div>
-        <Link to="/add-new-affliated-college">
+        <Link to="../add-new-affliated-college">
           <Button variant="contained">Add College</Button>
         </Link>
       </div>

@@ -1,6 +1,12 @@
 
 const mods = {
-    uds: JSON.parse(localStorage.getItem("accesser")) ,
+    get uds() {
+        try {
+            return JSON.parse(localStorage.getItem("accesser")) || {};
+        } catch {
+            return {};
+        }
+    },
 }
 
 export default mods;

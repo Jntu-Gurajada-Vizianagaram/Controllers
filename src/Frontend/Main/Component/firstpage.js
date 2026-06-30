@@ -1,14 +1,14 @@
 import React from "react";
 import Typography from '@mui/material/Typography';
 import { Button } from '@mui/material';
-import { NavLink } from "react-router-dom";
+import { Navigate, NavLink } from "react-router-dom";
 import jntugvlogo from '../media/jntugv.png'
 import mods from "./Logins/Login";
 
 const Firstpage=()=>{
 
   if(mods.uds && mods.uds.islogin){
-    window.location.href='/profiles'
+    return <Navigate to="/dashboard" replace />;
   }
   
 

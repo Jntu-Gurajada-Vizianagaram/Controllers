@@ -50,7 +50,7 @@ const allimgs = ()=>{
   const [selectedImage, setSelectedImage] = useState(null);
 
   const add_to_carousel =(image)=>{
-    axios.get(`${api_ip}/api/webadmin/add-to-carousel/${image.id}`)
+    axios.patch(`${api_ip}/api/webadmin/add-to-carousel/${image.id}`)
     .then((response)=>{
      // console.log(response)
       allimgs()
@@ -61,7 +61,7 @@ const allimgs = ()=>{
     })
   }
   const remove_from_carousel =(image)=>{
-    axios.get(`${api_ip}/api/webadmin/remove-from-carousel/${image.id}`)
+    axios.patch(`${api_ip}/api/webadmin/remove-from-carousel/${image.id}`)
     .then((response)=>{
       //console.log(response)
       maincarousel()
@@ -72,7 +72,7 @@ const allimgs = ()=>{
     })
   }
   const remove_image =(image)=>{
-    axios.get(`${api_ip}/api/webadmin/removeimage/${image.id}`)
+    axios.delete(`${api_ip}/api/webadmin/removeimage/${image.id}`)
     .then((response)=>{
       //console.log(response)
       maincarousel()
