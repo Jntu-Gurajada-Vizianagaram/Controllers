@@ -225,7 +225,7 @@ const DirectorForm = () => {
       </Button>
 
       <Dialog open={modalOpen} onClose={handleCloseModal}>
-        <DialogTitle>Add Director</DialogTitle>
+        <DialogTitle>{modalTitle}</DialogTitle>
         <DialogContent>
           <form onSubmit={handleSubmit}>
             <TextField
@@ -378,6 +378,7 @@ const DirectorForm = () => {
                         component="img"
                         image={director.photo_url || '/default-director.jpg'}
                         alt={director.full_name}
+                        loading="lazy"
                         sx={{
                           position: 'absolute',
                           top: 0,
@@ -417,6 +418,8 @@ const DirectorForm = () => {
                 <img
                   src={selectedDirector.photo_url || '/default-director.jpg'}
                   alt={selectedDirector.full_name}
+                  loading="lazy"
+                  decoding="async"
                   style={{
                     position: 'absolute',
                     top: 0,

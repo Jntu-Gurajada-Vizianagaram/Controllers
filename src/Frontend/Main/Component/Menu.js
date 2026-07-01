@@ -19,7 +19,7 @@ const adminMenu = [
     },
     {
         to: 'all-consoles',
-        text: 'Console Management',
+        text: 'All Consoles',
         icon: <DevicesIcon />,
     },
     {
@@ -90,6 +90,11 @@ const adminMenu = [
 ];
 
 const developerMenu = [
+    {
+        to: 'all-consoles',
+        text: 'All Consoles',
+        icon: <DevicesIcon />,
+    },
     {
         to: 'gallery',
         text: 'Gallery Overview',
@@ -163,6 +168,11 @@ const All_Menu = {
         },
     ],
     WebAdmin: [
+        {
+            to: 'all-consoles',
+            text: "All Consoles",
+            icon: <DevicesIcon />,
+        },
         {
             to: 'gallery',
             text: "Gallery Overview",

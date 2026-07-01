@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import '../css/CompleteGallery.css';
-import { CG } from './CG';
-import { MdOutlineArrowBackIos } from "react-icons/md";
 import axios from 'axios';
 const ips = require("../../api.json");
 const api_ip = ips.server_ip;
@@ -50,6 +47,8 @@ useEffect(()=>{
               src={imageObj.imglink}
               alt={`JNTUGV ${images.length - index}`}
               className="grid-image"
+              loading="lazy"
+              decoding="async"
               onClick={() => handleImageClick(imageObj.imglink, imageObj.description)}
             />
           </div>
@@ -58,7 +57,7 @@ useEffect(()=>{
 
       {selectedImage && (
         <div className="enlarged-image" >
-          <img src={selectedImage.image} alt={`JNTUGV`} />
+          <img src={selectedImage.image} alt={`JNTUGV`} loading="lazy" decoding="async" />
           <p>{selectedImage.description}</p>
           <button onClick={handleClose}>Back</button>
         </div>

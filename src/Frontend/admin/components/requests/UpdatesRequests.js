@@ -56,7 +56,7 @@ useEffect(()=>{
         
         <div className="eventsdisplay">
           {
-            requests !=""? 
+            requests.length !== 0 ? 
             <TableContainer component={Paper}>
             <Table>
               <TableHead>
@@ -79,7 +79,7 @@ useEffect(()=>{
                     <TableCell>{request.update_status}</TableCell>
                     <TableCell>{request.submitted_by}</TableCell>
                     <TableCell>
-                      <a href={request.file_link} target="_blank">View File</a>
+                      <a href={request.file_link} target="_blank" rel="noreferrer">View File</a>
                     </TableCell>
                     <TableCell>
                       <Button variant="contained" onClick={() => request_accept(request)}>

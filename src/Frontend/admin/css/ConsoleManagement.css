@@ -1,5 +1,6 @@
 .console-management-page {
   width: 100%;
+  max-width: 100%;
 }
 
 .console-management-hero {
@@ -89,6 +90,7 @@
   max-width: 100%;
   padding: 20px;
   overflow-x: auto;
+  background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
 }
 
 .console-management-table-area > div,
@@ -130,6 +132,37 @@
   white-space: nowrap;
 }
 
+.responsive-console-page {
+  width: 100%;
+  max-width: 100%;
+}
+
+.responsive-console-section,
+.eventsdisplay,
+.updates-main,
+.gallery-container,
+.main_div {
+  width: 100%;
+  max-width: 100%;
+}
+
+.responsive-console-page .MuiPaper-root,
+.eventsdisplay .MuiPaper-root,
+.updates-main .MuiPaper-root,
+.gallery-container .MuiPaper-root,
+.main_div .MuiPaper-root {
+  border-radius: 16px;
+}
+
+.danger-action-button.Mui-disabled,
+.delete-action-disabled {
+  color: #7f1d1d !important;
+  background: #fee2e2 !important;
+  border: 1px solid #fecaca !important;
+  cursor: not-allowed !important;
+  opacity: 0.75 !important;
+}
+
 @media (max-width: 900px) {
   .console-management-hero {
     padding: 18px;
@@ -141,5 +174,58 @@
 
   .console-management-table-area .MuiTable-root {
     min-width: 820px;
+  }
+}
+
+@media (max-width: 700px) {
+  .console-management-hero {
+    margin-bottom: 14px;
+    padding: 16px;
+    border-radius: 18px;
+  }
+
+  .console-management-title {
+    font-size: 1.55rem !important;
+  }
+
+  .console-management-subtitle {
+    font-size: 0.92rem;
+  }
+
+  .console-management-summary {
+    min-height: 68px !important;
+    padding: 8px 12px !important;
+  }
+
+  .console-management-section-title {
+    font-size: 0.98rem !important;
+  }
+
+  .console-management-section-desc {
+    font-size: 0.78rem;
+  }
+
+  .console-management-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 12px;
+  }
+
+  .console-management-table-area {
+    padding: 10px;
+  }
+
+  .console-management-table-area .MuiTable-root {
+    min-width: 760px;
+  }
+
+  .console-management-table-area .MuiTableCell-root {
+    padding: 10px 12px;
+    font-size: 0.84rem;
+  }
+
+  .console-management-table-area .MuiButton-root {
+    min-height: 36px;
+    font-size: 0.78rem;
   }
 }

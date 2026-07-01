@@ -59,7 +59,7 @@ useEffect(()=>{
         
         <div className="eventsdisplay">
 
-          {requests !=""? <TableContainer component={Paper}>
+          {requests.length !== 0 ? <TableContainer component={Paper}>
             <Table>
               <TableHead>
                 <TableRow key={"Table Attributes"}>
@@ -79,7 +79,7 @@ useEffect(()=>{
                     <TableCell>{request.uploaded_date}</TableCell>
                     <TableCell>{request.event_name}</TableCell>
                     <TableCell>
-                      <img src={request.event_photos[0]} alt={request.event_name + "Thumbnail"} height={70} width={50}/>
+                      <img src={request.event_photos[0]} alt={request.event_name + "Thumbnail"} height={70} width={50} loading="lazy" decoding="async"/>
                     </TableCell>
                     <TableCell>{request.added_by}</TableCell>
                     <TableCell>

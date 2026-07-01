@@ -98,7 +98,7 @@ const AdminsCRUDControl = () => {
     setEditingAdmin(admin);
     setEditName(admin.name);
     setEditUsername(admin.username);
-    setEditPassword();
+    setEditPassword("");
     setEditRole(admin.role);
   };
 
@@ -116,9 +116,9 @@ const AdminsCRUDControl = () => {
         id: editingAdmin.id,
         name: editName,
         username: editUsername,
-        password: editPassword ? editPassword : editingAdmin.password,
         role: editRole
       };
+      if (editPassword) updatedAdmin.password = editPassword;
 
       const response = await axios.put(`${api.admin_apis.update_hod}/${editingAdmin.id}`, updatedAdmin);
 
@@ -295,7 +295,7 @@ const AdminsCRUDControl = () => {
                     <TextField fullWidth label="Name" variant="outlined" value={editName} onChange={(e) => setEditName(e.target.value)} />
                   </Grid>
                   <Grid item xs={12}>
-                    <TextField fullWidth label="Organizational Email" type="email" placeholder="username@jntugv.edu.in" variant="outlined" value={editUsername} onChange={(e) => setEditUsername(e.target.value.toLowerCase())} />
+                    <TextField fullWidth label="Username / Organizational Email" placeholder="legacy username or username@jntugv.edu.in" variant="outlined" value={editUsername} onChange={(e) => setEditUsername(e.target.value.toLowerCase())} />
                   </Grid>
                   <Grid item xs={12}>
                     <TextField fullWidth label="Password" variant="outlined" type="password" value={editPassword} onChange={(e) => setEditPassword(e.target.value)} />

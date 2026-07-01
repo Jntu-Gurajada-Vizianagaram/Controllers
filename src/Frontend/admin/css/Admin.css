@@ -1,7 +1,7 @@
 .admin-main{
     display:flex;
     flex-direction: column;
-    justify-content: start;
+    justify-content: flex-start;
     padding: 10px;
     /* align-items: center; */
     /* min-height: 20vh; */
@@ -11,7 +11,7 @@
 }
 .all-requests, .updates-requests, .dmc-requests, .news-requests, .dept-requests{
     min-height: 15vh;
-    display: flex-start;
+    display: flex;
     flex-direction: column;
     gap: 15px;
     /* margin: 2%; */

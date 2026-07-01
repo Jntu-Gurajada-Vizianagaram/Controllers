@@ -1,4 +1,3 @@
-import gal1 from '../media/gallery/gal1.jpeg';
 import gal2 from '../media/gallery/gal2.jpeg';
 import gal4 from '../media/gallery/gal4.jpeg';
 import gal5 from '../media/gallery/gal5.jpeg';
@@ -22,9 +21,6 @@ import gal23 from '../media/gallery/gal23.jpg';
 import gal24 from '../media/gallery/gal24.jpg';
 import gal25 from '../media/gallery/gal25.jpg';
 import gal26 from '../media/gallery/gal26.jpg';
-
-
-import axios from 'axios';
 
 export const CG = [
     {

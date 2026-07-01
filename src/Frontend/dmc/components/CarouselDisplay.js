@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import '../css/Gallery.css';
-import { CG } from './CG'; // Import the array of image objects from CG.js
-import axios, { all } from 'axios';
+import axios from 'axios';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from "@mui/material";
 import { useAuth } from '../../Authentications/AuthContext';
 import { canDeleteRecords } from '../../Authentications/accessControl';
@@ -105,6 +104,8 @@ const allimgs = ()=>{
               key={index}
               src={image.imglink}
               alt={`JNTUGV ${image.description}`}
+              loading="lazy"
+              decoding="async"
               onClick={() => handleImageClick(image)}
             />
           ))}
@@ -113,7 +114,7 @@ const allimgs = ()=>{
       <div>
         {selectedImage && (
           <div className="enlarged-image">
-            <img src={selectedImage.imglink} alt={`JNTUGV`} />
+            <img src={selectedImage.imglink} alt={`JNTUGV`} loading="lazy" decoding="async" />
             <button onClick={handleClose}>Back</button>
           </div>
         )}
@@ -122,7 +123,7 @@ const allimgs = ()=>{
         
         <div className="eventsdisplay">
 
-          {allimages !=""? <TableContainer component={Paper}>
+          {allimages.length !== 0 ? <TableContainer component={Paper}>
             <Table>
               <TableHead>
                 <TableRow key={"Table Attributes"}>
@@ -143,12 +144,12 @@ const allimgs = ()=>{
                     <TableCell>{request.date}</TableCell>
                     <TableCell>{request.title}</TableCell>
                     <TableCell>
-                      <img src={request.imglink} alt={request.event_name + "Thumbnail"} height={70} width={50}/>
+                      <img src={request.imglink} alt={request.event_name + "Thumbnail"} height={70} width={50} loading="lazy" decoding="async"/>
                     </TableCell>
                     <TableCell>{request.submitted}</TableCell>
                     <TableCell>{request.admin_approval}</TableCell>
                     <TableCell>
-                      { request.carousel_scrolling == 'yes'?
+                      { request.carousel_scrolling === 'yes'?
                       <Button variant="contained" onClick={() => remove_from_carousel(request)}>
                         remove 
                       </Button>:

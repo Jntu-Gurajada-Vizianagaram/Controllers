@@ -208,6 +208,7 @@ const GalleryImagesUpload = () => {
                 height="200"
                 image={item.imagelink}
                 alt={item.event_name}
+                loading="lazy"
                 sx={{
                   objectFit: 'fill',
                   borderRadius: '4px 4px 0 0',

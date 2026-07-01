@@ -1,7 +1,13 @@
+import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
+import CollectionsIcon from '@mui/icons-material/Collections';
+import DescriptionIcon from '@mui/icons-material/Description';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
+import PhotoLibraryIcon from '@mui/icons-material/PhotoLibrary';
+import SchoolIcon from '@mui/icons-material/School';
+import SlideshowIcon from '@mui/icons-material/Slideshow';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -9,25 +15,40 @@ import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
+import { useAuth } from '../../Authentications/AuthContext';
+import { normalizeRole } from '../../Authentications/accessControl';
+import AffiliatedColleges from '../../affliated_colleges/components/AffliatedColleges';
+import CarouselDisplay from '../../dmc/components/CarouselDisplay';
+import DMCUpload from '../../dmc/components/DmcIMGUpload';
+import EventPhotosUpload from '../../dmc/components/EventPhotosUpload';
+import GalleryImagesUpload from '../../dmc/components/GalleryImagesUpload';
+import HODS from '../../hods/components/HODS';
 import AdminsCRUDControl from './AdminCRUDControl';
 import DirectorsCRUDControl from './DirectorsCRUDControl';
 import UpdateCRUD from './UpdateCRUDControl';
 import '../css/ConsoleManagement.css';
 
+const canViewSection = (role, roles) => {
+  const normalizedRole = normalizeRole(role);
+  return normalizedRole === 'rootadmin' || roles.includes(normalizedRole);
+};
+
 const consoleSections = [
   {
     id: 'notifications',
-    title: 'Notifications CRUD',
+    title: 'Notifications Console',
     description: 'Create, edit, and manage public notifications and update records.',
     icon: <NotificationsActiveIcon />,
+    roles: ['admin', 'developer', 'updates'],
     content: <UpdateCRUD />,
   },
   {
     id: 'admins',
-    title: 'Admins CRUD',
-    description: 'Manage admin accounts, roles, and approved organizational emails.',
+    title: 'Admin CRUD',
+    description: 'Manage administrator accounts, roles, and approved organizational emails.',
     icon: <ManageAccountsIcon />,
+    roles: ['admin'],
     content: <AdminsCRUDControl />,
   },
   {
@@ -35,12 +56,72 @@ const consoleSections = [
     title: 'Directors CRUD',
     description: 'Maintain directorate profiles and director records.',
     icon: <PeopleAltIcon />,
+    roles: ['admin'],
     content: <DirectorsCRUDControl />,
+  },
+  {
+    id: 'carousel-overview',
+    title: 'Carousel Management',
+    description: 'Review carousel images and control carousel visibility.',
+    icon: <SlideshowIcon />,
+    roles: ['admin', 'developer', 'webadmin'],
+    content: <CarouselDisplay />,
+  },
+  {
+    id: 'carousel-uploads',
+    title: 'Carousel Photo Uploads',
+    description: 'Add or update carousel photo entries.',
+    icon: <AddPhotoAlternateIcon />,
+    roles: ['admin', 'developer', 'webadmin'],
+    content: <DMCUpload />,
+  },
+  {
+    id: 'event-photos',
+    title: 'Event Photos',
+    description: 'Upload and maintain event photo collections.',
+    icon: <PhotoLibraryIcon />,
+    roles: ['admin', 'developer', 'webadmin'],
+    content: <EventPhotosUpload />,
+  },
+  {
+    id: 'gallery-articles',
+    title: 'News & Event Articles',
+    description: 'Upload gallery images and event article content.',
+    icon: <CollectionsIcon />,
+    roles: ['admin', 'developer', 'webadmin'],
+    content: <GalleryImagesUpload />,
+  },
+  {
+    id: 'affiliated-colleges',
+    title: 'Affiliated Colleges',
+    description: 'Manage affiliated college records.',
+    icon: <SchoolIcon />,
+    roles: ['admin', 'developer', 'affiliatedcolleges', 'affliatedcolleges'],
+    content: <AffiliatedColleges />,
+  },
+  {
+    id: 'directorate-uploads',
+    title: 'Directorate Uploads',
+    description: 'Manage directorate/HOD upload sections.',
+    icon: <DescriptionIcon />,
+    roles: ['admin', 'developer', 'directors'],
+    content: <HODS />,
   },
 ];
 
 const AllCrudControls = () => {
-  const [expandedPanel, setExpandedPanel] = useState('notifications');
+  const user = useAuth();
+  const visibleSections = useMemo(
+    () => consoleSections.filter((section) => canViewSection(user?.role, section.roles)),
+    [user?.role],
+  );
+  const [expandedPanel, setExpandedPanel] = useState(visibleSections[0]?.id || null);
+
+  React.useEffect(() => {
+    if (!visibleSections.some((section) => section.id === expandedPanel)) {
+      setExpandedPanel(visibleSections[0]?.id || null);
+    }
+  }, [expandedPanel, visibleSections]);
 
   const handleAccordionChange = (panel) => (_, isExpanded) => {
     setExpandedPanel(isExpanded ? panel : null);
@@ -57,24 +138,24 @@ const AllCrudControls = () => {
         >
           <Box>
             <Typography className="console-management-eyebrow">
-              Admin workspace
+              Role based workspace
             </Typography>
             <Typography variant="h4" className="console-management-title">
-              Console Management
+              All Consoles
             </Typography>
             <Typography className="console-management-subtitle">
-              Expand a section below. Tables now use the full dashboard width so records are easier to review.
+              Only consoles approved for your role are shown here. Admin CRUD remains restricted to Admin and RootAdmin.
             </Typography>
           </Box>
           <Chip
-            label={`${consoleSections.length} consoles`}
+            label={`${visibleSections.length} consoles`}
             className="console-management-chip"
           />
         </Stack>
       </Box>
 
       <Box className="console-management-accordions">
-        {consoleSections.map((section) => (
+        {visibleSections.map((section) => (
           <Accordion
             key={section.id}
             expanded={expandedPanel === section.id}

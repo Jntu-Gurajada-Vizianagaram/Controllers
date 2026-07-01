@@ -26,6 +26,8 @@ import { saveAs } from 'file-saver';
 import { PDFDocument } from 'pdf-lib';
 import QRCode from 'qrcode';
 import React, { useEffect, useState } from 'react';
+import { useAuth } from '../../Authentications/AuthContext';
+import { canDeleteRecords } from '../../Authentications/accessControl';
 import api from '../../Main/apis_data/APIs';
 import '../css/Updates.css';
 
@@ -46,6 +48,8 @@ const VisuallyHiddenInput = styled('input')({
 });
 
 const Updates = () => {
+  const user = useAuth();
+  const canDelete = canDeleteRecords(user?.role);
 
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -108,7 +112,7 @@ const Updates = () => {
   const getEvents = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`${api.updates_apis.all_admin_event}`);
+      const response = await axios.get(`${api.updates_apis.all_admin_event}?limit=10&offset=0`);
       setEvents(response.data);
     } catch (error) {
     } finally {
@@ -225,7 +229,7 @@ const Updates = () => {
     const pdfDoc = await PDFDocument.load(pdfBytes);
 
     const firstPage = pdfDoc.getPages()[0];
-    const { width, height } = firstPage.getSize();
+    const { width } = firstPage.getSize();
 
 
     const qrImage = await pdfDoc.embedPng(await qrCodeBlob.arrayBuffer());
@@ -265,7 +269,7 @@ const Updates = () => {
   };
 
   return (
-    <div>
+    <div className="responsive-console-page notifications-console">
       <Button variant="contained" startIcon={<AddIcon />} onClick={openModalForAdding} sx={{ mb: 2 }}>
         Add New Notification
       </Button>
@@ -424,9 +428,12 @@ const Updates = () => {
         </Box>
       </Modal>
 
-      <div className="eventsdisplay">
+      <div className="eventsdisplay responsive-console-section">
         <Typography variant="h4" gutterBottom>
-          Notifications
+          Recent Notifications
+        </Typography>
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+          Showing latest 10 notifications only. Older records are available in the Records menu.
         </Typography>
         {loading ? (
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', fontSize: '2em' }}>
@@ -446,6 +453,7 @@ const Updates = () => {
                       <TableCell>Status</TableCell>
                       <TableCell>View File</TableCell>
                       <TableCell>Action</TableCell>
+                      {canDelete && <TableCell>Delete</TableCell>}
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -459,7 +467,7 @@ const Updates = () => {
                           {event.file_link ? (
                             <a href={event.file_link} target="_blank" rel="noopener noreferrer">View File</a>
                           ) : (
-                            <a href={event.external_link} target="_blank" rel="noopener northerner noreferrer">{event.external_link}</a>
+                            <a href={event.external_link} target="_blank" rel="noopener noreferrer">{event.external_link}</a>
                           )}
                         </TableCell>
                         <TableCell>
@@ -467,11 +475,18 @@ const Updates = () => {
                             Edit
                           </Button>
                         </TableCell>
-                        <TableCell>
-                          <Button variant="contained" color="error" onClick={() => deleteEvent(event)}>
-                            Delete
-                          </Button>
-                        </TableCell>
+                        {canDelete && (
+                          <TableCell>
+                            <Button
+                              variant="contained"
+                              color="error"
+                              className="danger-action-button"
+                              onClick={() => deleteEvent(event)}
+                            >
+                              Delete
+                            </Button>
+                          </TableCell>
+                        )}
                       </TableRow>
                     ))}
                   </TableBody>

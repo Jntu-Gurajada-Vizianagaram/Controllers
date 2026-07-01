@@ -21,6 +21,7 @@ const rolePages = {
   rootadmin: allPages,
   admin: allPages,
   developer: [
+    'all-consoles',
     'affiliated-college',
     'add-new-affliated-college',
     'gallery',
@@ -34,6 +35,7 @@ const rolePages = {
     'profile',
   ],
   webadmin: [
+    'all-consoles',
     'gallery',
     'galleryimagesupload',
     'eventphotosupload',

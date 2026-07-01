@@ -109,7 +109,7 @@ const Updates = () => {
       console.log(event)
         alert(`Deleting Event ${event.title}`)
         const id =event.id
-        const response = await axios.delete(`${api_ip}/api/updates/remove-event/${id}`);
+        await axios.delete(`${api_ip}/api/updates/remove-event/${id}`);
       
       getEvents()
 
@@ -269,7 +269,7 @@ const Updates = () => {
                     <TableCell>{event.submitted_by}</TableCell>
                     <TableCell>{event.admin_approval}</TableCell>
                     <TableCell>
-                      <a href={event.file_link} target="_blank">View File</a>
+                      <a href={event.file_link} target="_blank" rel="noreferrer">View File</a>
                     </TableCell>
                     {/* <TableCell>
                       <Button variant="contained" onClick={() => alert(event.title)}>
