@@ -84,11 +84,13 @@ export default function Dashboard() {
 
   const drawerContent = (
     <Box
-      className="admin-sidebar"
       sx={{
         height: "100%",
         display: "flex",
         flexDirection: "column",
+        color: "#fff",
+        background:
+          "linear-gradient(180deg, #071b36 0%, #0b2f5f 55%, #09213f 100%)",
       }}
     >
       <Box sx={{ p: 2.5 }}>
@@ -103,13 +105,14 @@ export default function Dashboard() {
               borderRadius: "50%",
               background: "#fff",
               p: 0.4,
+              
             }}
           />
           <Box sx={{ minWidth: 0 }}>
-            <Typography variant="subtitle1" className="admin-sidebar-brand-title">
+            <Typography variant="subtitle1" sx={{ fontWeight: 800, lineHeight: 1.1 }}>
               JNTU-GV
             </Typography>
-            <Typography variant="caption" className="admin-sidebar-brand-subtitle">
+            <Typography variant="caption" sx={{ color: "rgba(255,255,255,.72)" }}>
               Admin Control Centre
             </Typography>
           </Box>
@@ -117,8 +120,7 @@ export default function Dashboard() {
             <IconButton
               aria-label="Close menu"
               onClick={() => setMobileOpen(false)}
-              className="admin-sidebar-close"
-              sx={{ ml: "auto" }}
+              sx={{ ml: "auto", color: "#fff" }}
             >
               <ChevronLeftIcon />
             </IconButton>
@@ -128,10 +130,11 @@ export default function Dashboard() {
 
       <Box sx={{ px: 2.5, pb: 2 }}>
         <Box
-          className="admin-user-card"
           sx={{
             p: 2,
             borderRadius: 3,
+            background: "rgba(255,255,255,.1)",
+            border: "1px solid rgba(255,255,255,.14)",
           }}
         >
           <Stack direction="row" spacing={1.5} alignItems="center">
@@ -139,10 +142,10 @@ export default function Dashboard() {
               {getInitials(user?.name)}
             </Avatar>
             <Box sx={{ minWidth: 0 }}>
-              <Typography noWrap className="admin-user-name">
+              <Typography noWrap sx={{ fontWeight: 700 }}>
                 {user?.name || "Administrator"}
               </Typography>
-              <Typography noWrap variant="caption" className="admin-user-email">
+              <Typography noWrap variant="caption" sx={{ color: "rgba(255,255,255,.72)" }}>
                 {user?.email || "Signed in"}
               </Typography>
             </Box>
@@ -150,9 +153,11 @@ export default function Dashboard() {
           <Chip
             size="small"
             label={user?.role || "Admin"}
-            className="admin-role-chip"
             sx={{
               mt: 1.5,
+              color: "#fff",
+              borderColor: "rgba(255,255,255,.24)",
+              background: "rgba(255,255,255,.12)",
               fontWeight: 700,
             }}
             variant="outlined"
@@ -160,38 +165,39 @@ export default function Dashboard() {
         </Box>
       </Box>
 
-      <Divider className="admin-sidebar-divider" />
+      <Divider sx={{ borderColor: "rgba(255,255,255,.12)" }} />
 
       <Box sx={{ px: 1.5, py: 2, flex: 1, overflowY: "auto" }}>
         <Typography
           variant="overline"
-          className="admin-menu-overline"
-          sx={{ px: 1.5 }}
+          sx={{ px: 1.5, color: "rgba(255,255,255,.55)", fontWeight: 800 }}
         >
           Workspace
         </Typography>
-        <List sx={{ mt: 1 }}>
+        <List className="admin-sidebar-menu-list">
           {menuItems.map((route) => {
             const selected = location.pathname === `/dashboard/${route.to}`;
             return (
-              <ListItem key={route.to} disablePadding sx={{ mb: 0.7 }}>
+              <ListItem key={route.to} disablePadding sx={{ mb: 0.8 }}>
                 <ListItemButton
+                  className={
+                    selected
+                      ? "admin-sidebar-menu-button admin-sidebar-menu-button-v2 admin-sidebar-menu-button-active"
+                      : "admin-sidebar-menu-button admin-sidebar-menu-button-v2"
+                  }
                   component={RouterLink}
                   to={route.to}
                   onClick={() => setMobileOpen(false)}
                   selected={selected}
-                  className={selected ? "admin-menu-item admin-menu-item-active" : "admin-menu-item"}
-                  sx={{
-                    minHeight: 48,
-                    borderRadius: 2.5,
-                  }}
                 >
-                  <ListItemIcon>{route.icon}</ListItemIcon>
+                  <ListItemIcon className="admin-sidebar-menu-icon">{route.icon}</ListItemIcon>
                   <ListItemText
-                    primary={<span className="admin-menu-text">{route.text}</span>}
+                    primary={route.text}
+                    className="admin-sidebar-menu-text"
                     primaryTypographyProps={{
                       component: "span",
-                      fontWeight: selected ? 800 : 600,
+                      noWrap: true,
+                      fontSize: "0.94rem",
                     }}
                   />
                 </ListItemButton>
@@ -201,35 +207,32 @@ export default function Dashboard() {
         </List>
       </Box>
 
-      <Box className="admin-sidebar-footer" sx={{ p: 1.5 }}>
+      <Box sx={{ p: 1.5, borderTop: "1px solid rgba(255,255,255,.12)" }}>
         <ListItemButton
+          className="admin-sidebar-profile-link"
           component={RouterLink}
           to="profile"
           onClick={() => setMobileOpen(false)}
-          className="admin-menu-item"
-          sx={{
-            borderRadius: 2.5,
-            mb: 1,
-          }}
         >
-          <ListItemIcon sx={{ minWidth: 42 }}>
+          <ListItemIcon className="admin-sidebar-profile-icon">
             <PersonIcon />
           </ListItemIcon>
-          <ListItemText primary={<span className="admin-menu-text">My Profile</span>} />
+          <ListItemText primary="My Profile" />
         </ListItemButton>
         <Button
           fullWidth
           variant="contained"
           startIcon={<LogoutIcon />}
           onClick={handleLogout}
-          className="admin-logout-button"
           sx={{
             justifyContent: "flex-start",
             borderRadius: 2.5,
             py: 1.15,
+            background: "rgba(255,255,255,.12)",
             boxShadow: "none",
             textTransform: "none",
             fontWeight: 700,
+            "&:hover": { background: "rgba(255,255,255,.2)", boxShadow: "none" },
           }}
         >
           Logout
@@ -267,11 +270,11 @@ export default function Dashboard() {
           <Box sx={{ flex: 1, minWidth: 0 }}>
             <Stack direction="row" alignItems="center" spacing={1}>
               <DashboardCustomizeIcon color="primary" />
-              <Typography variant="h6" noWrap sx={{ color: "#0f172a", fontWeight: 800 }}>
+              <Typography variant="h6" noWrap sx={{ fontWeight: 800 }}>
                 {activeItem?.text || "Dashboard"}
               </Typography>
             </Stack>
-            <Typography variant="body2" sx={{ color: "#475569" }} noWrap>
+            <Typography variant="body2" color="text.secondary" noWrap>
               Jawaharlal Nehru Technological University - Gurajada Vizianagaram
             </Typography>
           </Box>
@@ -283,9 +286,7 @@ export default function Dashboard() {
                 display: { xs: "none", sm: "flex" },
                 borderRadius: 999,
                 bgcolor: alpha(theme.palette.primary.main, 0.08),
-                color: "#0f172a",
                 fontWeight: 700,
-                "& .MuiChip-label": { fontWeight: 800 },
               }}
             />
           </Tooltip>
@@ -319,22 +320,20 @@ export default function Dashboard() {
 
       <Box
         component="main"
-        className="admin-dashboard-main"
         sx={{
           flexGrow: 1,
           width: { lg: `calc(100% - ${drawerWidth}px)` },
           minHeight: "100vh",
           pt: { xs: 11, sm: 12 },
-          px: { xs: 1.5, md: 2.5, xl: 3 },
+          px: { xs: 2, md: 3.5 },
           pb: 4,
         }}
       >
         <Box
-          className="admin-dashboard-content"
           sx={{
-            maxWidth: "none",
+            maxWidth: 1400,
             mx: "auto",
-            p: { xs: 1.5, md: 2.5 },
+            p: { xs: 2, md: 3 },
             borderRadius: 4,
             bgcolor: "#fff",
             border: "1px solid #e2e8f0",

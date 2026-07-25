@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import '../css/CompleteGallery.css';
 import axios from 'axios';
 const ips = require("../../api.json");
-const api_ip = ips.server_ip;
+const api_ip = process.env.REACT_APP_API_URL || ips.server_ip;
 
 function CompleteGallery() {
   // const images = CG ? [...CG].reverse() : [];
@@ -17,16 +17,18 @@ function CompleteGallery() {
     setSelectedImage(null);
   };
 
-  const all_images = () =>{
+  const all_images = async () =>{
     try {
-      axios.get(`${api_ip}/api/webadmin/allimages`)
-      .then((response)=>{
-        //console.log(response.data)
-        setImages(response.data)
-      })
-      
+      const response = await axios.get(`${api_ip}/api/webadmin/allimages`);
+      setImages(response.data);
     } catch (error) {
-      
+      if (error.response?.status === 401) {
+        localStorage.removeItem('accesser');
+        window.location.replace('/login');
+        return;
+      }
+      console.error('Unable to load gallery overview:', error.message);
+      setImages([]);
     }
   }
 

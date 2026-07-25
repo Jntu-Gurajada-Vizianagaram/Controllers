@@ -46,6 +46,7 @@ const Login = () => {
   const navigate = useNavigate();
   const login_details = JSON.parse(localStorage.getItem("accesser"));
   const isLocallyAuthenticated = Boolean(login_details?.islogin);
+  const [checkingStoredSession, setCheckingStoredSession] = useState(isLocallyAuthenticated);
 
   const [formData, setFormData] = useState({
     username: "",
@@ -74,7 +75,22 @@ const Login = () => {
     window.history.replaceState({}, document.title, window.location.pathname);
   }, []);
   useEffect(() => {
-    if (isLocallyAuthenticated) navigate('/dashboard', { replace: true });
+    if (!isLocallyAuthenticated) {
+      setCheckingStoredSession(false);
+      return;
+    }
+
+    let active = true;
+    axios.get(APIs.admin_apis.session)
+      .then(() => {
+        if (active) navigate('/dashboard', { replace: true });
+      })
+      .catch(() => {
+        localStorage.removeItem('accesser');
+        if (active) setCheckingStoredSession(false);
+      });
+
+    return () => { active = false; };
   }, [isLocallyAuthenticated, navigate]);
   const handleChange = (field) => (e) => {
     const value = e.target.value;
@@ -322,7 +338,7 @@ const Login = () => {
     },
   };
 
-  if (isLocallyAuthenticated) return null;
+  if (checkingStoredSession) return null;
 
   return (
     <div className="admin-login-main">

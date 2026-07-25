@@ -27,7 +27,15 @@ const VisuallyHiddenInput = styled("input")({
 });
 
 const ips = require("../../api.json");
-const api_ip = ips.server_ip;
+const api_ip = process.env.REACT_APP_API_URL || ips.server_ip;
+const toDateInputValue = (value = new Date()) => {
+  const date = value instanceof Date ? value : new Date(value);
+  if (Number.isNaN(date.getTime())) return "";
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
 
 const Upload = () => {
   const user = useAuth();
@@ -36,12 +44,12 @@ const Upload = () => {
   const [events, setEvents] = useState([]);
   const [editingEvent, setEditingEvent] = useState(null);
   const [eventData, setEventData] = useState({
-    date: (new Date()),
+    date: toDateInputValue(),
     title: "",
     file_path: `${file}`,
     description: "",
     submitted: mods.uds.admin,
-    admin_approval: "pending",
+    admin_approval: "accepted",
     carousel_scrolling: "",
     gallery_scrolling: ""
   });
@@ -86,7 +94,7 @@ const Upload = () => {
       title: "",
       description: "",
       submitted: mods.uds.admin,
-      admin_approval: "pending",
+      admin_approval: "accepted",
       carousel_scrolling: "",
       gallery_scrolling: ""
     });
@@ -116,7 +124,7 @@ const Upload = () => {
   const handleEdit = (event) => {
     setEditingEvent(event);
     setEventData({
-      date: event.date,
+      date: toDateInputValue(event.date),
       title: event.title,
       description: event.description,
       submitted: event.submitted,
@@ -250,7 +258,7 @@ const Upload = () => {
                   <TableCell>S.NO</TableCell>
                   <TableCell>Notification Date</TableCell>
                   <TableCell>Title</TableCell>
-                  <TableCell>Approval Status</TableCell>
+                  <TableCell>Publish Status</TableCell>
                   <TableCell>View File</TableCell>
                   <TableCell>Action</TableCell>
                   {canDelete && <TableCell>Delete</TableCell>}
@@ -262,7 +270,7 @@ const Upload = () => {
                     <TableCell>{event.id}</TableCell>
                     <TableCell>{event.date}</TableCell>
                     <TableCell>{event.title}</TableCell>
-                    <TableCell>{event.admin_approval}</TableCell>
+                    <TableCell>{event.admin_approval === 'accepted' ? 'Published' : event.admin_approval}</TableCell>
                     <TableCell>
                       <a href={event.imglink} target="_blank" rel="noopener noreferrer">View File</a>
                     </TableCell>

@@ -4,14 +4,22 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import mods from '../../Main/Component/Logins/Login';
 const ips = require("../../api.json");
-const api_ip = ips.server_ip;
+const api_ip = process.env.REACT_APP_API_URL || ips.server_ip;
+const toDateInputValue = (value = new Date()) => {
+  const date = value instanceof Date ? value : new Date(value);
+  if (Number.isNaN(date.getTime())) return "";
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
 const EventPhotosUpload = () => {
   const [event_details, setEventDetails] = useState({
     event_name: "",
-    uploaded_date: (new Date()), // Set initial date to today
+    uploaded_date: toDateInputValue(),
     description: "",
     main_page: "",
-    admin_approval:"pending",
+    admin_approval:"accepted",
     added_by:mods.uds.admin,
   });
   const [files, setFiles] = useState([]);

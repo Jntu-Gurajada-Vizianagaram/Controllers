@@ -49,7 +49,7 @@ export default function ProtectedRoute() {
     return () => { active = false; };
   }, []);
 
-  if (!user && !sessionChecked) return null;
+  if (!sessionChecked) return null;
   if (!user) return <Navigate to="/login" replace />;
   return <AuthProvider value={user}><Outlet /></AuthProvider>;
 }

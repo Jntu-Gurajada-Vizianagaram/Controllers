@@ -3,20 +3,13 @@ import "./App.css";
 import Admin from "./Frontend/admin/components/Admin";
 import AllCrudControls from "./Frontend/admin/components/AllCrudControl";
 import Allfiles from "./Frontend/admin/components/Allfiles";
-import AllRecordsControls from './Frontend/admin/components/AllRecordsControl';
+import AllRecordsControls from './Frontend/admin/components/AllRecordsControl.js';
 import DirectorsCRUDControl from "./Frontend/admin/components/DirectorsCRUDControl";
-import AddCollege from './Frontend/affliated_colleges/components/AddCollege';
-import AffiliatedColleges from "./Frontend/affliated_colleges/components/AffliatedColleges";
 import ForgotPassword from "./Frontend/Authentications/components/ForgotPassword";
 import Login from "./Frontend/Authentications/components/Login";
 import ProtectedRoute from "./Frontend/Authentications/components/ProtectedRoute";
 import AuthorizedRoute from "./Frontend/Authentications/components/AuthorizedRoute";
 import RoleHomeRedirect from "./Frontend/Authentications/components/RoleHomeRedirect";
-import CarouselDisplay from './Frontend/dmc/components/CarouselDisplay';
-import CompleteGallery from "./Frontend/dmc/components/CompleteGallery";
-import DMCUpload from "./Frontend/dmc/components/DmcIMGUpload";
-import EventPhotosUpload from './Frontend/dmc/components/EventPhotosUpload';
-import GalleryImagesUpload from "./Frontend/dmc/components/GalleryImagesUpload";
 import FacultyGrievance from "./Frontend/grievances/components/FacultyGrievance";
 import HODS from "./Frontend/hods/components/HODS";
 import Dashboard from "./Frontend/Main/Component/Dashboard";
@@ -24,7 +17,14 @@ import FirstPage from './Frontend/Main/Component/firstpage';
 import Profile from "./Frontend/Main/Component/Profile";
 import RestricetedPage from './Frontend/Main/Component/RestricetedPage';
 // import Header from "./Frontend/Main/components/Header";
-import Updates from "./Frontend/updates/components/Updates";
+import SiteNavigation from "./Frontend/site/components/SiteNavigation";
+import NotificationConsole from "./Frontend/consoles/NotificationConsole";
+import CarouselConsole from "./Frontend/consoles/CarouselConsole";
+import NewsConsole from "./Frontend/consoles/NewsConsole";
+import GalleryConsole from "./Frontend/consoles/GalleryConsole";
+import EventGalleryConsole from "./Frontend/consoles/EventGalleryConsole";
+import CollegesConsole from "./Frontend/consoles/CollegesConsole";
+import YoutubeConsole from "./Frontend/consoles/YoutubeConsole";
 function App() {
   return (
     <div className="App">
@@ -45,14 +45,22 @@ function App() {
               <Route path="all-records" element={<AuthorizedRoute page="all-records"><AllRecordsControls /></AuthorizedRoute>} />
               <Route path="all-stored-files" element={<AuthorizedRoute page="all-stored-files"><Allfiles /></AuthorizedRoute>} />
               <Route path="help" element={<AuthorizedRoute page="help"><FacultyGrievance /></AuthorizedRoute>} />
-              <Route path="affiliated-college" element={<AuthorizedRoute page="affiliated-college"><AffiliatedColleges /></AuthorizedRoute>} />
-              <Route path="add-new-affliated-college" element={<AuthorizedRoute page="add-new-affliated-college"><AddCollege /></AuthorizedRoute>} />
-              <Route path="gallery" element={<AuthorizedRoute page="gallery"><CompleteGallery /></AuthorizedRoute>} />
-              <Route path="dmcupload" element={<AuthorizedRoute page="dmcupload"><DMCUpload /></AuthorizedRoute>} />
-              <Route path="eventphotosupload" element={<AuthorizedRoute page="eventphotosupload"><EventPhotosUpload /></AuthorizedRoute>} />
-              <Route path="carousel" element={<AuthorizedRoute page="carousel"><CarouselDisplay /></AuthorizedRoute>} />
-              <Route path="galleryimagesupload" element={<AuthorizedRoute page="galleryimagesupload"><GalleryImagesUpload /></AuthorizedRoute>} />
-              <Route path="updates" element={<AuthorizedRoute page="updates"><Updates /></AuthorizedRoute>} />
+              <Route path="colleges-console" element={<AuthorizedRoute page="colleges-console"><CollegesConsole /></AuthorizedRoute>} />
+              <Route path="affiliated-college" element={<AuthorizedRoute page="colleges-console"><CollegesConsole /></AuthorizedRoute>} />
+              <Route path="add-new-affliated-college" element={<AuthorizedRoute page="colleges-console"><CollegesConsole /></AuthorizedRoute>} />
+              <Route path="gallery" element={<AuthorizedRoute page="gallery-console"><GalleryConsole /></AuthorizedRoute>} />
+              <Route path="carousel-console" element={<AuthorizedRoute page="carousel-console"><CarouselConsole /></AuthorizedRoute>} />
+              <Route path="dmcupload" element={<AuthorizedRoute page="carousel-console"><CarouselConsole /></AuthorizedRoute>} />
+              <Route path="carousel" element={<AuthorizedRoute page="carousel-console"><CarouselConsole /></AuthorizedRoute>} />
+              <Route path="news-console" element={<AuthorizedRoute page="news-console"><NewsConsole /></AuthorizedRoute>} />
+              <Route path="gallery-console" element={<AuthorizedRoute page="gallery-console"><GalleryConsole /></AuthorizedRoute>} />
+              <Route path="event-gallery-console" element={<AuthorizedRoute page="event-gallery-console"><EventGalleryConsole /></AuthorizedRoute>} />
+              <Route path="eventphotosupload" element={<AuthorizedRoute page="event-gallery-console"><EventGalleryConsole /></AuthorizedRoute>} />
+              <Route path="galleryimagesupload" element={<AuthorizedRoute page="gallery-console"><GalleryConsole /></AuthorizedRoute>} />
+              <Route path="notification-console" element={<AuthorizedRoute page="notification-console"><NotificationConsole /></AuthorizedRoute>} />
+              <Route path="updates" element={<AuthorizedRoute page="notification-console"><NotificationConsole /></AuthorizedRoute>} />
+              <Route path="youtube-console" element={<AuthorizedRoute page="youtube-console"><YoutubeConsole /></AuthorizedRoute>} />
+              <Route path="site-navigation" element={<AuthorizedRoute page="site-navigation"><SiteNavigation /></AuthorizedRoute>} />
               <Route path="hods" element={<AuthorizedRoute page="hods"><HODS /></AuthorizedRoute>} />
               <Route path="*" element={<Navigate to="/restrictedaccess" replace />} />
             </Route>

@@ -1,0 +1,115 @@
+.console-page {
+  width: 100%;
+  min-width: 0;
+  color: #111827;
+}
+
+.console-hero {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 22px;
+  border-radius: 22px;
+  margin-bottom: 18px;
+  color: #fff;
+  background:
+    radial-gradient(circle at top right, rgba(255, 255, 255, 0.18), transparent 34%),
+    linear-gradient(135deg, #0c4a8f 0%, #370a68 100%);
+  box-shadow: 0 18px 42px rgba(15, 23, 42, 0.14);
+}
+
+.console-hero h1 {
+  margin: 0;
+  font-size: clamp(1.55rem, 4vw, 2.3rem);
+  font-weight: 900;
+}
+
+.console-hero p {
+  margin: 0;
+  max-width: 900px;
+  color: rgba(255, 255, 255, 0.86);
+  line-height: 1.6;
+}
+
+.console-card {
+  background: #fff;
+  border: 1px solid #dbe4f0;
+  border-radius: 20px;
+  padding: clamp(12px, 2vw, 20px);
+  box-shadow: 0 12px 34px rgba(15, 23, 42, 0.06);
+  overflow: hidden;
+}
+
+.console-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.console-tab {
+  border: 1px solid #cbd5e1;
+  border-radius: 999px;
+  padding: 10px 14px;
+  background: #f8fafc;
+  color: #111827;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+
+.console-tab:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+}
+
+.console-tab-active {
+  background: #0c4a8f;
+  color: #fff;
+  border-color: #0c4a8f;
+}
+
+.console-panel {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.console-panel .MuiContainer-root {
+  max-width: none;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.console-placeholder {
+  padding: 18px;
+  border-radius: 16px;
+  background: #f8fafc;
+  border: 1px dashed #cbd5e1;
+}
+
+@media (max-width: 640px) {
+  .console-hero {
+    padding: 18px;
+    border-radius: 18px;
+  }
+
+  .console-hero p {
+    font-size: 0.92rem;
+  }
+
+  .console-card {
+    padding: 10px;
+    border-radius: 16px;
+  }
+
+  .console-tabs {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .console-tab {
+    width: 100%;
+    border-radius: 14px;
+    text-align: left;
+  }
+}

@@ -27,6 +27,14 @@ const VisuallyHiddenInput = styled("input")({
 
 const ips = require("../../api.json");
 const api_ip = ips.server_ip;
+const toDateInputValue = (value = new Date()) => {
+  const date = value instanceof Date ? value : new Date(value);
+  if (Number.isNaN(date.getTime())) return "";
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
 
 const Updates = () => {
   const user = useAuth();
@@ -35,7 +43,7 @@ const Updates = () => {
   const [file, setFile] = useState();
   const [events, setEvents] = useState([]);
   const [eventData, setEventData] = useState({
-    date: (new Date()),
+    date: toDateInputValue(),
     title: "",
     file_path: `${file}`,
     external_link: "",
@@ -45,7 +53,7 @@ const Updates = () => {
     update_type: "",
     update_status: "",
     submitted_by: mods.uds.admin,
-    admin_approval: "pending",
+    admin_approval: "accepted",
   });
 
 
@@ -255,7 +263,7 @@ const Updates = () => {
                   <TableCell>Title</TableCell>
                   <TableCell>Status</TableCell>
                   <TableCell>Update Added By</TableCell>
-                  <TableCell>Admin Approval</TableCell>
+                  <TableCell>Publish Status</TableCell>
                   <TableCell>View File</TableCell>
                   {canDelete && <TableCell>Action</TableCell>}
                 </TableRow>
@@ -267,7 +275,7 @@ const Updates = () => {
                     <TableCell>{event.title}</TableCell>
                     <TableCell>{event.update_status}</TableCell>
                     <TableCell>{event.submitted_by}</TableCell>
-                    <TableCell>{event.admin_approval}</TableCell>
+                    <TableCell>{event.admin_approval === 'accepted' ? 'Published' : event.admin_approval}</TableCell>
                     <TableCell>
                       <a href={event.file_link} target="_blank" rel="noreferrer">View File</a>
                     </TableCell>

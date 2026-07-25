@@ -5,7 +5,7 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 import { useAuth } from '../../Authentications/AuthContext';
 import { canDeleteRecords } from '../../Authentications/accessControl';
 const ips = require("../../api.json");
-const api_ip = ips.server_ip;
+const api_ip = process.env.REACT_APP_API_URL || ips.server_ip;
 
 function CarouselDisplay() {
   const user = useAuth();
@@ -132,7 +132,7 @@ const allimgs = ()=>{
                   <TableCell>Title</TableCell>
                   <TableCell>Thumbnail</TableCell>
                   <TableCell>Update Added By</TableCell>
-                  <TableCell>Carousel Status</TableCell>
+                  <TableCell>Carousel Visibility</TableCell>
                   <TableCell>Carousel Action<br></br>(ADD/REMOVE)</TableCell>
                   {canDelete && <TableCell>Action</TableCell>}
                 </TableRow>
@@ -147,7 +147,7 @@ const allimgs = ()=>{
                       <img src={request.imglink} alt={request.event_name + "Thumbnail"} height={70} width={50} loading="lazy" decoding="async"/>
                     </TableCell>
                     <TableCell>{request.submitted}</TableCell>
-                    <TableCell>{request.admin_approval}</TableCell>
+                    <TableCell>{request.carousel_scrolling === 'yes' ? 'Visible on public site' : 'Hidden'}</TableCell>
                     <TableCell>
                       { request.carousel_scrolling === 'yes'?
                       <Button variant="contained" onClick={() => remove_from_carousel(request)}>
@@ -172,7 +172,7 @@ const allimgs = ()=>{
           </TableContainer>
           :
           <div>
-          <h1> No New Requests</h1>
+          <h1>No carousel images found</h1>
           </div>}
         </div>
       </div>

@@ -41,6 +41,16 @@ const allapis= {
         update_single_event:`${api_ip}/api/updates/all-admin-events`,
         update_event:`${api_ip}/api/updates/update-event`
     },
+    site_apis:{
+        public_navbar:`${api_ip}/api/site/navbar`,
+        admin_navbar:`${api_ip}/api/site/admin/navbar`,
+        public_youtube_videos:`${api_ip}/api/site/youtube-videos`,
+        admin_youtube_videos:`${api_ip}/api/site/admin/youtube-videos`,
+    },
+    press_notes_apis:{
+        public_press_notes:`${api_ip}/api/press-notes`,
+        admin_press_notes:`${api_ip}/api/press-notes/admin`,
+    },
     webadmin_apis:{
         all_images:`${api_ip}/api/webadmin/allimages`,
         add_image:`${api_ip}/api/webadmin/addimage`,

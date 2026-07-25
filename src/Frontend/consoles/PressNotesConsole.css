@@ -1,0 +1,142 @@
+.press-note-form {
+  padding: clamp(14px, 2vw, 22px);
+  border-radius: 18px !important;
+  background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+}
+
+.press-note-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.press-note-upload-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin: 16px 0;
+}
+
+.press-note-upload-row .MuiButton-root {
+  min-height: 42px;
+}
+
+.press-note-list {
+  margin-top: 22px;
+}
+
+.press-note-section-title {
+  margin-bottom: 14px !important;
+  color: #0f172a;
+  font-weight: 900 !important;
+}
+
+.press-note-empty {
+  padding: 18px;
+  color: #64748b;
+  border-radius: 16px !important;
+}
+
+.press-note-record {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: 18px;
+  padding: 14px;
+  margin-bottom: 14px;
+  border-radius: 18px !important;
+  background: #ffffff;
+}
+
+.press-note-image-wrap {
+  min-height: 150px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 14px;
+  color: #64748b;
+  background: #f1f5f9;
+}
+
+.press-note-image-wrap img {
+  width: 100%;
+  height: 100%;
+  min-height: 150px;
+  object-fit: cover;
+}
+
+.press-note-content {
+  min-width: 0;
+}
+
+.press-note-title {
+  color: #111827;
+  font-weight: 900 !important;
+}
+
+.press-note-meta {
+  color: #64748b;
+  font-weight: 700;
+}
+
+.press-note-source-link {
+  display: inline-block;
+  margin-top: 8px;
+  color: #0c4a8f;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.press-note-source-link:hover {
+  text-decoration: underline;
+}
+
+.press-note-body {
+  max-height: 260px;
+  margin: 12px 0 0;
+  padding: 14px;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: #1f2937;
+  font-family: inherit;
+  line-height: 1.65;
+  border-radius: 14px;
+  background: #f8fafc;
+}
+
+@media (max-width: 760px) {
+  .press-note-form {
+    padding: 12px;
+  }
+
+  .press-note-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .press-note-upload-row {
+    align-items: stretch;
+  }
+
+  .press-note-upload-row .MuiButton-root,
+  .press-note-upload-row .MuiFormControlLabel-root {
+    width: 100%;
+    justify-content: center;
+    margin-left: 0;
+  }
+
+  .press-note-record {
+    grid-template-columns: 1fr;
+    padding: 10px;
+  }
+
+  .press-note-image-wrap,
+  .press-note-image-wrap img {
+    min-height: 190px;
+  }
+
+  .press-note-body {
+    max-height: 220px;
+    font-size: 0.92rem;
+  }
+}

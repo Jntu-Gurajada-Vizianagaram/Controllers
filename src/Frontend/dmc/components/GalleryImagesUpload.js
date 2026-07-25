@@ -23,7 +23,7 @@ import "../css/DMCUpload.css";
 import "../css/Gallery.css";
 
 const ips = require("../../api.json");
-const api_ip = ips.server_ip;
+const api_ip = process.env.REACT_APP_API_URL || ips.server_ip;
 
 const GalleryImagesUpload = () => {
   const user = useAuth();
