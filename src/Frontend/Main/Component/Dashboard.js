@@ -54,6 +54,16 @@ const getInitials = (name = "") =>
     .join("")
     .toUpperCase() || "JU";
 
+const groupMenuItems = (items = []) =>
+  items.reduce((groups, route) => {
+    const group = route.group || "Workspace";
+    if (!groups.some((entry) => entry.group === group)) {
+      groups.push({ group, items: [] });
+    }
+    groups.find((entry) => entry.group === group).items.push(route);
+    return groups;
+  }, []);
+
 export default function Dashboard() {
   const user = useAuth();
   const theme = useTheme();
@@ -61,9 +71,13 @@ export default function Dashboard() {
   const location = useLocation();
   const isDesktop = useMediaQuery(theme.breakpoints.up("lg"));
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [uiScale, setUiScale] = React.useState(
+    () => localStorage.getItem("adminUiScale") || "compact",
+  );
 
   const menuItems = (AllMenu[roleMenuKey(user?.role)] || [])
     .filter((route) => canAccessPage(user?.role, route.to));
+  const groupedMenuItems = groupMenuItems(menuItems);
 
   const activeItem = menuItems.find((item) =>
     location.pathname === `/dashboard/${item.to}`,
@@ -72,6 +86,11 @@ export default function Dashboard() {
   React.useEffect(() => {
     document.title = `JNTUGV Admin | ${activeItem?.text || user?.name || "Dashboard"}`;
   }, [activeItem?.text, user?.name]);
+
+  const changeUiScale = (scale) => {
+    setUiScale(scale);
+    localStorage.setItem("adminUiScale", scale);
+  };
 
   const handleLogout = async () => {
     try {
@@ -88,22 +107,23 @@ export default function Dashboard() {
         height: "100%",
         display: "flex",
         flexDirection: "column",
-        color: "#fff",
-        background:
-          "linear-gradient(180deg, #071b36 0%, #0b2f5f 55%, #09213f 100%)",
+        color: "#0f172a",
+        background: "#ffffff",
+        borderRight: "1px solid #dbe4f0",
       }}
     >
-      <Box sx={{ p: 2.5 }}>
+      <Box sx={{ p: 2.25 }}>
         <Stack direction="row" alignItems="center" spacing={1.5}>
           <Box
             component="img"
             src={jntugvlogo}
             alt="JNTU-GV"
             sx={{
-              width: 54,
-              height: 54,
+              width: 50,
+              height: 50,
               borderRadius: "50%",
               background: "#fff",
+              border: "1px solid #dbe4f0",
               p: 0.4,
               
             }}
@@ -112,7 +132,7 @@ export default function Dashboard() {
             <Typography variant="subtitle1" sx={{ fontWeight: 800, lineHeight: 1.1 }}>
               JNTU-GV
             </Typography>
-            <Typography variant="caption" sx={{ color: "rgba(255,255,255,.72)" }}>
+            <Typography variant="caption" sx={{ color: "#64748b" }}>
               Admin Control Centre
             </Typography>
           </Box>
@@ -120,7 +140,7 @@ export default function Dashboard() {
             <IconButton
               aria-label="Close menu"
               onClick={() => setMobileOpen(false)}
-              sx={{ ml: "auto", color: "#fff" }}
+              sx={{ ml: "auto", color: "#0f172a" }}
             >
               <ChevronLeftIcon />
             </IconButton>
@@ -128,24 +148,24 @@ export default function Dashboard() {
         </Stack>
       </Box>
 
-      <Box sx={{ px: 2.5, pb: 2 }}>
+      <Box sx={{ px: 2.25, pb: 2 }}>
         <Box
           sx={{
-            p: 2,
-            borderRadius: 3,
-            background: "rgba(255,255,255,.1)",
-            border: "1px solid rgba(255,255,255,.14)",
+            p: 1.5,
+            borderRadius: 2,
+            background: "#f8fafc",
+            border: "1px solid #e2e8f0",
           }}
         >
           <Stack direction="row" spacing={1.5} alignItems="center">
-            <Avatar sx={{ bgcolor: "#f6b73c", color: "#081f3c", fontWeight: 800 }}>
+            <Avatar sx={{ bgcolor: "#0f5ea8", color: "#ffffff", fontWeight: 800 }}>
               {getInitials(user?.name)}
             </Avatar>
             <Box sx={{ minWidth: 0 }}>
               <Typography noWrap sx={{ fontWeight: 700 }}>
                 {user?.name || "Administrator"}
               </Typography>
-              <Typography noWrap variant="caption" sx={{ color: "rgba(255,255,255,.72)" }}>
+              <Typography noWrap variant="caption" sx={{ color: "#64748b" }}>
                 {user?.email || "Signed in"}
               </Typography>
             </Box>
@@ -155,9 +175,9 @@ export default function Dashboard() {
             label={user?.role || "Admin"}
             sx={{
               mt: 1.5,
-              color: "#fff",
-              borderColor: "rgba(255,255,255,.24)",
-              background: "rgba(255,255,255,.12)",
+              color: "#075985",
+              borderColor: "#bfdbfe",
+              background: "#eff6ff",
               fontWeight: 700,
             }}
             variant="outlined"
@@ -165,49 +185,50 @@ export default function Dashboard() {
         </Box>
       </Box>
 
-      <Divider sx={{ borderColor: "rgba(255,255,255,.12)" }} />
+      <Divider sx={{ borderColor: "#e2e8f0" }} />
 
-      <Box sx={{ px: 1.5, py: 2, flex: 1, overflowY: "auto" }}>
-        <Typography
-          variant="overline"
-          sx={{ px: 1.5, color: "rgba(255,255,255,.55)", fontWeight: 800 }}
-        >
-          Workspace
-        </Typography>
+      <Box sx={{ px: 1.25, py: 1.5, flex: 1, overflowY: "auto" }}>
         <List className="admin-sidebar-menu-list">
-          {menuItems.map((route) => {
-            const selected = location.pathname === `/dashboard/${route.to}`;
-            return (
-              <ListItem key={route.to} disablePadding sx={{ mb: 0.8 }}>
-                <ListItemButton
-                  className={
-                    selected
-                      ? "admin-sidebar-menu-button admin-sidebar-menu-button-v2 admin-sidebar-menu-button-active"
-                      : "admin-sidebar-menu-button admin-sidebar-menu-button-v2"
-                  }
-                  component={RouterLink}
-                  to={route.to}
-                  onClick={() => setMobileOpen(false)}
-                  selected={selected}
-                >
-                  <ListItemIcon className="admin-sidebar-menu-icon">{route.icon}</ListItemIcon>
-                  <ListItemText
-                    primary={route.text}
-                    className="admin-sidebar-menu-text"
-                    primaryTypographyProps={{
-                      component: "span",
-                      noWrap: true,
-                      fontSize: "0.94rem",
-                    }}
-                  />
-                </ListItemButton>
-              </ListItem>
-            );
-          })}
+          {groupedMenuItems.map((section) => (
+            <Box className="admin-sidebar-menu-section" key={section.group}>
+              <Typography variant="overline" className="admin-menu-overline">
+                {section.group}
+              </Typography>
+              {section.items.map((route) => {
+                const selected = location.pathname === `/dashboard/${route.to}`;
+                return (
+                  <ListItem key={route.to} disablePadding sx={{ mb: 0.55 }}>
+                    <ListItemButton
+                      className={
+                        selected
+                          ? "admin-sidebar-menu-button admin-sidebar-menu-button-v2 admin-sidebar-menu-button-active"
+                          : "admin-sidebar-menu-button admin-sidebar-menu-button-v2"
+                      }
+                      component={RouterLink}
+                      to={route.to}
+                      onClick={() => setMobileOpen(false)}
+                      selected={selected}
+                    >
+                      <ListItemIcon className="admin-sidebar-menu-icon">{route.icon}</ListItemIcon>
+                      <ListItemText
+                        primary={route.text}
+                        className="admin-sidebar-menu-text"
+                        primaryTypographyProps={{
+                          component: "span",
+                          noWrap: true,
+                          fontSize: "0.9rem",
+                        }}
+                      />
+                    </ListItemButton>
+                  </ListItem>
+                );
+              })}
+            </Box>
+          ))}
         </List>
       </Box>
 
-      <Box sx={{ p: 1.5, borderTop: "1px solid rgba(255,255,255,.12)" }}>
+      <Box sx={{ p: 1.25, borderTop: "1px solid #e2e8f0" }}>
         <ListItemButton
           className="admin-sidebar-profile-link"
           component={RouterLink}
@@ -226,13 +247,13 @@ export default function Dashboard() {
           onClick={handleLogout}
           sx={{
             justifyContent: "flex-start",
-            borderRadius: 2.5,
+            borderRadius: 1.5,
             py: 1.15,
-            background: "rgba(255,255,255,.12)",
+            background: "#b42318",
             boxShadow: "none",
             textTransform: "none",
             fontWeight: 700,
-            "&:hover": { background: "rgba(255,255,255,.2)", boxShadow: "none" },
+            "&:hover": { background: "#8f1d14", boxShadow: "none" },
           }}
         >
           Logout
@@ -242,7 +263,7 @@ export default function Dashboard() {
   );
 
   return (
-    <Box sx={{ display: "flex", minHeight: "100vh", bgcolor: "#f4f7fb" }}>
+    <Box sx={{ display: "flex", minHeight: "100vh", bgcolor: "#eef3f8" }}>
       <CssBaseline />
       <AppBar
         elevation={0}
@@ -251,12 +272,12 @@ export default function Dashboard() {
           width: { lg: `calc(100% - ${drawerWidth}px)` },
           ml: { lg: `${drawerWidth}px` },
           color: "#0f172a",
-          bgcolor: "rgba(244,247,251,.86)",
+          bgcolor: "rgba(255,255,255,.9)",
           backdropFilter: "blur(14px)",
           borderBottom: "1px solid #dbe4f0",
         }}
       >
-        <Toolbar sx={{ minHeight: 72 }}>
+        <Toolbar sx={{ minHeight: 68, px: { xs: 1.5, md: 3 } }}>
           {!isDesktop && (
             <IconButton
               edge="start"
@@ -290,6 +311,20 @@ export default function Dashboard() {
               }}
             />
           </Tooltip>
+          {isDesktop && (
+            <Stack direction="row" spacing={0.5} className="admin-view-scale">
+              {["compact", "comfortable", "large"].map((scale) => (
+                <Button
+                  key={scale}
+                  size="small"
+                  variant={uiScale === scale ? "contained" : "outlined"}
+                  onClick={() => changeUiScale(scale)}
+                >
+                  {scale === "compact" ? "S" : scale === "comfortable" ? "M" : "L"}
+                </Button>
+              ))}
+            </Stack>
+          )}
         </Toolbar>
       </AppBar>
 
@@ -324,20 +359,23 @@ export default function Dashboard() {
           flexGrow: 1,
           width: { lg: `calc(100% - ${drawerWidth}px)` },
           minHeight: "100vh",
-          pt: { xs: 11, sm: 12 },
-          px: { xs: 2, md: 3.5 },
-          pb: 4,
+          pt: { xs: 10, sm: 11 },
+          px: { xs: 1.25, md: 2 },
+          pb: 2,
         }}
+        className="admin-dashboard-main"
       >
         <Box
+          className={`admin-dashboard-content admin-dashboard-scale-${uiScale}`}
           sx={{
-            maxWidth: 1400,
-            mx: "auto",
-            p: { xs: 2, md: 3 },
-            borderRadius: 4,
+            width: "100%",
+            maxWidth: "none",
+            mx: 0,
+            p: { xs: 1.25, md: 2 },
+            borderRadius: 2,
             bgcolor: "#fff",
             border: "1px solid #e2e8f0",
-            boxShadow: "0 22px 70px rgba(15, 23, 42, .08)",
+            boxShadow: "0 16px 44px rgba(15, 23, 42, .06)",
           }}
         >
           <Outlet />

@@ -1,9 +1,8 @@
 import React from "react";
-import Typography from '@mui/material/Typography';
-import { Button } from '@mui/material';
 import { Navigate, NavLink } from "react-router-dom";
 import jntugvlogo from '../media/jntugv.png'
 import mods from "./Logins/Login";
+import "./FirstPage.css";
 
 const Firstpage=()=>{
 
@@ -13,20 +12,26 @@ const Firstpage=()=>{
   
 
     return(
-        <div style={{textAlign:"center",paddingLeft:"15%",paddingRight:"15%"}}>
-            <img src={jntugvlogo} width='200px' height='200px' alt='logo'></img>
-        <Typography variant="h5" gutterBottom margin={0}><br></br>
-        Jawaharlal Nehru Technological University Gurajada Vizianagaram<br></br><br></br>
-        JNTUGV College of Engineering Vizianagaram
-        <h6>(Established by Andhra Pradesh Act No.22 by 2021)</h6>
-</Typography>
-      <hr height={2}></hr>
-      <Typography variant='h4' style={{marginTop:'10px'}}>
-        University Admin Consoles
-      </Typography>
-      <br></br>
-  <Button variant='contained' ><NavLink to='/login' style={{textDecoration:'none', color: "inherit"}}>Login</NavLink></Button>
-  </div>
+      <main className="admin-entry-page">
+        <section className="admin-entry-card">
+          <img src={jntugvlogo} alt="JNTU-GV" className="admin-entry-logo" />
+          <p className="admin-entry-eyebrow">
+            University Admin Consoles
+          </p>
+          <h1 className="admin-entry-title">
+            Jawaharlal Nehru Technological University Gurajada Vizianagaram
+          </h1>
+          <p className="admin-entry-subtitle">
+            JNTUGV College of Engineering Vizianagaram
+          </p>
+          <p className="admin-entry-meta">
+            Established by Andhra Pradesh Act No.22 by 2021
+          </p>
+          <NavLink to="/login" className="admin-entry-button">
+            Login to Admin Console
+          </NavLink>
+        </section>
+      </main>
     );
 }
 

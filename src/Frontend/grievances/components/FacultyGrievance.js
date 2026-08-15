@@ -13,7 +13,7 @@ const FacultyGrievance = () => {
   const [msg, setMsg] = useState("");
   const [file, setFile] = useState("");
   const ips = require('../../api.json');
-  const api_ip = ips.server_ip;
+  const api_ip = process.env.REACT_APP_API_URL || ips.server_ip;
 
   const sendMail = async () => {
     alert("Sending Mail...");

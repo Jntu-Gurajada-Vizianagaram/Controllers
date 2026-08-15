@@ -1,11 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { MdLogin } from 'react-icons/md';
-import { RiAdminFill, RiLockPasswordFill } from 'react-icons/ri';
 import { useNavigate } from "react-router-dom";
 import APIs from '../../Main/apis_data/APIs';
 import "../css/Login.css";
 import library from "../media/jntu library.jpg";
+import logo from "../../Main/media/jntugv.png";
 
 const GoogleIconSVG = () => (
   <svg
@@ -40,6 +39,47 @@ const GoogleIconSVG = () => (
       />
     </g>
   </svg>
+);
+
+const Badge = ({ children }) => <span className="login-badge">{children}</span>;
+
+const FooterColumn = ({ title, links }) => (
+  <div className="login-footer-column">
+    <h3>{title}</h3>
+    {links.map((link) => (
+      <a key={`${title}-${link.label}`} href={link.href} target={link.external ? "_blank" : undefined} rel={link.external ? "noopener noreferrer" : undefined}>
+        {link.label}
+      </a>
+    ))}
+  </div>
+);
+
+const Field = ({
+  id,
+  label,
+  type = "text",
+  value,
+  placeholder,
+  autoComplete,
+  focused,
+  onChange,
+  onFocus,
+  onBlur,
+}) => (
+  <div className="form-group">
+    <label htmlFor={id}>{label}</label>
+    <input
+      type={type}
+      id={id}
+      placeholder={placeholder}
+      value={value}
+      onChange={onChange}
+      autoComplete={autoComplete}
+      className={focused ? "input-focus" : ""}
+      onFocus={onFocus}
+      onBlur={onBlur}
+    />
+  </div>
 );
 
 const Login = () => {
@@ -212,255 +252,213 @@ const Login = () => {
     window.location.assign(APIs.admin_apis.google_login);
   };
 
-  const styles = {
-    alert: {
-      display: "inline-block",
-      padding: "8px 16px",
-      borderRadius: 6,
-      fontSize: 15,
-      fontWeight: 500,
-      margin: "0 0 16px 0",
-      background: "#f5f5f5",
-      color: "#333",
-      border: "1px solid #ccc"
+  const footerColumns = [
+    {
+      title: "Administration",
+      links: [
+        { label: "Registrar", href: "http://localhost:3000/administration/registrar" },
+        { label: "Officer on Special Duty (OSD)", href: "http://localhost:3000/administration/osd" },
+        { label: "University Coordinators", href: "http://localhost:3000/university/coordinators" },
+        { label: "Chairpersons", href: "http://localhost:3000/academics/bos-chairman" },
+      ],
     },
-    alertSuccess: { color: "#256029", background: "#e8f5e9", borderColor: "#4caf50" },
-    alertError: { color: "#b71c1c", background: "#ffebee", borderColor: "#f44336" },
-    alertWarning: { color: "#7c4700", background: "#fff8e1", borderColor: "#ff9800" },
-    closeBtn: {
-      background: "none",
-      border: "none",
-      color: "#888",
-      fontSize: 18,
-      cursor: "pointer",
-      marginLeft: 8
+    {
+      title: "Constituent Colleges",
+      links: [
+        { label: "JNTU-GV College of Engineering, Vizianagaram (CEV)", href: "https://jntugvcev.edu.in/", external: true },
+        { label: "JNTU-GV College of Pharmaceutical Sciences, Vizianagaram (CPSV)", href: "https://jntugvcpsv.jntugv.edu.in/", external: true },
+        { label: "JNTU-GV Tribal College of Engineering, Kurupam (TECK)", href: "https://teck.jntugv.edu.in/", external: true },
+      ],
     },
-    h2: {
-      fontSize: "2rem",
-      fontWeight: 700,
-      marginBottom: 24,
-      color: "#1a237e",
-      letterSpacing: 1
+    {
+      title: "Academic & Research",
+      links: [
+        { label: "Programs Offered", href: "http://localhost:3000/academics/programs-offered" },
+        { label: "Admissions", href: "http://localhost:3000/academics/admissions" },
+        { label: "Affiliated Colleges", href: "http://localhost:3000/academics/affliated-colleges" },
+        { label: "Research and Development Cell", href: "https://drd.jntugv.edu.in/", external: true },
+        { label: "Training & Placement", href: "https://jntugvcev.edu.in/placements/training-placements-cell/", external: true },
+        { label: "Dr.YSR Central Library", href: "https://jntugvcev.edu.in/facilities/library/", external: true },
+      ],
     },
-    formGroup: {
-      marginBottom: 18,
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "flex-start"
+    {
+      title: "Online Learning",
+      links: [
+        { label: "Swayam Central", href: "https://swayam.gov.in/", external: true },
+        { label: "UGC MOOCs", href: "http://ugcmoocs.inflibnet.ac.in/", external: true },
+        { label: "ACM Digital Library", href: "https://dl.acm.org/", external: true },
+        { label: "IEEE Xplore Digital Library", href: "https://ieeexplore.ieee.org/Xplore/home.jsp", external: true },
+        { label: "Springer", href: "https://link.springer.com/", external: true },
+      ],
     },
-    label: {
-      fontWeight: 600,
-      color: "#333",
-      marginBottom: 6,
-      fontSize: 15,
-      display: "flex",
-      alignItems: "center",
-      gap: 6
+    {
+      title: "Campus Facilities",
+      links: [
+        { label: "University Hostels", href: "https://jntugvcev.edu.in/facilities/hostels/", external: true },
+        { label: "Engineering Cell", href: "https://jntugvcev.edu.in/facilities/engineering-cell/", external: true },
+        { label: "Guest House", href: "http://localhost:3000/infrastructure/about-guest-house" },
+        { label: "Staff Quarters", href: "http://localhost:3000/infrastructure/about-staff-quarters" },
+        { label: "Canteen", href: "https://jntugvcev.edu.in/facilities/canteen/", external: true },
+        { label: "Bank", href: "http://localhost:3000/infrastructure/about-banks" },
+        { label: "Dispensary", href: "https://jntugvcev.edu.in/facilities/dispensary/", external: true },
+      ],
     },
-    input: {
-      width: "260px",
-      padding: "10px 12px",
-      border: "1.5px solid #bdbdbd",
-      borderRadius: 6,
-      fontSize: 15,
-      outline: "none",
-      transition: "border 0.2s",
-      marginBottom: 2
+    {
+      title: "Governance & RTI",
+      links: [
+        { label: "RTI", href: "https://rti.jntugv.edu.in/", external: true },
+        { label: "UGC Mandatory Disclosures", href: "http://localhost:3000/mandatory-disclosures" },
+        { label: "Ombudsman", href: "https://drive.google.com/file/d/15riRLxVtiJOrtLiYWmh7kvIQlTLV7Ocl/view?usp=sharing", external: true },
+        { label: "Student Grievance", href: "http://localhost:3000/grievance-form" },
+        { label: "Recruitment Grievance", href: "http://localhost:3000/recruitment" },
+      ],
     },
-    inputFocus: {
-      border: "1.5px solid #1976d2"
+    {
+      title: "University Cells",
+      links: [
+        { label: "Digital Monitoring Cell (DMC)", href: "https://dmc.jntugv.edu.in/", external: true },
+        { label: "IQAC", href: "https://iqac.jntugv.edu.in/", external: true },
+        { label: "Incubation Center", href: "https://jntugvcev.edu.in/", external: true },
+      ],
     },
-    btn: {
-      width: "100%",
-      padding: "12px 0",
-      background: "#1976d2",
-      color: "#fff",
-      fontWeight: 700,
-      fontSize: 16,
-      border: "none",
-      borderRadius: 6,
-      cursor: "pointer",
-      marginTop: 10,
-      marginBottom: 8,
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      gap: 8,
-      boxShadow: "0 2px 8px rgba(25, 118, 210, 0.08)",
-      transition: "background 0.2s"
+    {
+      title: "Student Corner",
+      links: [
+        { label: "Anti-Ragging", href: "http://localhost:3000/anti-ragging" },
+        { label: "NSS", href: "https://nss.jntugv.edu.in/", external: true },
+        { label: "Sports & Fitness", href: "https://jntugvcev.edu.in/facilities/sports-fitness/", external: true },
+        { label: "Music Club", href: "https://jntugvcev.edu.in/facilities/campus-life/music-club/", external: true },
+        { label: "Student Activity Club", href: "https://jntugvcev.edu.in/facilities/campus-life/student-activity-club/", external: true },
+      ],
     },
-    btnDisabled: {
-      background: "#90caf9",
-      cursor: "not-allowed"
-    },
-    forgot: {
-      color: "#1976d2",
-      textDecoration: "none",
-      fontSize: 14,
-      fontWeight: 500,
-      margin: "8px 0 0 0",
-      display: "inline-block",
-      transition: "color 0.2s"
-    },
-    forgotHover: {
-      color: "#0d47a1"
-    },
-    orText: {
-      textAlign: "center",
-      margin: "18px 0 10px 0",
-      color: "#888",
-      fontWeight: 600,
-      fontSize: 15,
-      letterSpacing: 1
-    },
-    googleBtn: {
-      width: "100%",
-      padding: "12px 0",
-      background: "#fff",
-      color: "#444",
-      fontWeight: 700,
-      fontSize: 16,
-      border: "1.5px solid #bdbdbd",
-      borderRadius: 6,
-      cursor: "pointer",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      gap: 8,
-      boxShadow: "0 2px 8px rgba(66, 133, 244, 0.08)",
-      transition: "background 0.2s, border 0.2s"
-    },
-    googleBtnDisabled: {
-      background: "#f5f5f5",
-      color: "#aaa",
-      border: "1.5px solid #e0e0e0",
-      cursor: "not-allowed"
-    },
-  };
+  ];
 
   if (checkingStoredSession) return null;
 
   return (
-    <div className="admin-login-main">
-      <div className="admin-login-form" style={{ display: "flex", alignItems: "flex-start", justifyContent: "center" }}>
-        <div className="login-form" style={{ padding: 32, borderRadius: 12, background: "#fff", boxShadow: "0 2px 12px rgba(0,0,0,0.07)", minWidth: 340, position: "relative" }}>
-          {erralert.message && (
-            <span style={{ color: erralert.type === "success" ? "#256029" : erralert.type === "error" ? "#b71c1c" : "#7c4700", fontSize: 15, marginBottom: 10, display: "block" }}>
-              {erralert.message}
-            </span>
-          )}
+    <div className="admin-login-page">
+      <header className="login-page-header">
+        <div className="login-page-brand">
+          <img src={logo} alt="JNTU-GV" />
+          <div>
+            <span className="login-header-logo-text">JNTU-GV</span>
+            <strong>JAWAHARLAL NEHRU TECHNOLOGICAL UNIVERSITY GURAJADA VIZIANAGARAM</strong>
+            <small>Vizianagaram-535 003, Andhra Pradesh | Established by Andhra Pradesh Act No.22 of 2021</small>
+          </div>
+        </div>
+        <div className="login-page-header-meta">
+          <Badge>Secure</Badge>
+          <Badge>CMS</Badge>
+          <Badge>RBAC</Badge>
+        </div>
+      </header>
 
-          <h2 style={styles.h2}>Admin Login</h2>
+      <main className="login-page-main">
+        <section className="login-visual-panel" aria-label="JNTU-GV administration workspace">
+          <img src={library} alt="JNTU-GV library" className="library-image" />
+          <div className="library-panel-copy">
+            <p className="library-panel-kicker">JNTU-GV Digital Administration</p>
+            <h1>Official control for university publishing.</h1>
+            <div className="library-panel-stats">
+              <span><strong>RBAC</strong></span>
+              <span><strong>CMS</strong></span>
+              <span><strong>API</strong></span>
+            </div>
+          </div>
+        </section>
 
-          <div className="form-group" style={styles.formGroup}>
-            <label htmlFor="admin-username" style={styles.label}>
-              <RiAdminFill style={{ fontSize: 18, color: "#1976d2" }} /> Username / Organizational Email:
-            </label>
-            <input
-              type="text"
+        <section className="login-auth-panel" aria-label="Admin login">
+          <div className="login-form">
+            <p className="login-eyebrow">JNTU-GV Admin Console</p>
+            <h2>Sign in</h2>
+            <p className="login-subtitle">One workspace for university publishing and administration.</p>
+
+            <div className="login-capability-grid" aria-label="Console capabilities">
+              <Badge>Website</Badge>
+              <Badge>Content</Badge>
+              <Badge>Media</Badge>
+              <Badge>Operations</Badge>
+            </div>
+
+            {erralert.message && (
+              <span className={`login-alert login-alert-${erralert.type}`}>
+                {erralert.message}
+              </span>
+            )}
+
+            <Field
               id="admin-username"
+              label="Username or email"
               placeholder="Enter username or organizational email"
               value={formData.username.toLowerCase()}
-              onChange={e => {
+              onChange={(e) => {
                 const value = e.target.value.toLowerCase();
-                setFormData(prev => ({ ...prev, username: value }));
+                setFormData((prev) => ({ ...prev, username: value }));
               }}
               autoComplete="username"
-              style={{
-                ...styles.input,
-                ...(focusField === "username" ? styles.inputFocus : {})
-              }}
+              focused={focusField === "username"}
               onFocus={() => setFocusField("username")}
               onBlur={() => setFocusField("")}
             />
-          </div>
 
-          <div className="form-group" style={styles.formGroup}>
-            <label htmlFor="admin-password" style={styles.label}>
-              <RiLockPasswordFill style={{ fontSize: 18, color: "#1976d2" }} /> Admin Password:
-            </label>
-            <input
-              type="password"
+            <Field
               id="admin-password"
+              label="Password"
+              type="password"
               placeholder="Enter your password"
               value={formData.password}
               onChange={handleChange("password")}
               autoComplete="current-password"
-              style={{
-                ...styles.input,
-                ...(focusField === "password" ? styles.inputFocus : {})
-              }}
+              focused={focusField === "password"}
               onFocus={() => setFocusField("password")}
               onBlur={() => setFocusField("")}
             />
+
+            <button className="btn-admin-login" onClick={login_handle} disabled={loading}>
+              {loading ? (
+                <span className="login-loading">
+                  <span className="spinner" />
+                  Loading...
+                </span>
+              ) : (
+                "Login"
+              )}
+            </button>
+
+            <a href="/passwordreset" className="forgot-password">
+              Forgot Password?
+            </a>
+
+            <div className="login-divider">OR</div>
+
+            <button className="button-admin-login" onClick={handleGoogleLogin} disabled={loading}>
+              <GoogleIconSVG />
+              Login with JNTU-GV Google Workspace
+            </button>
+
+            <div className="login-security-note">
+              <strong>Authorized users only.</strong>
+            </div>
           </div>
+        </section>
+      </main>
 
-          <button
-            className="btn-admin-login"
-            onClick={login_handle}
-            disabled={loading}
-            style={{
-              ...styles.btn,
-              ...(loading ? styles.btnDisabled : {})
-            }}
-          >
-            {loading ? (
-              <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                <span className="spinner" style={{
-                  width: 20, height: 20, border: "3px solid #fff",
-                  borderTop: "3px solid #1976d2", borderRadius: "50%",
-                  display: "inline-block", animation: "spin 1s linear infinite"
-                }} />
-                Loading...
-              </span>
-            ) : (
-              <>
-                LOGIN <MdLogin style={{ fontSize: 20, marginLeft: 6 }} />
-              </>
-            )}
-          </button>
-
-          <a
-            href="/passwordreset"
-            className="forgot-password"
-            style={styles.forgot}
-            onMouseOver={e => e.currentTarget.style.color = styles.forgotHover.color}
-            onMouseOut={e => e.currentTarget.style.color = styles.forgot.color}
-          >
-            Forgot Password?
-          </a>
-
-          <div style={styles.orText}>OR</div>
-
-          <button
-            className="button-admin-login"
-            onClick={handleGoogleLogin}
-            style={{
-              ...styles.googleBtn,
-              ...(loading ? styles.googleBtnDisabled : {})
-            }}
-            disabled={loading}
-          >
-            <GoogleIconSVG />
-            Login with JNTU-GV Google Workspace
-          </button>
+      <footer className="login-page-footer">
+        <div className="login-footer-contact">
+          <h2>Contact Us</h2>
+          <p>Jawaharlal Nehru Technological University-Gurajada Vizianagaram, Dwarapudi, Vizianagaram, Andhra Pradesh - 535 003, India.</p>
         </div>
-
-        <div className="library-image" style={{ marginLeft: 32 }}>
-          <img
-            src={library}
-            alt="Library"
-            height={400}
-            width={900}
-            className="library-image"
-            style={{
-              borderRadius: 12,
-              boxShadow: "0 2px 12px rgba(0,0,0,0.09)",
-              objectFit: "cover"
-            }}
-          />
+        <div className="login-footer-grid">
+          {footerColumns.map((column) => (
+            <FooterColumn key={column.title} title={column.title} links={column.links} />
+          ))}
         </div>
-      </div>
+        <div className="login-footer-bottom">
+          <a href="http://localhost:3000/privacy">Privacy & Policy</a>
+          <span>Copyright © 2024 <a href="http://jntugv.edu.in/">JNTU-GV Vizianagaram</a>. All Rights Reserved.</span>
+          <span>Designed, Developed and Maintained by <a href="https://dmc.jntugv.edu.in/" target="_blank" rel="noopener noreferrer">Digital Monitoring Cell, JNTU-GV</a>.</span>
+        </div>
+      </footer>
       {/* Spinner animation keyframes */}
       <style>
         {`

@@ -22,17 +22,11 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import axios from 'axios';
-import { saveAs } from 'file-saver';
-import { PDFDocument } from 'pdf-lib';
-import QRCode from 'qrcode';
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../Authentications/AuthContext';
 import { canDeleteRecords } from '../../Authentications/accessControl';
 import api from '../../Main/apis_data/APIs';
 import '../css/Updates.css';
-
-// Accessing favicon using URL
-const favicon = `${process.env.PUBLIC_URL}/jntugv.ico`;
 
 // Hidden input for file uploads
 const VisuallyHiddenInput = styled('input')({
@@ -183,65 +177,6 @@ const Updates = () => {
     } else {
       addEvent();
     }
-  };
-
-  const generateQRCodePDF = async () => {
-    if (!file) {
-      alert('Please upload File First to Append QR Code.');
-      return;
-    }
-
-    const fileName = file.name.split('.').slice(0, -1).join('.');
-    const qrLink = `https://api.jntugv.edu.in/media/${fileName}.pdf`;
-
-    try {
-      const qrCodeCanvas = document.createElement('canvas');
-      await QRCode.toCanvas(qrCodeCanvas, qrLink, { errorCorrectionLevel: 'H' });
-
-      const qrCodeContext = qrCodeCanvas.getContext('2d');
-      const logoImg = await loadImage(favicon);
-
-      const logoSize = qrCodeCanvas.width / 2;
-      const x = (qrCodeCanvas.width - logoSize) / 2;
-      const y = (qrCodeCanvas.height - logoSize) / 2;
-      qrCodeContext.drawImage(logoImg, x, y, logoSize, logoSize);
-
-      const qrCodeBlob = await new Promise((resolve) => qrCodeCanvas.toBlob(resolve, 'image/png'));
-
-      const pdfBytes = await appendQRCodeToPdf(qrCodeBlob, file);
-      saveAs(new Blob([pdfBytes]), `${fileName}.pdf`);
-    } catch (error) {
-      console.error('Error generating QR code:', error);
-    }
-  };
-
-  const loadImage = (src) => {
-    return new Promise((resolve, reject) => {
-      const img = new Image();
-      img.onload = () => resolve(img);
-      img.onerror = reject;
-      img.src = src;
-    });
-  };
-
-  const appendQRCodeToPdf = async (qrCodeBlob, pdfFile) => {
-    const pdfBytes = await pdfFile.arrayBuffer();
-    const pdfDoc = await PDFDocument.load(pdfBytes);
-
-    const firstPage = pdfDoc.getPages()[0];
-    const { width } = firstPage.getSize();
-
-
-    const qrImage = await pdfDoc.embedPng(await qrCodeBlob.arrayBuffer());
-    const qrSize = 75;
-    firstPage.drawImage(qrImage, {
-      x: width - qrSize - 10,
-      y: 10,
-      width: qrSize,
-      height: qrSize,
-    });
-
-    return pdfDoc.save();
   };
 
   useEffect(() => {
@@ -404,7 +339,7 @@ const Updates = () => {
               </FormControl>
             </Box>
             <Typography variant="body2" color="text.secondary">
-              Note: File Name should be in the format of Notification Title with Date.pdf to avoid errors with multiple files with same Notification Title Type.
+              Note: PDF files are stored with a secure unique name. The API automatically adds a QR code that opens the final uploaded PDF link.
             </Typography>
             <Box sx={{ mb: 2 }}>
 
@@ -417,11 +352,6 @@ const Updates = () => {
             <Box sx={{ mb: 2 }}>
               <Button fullWidth variant="contained" color="primary" onClick={handleSubmit}>
                 {isEditing ? 'Update Notification' : 'Add Notification'}
-              </Button>
-            </Box>
-            <Box sx={{ mb: 2 }}>
-              <Button fullWidth variant="contained" color="secondary" onClick={generateQRCodePDF} disabled={!file}>
-                Generate QR Code and Download PDF
               </Button>
             </Box>
           </form>

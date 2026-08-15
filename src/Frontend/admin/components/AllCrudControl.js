@@ -31,6 +31,7 @@ const consoleSections = [
     title: 'Notification Console',
     description: 'Create, edit, publish, scroll, archive, and manage public notifications.',
     icon: <NotificationsActiveIcon />,
+    group: 'Content',
     roles: ['admin', 'developer', 'updates'],
   },
   {
@@ -38,6 +39,7 @@ const consoleSections = [
     title: 'Carousel Console',
     description: 'Upload, edit, add, and remove public carousel images.',
     icon: <SlideshowIcon />,
+    group: 'Media',
     roles: ['admin', 'developer', 'webadmin'],
   },
   {
@@ -45,6 +47,7 @@ const consoleSections = [
     title: 'Press Notes',
     description: 'Create and maintain press notes and news-style public updates.',
     icon: <DescriptionIcon />,
+    group: 'Content',
     roles: ['admin', 'developer', 'webadmin'],
   },
   {
@@ -52,6 +55,7 @@ const consoleSections = [
     title: 'Gallery Console',
     description: 'Upload, review, and manage public gallery images.',
     icon: <CollectionsIcon />,
+    group: 'Media',
     roles: ['admin', 'developer', 'webadmin'],
   },
   {
@@ -59,6 +63,7 @@ const consoleSections = [
     title: 'Event Gallery',
     description: 'Bulk upload photo albums for a particular event.',
     icon: <CollectionsIcon />,
+    group: 'Media',
     roles: ['admin', 'developer', 'webadmin'],
   },
   {
@@ -66,6 +71,7 @@ const consoleSections = [
     title: 'Colleges Console',
     description: 'Manage affiliated colleges and keep constituent/autonomous college sections grouped.',
     icon: <ApartmentIcon />,
+    group: 'Organization',
     roles: ['admin', 'developer', 'affiliatedcolleges', 'affliatedcolleges'],
   },
   {
@@ -73,13 +79,15 @@ const consoleSections = [
     title: 'YouTube Console',
     description: 'Add video IDs and publish them to the public YouTube section.',
     icon: <VideoLibraryIcon />,
+    group: 'Content',
     roles: ['admin', 'developer', 'webadmin', 'updates'],
   },
   {
     page: 'site-navigation',
     title: 'Site Navigation',
-    description: 'Manage public website navbar links and highlighted menu items.',
+    description: 'Manage all public navigation links, dropdowns, reference keys, and CMS targets.',
     icon: <LinkIcon />,
+    group: 'Website CMS',
     roles: ['admin', 'developer', 'updates'],
   },
   {
@@ -87,6 +95,7 @@ const consoleSections = [
     title: 'Admin Control',
     description: 'Manage administrator accounts, roles, and approved organizational emails.',
     icon: <ManageAccountsIcon />,
+    group: 'System',
     roles: ['admin'],
   },
   {
@@ -94,6 +103,7 @@ const consoleSections = [
     title: 'Directors',
     description: 'Maintain directorate profiles and director records.',
     icon: <PeopleAltIcon />,
+    group: 'Organization',
     roles: ['admin'],
   },
   {
@@ -101,9 +111,20 @@ const consoleSections = [
     title: 'Directorate Uploads',
     description: 'Manage directorate/HOD upload sections.',
     icon: <DescriptionIcon />,
+    group: 'Organization',
     roles: ['admin', 'developer', 'directors'],
   },
 ];
+
+const groupOrder = ['Website CMS', 'Content', 'Media', 'Organization', 'System'];
+
+const groupSections = (sections = []) =>
+  groupOrder
+    .map((group) => ({
+      group,
+      sections: sections.filter((section) => section.group === group),
+    }))
+    .filter((entry) => entry.sections.length);
 
 const AllCrudControls = () => {
   const user = useAuth();
@@ -111,6 +132,7 @@ const AllCrudControls = () => {
     () => consoleSections.filter((section) => canViewSection(user?.role, section.page, section.roles)),
     [user?.role],
   );
+  const groupedSections = useMemo(() => groupSections(visibleSections), [visibleSections]);
 
   return (
     <Box className="console-management-page">
@@ -127,18 +149,29 @@ const AllCrudControls = () => {
         </Stack>
       </Box>
 
-      <Box sx={{ display: 'grid', gap: 2, gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))' }}>
-        {visibleSections.map((section) => (
-          <Card key={section.page} sx={{ borderRadius: 4, border: '1px solid #dbe4f0', boxShadow: '0 12px 32px rgba(15,23,42,.07)' }}>
-            <CardContent>
-              <Box className="console-management-icon" sx={{ mb: 1 }}>{section.icon}</Box>
-              <Typography variant="h6" sx={{ fontWeight: 900, color: '#111827' }}>{section.title}</Typography>
-              <Typography variant="body2" sx={{ color: '#475569', minHeight: 58, mt: 1 }}>{section.description}</Typography>
-              <Button component={RouterLink} to={`/dashboard/${section.page}`} variant="contained" sx={{ mt: 2, borderRadius: 999 }}>
-                Open Console
-              </Button>
-            </CardContent>
-          </Card>
+      <Box className="console-management-groups">
+        {groupedSections.map((group) => (
+          <Box className="console-management-group" key={group.group}>
+            <Typography className="console-management-group-title">{group.group}</Typography>
+            <Box className="console-management-card-grid">
+              {group.sections.map((section) => (
+                <Card key={section.page} className="console-management-card">
+                  <CardContent>
+                    <Stack direction="row" spacing={1.5} alignItems="flex-start">
+                      <Box className="console-management-icon">{section.icon}</Box>
+                      <Box sx={{ minWidth: 0 }}>
+                        <Typography variant="h6" sx={{ fontWeight: 900, color: '#111827' }}>{section.title}</Typography>
+                        <Typography variant="body2" sx={{ color: '#475569', mt: 0.5 }}>{section.description}</Typography>
+                      </Box>
+                    </Stack>
+                    <Button component={RouterLink} to={`/dashboard/${section.page}`} variant="contained" sx={{ mt: 2, borderRadius: 1.5 }}>
+                      Open Console
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))}
+            </Box>
+          </Box>
         ))}
       </Box>
     </Box>

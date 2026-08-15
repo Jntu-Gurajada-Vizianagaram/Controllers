@@ -4,15 +4,16 @@
 }
 
 .console-management-hero {
-  margin-bottom: 22px;
-  padding: 24px;
-  border-radius: 22px;
-  color: #ffffff;
-  background: linear-gradient(135deg, #082044 0%, #0c4a8f 58%, #1d74c7 100%);
+  margin-bottom: 18px;
+  padding: 18px;
+  border: 1px solid #dbeafe;
+  border-radius: 8px;
+  color: #0f172a;
+  background: linear-gradient(180deg, #f8fbff 0%, #eef6ff 100%);
 }
 
 .console-management-eyebrow {
-  color: rgba(255, 255, 255, 0.72);
+  color: #0f5ea8;
   font-size: 0.78rem;
   font-weight: 900;
   letter-spacing: 0.08em;
@@ -20,7 +21,7 @@
 }
 
 .console-management-title {
-  color: #ffffff;
+  color: #0f172a;
   font-weight: 900 !important;
   line-height: 1.12 !important;
 }
@@ -28,13 +29,50 @@
 .console-management-subtitle {
   max-width: 780px;
   margin-top: 8px;
-  color: rgba(255, 255, 255, 0.82);
+  color: #475569;
 }
 
 .console-management-chip {
-  color: #082044 !important;
+  color: #075985 !important;
   background: #ffffff !important;
+  border: 1px solid #bfdbfe !important;
   font-weight: 900;
+}
+
+.console-management-groups {
+  display: grid;
+  gap: 22px;
+}
+
+.console-management-group {
+  display: grid;
+  gap: 10px;
+}
+
+.console-management-group-title {
+  color: #334155;
+  font-size: 0.82rem !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase;
+}
+
+.console-management-card-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+}
+
+.console-management-card {
+  border: 1px solid #dbe4f0;
+  border-radius: 8px !important;
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.05) !important;
+}
+
+.console-management-card .MuiCardContent-root {
+  display: grid;
+  min-height: 178px;
+  align-content: space-between;
 }
 
 .console-management-accordions {
@@ -61,10 +99,11 @@
 
 .console-management-icon {
   display: grid;
-  width: 42px;
-  height: 42px;
+  width: 40px;
+  height: 40px;
   place-items: center;
-  border-radius: 14px;
+  flex: 0 0 auto;
+  border-radius: 8px;
   color: #0c4a8f;
   background: #e8f2ff;
 }
@@ -181,7 +220,7 @@
   .console-management-hero {
     margin-bottom: 14px;
     padding: 16px;
-    border-radius: 18px;
+    border-radius: 8px;
   }
 
   .console-management-title {

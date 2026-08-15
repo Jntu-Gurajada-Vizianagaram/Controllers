@@ -10,34 +10,36 @@ import LinkIcon from '@mui/icons-material/Link';
 import SlideshowIcon from '@mui/icons-material/Slideshow';
 import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
 
+const item = (to, text, icon, group = 'Workspace') => ({ to, text, icon, group });
+
 const coreAdminMenu = [
-  { to: 'admin-home', text: 'Dashboard Home', icon: <HomeIcon /> },
-  { to: 'all-consoles', text: 'Console Overview', icon: <DevicesIcon /> },
-  { to: 'notification-console', text: 'Notification Console', icon: <DoorbellIcon /> },
-  { to: 'carousel-console', text: 'Carousel Console', icon: <SlideshowIcon /> },
-  { to: 'gallery-console', text: 'Gallery Console', icon: <CollectionsIcon /> },
-  { to: 'event-gallery-console', text: 'Event Gallery', icon: <CollectionsIcon /> },
-  { to: 'news-console', text: 'Press Notes', icon: <DescriptionIcon /> },
-  { to: 'colleges-console', text: 'Colleges Console', icon: <ApartmentIcon /> },
-  { to: 'youtube-console', text: 'YouTube Console', icon: <VideoLibraryIcon /> },
-  { to: 'site-navigation', text: 'Site Navigation', icon: <LinkIcon /> },
-  { to: 'directors', text: 'Directors', icon: <DescriptionIcon /> },
-  { to: 'hods', text: 'Directorate Uploads', icon: <DescriptionIcon /> },
-  { to: 'help', text: 'Support', icon: <HelpIcon /> },
+  item('admin-home', 'Dashboard Home', <HomeIcon />, 'Overview'),
+  item('all-consoles', 'Console Overview', <DevicesIcon />, 'Overview'),
+  item('site-navigation', 'Site Navigation', <LinkIcon />, 'Website CMS'),
+  item('notification-console', 'Notifications', <DoorbellIcon />, 'Content'),
+  item('news-console', 'Press Notes', <DescriptionIcon />, 'Content'),
+  item('youtube-console', 'YouTube', <VideoLibraryIcon />, 'Content'),
+  item('carousel-console', 'Carousel', <SlideshowIcon />, 'Media'),
+  item('gallery-console', 'Gallery', <CollectionsIcon />, 'Media'),
+  item('event-gallery-console', 'Event Gallery', <CollectionsIcon />, 'Media'),
+  item('colleges-console', 'Colleges', <ApartmentIcon />, 'Organization'),
+  item('directors', 'Directors', <DescriptionIcon />, 'Organization'),
+  item('hods', 'Directorate Uploads', <DescriptionIcon />, 'Organization'),
+  item('help', 'Support', <HelpIcon />, 'Support'),
 ];
 
 const developerMenu = [
-  { to: 'all-consoles', text: 'Console Overview', icon: <DashboardIcon /> },
-  { to: 'notification-console', text: 'Notification Console', icon: <DoorbellIcon /> },
-  { to: 'carousel-console', text: 'Carousel Console', icon: <SlideshowIcon /> },
-  { to: 'gallery-console', text: 'Gallery Console', icon: <CollectionsIcon /> },
-  { to: 'event-gallery-console', text: 'Event Gallery', icon: <CollectionsIcon /> },
-  { to: 'news-console', text: 'Press Notes', icon: <DescriptionIcon /> },
-  { to: 'colleges-console', text: 'Colleges Console', icon: <ApartmentIcon /> },
-  { to: 'youtube-console', text: 'YouTube Console', icon: <VideoLibraryIcon /> },
-  { to: 'site-navigation', text: 'Site Navigation', icon: <LinkIcon /> },
-  { to: 'hods', text: 'Directorate Uploads', icon: <DescriptionIcon /> },
-  { to: 'help', text: 'Support', icon: <HelpIcon /> },
+  item('all-consoles', 'Console Overview', <DashboardIcon />, 'Overview'),
+  item('site-navigation', 'Site Navigation', <LinkIcon />, 'Website CMS'),
+  item('notification-console', 'Notifications', <DoorbellIcon />, 'Content'),
+  item('news-console', 'Press Notes', <DescriptionIcon />, 'Content'),
+  item('youtube-console', 'YouTube', <VideoLibraryIcon />, 'Content'),
+  item('carousel-console', 'Carousel', <SlideshowIcon />, 'Media'),
+  item('gallery-console', 'Gallery', <CollectionsIcon />, 'Media'),
+  item('event-gallery-console', 'Event Gallery', <CollectionsIcon />, 'Media'),
+  item('colleges-console', 'Colleges', <ApartmentIcon />, 'Organization'),
+  item('hods', 'Directorate Uploads', <DescriptionIcon />, 'Organization'),
+  item('help', 'Support', <HelpIcon />, 'Support'),
 ];
 
 const All_Menu = {
@@ -45,27 +47,27 @@ const All_Menu = {
   RootAdmin: coreAdminMenu,
   Developer: developerMenu,
   WebAdmin: [
-    { to: 'all-consoles', text: 'Console Overview', icon: <DashboardIcon /> },
-    { to: 'carousel-console', text: 'Carousel Console', icon: <SlideshowIcon /> },
-    { to: 'gallery-console', text: 'Gallery Console', icon: <CollectionsIcon /> },
-    { to: 'event-gallery-console', text: 'Event Gallery', icon: <CollectionsIcon /> },
-    { to: 'news-console', text: 'Press Notes', icon: <DescriptionIcon /> },
-    { to: 'youtube-console', text: 'YouTube Console', icon: <VideoLibraryIcon /> },
-    { to: 'help', text: 'Support', icon: <HelpIcon /> },
+    item('all-consoles', 'Console Overview', <DashboardIcon />, 'Overview'),
+    item('news-console', 'Press Notes', <DescriptionIcon />, 'Content'),
+    item('youtube-console', 'YouTube', <VideoLibraryIcon />, 'Content'),
+    item('carousel-console', 'Carousel', <SlideshowIcon />, 'Media'),
+    item('gallery-console', 'Gallery', <CollectionsIcon />, 'Media'),
+    item('event-gallery-console', 'Event Gallery', <CollectionsIcon />, 'Media'),
+    item('help', 'Support', <HelpIcon />, 'Support'),
   ],
   Updates: [
-    { to: 'notification-console', text: 'Notification Console', icon: <DoorbellIcon /> },
-    { to: 'youtube-console', text: 'YouTube Console', icon: <VideoLibraryIcon /> },
-    { to: 'site-navigation', text: 'Site Navigation', icon: <LinkIcon /> },
-    { to: 'help', text: 'Support', icon: <HelpIcon /> },
+    item('site-navigation', 'Site Navigation', <LinkIcon />, 'Website CMS'),
+    item('notification-console', 'Notifications', <DoorbellIcon />, 'Content'),
+    item('youtube-console', 'YouTube', <VideoLibraryIcon />, 'Content'),
+    item('help', 'Support', <HelpIcon />, 'Support'),
   ],
   AffiliatedColleges: [
-    { to: 'colleges-console', text: 'Colleges Console', icon: <ApartmentIcon /> },
-    { to: 'help', text: 'Support', icon: <HelpIcon /> },
+    item('colleges-console', 'Colleges', <ApartmentIcon />, 'Organization'),
+    item('help', 'Support', <HelpIcon />, 'Support'),
   ],
   Directors: [
-    { to: 'hods', text: 'Directorates', icon: <DescriptionIcon /> },
-    { to: 'help', text: 'Support', icon: <HelpIcon /> },
+    item('hods', 'Directorates', <DescriptionIcon />, 'Organization'),
+    item('help', 'Support', <HelpIcon />, 'Support'),
   ],
 };
 

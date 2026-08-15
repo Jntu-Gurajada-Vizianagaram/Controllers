@@ -26,7 +26,7 @@ const VisuallyHiddenInput = styled("input")({
 });
 
 const ips = require("../../api.json");
-const api_ip = ips.server_ip;
+const api_ip = process.env.REACT_APP_API_URL || ips.server_ip;
 const toDateInputValue = (value = new Date()) => {
   const date = value instanceof Date ? value : new Date(value);
   if (Number.isNaN(date.getTime())) return "";
