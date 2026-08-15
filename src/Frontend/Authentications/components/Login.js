@@ -252,14 +252,16 @@ const Login = () => {
     window.location.assign(APIs.admin_apis.google_login);
   };
 
+  const publicSiteBase = "https://jntugv.edu.in";
+
   const footerColumns = [
     {
       title: "Administration",
       links: [
-        { label: "Registrar", href: "http://localhost:3000/administration/registrar" },
-        { label: "Officer on Special Duty (OSD)", href: "http://localhost:3000/administration/osd" },
-        { label: "University Coordinators", href: "http://localhost:3000/university/coordinators" },
-        { label: "Chairpersons", href: "http://localhost:3000/academics/bos-chairman" },
+        { label: "Registrar", href: `${publicSiteBase}/administration/registrar` },
+        { label: "Officer on Special Duty (OSD)", href: `${publicSiteBase}/administration/osd` },
+        { label: "University Coordinators", href: `${publicSiteBase}/university/coordinators` },
+        { label: "Chairpersons", href: `${publicSiteBase}/academics/bos-chairman` },
       ],
     },
     {
@@ -273,9 +275,9 @@ const Login = () => {
     {
       title: "Academic & Research",
       links: [
-        { label: "Programs Offered", href: "http://localhost:3000/academics/programs-offered" },
-        { label: "Admissions", href: "http://localhost:3000/academics/admissions" },
-        { label: "Affiliated Colleges", href: "http://localhost:3000/academics/affliated-colleges" },
+        { label: "Programs Offered", href: `${publicSiteBase}/academics/programs-offered` },
+        { label: "Admissions", href: `${publicSiteBase}/academics/admissions` },
+        { label: "Affiliated Colleges", href: `${publicSiteBase}/academics/affliated-colleges` },
         { label: "Research and Development Cell", href: "https://drd.jntugv.edu.in/", external: true },
         { label: "Training & Placement", href: "https://jntugvcev.edu.in/placements/training-placements-cell/", external: true },
         { label: "Dr.YSR Central Library", href: "https://jntugvcev.edu.in/facilities/library/", external: true },
@@ -296,10 +298,10 @@ const Login = () => {
       links: [
         { label: "University Hostels", href: "https://jntugvcev.edu.in/facilities/hostels/", external: true },
         { label: "Engineering Cell", href: "https://jntugvcev.edu.in/facilities/engineering-cell/", external: true },
-        { label: "Guest House", href: "http://localhost:3000/infrastructure/about-guest-house" },
-        { label: "Staff Quarters", href: "http://localhost:3000/infrastructure/about-staff-quarters" },
+        { label: "Guest House", href: `${publicSiteBase}/infrastructure/about-guest-house` },
+        { label: "Staff Quarters", href: `${publicSiteBase}/infrastructure/about-staff-quarters` },
         { label: "Canteen", href: "https://jntugvcev.edu.in/facilities/canteen/", external: true },
-        { label: "Bank", href: "http://localhost:3000/infrastructure/about-banks" },
+        { label: "Bank", href: `${publicSiteBase}/infrastructure/about-banks` },
         { label: "Dispensary", href: "https://jntugvcev.edu.in/facilities/dispensary/", external: true },
       ],
     },
@@ -307,10 +309,10 @@ const Login = () => {
       title: "Governance & RTI",
       links: [
         { label: "RTI", href: "https://rti.jntugv.edu.in/", external: true },
-        { label: "UGC Mandatory Disclosures", href: "http://localhost:3000/mandatory-disclosures" },
+        { label: "UGC Mandatory Disclosures", href: `${publicSiteBase}/mandatory-disclosures` },
         { label: "Ombudsman", href: "https://drive.google.com/file/d/15riRLxVtiJOrtLiYWmh7kvIQlTLV7Ocl/view?usp=sharing", external: true },
-        { label: "Student Grievance", href: "http://localhost:3000/grievance-form" },
-        { label: "Recruitment Grievance", href: "http://localhost:3000/recruitment" },
+        { label: "Student Grievance", href: `${publicSiteBase}/grievance-form` },
+        { label: "Recruitment Grievance", href: `${publicSiteBase}/recruitment` },
       ],
     },
     {
@@ -324,7 +326,7 @@ const Login = () => {
     {
       title: "Student Corner",
       links: [
-        { label: "Anti-Ragging", href: "http://localhost:3000/anti-ragging" },
+        { label: "Anti-Ragging", href: `${publicSiteBase}/anti-ragging` },
         { label: "NSS", href: "https://nss.jntugv.edu.in/", external: true },
         { label: "Sports & Fitness", href: "https://jntugvcev.edu.in/facilities/sports-fitness/", external: true },
         { label: "Music Club", href: "https://jntugvcev.edu.in/facilities/campus-life/music-club/", external: true },
@@ -454,8 +456,8 @@ const Login = () => {
           ))}
         </div>
         <div className="login-footer-bottom">
-          <a href="http://localhost:3000/privacy">Privacy & Policy</a>
-          <span>Copyright © 2024 <a href="http://jntugv.edu.in/">JNTU-GV Vizianagaram</a>. All Rights Reserved.</span>
+          <a href={`${publicSiteBase}/privacy`}>Privacy & Policy</a>
+          <span>Copyright (c) 2024 <a href={publicSiteBase}>JNTU-GV Vizianagaram</a>. All Rights Reserved.</span>
           <span>Designed, Developed and Maintained by <a href="https://dmc.jntugv.edu.in/" target="_blank" rel="noopener noreferrer">Digital Monitoring Cell, JNTU-GV</a>.</span>
         </div>
       </footer>
