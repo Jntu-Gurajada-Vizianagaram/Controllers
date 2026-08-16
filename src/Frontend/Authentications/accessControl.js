@@ -2,8 +2,8 @@ const allPages = [
   'admin-home',
   'directors',
   'all-consoles',
+  'developer-dashboard',
   'all-records',
-  'all-stored-files',
   'colleges-console',
   'gallery-console',
   'event-gallery-console',
@@ -12,7 +12,6 @@ const allPages = [
   'notification-console',
   'youtube-console',
   'site-navigation',
-  'hods',
   'help',
   'profile',
 ];
@@ -22,6 +21,7 @@ const rolePages = {
   admin: allPages,
   developer: [
     'all-consoles',
+    'developer-dashboard',
     'colleges-console',
     'gallery-console',
     'event-gallery-console',
@@ -30,7 +30,6 @@ const rolePages = {
     'notification-console',
     'youtube-console',
     'site-navigation',
-    'hods',
     'help',
     'profile',
   ],
@@ -47,7 +46,7 @@ const rolePages = {
   updates: ['notification-console', 'site-navigation', 'youtube-console', 'help', 'profile'],
   affiliatedcolleges: ['colleges-console', 'help', 'profile'],
   affliatedcolleges: ['colleges-console', 'help', 'profile'],
-  directors: ['hods', 'help', 'profile'],
+  directors: ['directors', 'help', 'profile'],
 };
 
 const defaultPages = {
@@ -58,7 +57,7 @@ const defaultPages = {
   updates: 'notification-console',
   affiliatedcolleges: 'colleges-console',
   affliatedcolleges: 'colleges-console',
-  directors: 'hods',
+  directors: 'profile',
 };
 
 export const normalizeRole = (role) => String(role || '').trim().toLowerCase();

@@ -6,7 +6,8 @@
 
 .console-hero {
   display: flex;
-  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
   gap: 6px;
   padding: 0 0 16px;
   border-bottom: 1px solid #dbe4f0;
@@ -14,6 +15,10 @@
   color: #0f172a;
   background: transparent;
   box-shadow: none;
+}
+
+.console-hero-copy {
+  min-width: 0;
 }
 
 .console-hero h1 {
@@ -28,6 +33,25 @@
   color: #475569;
   line-height: 1.5;
   font-size: 0.9rem;
+}
+
+.console-close-button {
+  flex: 0 0 auto;
+  min-height: 34px;
+  padding: 7px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  color: #334155;
+  background: #ffffff;
+  font-size: 0.82rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.console-close-button:hover {
+  border-color: #93c5fd;
+  color: #075985;
+  background: #eff6ff;
 }
 
 .console-card {
@@ -93,8 +117,13 @@
 
 @media (max-width: 640px) {
   .console-hero {
+    flex-direction: column;
     padding: 18px;
     border-radius: 18px;
+  }
+
+  .console-close-button {
+    width: 100%;
   }
 
   .console-hero p {

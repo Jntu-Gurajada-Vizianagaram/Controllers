@@ -1,95 +1,83 @@
-import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
-import CampaignIcon from '@mui/icons-material/Campaign';
-import CollectionsIcon from '@mui/icons-material/Collections';
-import PendingActionsIcon from '@mui/icons-material/PendingActions';
-import PublicIcon from '@mui/icons-material/Public';
-import MuiAccordion from '@mui/material/Accordion';
-import MuiAccordionDetails from '@mui/material/AccordionDetails';
-import MuiAccordionSummary from '@mui/material/AccordionSummary';
-import { Box, Grid, Paper, Stack, Typography } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { Box, Button, Grid, Paper, Stack, Typography } from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
 import * as React from 'react';
+import {
+  FaBell,
+  FaBuilding,
+  FaChartLine,
+  FaFileAlt,
+  FaImages,
+  FaLink,
+  FaPhotoVideo,
+  FaVideo,
+} from 'react-icons/fa';
 
-import EventPhotosRequests from './requests/EventPhotosRequests';
-import UpdatesRequests from './requests/UpdatesRequests';
-import WebAdminRequests from './requests/WebAdminRequests';
-
-const requestSections = [
+const consoleSections = [
   {
-    id: 'updates',
-    title: 'Notification requests',
-    description: 'Review and publish update/notification submissions.',
-    icon: <CampaignIcon />,
-    content: <UpdatesRequests />,
+    title: 'Notifications',
+    description: 'Create, edit, revise, expire, and remove public notifications.',
+    icon: <FaBell />,
+    to: '/dashboard/notification-console',
   },
   {
-    id: 'webadmin',
-    title: 'Web admin requests',
-    description: 'Approve web content requests from content managers.',
-    icon: <PublicIcon />,
-    content: <WebAdminRequests />,
+    title: 'Press Notes',
+    description: 'Publish press notes with uploaded source documents and extracted content.',
+    icon: <FaFileAlt />,
+    to: '/dashboard/news-console',
   },
   {
-    id: 'eventphotos',
-    title: 'Event photo requests',
-    description: 'Moderate event/gallery photo requests before publishing.',
-    icon: <CollectionsIcon />,
-    content: <EventPhotosRequests />,
+    title: 'Carousel Images',
+    description: 'Manage homepage carousel visibility through one media endpoint set.',
+    icon: <FaPhotoVideo />,
+    to: '/dashboard/carousel-console',
+  },
+  {
+    title: 'Gallery Images',
+    description: 'Maintain public gallery records and image metadata.',
+    icon: <FaImages />,
+    to: '/dashboard/gallery-console',
+  },
+  {
+    title: 'Event Albums',
+    description: 'Upload, edit, and delete event photo albums directly.',
+    icon: <FaImages />,
+    to: '/dashboard/event-gallery-console',
+  },
+  {
+    title: 'Site Navigation',
+    description: 'Control menu links, dropdowns, reference keys, and CMS targets.',
+    icon: <FaLink />,
+    to: '/dashboard/site-navigation',
+  },
+  {
+    title: 'YouTube',
+    description: 'Manage public video embeds used by the website.',
+    icon: <FaVideo />,
+    to: '/dashboard/youtube-console',
+  },
+  {
+    title: 'Colleges',
+    description: 'Maintain affiliated college records from the organization console.',
+    icon: <FaBuilding />,
+    to: '/dashboard/colleges-console',
+  },
+  {
+    title: 'API Dashboard',
+    description: 'View API docs, traffic, response spikes, and route groups.',
+    icon: <FaChartLine />,
+    to: '/dashboard/developer-dashboard',
   },
 ];
 
-const Accordion = styled((props) => (
-  <MuiAccordion disableGutters elevation={0} square {...props} />
-))(({ theme }) => ({
-  overflow: 'hidden',
-  border: `1px solid ${theme.palette.divider}`,
-  borderRadius: 18,
-  '&:not(:last-child)': {
-    marginBottom: theme.spacing(2),
-  },
-  '&::before': {
-    display: 'none',
-  },
-}));
-
-const AccordionSummary = styled((props) => (
-  <MuiAccordionSummary
-    expandIcon={<ArrowForwardIosSharpIcon sx={{ fontSize: '0.9rem' }} />}
-    {...props}
-  />
-))(({ theme }) => ({
-  minHeight: 74,
-  backgroundColor: '#f8fafc',
-  flexDirection: 'row-reverse',
-  '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
-    transform: 'rotate(90deg)',
-  },
-  '& .MuiAccordionSummary-content': {
-    marginLeft: theme.spacing(1.5),
-  },
-}));
-
-const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
-  padding: theme.spacing(2.5),
-  borderTop: '1px solid #e2e8f0',
-  background: '#fff',
-}));
-
 export default function AdminHome() {
-  const [expanded, setExpanded] = React.useState('updates');
-
-  const handleChange = (panel) => (event, newExpanded) => {
-    setExpanded(newExpanded ? panel : false);
-  };
-
   return (
     <Box>
       <Paper
         elevation={0}
         sx={{
           p: { xs: 2.5, md: 3 },
-          mb: 3,
-          borderRadius: 4,
+          mb: 2,
+          borderRadius: 2,
           color: '#fff',
           background: 'linear-gradient(135deg, #082044 0%, #0c4a8f 100%)',
         }}
@@ -97,77 +85,88 @@ export default function AdminHome() {
         <Stack direction={{ xs: 'column', md: 'row' }} spacing={2} alignItems={{ xs: 'flex-start', md: 'center' }}>
           <Box
             sx={{
-              width: 58,
-              height: 58,
+              width: 42,
+              height: 42,
               display: 'grid',
               placeItems: 'center',
-              borderRadius: 3,
+              borderRadius: 2,
               bgcolor: 'rgba(255,255,255,.14)',
             }}
           >
-            <PendingActionsIcon sx={{ fontSize: 34 }} />
+            <FaChartLine size={18} />
           </Box>
           <Box>
-            <Typography variant="overline" sx={{ color: 'rgba(255,255,255,.72)', fontWeight: 800 }}>
+            <Typography variant="overline" sx={{ color: 'rgba(255,255,255,.72)', fontWeight: 800, fontSize: '0.68rem' }}>
               Admin dashboard
             </Typography>
-            <Typography variant="h4" sx={{ fontWeight: 900, lineHeight: 1.1 }}>
-              Review pending publishing requests
+            <Typography variant="h4" sx={{ fontWeight: 900, lineHeight: 1.1, fontSize: { xs: '1.15rem', md: '1.25rem' } }}>
+              Direct content management
             </Typography>
-            <Typography sx={{ mt: 1, color: 'rgba(255,255,255,.8)' }}>
-              Use this area to validate updates, web content, and event media before they reach the public site.
+            <Typography sx={{ mt: 0.75, color: 'rgba(255,255,255,.8)', fontSize: '0.84rem' }}>
+              Requests and approval queues have been removed. Authorized users now publish and update records through their assigned CRUD consoles.
             </Typography>
           </Box>
         </Stack>
       </Paper>
 
-      <Grid container spacing={2} sx={{ mb: 3 }}>
-        {requestSections.map((section) => (
-          <Grid item xs={12} md={4} key={section.id}>
+      <Grid container spacing={2}>
+        {consoleSections.map((section) => (
+          <Grid item xs={12} md={6} xl={4} key={section.title}>
             <Paper
               elevation={0}
               sx={{
                 height: '100%',
-                p: 2.5,
-                borderRadius: 3,
+                p: 2,
+                borderRadius: 2,
                 border: '1px solid #e2e8f0',
-                bgcolor: '#f8fafc',
+                bgcolor: '#ffffff',
               }}
             >
-              <Stack direction="row" spacing={1.5} alignItems="center">
-                <Box sx={{ color: '#0c4a8f' }}>{section.icon}</Box>
-                <Box>
-                  <Typography sx={{ fontWeight: 900 }}>{section.title}</Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {section.description}
-                  </Typography>
-                </Box>
+              <Stack spacing={1.5} sx={{ height: '100%' }}>
+                <Stack direction="row" spacing={1.25} alignItems="flex-start">
+                  <Box
+                    sx={{
+                      width: 34,
+                      height: 34,
+                      display: 'grid',
+                      placeItems: 'center',
+                      flex: '0 0 auto',
+                      borderRadius: 1.5,
+                      color: '#0c4a8f',
+                      bgcolor: '#e8f2ff',
+                    }}
+                  >
+                    {React.cloneElement(section.icon, { size: 15 })}
+                  </Box>
+                  <Box>
+                    <Typography sx={{ fontWeight: 900, fontSize: '0.88rem' }}>{section.title}</Typography>
+                    <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.8rem' }}>
+                      {section.description}
+                    </Typography>
+                  </Box>
+                </Stack>
+                <Button
+                  component={RouterLink}
+                  to={section.to}
+                  variant="contained"
+                  sx={{
+                    mt: 'auto',
+                    alignSelf: 'flex-start',
+                    borderRadius: 1.5,
+                    textTransform: 'none',
+                    fontWeight: 800,
+                    fontSize: '0.76rem',
+                    minHeight: 32,
+                    boxShadow: 'none',
+                  }}
+                >
+                  Open Console
+                </Button>
               </Stack>
             </Paper>
           </Grid>
         ))}
       </Grid>
-
-      {requestSections.map((section) => (
-        <Accordion
-          key={section.id}
-          expanded={expanded === section.id}
-          onChange={handleChange(section.id)}
-        >
-          <AccordionSummary aria-controls={`${section.id}-content`} id={`${section.id}-header`}>
-            <Stack direction="row" spacing={1.5} alignItems="center">
-              <Box sx={{ color: '#0c4a8f' }}>{section.icon}</Box>
-              <Box>
-                <Typography sx={{ fontWeight: 900 }}>{section.title}</Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {section.description}
-                </Typography>
-              </Box>
-            </Stack>
-          </AccordionSummary>
-          <AccordionDetails>{section.content}</AccordionDetails>
-        </Accordion>
-      ))}
     </Box>
   );
 }

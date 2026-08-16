@@ -62,8 +62,8 @@ const cmsSectionOptions = [
   { value: "youtube", label: "YouTube", consolePath: "youtube-console" },
   { value: "colleges", label: "Colleges", consolePath: "colleges-console" },
   { value: "directors", label: "Directors", consolePath: "directors" },
-  { value: "directorate_uploads", label: "Directorate Uploads", consolePath: "hods" },
-  { value: "document", label: "Document", consolePath: "all-stored-files" },
+  { value: "professionals", label: "Professional Profiles", consolePath: "profile" },
+  { value: "document", label: "Document", consolePath: "notification-console" },
   { value: "external", label: "External System", consolePath: "" },
 ];
 
@@ -98,7 +98,7 @@ const inferCmsSection = (path = "", parentId = "") => {
   if (/gallery/i.test(path)) return "gallery";
   if (/youtube/i.test(path)) return "youtube";
   if (/college/i.test(path)) return "colleges";
-  if (/director/i.test(path)) return "directorate_uploads";
+  if (/director/i.test(path)) return "professionals";
   if (/notification|recruitment|examination|academic/i.test(path)) return "notification_console";
   return "static_page";
 };

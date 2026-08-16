@@ -4,6 +4,80 @@
   border-right: 1px solid #dbe4f0;
 }
 
+.admin-sidebar-shell {
+  transition: width 180ms ease;
+  font-size: 13px;
+}
+
+.admin-sidebar-brand-row {
+  min-height: 54px;
+}
+
+.admin-sidebar-collapse-button.MuiIconButton-root {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #dbe4f0;
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.admin-sidebar-collapse-button.MuiIconButton-root svg {
+  width: 14px;
+  height: 14px;
+}
+
+.admin-sidebar-collapse-button.MuiIconButton-root:hover {
+  background: #eff6ff;
+}
+
+.admin-sidebar-collapsed .admin-sidebar-menu-list {
+  display: grid;
+  justify-items: center;
+}
+
+.admin-sidebar-collapsed .admin-sidebar-menu-section {
+  width: 100%;
+  padding: 1px 0 7px;
+}
+
+.admin-sidebar-collapsed .admin-sidebar-menu-button.MuiListItemButton-root {
+  width: 40px;
+  min-width: 40px;
+  min-height: 40px;
+  justify-content: center;
+  padding: 7px;
+  margin: 0 auto;
+}
+
+.admin-sidebar-collapsed .admin-sidebar-menu-icon.MuiListItemIcon-root,
+.admin-sidebar-collapsed .admin-sidebar-profile-icon.MuiListItemIcon-root {
+  min-width: 0;
+  justify-content: center;
+}
+
+.admin-sidebar-collapsed .admin-sidebar-profile-link.MuiListItemButton-root {
+  width: 40px;
+  min-width: 40px;
+  min-height: 40px;
+  justify-content: center;
+  padding: 7px;
+  margin: 0 auto 7px;
+}
+
+.admin-sidebar-logout-icon.MuiIconButton-root {
+  display: flex;
+  width: 40px;
+  height: 40px;
+  margin: 0 auto;
+  border-radius: 8px;
+  color: #ffffff;
+  background: #b42318;
+}
+
+.admin-sidebar-logout-icon.MuiIconButton-root:hover {
+  background: #8f1d14;
+}
+
 .admin-sidebar-brand-title {
   color: #111827;
   font-weight: 800;
@@ -43,7 +117,8 @@
 .admin-menu-overline {
   color: #64748b;
   font-weight: 900;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.07em;
+  font-size: 0.68rem !important;
 }
 
 .admin-sidebar-menu-list {
@@ -65,8 +140,8 @@
 }
 
 .admin-sidebar-menu-button.MuiListItemButton-root {
-  min-height: 42px;
-  padding: 8px 10px;
+  min-height: 36px;
+  padding: 7px 9px;
   border: 1px solid transparent !important;
   border-radius: 8px !important;
   color: #334155 !important;
@@ -123,8 +198,20 @@
 }
 
 .admin-sidebar-menu-icon.MuiListItemIcon-root {
-  min-width: 36px;
+  min-width: 30px;
   color: #64748b !important;
+}
+
+.admin-sidebar-menu-icon svg,
+.admin-sidebar-profile-icon svg {
+  width: 14px;
+  height: 14px;
+}
+
+.admin-toolbar-icon {
+  width: 16px;
+  height: 16px;
+  color: #0e5b9d;
 }
 
 .admin-sidebar-menu-button:hover .admin-sidebar-menu-icon.MuiListItemIcon-root {
@@ -139,6 +226,7 @@
 .admin-sidebar-menu-text .MuiTypography-root {
   color: #334155 !important;
   font-weight: 800 !important;
+  font-size: 0.82rem !important;
 }
 
 .admin-sidebar-menu-button:hover .admin-sidebar-menu-text .MuiTypography-root {
@@ -166,10 +254,11 @@
 .admin-sidebar-profile-link .MuiTypography-root {
   color: #334155 !important;
   font-weight: 800 !important;
+  font-size: 0.84rem !important;
 }
 
 .admin-sidebar-profile-icon.MuiListItemIcon-root {
-  min-width: 36px;
+  min-width: 30px;
   color: #64748b !important;
 }
 
@@ -196,19 +285,19 @@
   max-width: 100%;
   min-height: calc(100vh - 142px);
   color: #0f172a;
-  font-size: 0.92rem;
-}
-
-.admin-dashboard-scale-compact {
   font-size: 0.86rem;
 }
 
+.admin-dashboard-scale-compact {
+  font-size: 0.82rem;
+}
+
 .admin-dashboard-scale-comfortable {
-  font-size: 0.92rem;
+  font-size: 0.86rem;
 }
 
 .admin-dashboard-scale-large {
-  font-size: 1rem;
+  font-size: 0.92rem;
 }
 
 .admin-dashboard-scale-compact .MuiTableCell-root {
@@ -218,7 +307,7 @@
 
 .admin-dashboard-scale-large .MuiTableCell-root {
   padding: 11px 13px;
-  font-size: 0.9rem;
+  font-size: 0.84rem;
 }
 
 .admin-dashboard-scale-compact .MuiButton-root {
@@ -228,7 +317,7 @@
 
 .admin-dashboard-scale-large .MuiButton-root {
   min-height: 38px;
-  font-size: 0.88rem;
+  font-size: 0.82rem;
 }
 
 .admin-view-scale {
@@ -238,10 +327,11 @@
 }
 
 .admin-view-scale .MuiButton-root {
-  min-width: 34px;
-  height: 32px;
+  min-width: 30px;
+  height: 30px;
   border-radius: 8px;
   font-weight: 900;
+  font-size: 0.74rem;
 }
 
 .admin-dashboard-content .MuiTableContainer-root {
@@ -283,7 +373,7 @@
   text-transform: none;
   font-weight: 800;
   box-shadow: none;
-  font-size: 0.82rem;
+  font-size: 0.76rem;
 }
 
 .admin-dashboard-content .MuiButton-containedPrimary,

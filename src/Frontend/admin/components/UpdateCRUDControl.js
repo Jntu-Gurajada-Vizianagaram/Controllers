@@ -41,6 +41,23 @@ const VisuallyHiddenInput = styled('input')({
   width: 1,
 });
 
+const fallbackDepartmentOptions = [
+  { code: "JNTUGV", label: "JNTU-GV" },
+  { code: "DAAP", label: "Academics" },
+  { code: "DRD", label: "Research" },
+  { code: "DA", label: "Admissions" },
+  { code: "DAR", label: "Alumni Relations" },
+  { code: "DIQAC", label: "Internal Quality" },
+  { code: "CE", label: "Examinations" },
+  { code: "PLACEMENTS", label: "Placements" },
+];
+
+const fallbackUpdateTypes = [
+  { code: "notification", label: "Notifications" },
+  { code: "circular", label: "Circulars" },
+  { code: "notice", label: "Notices" },
+];
+
 const Updates = () => {
   const user = useAuth();
   const canDelete = canDeleteRecords(user?.role);
@@ -48,6 +65,7 @@ const Updates = () => {
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [events, setEvents] = useState([]);
+  const [departmentOptions, setDepartmentOptions] = useState(fallbackDepartmentOptions);
   const [showModal, setShowModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [eventData, setEventData] = useState({
@@ -57,13 +75,20 @@ const Updates = () => {
     file_path: "",
     external_link: "",
     external_text: "",
-    main_page: "",
-    scrolling: 'no',
-    update_type: "",
-    update_status: "",
+    department: "JNTUGV",
+    type_of_update: "notification",
+    is_static: "false",
+    expiry_date: "",
+    revised_date: "",
     submitted_by: 'admin',
-    admin_approval: 'accepted',
   });
+
+  const getUpdateTypesForDepartment = (departmentCode) => {
+    const department = departmentOptions.find((item) => item.code === departmentCode);
+    return Array.isArray(department?.updateTypes) && department.updateTypes.length
+      ? department.updateTypes
+      : fallbackUpdateTypes;
+  };
 
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
@@ -71,24 +96,53 @@ const Updates = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    if (name === "department") {
+      const updateTypes = getUpdateTypesForDepartment(value);
+      setEventData({
+        ...eventData,
+        department: value,
+        type_of_update: updateTypes[0]?.code || "notification",
+      });
+      return;
+    }
+
+    if (name === "is_static") {
+      setEventData({
+        ...eventData,
+        is_static: value,
+        expiry_date: value === "true" ? eventData.expiry_date : "",
+      });
+      return;
+    }
+
     setEventData({
       ...eventData,
       [name]: value,
     });
   };
 
+  const validateStaticExpiry = () => {
+    if (String(eventData.is_static) === "true" && !eventData.expiry_date) {
+      alert("Please select an expiry date for static notifications.");
+      return false;
+    }
+    return true;
+  };
+
   const addEvent = async () => {
+    if (!validateStaticExpiry()) return;
+
     const formData = new FormData();
     formData.append("date", eventData.date);
     formData.append("title", eventData.title);
     formData.append("external_txt", eventData.external_text);
     formData.append("external_lnk", eventData.external_link);
-    formData.append("main_page", eventData.main_page);
-    formData.append("scrolling", eventData.scrolling);
-    formData.append("update_type", eventData.update_type);
-    formData.append("update_status", eventData.update_status);
+    formData.append("department", eventData.department);
+    formData.append("type_of_update", eventData.type_of_update);
+    formData.append("is_static", eventData.is_static);
+    formData.append("expiry_date", eventData.expiry_date);
+    formData.append("revised_date", eventData.revised_date);
     formData.append("submitted_by", eventData.submitted_by);
-    formData.append("admin_approval", eventData.admin_approval);
     if (file) {
       formData.append('file', file);
     }
@@ -116,7 +170,7 @@ const Updates = () => {
 
   const deleteEvent = async (event) => {
     try {
-      alert(`Deleting Event ${event.title}`);
+      alert(`Deleting Event ${event.display_title || event.title}`);
       const id = event.id;
       await axios.delete(`${api.updates_apis.remove_event}/${id}`);
       getEvents();
@@ -128,7 +182,10 @@ const Updates = () => {
   const openEditModal = (event) => {
     setEventData({
       ...event,
-      date: event.date.slice(0, 10),
+      date: event.date ? event.date.slice(0, 10) : new Date().toISOString().slice(0, 10),
+      is_static: String(event.is_static ?? "false"),
+      expiry_date: event.expiry_date ? event.expiry_date.slice(0, 10) : "",
+      revised_date: event.revised_date ? event.revised_date.slice(0, 10) : "",
     });
     setFile(null);  // Reset the file input
     setIsEditing(true);  // Set the editing mode
@@ -136,18 +193,20 @@ const Updates = () => {
   };
 
   const editEvent = async () => {
+    if (!validateStaticExpiry()) return;
+
     const id = eventData.id;
     const formData = new FormData();
     formData.append("date", eventData.date);
     formData.append("title", eventData.title);
     formData.append("external_text", eventData.external_text);
     formData.append("external_link", eventData.external_link);
-    formData.append("main_page", eventData.main_page);
-    formData.append("scrolling", eventData.scrolling);
-    formData.append("update_type", eventData.update_type);
-    formData.append("update_status", eventData.update_status);
+    formData.append("department", eventData.department);
+    formData.append("type_of_update", eventData.type_of_update);
+    formData.append("is_static", eventData.is_static);
+    formData.append("expiry_date", eventData.expiry_date);
+    formData.append("revised_date", eventData.revised_date);
     formData.append("submitted_by", eventData.submitted_by);
-    formData.append("admin_approval", eventData.admin_approval);
     if (file) {
       formData.append('file', file);
     }
@@ -181,6 +240,16 @@ const Updates = () => {
 
   useEffect(() => {
     getEvents();
+    axios
+      .get(api.updates_apis.departments)
+      .then((response) => {
+        if (Array.isArray(response.data) && response.data.length) {
+          setDepartmentOptions(response.data);
+        }
+      })
+      .catch(() => {
+        setDepartmentOptions(fallbackDepartmentOptions);
+      });
   }, []);
 
   const openModalForAdding = () => {
@@ -191,12 +260,12 @@ const Updates = () => {
       file_path: "",
       external_text: "",
       external_link: "",
-      main_page: "",
-      scrolling: "",
-      update_type: "",
-      update_status: "",
+      department: "JNTUGV",
+      type_of_update: "notification",
+      is_static: "false",
+      expiry_date: "",
+      revised_date: "",
       submitted_by: 'admin',
-      admin_approval: 'accepted',
     });
     setFile(null);
     setIsEditing(false);
@@ -277,66 +346,75 @@ const Updates = () => {
             </Box>
             <Box sx={{ mb: 2 }}>
               <FormControl fullWidth>
-                <InputLabel>Main Page</InputLabel>
+                <InputLabel>Department</InputLabel>
                 <Select
-                  name="main_page"
-                  value={eventData.main_page}
+                  name="department"
+                  value={eventData.department || "JNTUGV"}
                   onChange={handleInputChange}
                 >
-                  <MenuItem value="yes">YES</MenuItem>
-                  <MenuItem value="no">NO</MenuItem>
+                  {departmentOptions.map((department) => (
+                    <MenuItem key={department.code} value={department.code}>
+                      {department.label}
+                    </MenuItem>
+                  ))}
                 </Select>
-              </FormControl>
-            </Box>
-            <Box sx={{ mb: 2 }}>
-              <FormControl fullWidth>
-                <InputLabel>Flash Scrolling</InputLabel>
-                <Select
-                  name="scrolling"
-                  value={eventData.scrolling}
-                  onChange={handleInputChange}
-                >
-                  <MenuItem value="yes">YES</MenuItem>
-                  <MenuItem value="no">NO</MenuItem>
-                </Select>
-                <Typography variant="caption" color="text.secondary" sx={{ mt: 1 }}>
-                  Note: By default, flash scrolling is set to <strong>NO</strong>. Set this to <strong>YES</strong> only if the update should appear in the <em>live scrolling banner</em> on the homepage.
-                </Typography>
               </FormControl>
             </Box>
             <Box sx={{ mb: 2 }}>
               <FormControl fullWidth>
                 <InputLabel>Type of Update</InputLabel>
                 <Select
-                  name="update_type"
-                  value={eventData.update_type}
+                  name="type_of_update"
+                  value={eventData.type_of_update || eventData.update_type || "notification"}
                   onChange={handleInputChange}
                 >
-                  <MenuItem value="circular">Circular</MenuItem>
-                  <MenuItem value="exams">Exams</MenuItem>
-                  <MenuItem value="calendar">Academic Calendar</MenuItem>
-                  <MenuItem value="regulation">Academic Regulation</MenuItem>
-                  <MenuItem value="syllabus">Academic Syllabus</MenuItem>
-                  <MenuItem value="tender">Tender</MenuItem>
-                  <MenuItem value="workshop">Workshop</MenuItem>
-                  <MenuItem value="sports">Sports</MenuItem>
-                  <MenuItem value="conference">Conference</MenuItem>
-                  <MenuItem value="recruitment">Recruitment</MenuItem>
+                  {getUpdateTypesForDepartment(eventData.department).map((type) => (
+                    <MenuItem key={type.code} value={type.code}>
+                      {type.label}
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
             </Box>
             <Box sx={{ mb: 2 }}>
               <FormControl fullWidth>
-                <InputLabel>Status</InputLabel>
+                <InputLabel>Static Notification</InputLabel>
                 <Select
-                  name="update_status"
-                  value={eventData.update_status}
+                  name="is_static"
+                  value={String(eventData.is_static ?? "false")}
                   onChange={handleInputChange}
                 >
-                  <MenuItem value="update">Update</MenuItem>
-                  <MenuItem value="draft">Draft</MenuItem>
+                  <MenuItem value="false">False</MenuItem>
+                  <MenuItem value="true">True</MenuItem>
                 </Select>
               </FormControl>
+            </Box>
+            {String(eventData.is_static) === "true" && (
+              <Box sx={{ mb: 2 }}>
+                <TextField
+                  fullWidth
+                  required
+                  type="date"
+                  label="Expiry Date"
+                  name="expiry_date"
+                  value={eventData.expiry_date || ""}
+                  onChange={handleInputChange}
+                  InputLabelProps={{ shrink: true }}
+                  helperText="Static notifications remain in the homepage ticker until this date."
+                />
+              </Box>
+            )}
+            <Box sx={{ mb: 2 }}>
+              <TextField
+                fullWidth
+                type="date"
+                label="Revised Date"
+                name="revised_date"
+                value={eventData.revised_date || ""}
+                onChange={handleInputChange}
+                InputLabelProps={{ shrink: true }}
+                helperText="Use this when a notification is revised and must move back to the latest tracking date."
+              />
             </Box>
             <Typography variant="body2" color="text.secondary">
               Note: PDF files are stored with a secure unique name. The API automatically adds a QR code that opens the final uploaded PDF link.
@@ -379,8 +457,12 @@ const Updates = () => {
                     <TableRow>
                       <TableCell>S.NO</TableCell>
                       <TableCell>Notification Date</TableCell>
+                      <TableCell>Department</TableCell>
                       <TableCell>Title</TableCell>
-                      <TableCell>Status</TableCell>
+                      <TableCell>Type</TableCell>
+                      <TableCell>Static</TableCell>
+                      <TableCell>Expiry</TableCell>
+                      <TableCell>Revised</TableCell>
                       <TableCell>View File</TableCell>
                       <TableCell>Action</TableCell>
                       {canDelete && <TableCell>Delete</TableCell>}
@@ -391,8 +473,12 @@ const Updates = () => {
                       <TableRow key={event.id}>
                         <TableCell>{event.id}</TableCell>
                         <TableCell>{event.date}</TableCell>
-                        <TableCell>{event.title}</TableCell>
-                        <TableCell>{event.update_status}</TableCell>
+                        <TableCell>{event.department_label || event.department || "JNTU-GV"}</TableCell>
+                        <TableCell>{event.display_title || event.title}</TableCell>
+                        <TableCell>{event.type_of_update_label || event.type_of_update || event.update_type || "notification"}</TableCell>
+                        <TableCell>{event.is_static ? "True" : "False"}</TableCell>
+                        <TableCell>{event.expiry_date || "-"}</TableCell>
+                        <TableCell>{event.revised_date || "-"}</TableCell>
                         <TableCell>
                           {event.file_link ? (
                             <a href={event.file_link} target="_blank" rel="noopener noreferrer">View File</a>

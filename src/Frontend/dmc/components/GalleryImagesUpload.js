@@ -207,27 +207,37 @@ const GalleryImagesUpload = () => {
                 component="img"
                 height="200"
                 image={item.imagelink}
-                alt={item.event_name}
+                alt={item.event_name || "Gallery image"}
                 loading="lazy"
                 sx={{
-                  objectFit: 'fill',
+                  objectFit: 'cover',
                   borderRadius: '4px 4px 0 0',
                 }}
               />
               <CardContent sx={{ flexGrow: 1 }}>
-                {/* <Typography variant="h6" gutterBottom>{item.event_name}</Typography> */}
-                <Typography variant="body2" color="text.secondary" gutterBottom>
-                  {item.description.length > 75
-                    ? `${item.description.slice(0, 100)}...`
-                    : item.description}
+                <Typography variant="h6" gutterBottom sx={{ fontWeight: 800, lineHeight: 1.25 }}>
+                  {item.event_name || "Untitled gallery image"}
                 </Typography>
-                {item.description.length > 75 && (
-                  <Button
-                    size="small"
-                    onClick={() => handleOpenModal(item)}
-                  >
-                  <Typography variant="body2" color="text.secondary" gutterBottom>Read more</Typography> 
-                  </Button>
+                {item.description ? (
+                  <>
+                    <Typography variant="body2" color="text.secondary" gutterBottom>
+                      {item.description.length > 75
+                        ? `${item.description.slice(0, 100)}...`
+                        : item.description}
+                    </Typography>
+                    {item.description.length > 75 && (
+                      <Button
+                        size="small"
+                        onClick={() => handleOpenModal(item)}
+                      >
+                      <Typography variant="body2" color="text.secondary" gutterBottom>Read more</Typography> 
+                      </Button>
+                    )}
+                  </>
+                ) : (
+                  <Typography variant="body2" color="text.secondary" gutterBottom>
+                    No description added
+                  </Typography>
                 )}
                 <Typography variant="caption" display="block" sx={{ mt: 1 }}>
                   {new Date(item.uploaded_date).toLocaleDateString()}

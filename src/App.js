@@ -2,7 +2,6 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Admin from "./Frontend/admin/components/Admin";
 import AllCrudControls from "./Frontend/admin/components/AllCrudControl";
-import Allfiles from "./Frontend/admin/components/Allfiles";
 import AllRecordsControls from './Frontend/admin/components/AllRecordsControl.js';
 import DirectorsCRUDControl from "./Frontend/admin/components/DirectorsCRUDControl";
 import ForgotPassword from "./Frontend/Authentications/components/ForgotPassword";
@@ -11,7 +10,6 @@ import ProtectedRoute from "./Frontend/Authentications/components/ProtectedRoute
 import AuthorizedRoute from "./Frontend/Authentications/components/AuthorizedRoute";
 import RoleHomeRedirect from "./Frontend/Authentications/components/RoleHomeRedirect";
 import FacultyGrievance from "./Frontend/grievances/components/FacultyGrievance";
-import HODS from "./Frontend/hods/components/HODS";
 import Dashboard from "./Frontend/Main/Component/Dashboard";
 import FirstPage from './Frontend/Main/Component/firstpage';
 import Profile from "./Frontend/Main/Component/Profile";
@@ -25,6 +23,7 @@ import GalleryConsole from "./Frontend/consoles/GalleryConsole";
 import EventGalleryConsole from "./Frontend/consoles/EventGalleryConsole";
 import CollegesConsole from "./Frontend/consoles/CollegesConsole";
 import YoutubeConsole from "./Frontend/consoles/YoutubeConsole";
+import DeveloperDashboard from "./Frontend/developer/DeveloperDashboard";
 function App() {
   return (
     <div className="App">
@@ -42,8 +41,8 @@ function App() {
               <Route path="admin-home" element={<AuthorizedRoute page="admin-home"><Admin /></AuthorizedRoute>} />
               <Route path="directors" element={<AuthorizedRoute page="directors"><DirectorsCRUDControl /></AuthorizedRoute>} />
               <Route path="all-consoles" element={<AuthorizedRoute page="all-consoles"><AllCrudControls /></AuthorizedRoute>} />
+              <Route path="developer-dashboard" element={<AuthorizedRoute page="developer-dashboard"><DeveloperDashboard /></AuthorizedRoute>} />
               <Route path="all-records" element={<AuthorizedRoute page="all-records"><AllRecordsControls /></AuthorizedRoute>} />
-              <Route path="all-stored-files" element={<AuthorizedRoute page="all-stored-files"><Allfiles /></AuthorizedRoute>} />
               <Route path="help" element={<AuthorizedRoute page="help"><FacultyGrievance /></AuthorizedRoute>} />
               <Route path="colleges-console" element={<AuthorizedRoute page="colleges-console"><CollegesConsole /></AuthorizedRoute>} />
               <Route path="affiliated-college" element={<AuthorizedRoute page="colleges-console"><CollegesConsole /></AuthorizedRoute>} />
@@ -61,7 +60,6 @@ function App() {
               <Route path="updates" element={<AuthorizedRoute page="notification-console"><NotificationConsole /></AuthorizedRoute>} />
               <Route path="youtube-console" element={<AuthorizedRoute page="youtube-console"><YoutubeConsole /></AuthorizedRoute>} />
               <Route path="site-navigation" element={<AuthorizedRoute page="site-navigation"><SiteNavigation /></AuthorizedRoute>} />
-              <Route path="hods" element={<AuthorizedRoute page="hods"><HODS /></AuthorizedRoute>} />
               <Route path="*" element={<Navigate to="/restrictedaccess" replace />} />
             </Route>
           </Route>

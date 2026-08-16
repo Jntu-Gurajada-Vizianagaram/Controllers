@@ -1,12 +1,25 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./ConsolePage.css";
 
 export function ConsolePage({ title, description, children }) {
+  const navigate = useNavigate();
+
   return (
     <div className="console-page">
       <section className="console-hero">
-        <h1>{title}</h1>
-        <p>{description}</p>
+        <div className="console-hero-copy">
+          <h1>{title}</h1>
+          <p>{description}</p>
+        </div>
+        <button
+          type="button"
+          className="console-close-button"
+          onClick={() => navigate("/dashboard/all-consoles")}
+          aria-label={`Close ${title}`}
+        >
+          Close
+        </button>
       </section>
       <section className="console-card">{children}</section>
     </div>

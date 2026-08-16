@@ -50,7 +50,7 @@ const AllRecordsControls = () => {
 
   const deleteNotification = async (request) => {
     if (!canDelete) return;
-    if (!window.confirm(`Delete notification: ${request.title}?`)) return;
+    if (!window.confirm(`Delete notification: ${request.display_title || request.title}?`)) return;
     try {
       await axios.delete(`${api.updates_apis.remove_event}/${request.id}`);
       getUpdateEvents();
@@ -117,7 +117,10 @@ const AllRecordsControls = () => {
                   <TableCell>S.NO</TableCell>
                   <TableCell>Notification Date</TableCell>
                   <TableCell>Title</TableCell>
-                  <TableCell>Status</TableCell>
+                  <TableCell>Type</TableCell>
+                  <TableCell>Static</TableCell>
+                  <TableCell>Expiry</TableCell>
+                  <TableCell>Revised</TableCell>
                   <TableCell>Added By</TableCell>
                   <TableCell>View File</TableCell>
                   {canDelete && <TableCell>Delete</TableCell>}
@@ -128,8 +131,11 @@ const AllRecordsControls = () => {
                   <TableRow key={request.id}>
                     <TableCell>{request.id}</TableCell>
                     <TableCell>{request.date}</TableCell>
-                    <TableCell>{request.title}</TableCell>
-                    <TableCell>{request.update_status}</TableCell>
+                    <TableCell>{request.display_title || request.title}</TableCell>
+                    <TableCell>{request.type_of_update_label || request.type_of_update || request.update_type || 'notification'}</TableCell>
+                    <TableCell>{request.is_static ? 'True' : 'False'}</TableCell>
+                    <TableCell>{request.expiry_date || '-'}</TableCell>
+                    <TableCell>{request.revised_date || '-'}</TableCell>
                     <TableCell>{request.submitted_by}</TableCell>
                     <TableCell>
                       {request.file_link ? (
@@ -156,7 +162,7 @@ const AllRecordsControls = () => {
                 ))}
                 {!requests.length && (
                   <TableRow>
-                    <TableCell colSpan={canDelete ? 7 : 6} align="center">
+                    <TableCell colSpan={canDelete ? 10 : 9} align="center">
                       No older notification records found.
                     </TableCell>
                   </TableRow>

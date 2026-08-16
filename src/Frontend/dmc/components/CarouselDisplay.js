@@ -16,7 +16,7 @@ function CarouselDisplay() {
 
 const maincarousel = ()=>{
   try {
-    axios.get(`${api_ip}/api/webadmin/carousel-images-preview`)
+    axios.get(`${api_ip}/api/webadmin/carousel-images`)
     .then((response)=>{
      // console.log(response)
       setCarouselImages(response.data)
@@ -100,21 +100,28 @@ const allimgs = ()=>{
       <div className="image-gallery">
         <div className="image-scroll">
           {carouselimages.map((image, index) => (
-            <img
-              key={index}
-              src={image.imglink}
-              alt={`JNTUGV ${image.description}`}
-              loading="lazy"
-              decoding="async"
+            <button
+              type="button"
+              key={image.id || index}
+              className="carousel-preview-item"
               onClick={() => handleImageClick(image)}
-            />
+            >
+              <img
+                src={image.imglink}
+                alt={`JNTUGV ${image.title || 'Carousel image'}`}
+                loading="lazy"
+                decoding="async"
+              />
+              <span>{image.title || 'Untitled carousel image'}</span>
+            </button>
           ))}
         </div>
       </div>
       <div>
         {selectedImage && (
           <div className="enlarged-image">
-            <img src={selectedImage.imglink} alt={`JNTUGV`} loading="lazy" decoding="async" />
+            <h2>{selectedImage.title || 'Carousel Image'}</h2>
+            <img src={selectedImage.imglink} alt={`JNTUGV ${selectedImage.title || 'Carousel image'}`} loading="lazy" decoding="async" />
             <button onClick={handleClose}>Back</button>
           </div>
         )}

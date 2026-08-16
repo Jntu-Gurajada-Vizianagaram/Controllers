@@ -30,10 +30,39 @@
   
   .image-scroll img {
     display: inline-block;
-    margin-right: 20px;
     width: 300px; /* Set your desired width */
     height: 200px; /* Set your desired height */
     cursor: pointer;
+  }
+
+  .carousel-preview-item {
+    display: inline-flex;
+    width: 300px;
+    margin-right: 20px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #ffffff;
+    cursor: pointer;
+    flex-direction: column;
+    gap: 8px;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .carousel-preview-item img {
+    margin-right: 0;
+    object-fit: cover;
+  }
+
+  .carousel-preview-item span {
+    display: block;
+    overflow: hidden;
+    font-size: 0.92rem;
+    font-weight: 800;
+    line-height: 1.35;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   
   /* Stop the scroll on hover */
@@ -69,6 +98,15 @@
   .enlarged-image img {
     max-width: 80%;
     max-height: 80%;
+  }
+
+  .enlarged-image h2 {
+    max-width: 80%;
+    margin: 0 0 14px;
+    color: #ffffff;
+    font-size: 1.2rem;
+    font-weight: 800;
+    text-align: center;
   }
   
   .enlarged-image button {

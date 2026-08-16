@@ -1,14 +1,14 @@
 import React from "react";
-import EventPhotosUpload from "../dmc/components/EventPhotosUpload";
+import EventAlbumsManagement from "../dmc/components/EventAlbumsManagement";
 import { ConsolePage } from "./ConsolePage";
 
 export default function EventGalleryConsole() {
   return (
     <ConsolePage
-      title="Event Gallery Console"
-      description="Bulk upload photos for a particular university event and publish the event album through RBAC."
+      title="Event Albums"
+      description="Create, preview, edit, publish, and delete public event photo albums from one routed page."
     >
-      <EventPhotosUpload />
+      <EventAlbumsManagement />
     </ConsolePage>
   );
 }

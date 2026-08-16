@@ -1,121 +1,129 @@
-import CorporateFareIcon from '@mui/icons-material/CorporateFare';
-import Avatar from '@mui/material/Avatar';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
-import CssBaseline from '@mui/material/CssBaseline';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
+import {
+  Box,
+  Button,
+  Checkbox,
+  FormControlLabel,
+  Grid,
+  MenuItem,
+  Paper,
+  TextField,
+  Typography,
+} from '@mui/material';
 import axios from 'axios';
 import * as React from 'react';
-import "../css/AffliatedColleges.css";
+import { FaSave, FaTimes } from 'react-icons/fa';
 import api from '../../Main/apis_data/APIs';
+import '../css/AffliatedColleges.css';
 
-const defaultTheme = createTheme();
+export default function EDIT({ college, onCancel, onSaved }) {
+  const [form, setForm] = React.useState({
+    college_code: college?.college_code || '',
+    logo: college?.logo || '',
+    college_name: college?.college_name || '',
+    district: college?.district || college?.college_address || '',
+    affiliation_type: college?.affiliation_type || 'Temporary',
+    college_type: college?.college_type || 'Engineering',
+    college_status: college?.college_status || college?.status || 'Affiliated',
+    promote_to_university: Boolean(college?.promote_to_university || college?.promoteToUniversity),
+    academic_year: college?.academic_year || college?.academicYear || '2026-27',
+    autonomous_year: college?.autonomous_year || college?.autonomousYear || college?.AutonomousYear || '',
+    principal_name: college?.principal_name || college?.principalName || college?.PrincipalName || '',
+    principal_email: college?.principal_email || college?.principalEmail || college?.Email || '',
+    principal_phone: college?.principal_phone || college?.principalPhone || college?.Phone || '',
+    college_link: college?.college_link || '',
+  });
+  const [saving, setSaving] = React.useState(false);
 
-export default function EDIT(props) {
-  const { id, logo, college_name, college_address, college_link } = props;
+  const updateField = (event) => {
+    const { name, value, checked, type } = event.target;
+    setForm((current) => ({ ...current, [name]: type === 'checkbox' ? checked : value }));
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const formData = {
-      logo: data.get('logo'),
-      college_name: data.get('name'),
-      college_address: data.get('address'),
-      college_link: data.get('link')
-    };
-    
+    setSaving(true);
     try {
-      const response = await axios.put(`${api.affliated_colleges_apis.update_college}/${id}`, formData);
-      console.log(response.data);
+      await axios.put(`${api.affliated_colleges_apis.update_college}/${college.id}`, form);
+      onSaved?.();
     } catch (error) {
-      console.error('Error Updating data:', error);
+      alert(error?.response?.data?.error || 'Error updating college data');
+    } finally {
+      setSaving(false);
     }
-    
   };
 
   return (
-    <div className="main_div">
-    <ThemeProvider theme={defaultTheme}>
-    <Container component="main" maxWidth="xl">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 1,
-            // display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main',marginLeft:'440px'}}>
-            <CorporateFareIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Edit College
-          </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1,display:'flex' }}>
-          <TextField
-              margin="normal"
-              fullWidth
-              id="logo"
-              name="id"
-              label="College id"
-              autoComplete="id"
-              defaultValue={id}
+    <Paper className="college-console-form" variant="outlined">
+      <Box className="college-console-form-head">
+        <Typography variant="h6">Edit College</Typography>
+        <Button variant="outlined" startIcon={<FaTimes />} onClick={onCancel}>Close</Button>
+      </Box>
+      <Box component="form" onSubmit={handleSubmit} noValidate>
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={2}>
+            <TextField fullWidth required label="Code" name="college_code" value={form.college_code} onChange={updateField} />
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <TextField fullWidth required label="College Name" name="college_name" value={form.college_name} onChange={updateField} />
+          </Grid>
+          <Grid item xs={12} md={3}>
+            <TextField fullWidth required label="District" name="district" value={form.district} onChange={updateField} />
+          </Grid>
+          <Grid item xs={12} md={3}>
+            <TextField fullWidth label="College Logo URL" name="logo" value={form.logo} onChange={updateField} />
+          </Grid>
+          <Grid item xs={12} md={3}>
+            <TextField select fullWidth label="College Type" name="college_type" value={form.college_type} onChange={updateField}>
+              <MenuItem value="Engineering">Engineering</MenuItem>
+              <MenuItem value="Pharmacy">Pharmacy</MenuItem>
+              <MenuItem value="Management">Management</MenuItem>
+            </TextField>
+          </Grid>
+          <Grid item xs={12} md={3}>
+            <TextField select fullWidth label="Status" name="college_status" value={form.college_status} onChange={updateField}>
+              <MenuItem value="Affiliated">Affiliated</MenuItem>
+              <MenuItem value="Autonomous">Autonomous</MenuItem>
+              <MenuItem value="University">University</MenuItem>
+            </TextField>
+          </Grid>
+          <Grid item xs={12} md={3}>
+            <TextField select fullWidth label="Affiliation Type" name="affiliation_type" value={form.affiliation_type} onChange={updateField}>
+              <MenuItem value="Permanent">Permanent</MenuItem>
+              <MenuItem value="Temporary">Temporary</MenuItem>
+            </TextField>
+          </Grid>
+          <Grid item xs={12} md={3}>
+            <TextField fullWidth label="Academic Year" name="academic_year" value={form.academic_year} onChange={updateField} placeholder="2026-27" />
+          </Grid>
+          <Grid item xs={12} md={3}>
+            <TextField fullWidth label="Autonomous Year" name="autonomous_year" value={form.autonomous_year} onChange={updateField} placeholder="2025" />
+          </Grid>
+          <Grid item xs={12} md={3}>
+            <FormControlLabel
+              className="college-console-checkbox"
+              control={<Checkbox name="promote_to_university" checked={form.promote_to_university} onChange={updateField} />}
+              label="Promote to University"
             />
-            <TextField
-              margin="normal"
-              fullWidth
-              id="logo"
-              name="logo"
-              label="College Logo"
-              autoComplete="logo"
-              defaultValue={logo}
-            />
-            <TextField
-              margin="normal"
-              fullWidth
-              name="name"
-              type="text"
-              id="name"
-              label="College Name"
-              autoComplete="name"
-              defaultValue={college_name}
-            />
-            <TextField
-              margin="normal"
-              fullWidth
-              name="address"
-              type="text"  // Change type to "text"
-              id="address"
-              label="College Address"
-              autoComplete="address"
-              defaultValue={college_address}
-            />
-            <TextField
-              margin="normal"
-              fullWidth
-              name="link"
-              type="text"
-              id="link"
-              label="College Website Link"
-              autoComplete="link"
-              defaultValue={college_link}
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              EDIT
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <TextField fullWidth label="Website" name="college_link" value={form.college_link} onChange={updateField} />
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <TextField fullWidth label="Principal Name" name="principal_name" value={form.principal_name} onChange={updateField} />
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <TextField fullWidth label="Principal Office Email" name="principal_email" value={form.principal_email} onChange={updateField} />
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <TextField fullWidth label="Principal Office Phone" name="principal_phone" value={form.principal_phone} onChange={updateField} />
+          </Grid>
+          <Grid item xs={12}>
+            <Button type="submit" variant="contained" startIcon={<FaSave />} disabled={saving || !form.college_code || !form.college_name || !form.district}>
+              {saving ? 'Saving...' : 'Save College'}
             </Button>
-          </Box>
-        </Box>
-      </Container>
-    </ThemeProvider>
-    </div>
+          </Grid>
+        </Grid>
+      </Box>
+    </Paper>
   );
 }

@@ -1,45 +1,48 @@
-import ApartmentIcon from '@mui/icons-material/Apartment';
-import CollectionsIcon from '@mui/icons-material/Collections';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import DescriptionIcon from '@mui/icons-material/Description';
-import DevicesIcon from '@mui/icons-material/Devices';
-import DoorbellIcon from '@mui/icons-material/Doorbell';
-import HelpIcon from '@mui/icons-material/Help';
-import HomeIcon from '@mui/icons-material/Home';
-import LinkIcon from '@mui/icons-material/Link';
-import SlideshowIcon from '@mui/icons-material/Slideshow';
-import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
+import {
+  FaBell,
+  FaBuilding,
+  FaChartLine,
+  FaColumns,
+  FaFileAlt,
+  FaHome,
+  FaImages,
+  FaLink,
+  FaPhotoVideo,
+  FaQuestionCircle,
+  FaSitemap,
+  FaVideo,
+} from 'react-icons/fa';
 
 const item = (to, text, icon, group = 'Workspace') => ({ to, text, icon, group });
 
 const coreAdminMenu = [
-  item('admin-home', 'Dashboard Home', <HomeIcon />, 'Overview'),
-  item('all-consoles', 'Console Overview', <DevicesIcon />, 'Overview'),
-  item('site-navigation', 'Site Navigation', <LinkIcon />, 'Website CMS'),
-  item('notification-console', 'Notifications', <DoorbellIcon />, 'Content'),
-  item('news-console', 'Press Notes', <DescriptionIcon />, 'Content'),
-  item('youtube-console', 'YouTube', <VideoLibraryIcon />, 'Content'),
-  item('carousel-console', 'Carousel', <SlideshowIcon />, 'Media'),
-  item('gallery-console', 'Gallery', <CollectionsIcon />, 'Media'),
-  item('event-gallery-console', 'Event Gallery', <CollectionsIcon />, 'Media'),
-  item('colleges-console', 'Colleges', <ApartmentIcon />, 'Organization'),
-  item('directors', 'Directors', <DescriptionIcon />, 'Organization'),
-  item('hods', 'Directorate Uploads', <DescriptionIcon />, 'Organization'),
-  item('help', 'Support', <HelpIcon />, 'Support'),
+  item('admin-home', 'Dashboard Home', <FaHome />, 'Overview'),
+  item('all-consoles', 'Console Overview', <FaColumns />, 'Overview'),
+  item('developer-dashboard', 'API Dashboard', <FaChartLine />, 'Developer'),
+  item('site-navigation', 'Site Navigation', <FaLink />, 'Website CMS'),
+  item('notification-console', 'Notifications', <FaBell />, 'Content'),
+  item('news-console', 'Press Notes', <FaFileAlt />, 'Content'),
+  item('youtube-console', 'YouTube', <FaVideo />, 'Content'),
+  item('carousel-console', 'Carousel Images', <FaPhotoVideo />, 'Media Management'),
+  item('gallery-console', 'Gallery Images', <FaImages />, 'Media Management'),
+  item('event-gallery-console', 'Event Albums', <FaImages />, 'Media Management'),
+  item('colleges-console', 'Colleges', <FaBuilding />, 'Organization'),
+  item('directors', 'Directors', <FaSitemap />, 'Organization'),
+  item('help', 'Support', <FaQuestionCircle />, 'Support'),
 ];
 
 const developerMenu = [
-  item('all-consoles', 'Console Overview', <DashboardIcon />, 'Overview'),
-  item('site-navigation', 'Site Navigation', <LinkIcon />, 'Website CMS'),
-  item('notification-console', 'Notifications', <DoorbellIcon />, 'Content'),
-  item('news-console', 'Press Notes', <DescriptionIcon />, 'Content'),
-  item('youtube-console', 'YouTube', <VideoLibraryIcon />, 'Content'),
-  item('carousel-console', 'Carousel', <SlideshowIcon />, 'Media'),
-  item('gallery-console', 'Gallery', <CollectionsIcon />, 'Media'),
-  item('event-gallery-console', 'Event Gallery', <CollectionsIcon />, 'Media'),
-  item('colleges-console', 'Colleges', <ApartmentIcon />, 'Organization'),
-  item('hods', 'Directorate Uploads', <DescriptionIcon />, 'Organization'),
-  item('help', 'Support', <HelpIcon />, 'Support'),
+  item('all-consoles', 'Console Overview', <FaColumns />, 'Overview'),
+  item('developer-dashboard', 'API Dashboard', <FaChartLine />, 'Developer'),
+  item('site-navigation', 'Site Navigation', <FaLink />, 'Website CMS'),
+  item('notification-console', 'Notifications', <FaBell />, 'Content'),
+  item('news-console', 'Press Notes', <FaFileAlt />, 'Content'),
+  item('youtube-console', 'YouTube', <FaVideo />, 'Content'),
+  item('carousel-console', 'Carousel Images', <FaPhotoVideo />, 'Media Management'),
+  item('gallery-console', 'Gallery Images', <FaImages />, 'Media Management'),
+  item('event-gallery-console', 'Event Albums', <FaImages />, 'Media Management'),
+  item('colleges-console', 'Colleges', <FaBuilding />, 'Organization'),
+  item('help', 'Support', <FaQuestionCircle />, 'Support'),
 ];
 
 const All_Menu = {
@@ -47,27 +50,28 @@ const All_Menu = {
   RootAdmin: coreAdminMenu,
   Developer: developerMenu,
   WebAdmin: [
-    item('all-consoles', 'Console Overview', <DashboardIcon />, 'Overview'),
-    item('news-console', 'Press Notes', <DescriptionIcon />, 'Content'),
-    item('youtube-console', 'YouTube', <VideoLibraryIcon />, 'Content'),
-    item('carousel-console', 'Carousel', <SlideshowIcon />, 'Media'),
-    item('gallery-console', 'Gallery', <CollectionsIcon />, 'Media'),
-    item('event-gallery-console', 'Event Gallery', <CollectionsIcon />, 'Media'),
-    item('help', 'Support', <HelpIcon />, 'Support'),
+    item('all-consoles', 'Console Overview', <FaColumns />, 'Overview'),
+    item('news-console', 'Press Notes', <FaFileAlt />, 'Content'),
+    item('youtube-console', 'YouTube', <FaVideo />, 'Content'),
+    item('carousel-console', 'Carousel Images', <FaPhotoVideo />, 'Media Management'),
+    item('gallery-console', 'Gallery Images', <FaImages />, 'Media Management'),
+    item('event-gallery-console', 'Event Albums', <FaImages />, 'Media Management'),
+    item('help', 'Support', <FaQuestionCircle />, 'Support'),
   ],
   Updates: [
-    item('site-navigation', 'Site Navigation', <LinkIcon />, 'Website CMS'),
-    item('notification-console', 'Notifications', <DoorbellIcon />, 'Content'),
-    item('youtube-console', 'YouTube', <VideoLibraryIcon />, 'Content'),
-    item('help', 'Support', <HelpIcon />, 'Support'),
+    item('site-navigation', 'Site Navigation', <FaLink />, 'Website CMS'),
+    item('notification-console', 'Notifications', <FaBell />, 'Content'),
+    item('youtube-console', 'YouTube', <FaVideo />, 'Content'),
+    item('help', 'Support', <FaQuestionCircle />, 'Support'),
   ],
   AffiliatedColleges: [
-    item('colleges-console', 'Colleges', <ApartmentIcon />, 'Organization'),
-    item('help', 'Support', <HelpIcon />, 'Support'),
+    item('colleges-console', 'Colleges', <FaBuilding />, 'Organization'),
+    item('help', 'Support', <FaQuestionCircle />, 'Support'),
   ],
   Directors: [
-    item('hods', 'Directorates', <DescriptionIcon />, 'Organization'),
-    item('help', 'Support', <HelpIcon />, 'Support'),
+    item('directors', 'Directors', <FaSitemap />, 'Organization'),
+    item('profile', 'My Profile', <FaFileAlt />, 'Organization'),
+    item('help', 'Support', <FaQuestionCircle />, 'Support'),
   ],
 };
 

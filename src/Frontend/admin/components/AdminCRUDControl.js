@@ -78,7 +78,7 @@ const AdminsCRUDControl = () => {
 
   const adding_handle = async () => {
     try {
-      const response = await axios.post(`${api.admin_apis.add_hod}`, {
+      const response = await axios.post(`${api.admin_apis.add_admin_user}`, {
         name, username, password, role
       });
       if (response.data.Success) {
@@ -108,7 +108,7 @@ const AdminsCRUDControl = () => {
     clearEditForm();
   };
 
-  const update_hod = async () => {
+  const updateAdminUser = async () => {
     try {
       if (!editingAdmin) return;
 
@@ -120,7 +120,7 @@ const AdminsCRUDControl = () => {
       };
       if (editPassword) updatedAdmin.password = editPassword;
 
-      const response = await axios.put(`${api.admin_apis.update_hod}/${editingAdmin.id}`, updatedAdmin);
+      const response = await axios.put(`${api.admin_apis.update_admin_user}/${editingAdmin.id}`, updatedAdmin);
 
       if (response.data.Success) {
         alert("Admin updated successfully!");
@@ -134,11 +134,11 @@ const AdminsCRUDControl = () => {
     }
   };
 
-  const remove_hod = async (admin) => {
+  const removeAdminUser = async (admin) => {
     try {
       const confirmDelete = window.confirm(`Are you sure you want to remove Admin: ${admin.name}?`);
       if (confirmDelete) {
-        const response = await axios.delete(`${api.admin_apis.remove_hod}/${admin.id}`);
+        const response = await axios.delete(`${api.admin_apis.remove_admin_user}/${admin.id}`);
         if (response.data.Success) {
           alert("Admin Removed Successfully");
           admins();
@@ -168,7 +168,7 @@ const AdminsCRUDControl = () => {
   return (
     <div>
       <div className="admin-crud-consoles">
-        <div className="hods-crud-console">
+        <div className="admin-users-crud-console">
           <div>
             <Button variant="contained" startIcon={<AddIcon />} onClick={() => setShowModal(true)}>Add Admin</Button>
           </div>
@@ -197,7 +197,7 @@ const AdminsCRUDControl = () => {
                     <Button variant="contained" color="primary" onClick={() => openEditModal(admin)}>Edit</Button>
                   </TableCell>
                   <TableCell align="center">
-                    <Button variant="outlined" color="error" onClick={() => remove_hod(admin)} startIcon={<DeleteIcon />}>Delete</Button>
+                    <Button variant="outlined" color="error" onClick={() => removeAdminUser(admin)} startIcon={<DeleteIcon />}>Delete</Button>
                   </TableCell>
                 </TableRow>
               ))}
@@ -305,7 +305,7 @@ const AdminsCRUDControl = () => {
                   </Grid>
                 </Grid>
               </Box>
-              <Button variant="contained" onClick={update_hod} style={{ marginTop: 20 }}>Update</Button>
+              <Button variant="contained" onClick={updateAdminUser} style={{ marginTop: 20 }}>Update</Button>
             </div>
           </div>
         </Modal>

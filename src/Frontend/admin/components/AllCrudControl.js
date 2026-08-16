@@ -1,12 +1,3 @@
-import ApartmentIcon from '@mui/icons-material/Apartment';
-import CollectionsIcon from '@mui/icons-material/Collections';
-import DescriptionIcon from '@mui/icons-material/Description';
-import LinkIcon from '@mui/icons-material/Link';
-import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
-import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
-import SlideshowIcon from '@mui/icons-material/Slideshow';
-import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
@@ -15,6 +6,17 @@ import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import React, { useMemo } from 'react';
+import {
+  FaBell,
+  FaBuilding,
+  FaFileAlt,
+  FaImages,
+  FaLink,
+  FaPhotoVideo,
+  FaSitemap,
+  FaUserShield,
+  FaVideo,
+} from 'react-icons/fa';
 import { Link as RouterLink } from 'react-router-dom';
 import { useAuth } from '../../Authentications/AuthContext';
 import { canAccessPage, normalizeRole } from '../../Authentications/accessControl';
@@ -30,47 +32,47 @@ const consoleSections = [
     page: 'notification-console',
     title: 'Notification Console',
     description: 'Create, edit, publish, scroll, archive, and manage public notifications.',
-    icon: <NotificationsActiveIcon />,
+    icon: <FaBell />,
     group: 'Content',
     roles: ['admin', 'developer', 'updates'],
   },
   {
     page: 'carousel-console',
-    title: 'Carousel Console',
+    title: 'Carousel Images',
     description: 'Upload, edit, add, and remove public carousel images.',
-    icon: <SlideshowIcon />,
-    group: 'Media',
+    icon: <FaPhotoVideo />,
+    group: 'Media Management',
     roles: ['admin', 'developer', 'webadmin'],
   },
   {
     page: 'news-console',
     title: 'Press Notes',
     description: 'Create and maintain press notes and news-style public updates.',
-    icon: <DescriptionIcon />,
+    icon: <FaFileAlt />,
     group: 'Content',
     roles: ['admin', 'developer', 'webadmin'],
   },
   {
     page: 'gallery-console',
-    title: 'Gallery Console',
+    title: 'Gallery Images',
     description: 'Upload, review, and manage public gallery images.',
-    icon: <CollectionsIcon />,
-    group: 'Media',
+    icon: <FaImages />,
+    group: 'Media Management',
     roles: ['admin', 'developer', 'webadmin'],
   },
   {
     page: 'event-gallery-console',
-    title: 'Event Gallery',
-    description: 'Bulk upload photo albums for a particular event.',
-    icon: <CollectionsIcon />,
-    group: 'Media',
+    title: 'Event Albums',
+    description: 'Create, preview, edit, publish, and delete public event photo albums.',
+    icon: <FaImages />,
+    group: 'Media Management',
     roles: ['admin', 'developer', 'webadmin'],
   },
   {
     page: 'colleges-console',
     title: 'Colleges Console',
     description: 'Manage affiliated colleges and keep constituent/autonomous college sections grouped.',
-    icon: <ApartmentIcon />,
+    icon: <FaBuilding />,
     group: 'Organization',
     roles: ['admin', 'developer', 'affiliatedcolleges', 'affliatedcolleges'],
   },
@@ -78,7 +80,7 @@ const consoleSections = [
     page: 'youtube-console',
     title: 'YouTube Console',
     description: 'Add video IDs and publish them to the public YouTube section.',
-    icon: <VideoLibraryIcon />,
+    icon: <FaVideo />,
     group: 'Content',
     roles: ['admin', 'developer', 'webadmin', 'updates'],
   },
@@ -86,7 +88,7 @@ const consoleSections = [
     page: 'site-navigation',
     title: 'Site Navigation',
     description: 'Manage all public navigation links, dropdowns, reference keys, and CMS targets.',
-    icon: <LinkIcon />,
+    icon: <FaLink />,
     group: 'Website CMS',
     roles: ['admin', 'developer', 'updates'],
   },
@@ -94,7 +96,7 @@ const consoleSections = [
     page: 'admin-home',
     title: 'Admin Control',
     description: 'Manage administrator accounts, roles, and approved organizational emails.',
-    icon: <ManageAccountsIcon />,
+    icon: <FaUserShield />,
     group: 'System',
     roles: ['admin'],
   },
@@ -102,21 +104,13 @@ const consoleSections = [
     page: 'directors',
     title: 'Directors',
     description: 'Maintain directorate profiles and director records.',
-    icon: <PeopleAltIcon />,
+    icon: <FaSitemap />,
     group: 'Organization',
     roles: ['admin'],
   },
-  {
-    page: 'hods',
-    title: 'Directorate Uploads',
-    description: 'Manage directorate/HOD upload sections.',
-    icon: <DescriptionIcon />,
-    group: 'Organization',
-    roles: ['admin', 'developer', 'directors'],
-  },
 ];
 
-const groupOrder = ['Website CMS', 'Content', 'Media', 'Organization', 'System'];
+const groupOrder = ['Website CMS', 'Content', 'Media Management', 'Organization', 'System'];
 
 const groupSections = (sections = []) =>
   groupOrder

@@ -21,11 +21,13 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { alpha, useTheme } from "@mui/material/styles";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import DashboardCustomizeIcon from "@mui/icons-material/DashboardCustomize";
-import LogoutIcon from "@mui/icons-material/Logout";
-import MenuIcon from "@mui/icons-material/Menu";
-import PersonIcon from "@mui/icons-material/Person";
+import {
+  FaBars,
+  FaChevronLeft,
+  FaSignOutAlt,
+  FaThLarge,
+  FaUser,
+} from "react-icons/fa";
 import { Link as RouterLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import AllMenu from "./Menu";
@@ -36,6 +38,7 @@ import { canAccessPage } from "../../Authentications/accessControl";
 import "./Dashboard.css";
 
 const drawerWidth = 292;
+const collapsedDrawerWidth = 72;
 
 const roleMenuKey = (role) => {
   const normalizedRole = String(role || "").trim().toLowerCase();
@@ -71,9 +74,15 @@ export default function Dashboard() {
   const location = useLocation();
   const isDesktop = useMediaQuery(theme.breakpoints.up("lg"));
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [drawerCollapsed, setDrawerCollapsed] = React.useState(() => {
+    const savedState = localStorage.getItem("adminSidebarCollapsed");
+    return savedState === null ? true : savedState === "true";
+  });
   const [uiScale, setUiScale] = React.useState(
     () => localStorage.getItem("adminUiScale") || "compact",
   );
+  const activeDrawerWidth =
+    isDesktop && drawerCollapsed ? collapsedDrawerWidth : drawerWidth;
 
   const menuItems = (AllMenu[roleMenuKey(user?.role)] || [])
     .filter((route) => canAccessPage(user?.role, route.to));
@@ -92,6 +101,14 @@ export default function Dashboard() {
     localStorage.setItem("adminUiScale", scale);
   };
 
+  const toggleDesktopDrawer = () => {
+    setDrawerCollapsed((current) => {
+      const next = !current;
+      localStorage.setItem("adminSidebarCollapsed", String(next));
+      return next;
+    });
+  };
+
   const handleLogout = async () => {
     try {
       await axios.post(APIs.admin_apis.logout);
@@ -103,6 +120,7 @@ export default function Dashboard() {
 
   const drawerContent = (
     <Box
+      className={drawerCollapsed && isDesktop ? "admin-sidebar-shell admin-sidebar-collapsed" : "admin-sidebar-shell"}
       sx={{
         height: "100%",
         display: "flex",
@@ -112,15 +130,21 @@ export default function Dashboard() {
         borderRight: "1px solid #dbe4f0",
       }}
     >
-      <Box sx={{ p: 2.25 }}>
-        <Stack direction="row" alignItems="center" spacing={1.5}>
+      <Box sx={{ p: drawerCollapsed && isDesktop ? 1 : 2 }}>
+        <Stack
+          direction={drawerCollapsed && isDesktop ? "column" : "row"}
+          alignItems="center"
+          spacing={drawerCollapsed && isDesktop ? 0.75 : 1.25}
+          justifyContent={drawerCollapsed && isDesktop ? "center" : "flex-start"}
+          className="admin-sidebar-brand-row"
+        >
           <Box
             component="img"
             src={jntugvlogo}
             alt="JNTU-GV"
             sx={{
-              width: 50,
-              height: 50,
+              width: drawerCollapsed && isDesktop ? 42 : 48,
+              height: drawerCollapsed && isDesktop ? 42 : 48,
               borderRadius: "50%",
               background: "#fff",
               border: "1px solid #dbe4f0",
@@ -128,6 +152,7 @@ export default function Dashboard() {
               
             }}
           />
+          {!(drawerCollapsed && isDesktop) && (
           <Box sx={{ minWidth: 0 }}>
             <Typography variant="subtitle1" sx={{ fontWeight: 800, lineHeight: 1.1 }}>
               JNTU-GV
@@ -136,18 +161,30 @@ export default function Dashboard() {
               Admin Control Centre
             </Typography>
           </Box>
+          )}
+          {isDesktop && (
+            <IconButton
+              aria-label={drawerCollapsed ? "Expand menu" : "Minimize menu"}
+              onClick={toggleDesktopDrawer}
+              className="admin-sidebar-collapse-button"
+              sx={{ ml: drawerCollapsed ? 0 : "auto", color: "#0f172a" }}
+            >
+              {drawerCollapsed ? <FaBars /> : <FaChevronLeft />}
+            </IconButton>
+          )}
           {!isDesktop && (
             <IconButton
               aria-label="Close menu"
               onClick={() => setMobileOpen(false)}
               sx={{ ml: "auto", color: "#0f172a" }}
             >
-              <ChevronLeftIcon />
+              <FaChevronLeft />
             </IconButton>
           )}
         </Stack>
       </Box>
 
+      {!(drawerCollapsed && isDesktop) && (
       <Box sx={{ px: 2.25, pb: 2 }}>
         <Box
           sx={{
@@ -184,19 +221,29 @@ export default function Dashboard() {
           />
         </Box>
       </Box>
+      )}
 
       <Divider sx={{ borderColor: "#e2e8f0" }} />
 
-      <Box sx={{ px: 1.25, py: 1.5, flex: 1, overflowY: "auto" }}>
+      <Box
+        sx={{
+          px: drawerCollapsed && isDesktop ? 0.75 : 1.25,
+          py: drawerCollapsed && isDesktop ? 1 : 1.25,
+          flex: 1,
+          overflowY: "auto",
+        }}
+      >
         <List className="admin-sidebar-menu-list">
           {groupedMenuItems.map((section) => (
             <Box className="admin-sidebar-menu-section" key={section.group}>
+              {!(drawerCollapsed && isDesktop) && (
               <Typography variant="overline" className="admin-menu-overline">
                 {section.group}
               </Typography>
+              )}
               {section.items.map((route) => {
                 const selected = location.pathname === `/dashboard/${route.to}`;
-                return (
+                const menuButton = (
                   <ListItem key={route.to} disablePadding sx={{ mb: 0.55 }}>
                     <ListItemButton
                       className={
@@ -210,25 +257,33 @@ export default function Dashboard() {
                       selected={selected}
                     >
                       <ListItemIcon className="admin-sidebar-menu-icon">{route.icon}</ListItemIcon>
+                      {!(drawerCollapsed && isDesktop) && (
                       <ListItemText
                         primary={route.text}
                         className="admin-sidebar-menu-text"
                         primaryTypographyProps={{
                           component: "span",
                           noWrap: true,
-                          fontSize: "0.9rem",
+                          fontSize: "0.82rem",
                         }}
                       />
+                      )}
                     </ListItemButton>
                   </ListItem>
                 );
+                return drawerCollapsed && isDesktop ? (
+                  <Tooltip key={route.to} title={route.text} placement="right">
+                    {menuButton}
+                  </Tooltip>
+                ) : menuButton;
               })}
             </Box>
           ))}
         </List>
       </Box>
 
-      <Box sx={{ p: 1.25, borderTop: "1px solid #e2e8f0" }}>
+      <Box sx={{ p: drawerCollapsed && isDesktop ? 0.75 : 1.25, borderTop: "1px solid #e2e8f0" }}>
+        <Tooltip title="My Profile" placement="right" disableHoverListener={!(drawerCollapsed && isDesktop)}>
         <ListItemButton
           className="admin-sidebar-profile-link"
           component={RouterLink}
@@ -236,14 +291,24 @@ export default function Dashboard() {
           onClick={() => setMobileOpen(false)}
         >
           <ListItemIcon className="admin-sidebar-profile-icon">
-            <PersonIcon />
+            <FaUser />
           </ListItemIcon>
+          {!(drawerCollapsed && isDesktop) && (
           <ListItemText primary="My Profile" />
+          )}
         </ListItemButton>
+        </Tooltip>
+        {drawerCollapsed && isDesktop ? (
+          <Tooltip title="Logout" placement="right">
+            <IconButton className="admin-sidebar-logout-icon" onClick={handleLogout} aria-label="Logout">
+              <FaSignOutAlt />
+            </IconButton>
+          </Tooltip>
+        ) : (
         <Button
           fullWidth
           variant="contained"
-          startIcon={<LogoutIcon />}
+          startIcon={<FaSignOutAlt />}
           onClick={handleLogout}
           sx={{
             justifyContent: "flex-start",
@@ -258,6 +323,7 @@ export default function Dashboard() {
         >
           Logout
         </Button>
+        )}
       </Box>
     </Box>
   );
@@ -269,15 +335,15 @@ export default function Dashboard() {
         elevation={0}
         position="fixed"
         sx={{
-          width: { lg: `calc(100% - ${drawerWidth}px)` },
-          ml: { lg: `${drawerWidth}px` },
+          width: { lg: `calc(100% - ${activeDrawerWidth}px)` },
+          ml: { lg: `${activeDrawerWidth}px` },
           color: "#0f172a",
           bgcolor: "rgba(255,255,255,.9)",
           backdropFilter: "blur(14px)",
           borderBottom: "1px solid #dbe4f0",
         }}
       >
-        <Toolbar sx={{ minHeight: 68, px: { xs: 1.5, md: 3 } }}>
+        <Toolbar sx={{ minHeight: 58, px: { xs: 1.25, md: 2 } }}>
           {!isDesktop && (
             <IconButton
               edge="start"
@@ -285,17 +351,17 @@ export default function Dashboard() {
               onClick={() => setMobileOpen(true)}
               sx={{ mr: 1.5 }}
             >
-              <MenuIcon />
+              <FaBars />
             </IconButton>
           )}
           <Box sx={{ flex: 1, minWidth: 0 }}>
             <Stack direction="row" alignItems="center" spacing={1}>
-              <DashboardCustomizeIcon color="primary" />
-              <Typography variant="h6" noWrap sx={{ fontWeight: 800 }}>
+              <FaThLarge className="admin-toolbar-icon" />
+              <Typography variant="h6" noWrap sx={{ fontWeight: 800, fontSize: "1rem" }}>
                 {activeItem?.text || "Dashboard"}
               </Typography>
             </Stack>
-            <Typography variant="body2" color="text.secondary" noWrap>
+            <Typography variant="body2" color="text.secondary" noWrap sx={{ fontSize: "0.82rem" }}>
               Jawaharlal Nehru Technological University - Gurajada Vizianagaram
             </Typography>
           </Box>
@@ -308,6 +374,7 @@ export default function Dashboard() {
                 borderRadius: 999,
                 bgcolor: alpha(theme.palette.primary.main, 0.08),
                 fontWeight: 700,
+                fontSize: "0.78rem",
               }}
             />
           </Tooltip>
@@ -328,7 +395,7 @@ export default function Dashboard() {
         </Toolbar>
       </AppBar>
 
-      <Box component="nav" sx={{ width: { lg: drawerWidth }, flexShrink: { lg: 0 } }}>
+      <Box component="nav" sx={{ width: { lg: activeDrawerWidth }, flexShrink: { lg: 0 } }}>
         <Drawer
           variant="temporary"
           open={mobileOpen}
@@ -345,7 +412,15 @@ export default function Dashboard() {
           variant="permanent"
           sx={{
             display: { xs: "none", lg: "block" },
-            "& .MuiDrawer-paper": { width: drawerWidth, border: 0 },
+            "& .MuiDrawer-paper": {
+              width: activeDrawerWidth,
+              border: 0,
+              overflowX: "hidden",
+              transition: theme.transitions.create("width", {
+                easing: theme.transitions.easing.sharp,
+                duration: theme.transitions.duration.shorter,
+              }),
+            },
           }}
           open
         >
@@ -357,9 +432,9 @@ export default function Dashboard() {
         component="main"
         sx={{
           flexGrow: 1,
-          width: { lg: `calc(100% - ${drawerWidth}px)` },
+          width: { lg: `calc(100% - ${activeDrawerWidth}px)` },
           minHeight: "100vh",
-          pt: { xs: 10, sm: 11 },
+          pt: { xs: 8.5, sm: 9 },
           px: { xs: 1.25, md: 2 },
           pb: 2,
         }}
