@@ -1,0 +1,122 @@
+name: Production Deploy - Controllers Admin
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: controllers-admin-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Build and Deploy Admin Console
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build Admin Console
+        env:
+          CI: false
+          DISABLE_ESLINT_PLUGIN: true
+          REACT_APP_API_URL: https://api.jntugv.edu.in
+        run: npm run build
+
+      - name: Deploy Application via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          port: ${{ secrets.SSH_PORT }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            set -e
+
+            APP_DIR="${{ secrets.ADMIN_APP_DIR }}"
+            PM2_NAME="${{ secrets.ADMIN_PM2_NAME }}"
+            ADMIN_PORT="${{ secrets.ADMIN_PORT }}"
+            HEALTH_URL_LOCAL="${{ secrets.ADMIN_HEALTH_URL_LOCAL }}"
+
+            if [ -z "$APP_DIR" ]; then
+              APP_DIR="/home/jntugv-admin/htdocs/admin.jntugv.edu.in/Controllers"
+            fi
+
+            if [ -z "$PM2_NAME" ]; then
+              PM2_NAME="JNTUGV ADMIN"
+            fi
+
+            if [ -z "$ADMIN_PORT" ]; then
+              ADMIN_PORT="3001"
+            fi
+
+            if [ -z "$HEALTH_URL_LOCAL" ]; then
+              HEALTH_URL_LOCAL="http://127.0.0.1:${ADMIN_PORT}/login"
+            fi
+
+            echo "======================================="
+            echo "Starting Controllers Admin deployment"
+            echo "======================================="
+
+            cd "$APP_DIR"
+
+            if [ ! -f ".env" ]; then
+              echo "Production .env is missing in $APP_DIR"
+              exit 1
+            fi
+
+            if ! grep -q "^REACT_APP_API_URL=" .env; then
+              echo "Missing required .env key: REACT_APP_API_URL"
+              exit 1
+            fi
+
+            echo "Fetching latest code"
+            git fetch origin
+            git checkout main
+            git reset --hard origin/main
+
+            echo "Preserving runtime files and cleaning repository"
+            git clean -fd -e .env -e .env.local -e build/
+
+            echo "Installing dependencies"
+            npm ci --no-audit --no-fund
+
+            echo "Building Admin Console"
+            export CI=false
+            export DISABLE_ESLINT_PLUGIN=true
+            npm run build
+
+            echo "Serving Admin Console with PM2 on port ${ADMIN_PORT}"
+            if pm2 describe "$PM2_NAME" > /dev/null; then
+              pm2 delete "$PM2_NAME"
+            fi
+
+            pm2 serve build "$ADMIN_PORT" --name "$PM2_NAME" --spa
+            pm2 save
+
+            echo "Waiting for Admin Console startup"
+            sleep 5
+
+            echo "Running local health check: $HEALTH_URL_LOCAL"
+            if curl --silent --fail "$HEALTH_URL_LOCAL" > /dev/null; then
+              echo "Local Admin Console health check passed"
+              echo "======================================="
+              echo "Controllers Admin deployment successful"
+              echo "======================================="
+            else
+              echo "Admin Console health check failed"
+              pm2 logs "$PM2_NAME" --lines 80 --nostream || true
+              exit 1
+            fi
