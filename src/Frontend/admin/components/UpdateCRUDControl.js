@@ -80,6 +80,8 @@ const Updates = () => {
     is_static: "false",
     expiry_date: "",
     revised_date: "",
+    embed_qr_code: "false",
+    qr_placement: "append_page",
     submitted_by: 'admin',
   });
 
@@ -115,6 +117,15 @@ const Updates = () => {
       return;
     }
 
+    if (name === "embed_qr_code") {
+      setEventData({
+        ...eventData,
+        embed_qr_code: value,
+        qr_placement: value === "true" ? eventData.qr_placement || "append_page" : "append_page",
+      });
+      return;
+    }
+
     setEventData({
       ...eventData,
       [name]: value,
@@ -142,6 +153,8 @@ const Updates = () => {
     formData.append("is_static", eventData.is_static);
     formData.append("expiry_date", eventData.expiry_date);
     formData.append("revised_date", eventData.revised_date);
+    formData.append("embed_qr_code", eventData.embed_qr_code);
+    formData.append("qr_placement", eventData.qr_placement);
     formData.append("submitted_by", eventData.submitted_by);
     if (file) {
       formData.append('file', file);
@@ -186,6 +199,8 @@ const Updates = () => {
       is_static: String(event.is_static ?? "false"),
       expiry_date: event.expiry_date ? event.expiry_date.slice(0, 10) : "",
       revised_date: event.revised_date ? event.revised_date.slice(0, 10) : "",
+      embed_qr_code: "false",
+      qr_placement: "append_page",
     });
     setFile(null);  // Reset the file input
     setIsEditing(true);  // Set the editing mode
@@ -206,6 +221,8 @@ const Updates = () => {
     formData.append("is_static", eventData.is_static);
     formData.append("expiry_date", eventData.expiry_date);
     formData.append("revised_date", eventData.revised_date);
+    formData.append("embed_qr_code", eventData.embed_qr_code);
+    formData.append("qr_placement", eventData.qr_placement);
     formData.append("submitted_by", eventData.submitted_by);
     if (file) {
       formData.append('file', file);
@@ -265,6 +282,8 @@ const Updates = () => {
       is_static: "false",
       expiry_date: "",
       revised_date: "",
+      embed_qr_code: "false",
+      qr_placement: "append_page",
       submitted_by: 'admin',
     });
     setFile(null);
@@ -417,8 +436,39 @@ const Updates = () => {
               />
             </Box>
             <Typography variant="body2" color="text.secondary">
-              Note: PDF files are stored with a secure unique name. The API automatically adds a QR code that opens the final uploaded PDF link.
+              Note: QR codes are optional. Use them only when the document needs printed verification.
             </Typography>
+            <Box sx={{ mb: 2, mt: 1 }}>
+              <FormControl fullWidth>
+                <InputLabel>Embed QR in PDF</InputLabel>
+                <Select
+                  name="embed_qr_code"
+                  value={String(eventData.embed_qr_code ?? "false")}
+                  onChange={handleInputChange}
+                >
+                  <MenuItem value="false">No - keep original PDF unchanged</MenuItem>
+                  <MenuItem value="true">Yes - add branded verification QR</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
+            {String(eventData.embed_qr_code) === "true" && (
+              <Box sx={{ mb: 2 }}>
+                <FormControl fullWidth>
+                  <InputLabel>QR Placement</InputLabel>
+                  <Select
+                    name="qr_placement"
+                    value={eventData.qr_placement || "append_page"}
+                    onChange={handleInputChange}
+                  >
+                    <MenuItem value="append_page">Separate verification page - safest</MenuItem>
+                    <MenuItem value="first_page_corner">First page bottom-right corner</MenuItem>
+                  </Select>
+                </FormControl>
+                <Typography variant="caption" color="text.secondary">
+                  Separate page avoids hiding text. Use corner placement only when the PDF has clear margin space.
+                </Typography>
+              </Box>
+            )}
             <Box sx={{ mb: 2 }}>
 
               <Button variant="contained" component="label" startIcon={<CloudUploadIcon />}>
