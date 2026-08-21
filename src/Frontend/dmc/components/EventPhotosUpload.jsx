@@ -3,8 +3,8 @@ import { Button, Container, FormControl, InputLabel, MenuItem, Select, TextField
 import axios from 'axios';
 import React, { useState } from 'react';
 import mods from '../../Main/Component/Logins/Login';
-const ips = require("../../api.json");
-const api_ip = process.env.REACT_APP_API_URL || ips.server_ip;
+import ips from "../../api.json";
+const api_ip = (import.meta.env && import.meta.env.VITE_API_URL) ? import.meta.env.VITE_API_URL : ips.server_ip;;
 const toDateInputValue = (value = new Date()) => {
   const date = value instanceof Date ? value : new Date(value);
   if (Number.isNaN(date.getTime())) return "";

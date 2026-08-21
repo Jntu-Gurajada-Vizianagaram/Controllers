@@ -80,8 +80,8 @@ const Updates = () => {
     is_static: "false",
     expiry_date: "",
     revised_date: "",
-    embed_qr_code: "false",
-    qr_placement: "append_page",
+    embed_qr_code: "true",
+    qr_placement: "first_page_corner",
     submitted_by: 'admin',
   });
 
@@ -121,7 +121,7 @@ const Updates = () => {
       setEventData({
         ...eventData,
         embed_qr_code: value,
-        qr_placement: value === "true" ? eventData.qr_placement || "append_page" : "append_page",
+        qr_placement: value === "true" ? eventData.qr_placement || "first_page_corner" : "first_page_corner",
       });
       return;
     }
@@ -199,8 +199,8 @@ const Updates = () => {
       is_static: String(event.is_static ?? "false"),
       expiry_date: event.expiry_date ? event.expiry_date.slice(0, 10) : "",
       revised_date: event.revised_date ? event.revised_date.slice(0, 10) : "",
-      embed_qr_code: "false",
-      qr_placement: "append_page",
+      embed_qr_code: String(event.embed_qr_code ?? "true"),
+      qr_placement: event.qr_placement || "first_page_corner",
     });
     setFile(null);  // Reset the file input
     setIsEditing(true);  // Set the editing mode
@@ -282,8 +282,8 @@ const Updates = () => {
       is_static: "false",
       expiry_date: "",
       revised_date: "",
-      embed_qr_code: "false",
-      qr_placement: "append_page",
+      embed_qr_code: "true",
+      qr_placement: "first_page_corner",
       submitted_by: 'admin',
     });
     setFile(null);
@@ -436,18 +436,18 @@ const Updates = () => {
               />
             </Box>
             <Typography variant="body2" color="text.secondary">
-              Note: QR codes are optional. Use them only when the document needs printed verification.
+              Default: each notification PDF gets a QR code at the first page bottom-right corner with no extra text overlay.
             </Typography>
             <Box sx={{ mb: 2, mt: 1 }}>
               <FormControl fullWidth>
                 <InputLabel>Embed QR in PDF</InputLabel>
                 <Select
                   name="embed_qr_code"
-                  value={String(eventData.embed_qr_code ?? "false")}
+                  value={String(eventData.embed_qr_code ?? "true")}
                   onChange={handleInputChange}
                 >
-                  <MenuItem value="false">No - keep original PDF unchanged</MenuItem>
                   <MenuItem value="true">Yes - add branded verification QR</MenuItem>
+                  <MenuItem value="false">No - keep original PDF unchanged</MenuItem>
                 </Select>
               </FormControl>
             </Box>
@@ -457,15 +457,15 @@ const Updates = () => {
                   <InputLabel>QR Placement</InputLabel>
                   <Select
                     name="qr_placement"
-                    value={eventData.qr_placement || "append_page"}
+                    value={eventData.qr_placement || "first_page_corner"}
                     onChange={handleInputChange}
                   >
-                    <MenuItem value="append_page">Separate verification page - safest</MenuItem>
-                    <MenuItem value="first_page_corner">First page bottom-right corner</MenuItem>
+                    <MenuItem value="first_page_corner">First page bottom-right corner (default, no text)</MenuItem>
+                    <MenuItem value="append_page">Separate verification page</MenuItem>
                   </Select>
                 </FormControl>
                 <Typography variant="caption" color="text.secondary">
-                  Separate page avoids hiding text. Use corner placement only when the PDF has clear margin space.
+                  First page corner placement keeps the original layout clean and avoids hiding text on the first page.
                 </Typography>
               </Box>
             )}

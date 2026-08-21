@@ -1,8 +1,10 @@
+
+
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Admin from "./Frontend/admin/components/Admin";
 import AllCrudControls from "./Frontend/admin/components/AllCrudControl";
-import AllRecordsControls from './Frontend/admin/components/AllRecordsControl.js';
+import AllRecordsControls from './Frontend/admin/components/AllRecordsControl.jsx';
 import DirectorsCRUDControl from "./Frontend/admin/components/DirectorsCRUDControl";
 import ForgotPassword from "./Frontend/Authentications/components/ForgotPassword";
 import Login from "./Frontend/Authentications/components/Login";
@@ -23,6 +25,7 @@ import GalleryConsole from "./Frontend/consoles/GalleryConsole";
 import EventGalleryConsole from "./Frontend/consoles/EventGalleryConsole";
 import CollegesConsole from "./Frontend/consoles/CollegesConsole";
 import YoutubeConsole from "./Frontend/consoles/YoutubeConsole";
+import ExecutiveCouncilConsole from "./Frontend/executiveCouncil/ExecutiveCouncilConsole";
 import DeveloperDashboard from "./Frontend/developer/DeveloperDashboard";
 function App() {
   return (
@@ -59,6 +62,7 @@ function App() {
               <Route path="notification-console" element={<AuthorizedRoute page="notification-console"><NotificationConsole /></AuthorizedRoute>} />
               <Route path="updates" element={<AuthorizedRoute page="notification-console"><NotificationConsole /></AuthorizedRoute>} />
               <Route path="youtube-console" element={<AuthorizedRoute page="youtube-console"><YoutubeConsole /></AuthorizedRoute>} />
+              <Route path="executive-council-console" element={<AuthorizedRoute page="executive-council-console"><ExecutiveCouncilConsole /></AuthorizedRoute>} />
               <Route path="site-navigation" element={<AuthorizedRoute page="site-navigation"><SiteNavigation /></AuthorizedRoute>} />
               <Route path="*" element={<Navigate to="/restrictedaccess" replace />} />
             </Route>

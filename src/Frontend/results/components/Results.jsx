@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 
 const Results = () => {
     const ips =require('../../api.json')
-    const api_ip = process.env.REACT_APP_API_URL || ips.server_ip
+    const api_ip = import.meta.VITE_API_URL || ips.server_ip; || 
     const [filenames,setFilenames] = useState([]);
     // const [filepath,setFilepath] = useState([]);
 

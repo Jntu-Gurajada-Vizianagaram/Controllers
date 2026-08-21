@@ -10,6 +10,7 @@ import {
   FaPhotoVideo,
   FaQuestionCircle,
   FaSitemap,
+  FaUserFriends,
   FaVideo,
 } from 'react-icons/fa';
 
@@ -27,6 +28,7 @@ const coreAdminMenu = [
   item('gallery-console', 'Gallery Images', <FaImages />, 'Media Management'),
   item('event-gallery-console', 'Event Albums', <FaImages />, 'Media Management'),
   item('colleges-console', 'Colleges', <FaBuilding />, 'Organization'),
+  item('executive-council-console', 'Executive Council', <FaUserFriends />, 'Organization'),
   item('directors', 'Directors', <FaSitemap />, 'Organization'),
   item('help', 'Support', <FaQuestionCircle />, 'Support'),
 ];
@@ -42,6 +44,7 @@ const developerMenu = [
   item('gallery-console', 'Gallery Images', <FaImages />, 'Media Management'),
   item('event-gallery-console', 'Event Albums', <FaImages />, 'Media Management'),
   item('colleges-console', 'Colleges', <FaBuilding />, 'Organization'),
+  item('executive-council-console', 'Executive Council', <FaUserFriends />, 'Organization'),
   item('help', 'Support', <FaQuestionCircle />, 'Support'),
 ];
 

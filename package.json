@@ -2,6 +2,7 @@
   "name": "login",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
@@ -34,23 +35,25 @@
     "pdf-lib": "^1.17.1",
     "qrcode": "^1.5.4",
     "qrcode.react": "^4.0.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react-icons": "^4.11.0",
     "react-markdown": "^9.0.3",
     "react-router-dom": "^6.16.0",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^5.0.1",
     "styled-components": "^6.1.0",
     "uuid": "^9.0.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "client": "react-scripts start",
-    "start": "npm run client",
-    "dev": "npm run client",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "dev": "vite",
+    "client": "vite",
+    "start": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "server": "nodemon server.js",
+    "server:dev": "nodemon server.js",
+    "dev:all": "concurrently \"npm run server\" \"npm run dev\""
   },
   "eslintConfig": {
     "extends": [
@@ -70,6 +73,10 @@
     ]
   },
   "devDependencies": {
-    "concurrently": "^8.2.2"
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "@vitejs/plugin-react": "^6.1.0",
+    "concurrently": "^8.2.2",
+    "vite": "^8.2.2"
   }
 }

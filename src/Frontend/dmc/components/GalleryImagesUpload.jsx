@@ -22,8 +22,8 @@ import { canDeleteRecords } from '../../Authentications/accessControl';
 import "../css/DMCUpload.css";
 import "../css/Gallery.css";
 
-const ips = require("../../api.json");
-const api_ip = process.env.REACT_APP_API_URL || ips.server_ip;
+import ips from "../../api.json";
+const api_ip = (import.meta.env && import.meta.env.VITE_API_URL) ? import.meta.env.VITE_API_URL : ips.server_ip;;
 
 const GalleryImagesUpload = () => {
   const user = useAuth();

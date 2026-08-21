@@ -9,6 +9,7 @@ import {
   FaImages,
   FaLink,
   FaPhotoVideo,
+  FaUserFriends,
   FaVideo,
 } from 'react-icons/fa';
 
@@ -60,6 +61,12 @@ const consoleSections = [
     description: 'Maintain affiliated college records from the organization console.',
     icon: <FaBuilding />,
     to: '/dashboard/colleges-console',
+  },
+  {
+    title: 'Executive Council',
+    description: 'Manage the university Executive Council roster, roles, designations, and affiliations.',
+    icon: <FaUserFriends />,
+    to: '/dashboard/executive-council-console',
   },
   {
     title: 'API Dashboard',

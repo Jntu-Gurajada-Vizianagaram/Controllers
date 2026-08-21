@@ -14,6 +14,7 @@ import {
   FaLink,
   FaPhotoVideo,
   FaSitemap,
+  FaUserFriends,
   FaUserShield,
   FaVideo,
 } from 'react-icons/fa';
@@ -75,6 +76,14 @@ const consoleSections = [
     icon: <FaBuilding />,
     group: 'Organization',
     roles: ['admin', 'developer', 'affiliatedcolleges', 'affliatedcolleges'],
+  },
+  {
+    page: 'executive-council-console',
+    title: 'Executive Council Console',
+    description: 'Manage EC members, roles, designations, and university affiliation records.',
+    icon: <FaUserFriends />,
+    group: 'Organization',
+    roles: ['admin', 'developer', 'updates'],
   },
   {
     page: 'youtube-console',

@@ -4,8 +4,8 @@ import axios from 'axios';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from "@mui/material";
 import { useAuth } from '../../Authentications/AuthContext';
 import { canDeleteRecords } from '../../Authentications/accessControl';
-const ips = require("../../api.json");
-const api_ip = process.env.REACT_APP_API_URL || ips.server_ip;
+import ips from "../../api.json";
+const api_ip = (import.meta.env && import.meta.env.VITE_API_URL) ? import.meta.env.VITE_API_URL : ips.server_ip;
 
 function CarouselDisplay() {
   const user = useAuth();
