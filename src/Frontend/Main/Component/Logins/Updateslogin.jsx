@@ -4,15 +4,17 @@ import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
-import SystemUpdateAltIcon from '@mui/icons-material/SystemUpdateAlt';
+import SystemUpdateAltIconModule from '@mui/icons-material/SystemUpdateAlt';
 import { Link as RouterLink } from "react-router-dom";
 import Checkbox from "@mui/material/Checkbox";
 import { FormControlLabel } from "@mui/material";
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import {  createTheme,ThemeProvider } from '@mui/material/styles';
+import resolveMuiIcon from '../../../utils/resolveMuiIcon';
 
 const defaultTheme = createTheme();
+const SystemUpdateAltIcon = resolveMuiIcon(SystemUpdateAltIconModule);
 
 const Updateslogin = () =>{
     return(

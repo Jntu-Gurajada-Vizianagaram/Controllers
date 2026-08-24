@@ -121,7 +121,7 @@ const Login = () => {
     }
 
     let active = true;
-    axios.get(APIs.admin_apis.session)
+    axios.get(APIs.admin_apis.session, { withCredentials: true })
       .then(() => {
         if (active) navigate('/dashboard', { replace: true });
       })
@@ -202,7 +202,11 @@ const Login = () => {
     }
     setLoading(true);
     try {
-      const response = await axios.post(APIs.admin_apis.login, { credentials: { username, password } });
+      const response = await axios.post(
+        APIs.admin_apis.login,
+        { credentials: { username, password } },
+        { withCredentials: true },
+      );
 
       if (response.data && response.data.islogin) {
         setAlert({

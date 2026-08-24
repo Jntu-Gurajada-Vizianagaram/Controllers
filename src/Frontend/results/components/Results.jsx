@@ -1,9 +1,10 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import ips from '../../api.json'
+
+const api_ip = import.meta.env?.VITE_API_URL || ips.server_ip;
 
 const Results = () => {
-    const ips =require('../../api.json')
-    const api_ip = import.meta.VITE_API_URL || ips.server_ip; || 
     const [filenames,setFilenames] = useState([]);
     // const [filepath,setFilepath] = useState([]);
 

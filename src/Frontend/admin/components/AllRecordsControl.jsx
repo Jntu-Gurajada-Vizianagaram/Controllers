@@ -1,5 +1,5 @@
-import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
-import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import NavigateBeforeIconModule from '@mui/icons-material/NavigateBefore';
+import NavigateNextIconModule from '@mui/icons-material/NavigateNext';
 import {
   Box,
   Button,
@@ -20,7 +20,11 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../Authentications/AuthContext';
 import { canDeleteRecords } from '../../Authentications/accessControl';
 import api from '../../Main/apis_data/APIs';
+import resolveMuiIcon from '../../utils/resolveMuiIcon';
 import '../css/ConsoleManagement.css';
+
+const NavigateBeforeIcon = resolveMuiIcon(NavigateBeforeIconModule);
+const NavigateNextIcon = resolveMuiIcon(NavigateNextIconModule);
 
 const RECENT_NOTIFICATION_COUNT = 10;
 const PAGE_SIZE = 25;

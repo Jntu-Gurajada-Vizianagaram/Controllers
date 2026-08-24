@@ -25,7 +25,7 @@ export default function ProtectedRoute() {
 
   useEffect(() => {
     let active = true;
-    axios.get(APIs.admin_apis.session)
+    axios.get(APIs.admin_apis.session, { withCredentials: true })
       .then((response) => {
         const user = response.data.user;
         localStorage.setItem('accesser', JSON.stringify({

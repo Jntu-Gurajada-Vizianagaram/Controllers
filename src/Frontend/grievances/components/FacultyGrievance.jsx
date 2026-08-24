@@ -1,6 +1,9 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { TextField, Button, Typography, Container, Paper, InputLabel, Select, MenuItem, FormControl, Input } from '@mui/material';
+import ips from '../../api.json';
+
+const api_ip = (import.meta.env && import.meta.env.VITE_API_URL) ? import.meta.env.VITE_API_URL : ips.server_ip;
 
 const FacultyGrievance = () => {
   const [rollno, setRollno] = useState("");
@@ -12,8 +15,6 @@ const FacultyGrievance = () => {
   const [category, setCategory] = useState("");
   const [msg, setMsg] = useState("");
   const [file, setFile] = useState("");
-import ips from '../../api.json';
-const api_ip = (import.meta.env && import.meta.env.VITE_API_URL) ? import.meta.env.VITE_API_URL : ips.server_ip;
 
   const sendMail = async () => {
     alert("Sending Mail...");

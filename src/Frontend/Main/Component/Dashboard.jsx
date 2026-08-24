@@ -111,7 +111,7 @@ export default function Dashboard() {
 
   const handleLogout = async () => {
     try {
-      await axios.post(APIs.admin_apis.logout);
+      await axios.post(APIs.admin_apis.logout, {}, { withCredentials: true });
     } finally {
       localStorage.clear();
       navigate("/login", { replace: true });

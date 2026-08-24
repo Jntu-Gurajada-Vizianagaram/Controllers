@@ -1,18 +1,23 @@
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import LogoutIcon from '@mui/icons-material/Logout';
-import SpaceDashboardIcon from '@mui/icons-material/SpaceDashboard';
+import LockOutlinedIconModule from '@mui/icons-material/LockOutlined';
+import LogoutIconModule from '@mui/icons-material/Logout';
+import SpaceDashboardIconModule from '@mui/icons-material/SpaceDashboard';
 import { Box, Button, Paper, Stack, Typography } from '@mui/material';
 import axios from 'axios';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import APIs from '../apis_data/APIs';
+import resolveMuiIcon from '../../utils/resolveMuiIcon';
+
+const LockOutlinedIcon = resolveMuiIcon(LockOutlinedIconModule);
+const LogoutIcon = resolveMuiIcon(LogoutIconModule);
+const SpaceDashboardIcon = resolveMuiIcon(SpaceDashboardIconModule);
 
 const RestrictedPage = () => {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
-      await axios.post(APIs.admin_apis.logout);
+      await axios.post(APIs.admin_apis.logout, {}, { withCredentials: true });
     } finally {
       localStorage.clear();
       navigate('/login', { replace: true });

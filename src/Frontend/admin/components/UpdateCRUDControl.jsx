@@ -1,6 +1,6 @@
-import AddIcon from '@mui/icons-material/Add';
-import CloseIcon from '@mui/icons-material/Close';
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import AddIconModule from '@mui/icons-material/Add';
+import CloseIconModule from '@mui/icons-material/Close';
+import CloudUploadIconModule from '@mui/icons-material/CloudUpload';
 import {
   Box,
   Button,
@@ -11,6 +11,7 @@ import {
   Modal,
   Paper,
   Select,
+  Switch,
   Table,
   TableBody,
   TableCell,
@@ -26,7 +27,12 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../Authentications/AuthContext';
 import { canDeleteRecords } from '../../Authentications/accessControl';
 import api from '../../Main/apis_data/APIs';
+import resolveMuiIcon from '../../utils/resolveMuiIcon';
 import '../css/Updates.css';
+
+const AddIcon = resolveMuiIcon(AddIconModule);
+const CloseIcon = resolveMuiIcon(CloseIconModule);
+const CloudUploadIcon = resolveMuiIcon(CloudUploadIconModule);
 
 // Hidden input for file uploads
 const VisuallyHiddenInput = styled('input')({
@@ -58,6 +64,9 @@ const fallbackUpdateTypes = [
   { code: "notice", label: "Notices" },
 ];
 
+const DEFAULT_EMBED_QR_CODE = "true";
+const DEFAULT_QR_PLACEMENT = "first_page_corner";
+
 const Updates = () => {
   const user = useAuth();
   const canDelete = canDeleteRecords(user?.role);
@@ -80,8 +89,6 @@ const Updates = () => {
     is_static: "false",
     expiry_date: "",
     revised_date: "",
-    embed_qr_code: "true",
-    qr_placement: "first_page_corner",
     submitted_by: 'admin',
   });
 
@@ -117,18 +124,18 @@ const Updates = () => {
       return;
     }
 
-    if (name === "embed_qr_code") {
-      setEventData({
-        ...eventData,
-        embed_qr_code: value,
-        qr_placement: value === "true" ? eventData.qr_placement || "first_page_corner" : "first_page_corner",
-      });
-      return;
-    }
-
     setEventData({
       ...eventData,
       [name]: value,
+    });
+  };
+
+  const handleStaticToggle = (e) => {
+    const value = e.target.checked ? "true" : "false";
+    setEventData({
+      ...eventData,
+      is_static: value,
+      expiry_date: value === "true" ? eventData.expiry_date : "",
     });
   };
 
@@ -153,8 +160,8 @@ const Updates = () => {
     formData.append("is_static", eventData.is_static);
     formData.append("expiry_date", eventData.expiry_date);
     formData.append("revised_date", eventData.revised_date);
-    formData.append("embed_qr_code", eventData.embed_qr_code);
-    formData.append("qr_placement", eventData.qr_placement);
+    formData.append("embed_qr_code", DEFAULT_EMBED_QR_CODE);
+    formData.append("qr_placement", DEFAULT_QR_PLACEMENT);
     formData.append("submitted_by", eventData.submitted_by);
     if (file) {
       formData.append('file', file);
@@ -199,8 +206,6 @@ const Updates = () => {
       is_static: String(event.is_static ?? "false"),
       expiry_date: event.expiry_date ? event.expiry_date.slice(0, 10) : "",
       revised_date: event.revised_date ? event.revised_date.slice(0, 10) : "",
-      embed_qr_code: String(event.embed_qr_code ?? "true"),
-      qr_placement: event.qr_placement || "first_page_corner",
     });
     setFile(null);  // Reset the file input
     setIsEditing(true);  // Set the editing mode
@@ -221,8 +226,8 @@ const Updates = () => {
     formData.append("is_static", eventData.is_static);
     formData.append("expiry_date", eventData.expiry_date);
     formData.append("revised_date", eventData.revised_date);
-    formData.append("embed_qr_code", eventData.embed_qr_code);
-    formData.append("qr_placement", eventData.qr_placement);
+    formData.append("embed_qr_code", DEFAULT_EMBED_QR_CODE);
+    formData.append("qr_placement", DEFAULT_QR_PLACEMENT);
     formData.append("submitted_by", eventData.submitted_by);
     if (file) {
       formData.append('file', file);
@@ -282,8 +287,6 @@ const Updates = () => {
       is_static: "false",
       expiry_date: "",
       revised_date: "",
-      embed_qr_code: "true",
-      qr_placement: "first_page_corner",
       submitted_by: 'admin',
     });
     setFile(null);
@@ -312,19 +315,22 @@ const Updates = () => {
             maxHeight: '80vh',
           }}
         >
-          <Typography variant="h5" component="h2">
+          <Typography variant="h5" component="h2" sx={{ fontWeight: 800, mb: 0.5 }}>
             {isEditing ? 'Edit Notification' : 'Add Notification'}
           </Typography>
+          <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+            Enter the notification details below. PDF verification QR is handled automatically by the API.
+          </Typography>
           <Button
-            variant="contained"
+            variant="outlined"
             startIcon={<CloseIcon />}
             onClick={() => setShowModal(false)}
-            sx={{ mb: 2 }}
+            sx={{ mb: 2, borderRadius: 2, textTransform: 'none', fontWeight: 700 }}
           >
             Close
           </Button>
           <form>
-            <Box sx={{ mb: 2 }}>
+            <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap: 2, mb: 2 }}>
               <TextField
                 fullWidth
                 type="date"
@@ -334,36 +340,41 @@ const Updates = () => {
                 onChange={handleInputChange}
                 required
                 InputLabelProps={{ shrink: true }}
+                helperText="Official notification release date."
               />
-            </Box>
-            <Box sx={{ mb: 2 }}>
               <TextField
                 fullWidth
                 label="Notification Title"
                 name="title"
                 value={eventData.title}
                 onChange={handleInputChange}
+                required
+                placeholder="Enter clear public-facing title"
+                helperText="Use a short, searchable title."
               />
             </Box>
-            <Box sx={{ mb: 2 }}>
+            <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap: 2, mb: 2 }}>
               <TextField
                 fullWidth
-                label="External Text For Links"
+                label="External Link Text"
                 name="external_text"
                 value={eventData.external_text}
                 onChange={handleInputChange}
+                placeholder="Example: Click here to apply"
+                helperText="Optional text shown when using an external link."
               />
-            </Box>
-            <Box sx={{ mb: 2 }}>
               <TextField
                 fullWidth
+                type="url"
                 label="External Link"
                 name="external_link"
                 value={eventData.external_link}
                 onChange={handleInputChange}
+                placeholder="https://example.com/notice"
+                helperText="Optional. Use only when the notification points to another page."
               />
             </Box>
-            <Box sx={{ mb: 2 }}>
+            <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap: 2, mb: 2 }}>
               <FormControl fullWidth>
                 <InputLabel>Department</InputLabel>
                 <Select
@@ -378,8 +389,6 @@ const Updates = () => {
                   ))}
                 </Select>
               </FormControl>
-            </Box>
-            <Box sx={{ mb: 2 }}>
               <FormControl fullWidth>
                 <InputLabel>Type of Update</InputLabel>
                 <Select
@@ -395,21 +404,47 @@ const Updates = () => {
                 </Select>
               </FormControl>
             </Box>
-            <Box sx={{ mb: 2 }}>
-              <FormControl fullWidth>
-                <InputLabel>Static Notification</InputLabel>
-                <Select
-                  name="is_static"
-                  value={String(eventData.is_static ?? "false")}
-                  onChange={handleInputChange}
-                >
-                  <MenuItem value="false">False</MenuItem>
-                  <MenuItem value="true">True</MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
-            {String(eventData.is_static) === "true" && (
-              <Box sx={{ mb: 2 }}>
+            <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap: 2, mb: 2 }}>
+              <Box
+                sx={{
+                  minHeight: 56,
+                  px: 2,
+                  py: 1,
+                  border: '1px solid #cfd8e3',
+                  borderRadius: 1,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: 2,
+                  bgcolor: String(eventData.is_static) === "true" ? '#f0f7ff' : '#fff',
+                }}
+              >
+                <Box>
+                  <Typography variant="subtitle2" sx={{ fontWeight: 800 }}>
+                    Static Notification
+                  </Typography>
+                  <Box sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.75, mt: 0.25 }}>
+                    <Box
+                      component="span"
+                      sx={{
+                        width: 8,
+                        height: 8,
+                        borderRadius: '50%',
+                        bgcolor: String(eventData.is_static) === "true" ? '#15803d' : '#64748b',
+                      }}
+                    />
+                    <Typography variant="caption" color="text.secondary">
+                      {String(eventData.is_static) === "true" ? "Static" : "Regular"}
+                    </Typography>
+                  </Box>
+                </Box>
+                <Switch
+                  checked={String(eventData.is_static) === "true"}
+                  onChange={handleStaticToggle}
+                  inputProps={{ 'aria-label': 'Toggle static notification' }}
+                />
+              </Box>
+              {String(eventData.is_static) === "true" && (
                 <TextField
                   fullWidth
                   required
@@ -421,9 +456,7 @@ const Updates = () => {
                   InputLabelProps={{ shrink: true }}
                   helperText="Static notifications remain in the homepage ticker until this date."
                 />
-              </Box>
-            )}
-            <Box sx={{ mb: 2 }}>
+              )}
               <TextField
                 fullWidth
                 type="date"
@@ -435,47 +468,23 @@ const Updates = () => {
                 helperText="Use this when a notification is revised and must move back to the latest tracking date."
               />
             </Box>
-            <Typography variant="body2" color="text.secondary">
-              Default: each notification PDF gets a QR code at the first page bottom-right corner with no extra text overlay.
-            </Typography>
-            <Box sx={{ mb: 2, mt: 1 }}>
-              <FormControl fullWidth>
-                <InputLabel>Embed QR in PDF</InputLabel>
-                <Select
-                  name="embed_qr_code"
-                  value={String(eventData.embed_qr_code ?? "true")}
-                  onChange={handleInputChange}
-                >
-                  <MenuItem value="true">Yes - add branded verification QR</MenuItem>
-                  <MenuItem value="false">No - keep original PDF unchanged</MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
-            {String(eventData.embed_qr_code) === "true" && (
-              <Box sx={{ mb: 2 }}>
-                <FormControl fullWidth>
-                  <InputLabel>QR Placement</InputLabel>
-                  <Select
-                    name="qr_placement"
-                    value={eventData.qr_placement || "first_page_corner"}
-                    onChange={handleInputChange}
-                  >
-                    <MenuItem value="first_page_corner">First page bottom-right corner (default, no text)</MenuItem>
-                    <MenuItem value="append_page">Separate verification page</MenuItem>
-                  </Select>
-                </FormControl>
-                <Typography variant="caption" color="text.secondary">
-                  First page corner placement keeps the original layout clean and avoids hiding text on the first page.
-                </Typography>
-              </Box>
-            )}
-            <Box sx={{ mb: 2 }}>
-
-              <Button variant="contained" component="label" startIcon={<CloudUploadIcon />}>
+            <Box sx={{ mb: 2, p: 2, border: '1px dashed #9bb7d6', borderRadius: 2.5, bgcolor: '#f8fbff' }}>
+              <Typography variant="subtitle2" sx={{ fontWeight: 800, mb: 1 }}>
+                Notification PDF
+              </Typography>
+              <Button variant="contained" component="label" startIcon={<CloudUploadIcon />} sx={{ borderRadius: 2, textTransform: 'none', fontWeight: 800 }}>
                 Upload PDF File
                 <VisuallyHiddenInput type="file" accept="application/pdf" onChange={handleFileChange} />
               </Button>
-              {file && <Typography variant="body2">{file.name}</Typography>}
+              {file ? (
+                <Typography variant="body2" sx={{ mt: 1, color: '#0f5132', fontWeight: 700 }}>
+                  Selected: {file.name}
+                </Typography>
+              ) : (
+                <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 1 }}>
+                  Upload a PDF notification. The backend adds the verification QR automatically when the first-page corner is clear.
+                </Typography>
+              )}
             </Box>
             <Box sx={{ mb: 2 }}>
               <Button fullWidth variant="contained" color="primary" onClick={handleSubmit}>

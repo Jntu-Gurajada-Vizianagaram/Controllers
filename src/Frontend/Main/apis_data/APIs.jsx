@@ -1,5 +1,5 @@
 import api from '../../api.json'
-const api_ip = import.meta.VITE_API_URL || api.server_ip;
+const api_ip = import.meta.env?.VITE_API_URL || api.server_ip;
 
 const allapis= {
     admin_apis:{

@@ -1,10 +1,12 @@
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import CloudUploadIconModule from '@mui/icons-material/CloudUpload';
 import { Button, Container, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import axios from 'axios';
 import React, { useState } from 'react';
 import mods from '../../Main/Component/Logins/Login';
 import ips from "../../api.json";
+import resolveMuiIcon from '../../utils/resolveMuiIcon';
 const api_ip = (import.meta.env && import.meta.env.VITE_API_URL) ? import.meta.env.VITE_API_URL : ips.server_ip;;
+const CloudUploadIcon = resolveMuiIcon(CloudUploadIconModule);
 const toDateInputValue = (value = new Date()) => {
   const date = value instanceof Date ? value : new Date(value);
   if (Number.isNaN(date.getTime())) return "";

@@ -1,6 +1,6 @@
-import AddIcon from '@mui/icons-material/Add';
-import CloseIcon from '@mui/icons-material/Close';
-import DeleteIcon from '@mui/icons-material/Delete';
+import AddIconModule from '@mui/icons-material/Add';
+import CloseIconModule from '@mui/icons-material/Close';
+import DeleteIconModule from '@mui/icons-material/Delete';
 import { Box, Card, Grid, Modal, TextField, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
@@ -13,6 +13,11 @@ import TableRow from '@mui/material/TableRow';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import api from '../../Main/apis_data/APIs';
+import resolveMuiIcon from '../../utils/resolveMuiIcon';
+
+const AddIcon = resolveMuiIcon(AddIconModule);
+const CloseIcon = resolveMuiIcon(CloseIconModule);
+const DeleteIcon = resolveMuiIcon(DeleteIconModule);
 
 const AdminsCRUDControl = () => {
   const [allAdmins, setAllAdmins] = useState([]);

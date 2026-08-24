@@ -1,4 +1,4 @@
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import CloudUploadIconModule from '@mui/icons-material/CloudUpload';
 import {
   Box,
   Button,
@@ -19,11 +19,13 @@ import axios from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useAuth } from '../../Authentications/AuthContext';
 import { canDeleteRecords } from '../../Authentications/accessControl';
+import resolveMuiIcon from '../../utils/resolveMuiIcon';
 import "../css/DMCUpload.css";
 import "../css/Gallery.css";
 
 import ips from "../../api.json";
 const api_ip = (import.meta.env && import.meta.env.VITE_API_URL) ? import.meta.env.VITE_API_URL : ips.server_ip;;
+const CloudUploadIcon = resolveMuiIcon(CloudUploadIconModule);
 
 const GalleryImagesUpload = () => {
   const user = useAuth();
