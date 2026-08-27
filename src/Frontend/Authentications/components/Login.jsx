@@ -272,7 +272,7 @@ const Login = () => {
       title: "Constituent Colleges",
       links: [
         { label: "JNTU-GV College of Engineering, Vizianagaram (CEV)", href: "https://jntugvcev.edu.in/", external: true },
-        { label: "JNTU-GV College of Pharmaceutical Sciences, Vizianagaram (CPSV)", href: "https://jntugvcpsv.jntugv.edu.in/", external: true },
+        { label: "JNTU-GV College of Pharmaceutical Sciences, Vizianagaram (CPSV)", href: "https://jntugvcps.edu.in/", external: true },
         { label: "JNTU-GV Tribal College of Engineering, Kurupam (TECK)", href: "https://teck.jntugv.edu.in/", external: true },
       ],
     },

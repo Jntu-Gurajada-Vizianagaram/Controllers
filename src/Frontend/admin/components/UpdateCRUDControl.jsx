@@ -67,6 +67,21 @@ const fallbackUpdateTypes = [
 const DEFAULT_EMBED_QR_CODE = "true";
 const DEFAULT_QR_PLACEMENT = "first_page_corner";
 
+const toDateInputValue = (value, fallback = "") => {
+  if (!value) return fallback;
+  if (typeof value === "string" && /^\d{4}-\d{2}-\d{2}/.test(value)) {
+    return value.slice(0, 10);
+  }
+
+  const date = value instanceof Date ? value : new Date(value);
+  if (Number.isNaN(date.getTime())) return fallback;
+
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
+
 const Updates = () => {
   const user = useAuth();
   const canDelete = canDeleteRecords(user?.role);
@@ -79,7 +94,7 @@ const Updates = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [eventData, setEventData] = useState({
     id: null,
-    date: new Date().toISOString().slice(0, 10),
+    date: toDateInputValue(new Date()),
     title: "",
     file_path: "",
     external_link: "",
@@ -173,7 +188,7 @@ const Updates = () => {
       getEvents();
       setShowModal(false);
     } catch (error) {
-      alert("Event Failed to Add..");
+      alert(error.response?.data?.error || error.response?.data?.message || "Event Failed to Add..");
     }
   };
 
@@ -202,10 +217,10 @@ const Updates = () => {
   const openEditModal = (event) => {
     setEventData({
       ...event,
-      date: event.date ? event.date.slice(0, 10) : new Date().toISOString().slice(0, 10),
+      date: toDateInputValue(event.date, toDateInputValue(new Date())),
       is_static: String(event.is_static ?? "false"),
-      expiry_date: event.expiry_date ? event.expiry_date.slice(0, 10) : "",
-      revised_date: event.revised_date ? event.revised_date.slice(0, 10) : "",
+      expiry_date: toDateInputValue(event.expiry_date),
+      revised_date: toDateInputValue(event.revised_date),
     });
     setFile(null);  // Reset the file input
     setIsEditing(true);  // Set the editing mode
@@ -248,7 +263,7 @@ const Updates = () => {
         alert('Failed to update the event. Please try again.');
       }
     } catch (error) {
-      alert('Error updating event. Please try again.');
+      alert(error.response?.data?.error || error.response?.data?.message || 'Error updating event. Please try again.');
     }
   };
 
@@ -277,7 +292,7 @@ const Updates = () => {
   const openModalForAdding = () => {
     setEventData({
       id: null,
-      date: new Date().toISOString().slice(0, 10),
+      date: toDateInputValue(new Date()),
       title: "",
       file_path: "",
       external_text: "",
