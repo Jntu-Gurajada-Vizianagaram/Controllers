@@ -44,6 +44,7 @@ const allapis= {
         admin_navbar:`${api_ip}/api/site/admin/navbar`,
         public_youtube_videos:`${api_ip}/api/site/youtube-videos`,
         admin_youtube_videos:`${api_ip}/api/site/admin/youtube-videos`,
+        admin_executive_council:`${api_ip}/api/website/admin/executive-council`,
     },
     press_notes_apis:{
         public_press_notes:`${api_ip}/api/press-notes`,

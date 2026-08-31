@@ -1,123 +1,91 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import axios from 'axios';
 import {
+  Alert,
   Box,
   Button,
   Card,
   CardContent,
   CardMedia,
+  Checkbox,
   Divider,
+  FormControlLabel,
   Grid,
   Paper,
   Stack,
   TextField,
   Typography,
 } from '@mui/material';
+import APIs from '../Main/apis_data/APIs';
+import { useAuth } from '../Authentications/AuthContext';
+import { canDeleteRecords } from '../Authentications/accessControl';
+import { ConsolePage } from '../consoles/ConsolePage';
 
-const defaultMembers = [
-  {
-    id: 1,
-    name: 'Prof. V. V. Subba Rao',
-    roleInEc: 'Chairperson',
-    designation: 'Vice-Chancellor',
-    affiliation: 'JNTU-GV Administration',
-    image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=900&q=80',
-  },
-  {
-    id: 2,
-    name: 'Prof. D. Rajya Lakshmi',
-    roleInEc: 'Secretary',
-    designation: 'Registrar',
-    affiliation: 'University Administration',
-    image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=900&q=80',
-  },
-  {
-    id: 3,
-    name: 'Prof. G. Jaya Suma',
-    roleInEc: 'Member',
-    designation: 'Director, Academic Audit & Planning',
-    affiliation: 'Directorates, JNTU-GV',
-    image: 'https://images.unsplash.com/photo-1504593811423-6dd665756598?auto=format&fit=crop&w=900&q=80',
-  },
-  {
-    id: 4,
-    name: 'Prof. K. Chandra Bhusan Rao',
-    roleInEc: 'Member',
-    designation: 'Principal, Constituent College',
-    affiliation: 'College of Engineering Vizianagaram (A)',
-    image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=900&q=80',
-  },
-  {
-    id: 5,
-    name: 'Dr. G. Ramesh',
-    roleInEc: 'Member',
-    designation: 'Dean, Infrastructure & Facilities',
-    affiliation: 'University Infrastructure Wing',
-    image: 'https://images.unsplash.com/photo-1504593811423-6dd665756598?auto=format&fit=crop&w=900&q=80',
-  },
-  {
-    id: 6,
-    name: 'Prof. G. Swami Naidu',
-    roleInEc: 'Member',
-    designation: 'Director, Research & Development',
-    affiliation: 'Research & Development Cell',
-    image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=900&q=80',
-  },
-  {
-    id: 7,
-    name: 'Dr. R. Uma Maheswari',
-    roleInEc: 'Member',
-    designation: 'Controller of Examinations',
-    affiliation: 'Examination Branch',
-    image: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=900&q=80',
-  },
-  {
-    id: 8,
-    name: 'Prof. P. S. Subrahmanyam',
-    roleInEc: 'Ex-Officio Member',
-    designation: 'Dean, Student Affairs',
-    affiliation: 'Student Services & University Administration',
-    image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=900&q=80',
-  },
-];
-
-const storageKey = 'jntugv-executive-council-members';
+const fallbackImage = 'https://dummyimage.com/900x600/f1f5f9/1e293b&text=JNTU-GV';
 
 const emptyForm = {
   name: '',
-  roleInEc: '',
+  roleInEc: 'Member',
   designation: '',
   affiliation: '',
   image: '',
+  sortOrder: 0,
+  isActive: true,
 };
 
-const readMembers = () => {
-  try {
-    const saved = localStorage.getItem(storageKey);
-    if (!saved) return defaultMembers;
-    const parsed = JSON.parse(saved);
-    return Array.isArray(parsed) && parsed.length ? parsed : defaultMembers;
-  } catch (error) {
-    return defaultMembers;
-  }
-};
+const normalizeMember = (member = {}) => ({
+  id: member.id,
+  name: member.name || '',
+  roleInEc: member.roleInEc || member.role_in_ec || 'Member',
+  designation: member.designation || '',
+  affiliation: member.affiliation || '',
+  image: member.image || member.image_url || '',
+  sortOrder: Number(member.sortOrder ?? member.sort_order ?? 0),
+  isActive: member.isActive ?? member.is_active ?? true,
+});
 
 export default function ExecutiveCouncilConsole() {
-  const [members, setMembers] = useState(() => readMembers());
+  const user = useAuth();
+  const canDelete = canDeleteRecords(user?.role);
+  const [members, setMembers] = useState([]);
   const [form, setForm] = useState(emptyForm);
   const [editingId, setEditingId] = useState(null);
-
-  useEffect(() => {
-    localStorage.setItem(storageKey, JSON.stringify(members));
-  }, [members]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
 
   const sortedMembers = useMemo(
-    () => [...members].sort((a, b) => String(a.name).localeCompare(String(b.name))),
+    () =>
+      [...members].sort((a, b) => {
+        const orderDifference = Number(a.sortOrder || 0) - Number(b.sortOrder || 0);
+        return orderDifference || String(a.name).localeCompare(String(b.name));
+      }),
     [members],
   );
 
+  const loadMembers = async () => {
+    setIsLoading(true);
+    setError('');
+    try {
+      const response = await axios.get(APIs.site_apis.admin_executive_council);
+      setMembers(Array.isArray(response.data) ? response.data.map(normalizeMember) : []);
+    } catch (loadError) {
+      setError(loadError.response?.data?.error || 'Unable to load Executive Council members');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadMembers();
+  }, []);
+
   const handleFieldChange = (event) => {
-    const { name, value } = event.target;
-    setForm((current) => ({ ...current, [name]: value }));
+    const { name, value, checked, type } = event.target;
+    setForm((current) => ({
+      ...current,
+      [name]: type === 'checkbox' ? checked : value,
+    }));
   };
 
   const resetForm = () => {
@@ -125,83 +93,112 @@ export default function ExecutiveCouncilConsole() {
     setEditingId(null);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    setMessage('');
+    setError('');
 
-    const cleanMember = {
+    const payload = {
       name: form.name.trim(),
       roleInEc: form.roleInEc.trim() || 'Member',
       designation: form.designation.trim(),
       affiliation: form.affiliation.trim(),
-      image: form.image.trim() || 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=900&q=80',
+      image: form.image.trim(),
+      sortOrder: Number(form.sortOrder || 0),
+      isActive: Boolean(form.isActive),
     };
 
-    if (!cleanMember.name || !cleanMember.designation || !cleanMember.affiliation) {
+    if (!payload.name || !payload.designation || !payload.affiliation) {
+      setError('Name, designation, and affiliation are required');
       return;
     }
 
-    setMembers((current) => {
+    try {
       if (editingId) {
-        return current.map((member) =>
-          member.id === editingId ? { ...member, ...cleanMember } : member,
-        );
+        await axios.put(`${APIs.site_apis.admin_executive_council}/${editingId}`, payload);
+        setMessage('Executive Council member updated');
+      } else {
+        await axios.post(APIs.site_apis.admin_executive_council, payload);
+        setMessage('Executive Council member added');
       }
-
-      return [
-        ...current,
-        {
-          id: Date.now(),
-          ...cleanMember,
-        },
-      ];
-    });
-
-    resetForm();
+      resetForm();
+      loadMembers();
+    } catch (submitError) {
+      setError(submitError.response?.data?.error || 'Unable to save Executive Council member');
+    }
   };
 
   const handleEdit = (member) => {
-    setEditingId(member.id);
+    const normalized = normalizeMember(member);
+    setEditingId(normalized.id);
     setForm({
-      name: member.name,
-      roleInEc: member.roleInEc,
-      designation: member.designation,
-      affiliation: member.affiliation,
-      image: member.image,
+      name: normalized.name,
+      roleInEc: normalized.roleInEc,
+      designation: normalized.designation,
+      affiliation: normalized.affiliation,
+      image: normalized.image,
+      sortOrder: normalized.sortOrder,
+      isActive: Boolean(normalized.isActive),
     });
   };
 
-  const handleDelete = (memberId) => {
-    setMembers((current) => current.filter((member) => member.id !== memberId));
-    if (editingId === memberId) {
-      resetForm();
+  const handleDelete = async (member) => {
+    if (!window.confirm(`Delete "${member.name}" from Executive Council?`)) return;
+
+    setMessage('');
+    setError('');
+    try {
+      await axios.delete(`${APIs.site_apis.admin_executive_council}/${member.id}`);
+      setMessage('Executive Council member deleted');
+      if (editingId === member.id) resetForm();
+      loadMembers();
+    } catch (deleteError) {
+      setError(deleteError.response?.data?.error || 'Unable to delete Executive Council member');
     }
   };
 
   return (
-    <Box sx={{ display: 'grid', gap: 3 }}>
-      <Paper elevation={0} sx={{ p: 3, border: '1px solid #e5e7eb', borderRadius: 3 }}>
-        <Stack direction={{ xs: 'column', md: 'row' }} justifyContent="space-between" spacing={2} alignItems={{ xs: 'flex-start', md: 'center' }}>
+    <ConsolePage
+      title="Executive Council Manager"
+      description="Create, edit, sort, publish, and hide Executive Council members shown on the public website."
+    >
+      {message ? <Alert severity="success" sx={{ mb: 2 }}>{message}</Alert> : null}
+      {error ? <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert> : null}
+
+      <Paper elevation={0} sx={{ p: 3, border: '1px solid #e5e7eb', borderRadius: 3, mb: 3 }}>
+        <Stack
+          direction={{ xs: 'column', md: 'row' }}
+          justifyContent="space-between"
+          spacing={2}
+          alignItems={{ xs: 'flex-start', md: 'center' }}
+        >
           <Box>
-            <Typography variant="overline" sx={{ color: '#475569', fontWeight: 800 }}>Administrative CMS</Typography>
-            <Typography variant="h4" sx={{ fontWeight: 900, color: '#111827' }}>Executive Council Manager</Typography>
+            <Typography variant="overline" sx={{ color: '#475569', fontWeight: 800 }}>
+              Administrative CMS
+            </Typography>
+            <Typography variant="h5" sx={{ fontWeight: 900, color: '#111827' }}>
+              {editingId ? 'Edit council member' : 'Add council member'}
+            </Typography>
           </Box>
-          <Button variant="contained" onClick={resetForm} sx={{ borderRadius: 2, textTransform: 'none' }}>
+          <Button variant="outlined" onClick={resetForm} sx={{ borderRadius: 2, textTransform: 'none' }}>
             {editingId ? 'Reset edit' : 'Clear form'}
           </Button>
         </Stack>
-      </Paper>
 
-      <Paper elevation={0} sx={{ p: 3, border: '1px solid #e5e7eb', borderRadius: 3 }}>
-        <Typography variant="h6" sx={{ mb: 2, fontWeight: 800, color: '#111827' }}>
-          {editingId ? 'Edit council member' : 'Add council member'}
-        </Typography>
-        <Box component="form" onSubmit={handleSubmit} sx={{ display: 'grid', gap: 2 }}>
+        <Box component="form" onSubmit={handleSubmit} sx={{ display: 'grid', gap: 2, mt: 3 }}>
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
               <TextField fullWidth label="Name" name="name" value={form.name} onChange={handleFieldChange} required />
             </Grid>
             <Grid item xs={12} md={6}>
-              <TextField fullWidth label="Role in EC" name="roleInEc" value={form.roleInEc} onChange={handleFieldChange} placeholder="Chairperson / Member" />
+              <TextField
+                fullWidth
+                label="Role in EC"
+                name="roleInEc"
+                value={form.roleInEc}
+                onChange={handleFieldChange}
+                placeholder="Chairperson / Secretary / Member"
+              />
             </Grid>
             <Grid item xs={12} md={6}>
               <TextField fullWidth label="Designation" name="designation" value={form.designation} onChange={handleFieldChange} required />
@@ -209,10 +206,18 @@ export default function ExecutiveCouncilConsole() {
             <Grid item xs={12} md={6}>
               <TextField fullWidth label="College / Society / Administration" name="affiliation" value={form.affiliation} onChange={handleFieldChange} required />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} md={8}>
               <TextField fullWidth label="Image URL" name="image" value={form.image} onChange={handleFieldChange} placeholder="https://example.com/member.jpg" />
             </Grid>
+            <Grid item xs={12} md={4}>
+              <TextField fullWidth label="Sort Order" name="sortOrder" type="number" value={form.sortOrder} onChange={handleFieldChange} />
+            </Grid>
           </Grid>
+
+          <FormControlLabel
+            control={<Checkbox name="isActive" checked={Boolean(form.isActive)} onChange={handleFieldChange} />}
+            label="Publish on public website"
+          />
 
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.5}>
             <Button type="submit" variant="contained" sx={{ borderRadius: 2, textTransform: 'none' }}>
@@ -226,31 +231,60 @@ export default function ExecutiveCouncilConsole() {
       </Paper>
 
       <Paper elevation={0} sx={{ p: 3, border: '1px solid #e5e7eb', borderRadius: 3 }}>
-        <Typography variant="h6" sx={{ mb: 2, fontWeight: 800, color: '#111827' }}>Council roster</Typography>
+        <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" spacing={1.5} sx={{ mb: 2 }}>
+          <Typography variant="h6" sx={{ fontWeight: 800, color: '#111827' }}>
+            Council roster
+          </Typography>
+          <Button variant="text" onClick={loadMembers} sx={{ textTransform: 'none' }}>
+            Refresh
+          </Button>
+        </Stack>
+
+        {isLoading ? <Alert severity="info">Loading Executive Council members...</Alert> : null}
+        {!isLoading && !sortedMembers.length ? (
+          <Alert severity="warning">No Executive Council members found. Add the first member above.</Alert>
+        ) : null}
+
         <Grid container spacing={2}>
           {sortedMembers.map((member) => (
             <Grid item xs={12} md={6} xl={4} key={member.id}>
               <Card sx={{ height: '100%', borderRadius: 3, overflow: 'hidden', border: '1px solid #e5e7eb' }}>
-                <CardMedia component="img" height="220" image={member.image || defaultMembers[0].image} alt={member.name} sx={{ objectFit: 'cover' }} />
+                <CardMedia
+                  component="img"
+                  height="220"
+                  image={member.image || fallbackImage}
+                  alt={member.name}
+                  sx={{ objectFit: 'cover', bgcolor: '#f8fafc' }}
+                />
                 <CardContent sx={{ display: 'grid', gap: 1.25 }}>
-                  <Typography variant="overline" sx={{ fontWeight: 800, color: '#6b7280' }}>{member.roleInEc || 'Member'}</Typography>
-                  <Typography variant="h6" sx={{ fontWeight: 800, color: '#111827' }}>{member.name}</Typography>
+                  <Typography variant="overline" sx={{ fontWeight: 800, color: '#6b7280' }}>
+                    {member.roleInEc || 'Member'} · {member.isActive ? 'Published' : 'Hidden'}
+                  </Typography>
+                  <Typography variant="h6" sx={{ fontWeight: 800, color: '#111827' }}>
+                    {member.name}
+                  </Typography>
                   <Box>
-                    <Typography variant="caption" sx={{ display: 'block', color: '#64748b', fontWeight: 700 }}>Designation</Typography>
+                    <Typography variant="caption" sx={{ display: 'block', color: '#64748b', fontWeight: 700 }}>
+                      Designation
+                    </Typography>
                     <Typography variant="body2" sx={{ color: '#111827' }}>{member.designation}</Typography>
                   </Box>
                   <Box>
-                    <Typography variant="caption" sx={{ display: 'block', color: '#64748b', fontWeight: 700 }}>College / Society / Administration</Typography>
+                    <Typography variant="caption" sx={{ display: 'block', color: '#64748b', fontWeight: 700 }}>
+                      College / Society / Administration
+                    </Typography>
                     <Typography variant="body2" sx={{ color: '#111827' }}>{member.affiliation}</Typography>
                   </Box>
                   <Divider />
-                  <Stack direction="row" spacing={1}>
+                  <Stack direction="row" spacing={1} flexWrap="wrap">
                     <Button size="small" variant="contained" onClick={() => handleEdit(member)} sx={{ borderRadius: 2, textTransform: 'none' }}>
                       Edit
                     </Button>
-                    <Button size="small" color="error" variant="outlined" onClick={() => handleDelete(member.id)} sx={{ borderRadius: 2, textTransform: 'none' }}>
-                      Delete
-                    </Button>
+                    {canDelete ? (
+                      <Button size="small" color="error" variant="outlined" onClick={() => handleDelete(member)} sx={{ borderRadius: 2, textTransform: 'none' }}>
+                        Delete
+                      </Button>
+                    ) : null}
                   </Stack>
                 </CardContent>
               </Card>
@@ -258,6 +292,6 @@ export default function ExecutiveCouncilConsole() {
           ))}
         </Grid>
       </Paper>
-    </Box>
+    </ConsolePage>
   );
 }

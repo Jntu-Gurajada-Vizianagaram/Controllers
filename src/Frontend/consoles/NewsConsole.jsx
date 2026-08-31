@@ -11,14 +11,19 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
+import CloudUploadIconModule from "@mui/icons-material/CloudUpload";
+import EditIconModule from "@mui/icons-material/Edit";
+import DeleteIconModule from "@mui/icons-material/Delete";
 import APIs from "../Main/apis_data/APIs";
 import { useAuth } from "../Authentications/AuthContext";
 import { canDeleteRecords } from "../Authentications/accessControl";
+import resolveMuiIcon from "../utils/resolveMuiIcon";
 import { ConsolePage } from "./ConsolePage";
 import "./PressNotesConsole.css";
+
+const CloudUploadIcon = resolveMuiIcon(CloudUploadIconModule);
+const EditIcon = resolveMuiIcon(EditIconModule);
+const DeleteIcon = resolveMuiIcon(DeleteIconModule);
 
 const currentTime = () => new Date().toTimeString().slice(0, 5);
 const toDateInputValue = (value = new Date()) => {

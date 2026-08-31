@@ -7,12 +7,13 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import CloudUploadIconModule from "@mui/icons-material/CloudUpload";
 import { styled } from "@mui/material/styles";
 
 import mods from "../../Main/Component/Logins/Login";
 import { useAuth } from "../../Authentications/AuthContext";
 import { canDeleteRecords } from "../../Authentications/accessControl";
+import resolveMuiIcon from "../../utils/resolveMuiIcon";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -28,6 +29,7 @@ const VisuallyHiddenInput = styled("input")({
 
 import ips from "../../api.json";
 const api_ip = (import.meta.env && import.meta.env.VITE_API_URL) ? import.meta.env.VITE_API_URL : ips.server_ip;
+const CloudUploadIcon = resolveMuiIcon(CloudUploadIconModule);
 const toDateInputValue = (value = new Date()) => {
   const date = value instanceof Date ? value : new Date(value);
   if (Number.isNaN(date.getTime())) return "";

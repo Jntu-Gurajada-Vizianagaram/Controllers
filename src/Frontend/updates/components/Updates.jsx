@@ -1,4 +1,4 @@
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import CloudUploadIconModule from "@mui/icons-material/CloudUpload";
 import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
@@ -11,7 +11,9 @@ import React, { useEffect, useState } from "react";
 import mods from "../../Main/Component/Logins/Login";
 import { useAuth } from "../../Authentications/AuthContext";
 import { canDeleteRecords } from "../../Authentications/accessControl";
+import resolveMuiIcon from "../../utils/resolveMuiIcon";
 
+const CloudUploadIcon = resolveMuiIcon(CloudUploadIconModule);
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
