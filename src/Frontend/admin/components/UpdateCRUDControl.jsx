@@ -66,6 +66,12 @@ const fallbackUpdateTypes = [
 
 const DEFAULT_EMBED_QR_CODE = "true";
 const DEFAULT_QR_PLACEMENT = "first_page_corner";
+const NOTIFICATION_ACCEPTED_EXTENSIONS = [".pdf", ".zip"];
+const NOTIFICATION_ACCEPTED_MIME_TYPES = [
+  "application/pdf",
+  "application/zip",
+  "application/x-zip-compressed",
+];
 
 const toDateInputValue = (value, fallback = "") => {
   if (!value) return fallback;
@@ -115,7 +121,26 @@ const Updates = () => {
   };
 
   const handleFileChange = (event) => {
-    setFile(event.target.files[0]);
+    const selectedFile = event.target.files?.[0] || null;
+    if (!selectedFile) {
+      setFile(null);
+      return;
+    }
+
+    const fileName = selectedFile.name.toLowerCase();
+    const hasAcceptedExtension = NOTIFICATION_ACCEPTED_EXTENSIONS.some((extension) =>
+      fileName.endsWith(extension),
+    );
+    const hasAcceptedMimeType = NOTIFICATION_ACCEPTED_MIME_TYPES.includes(selectedFile.type);
+
+    if (!hasAcceptedExtension && !hasAcceptedMimeType) {
+      alert("Please upload only PDF or ZIP files for notifications.");
+      event.target.value = "";
+      setFile(null);
+      return;
+    }
+
+    setFile(selectedFile);
   };
 
   const handleInputChange = (e) => {
@@ -485,11 +510,15 @@ const Updates = () => {
             </Box>
             <Box sx={{ mb: 2, p: 2, border: '1px dashed #9bb7d6', borderRadius: 2.5, bgcolor: '#f8fbff' }}>
               <Typography variant="subtitle2" sx={{ fontWeight: 800, mb: 1 }}>
-                Notification PDF
+                Notification File
               </Typography>
               <Button variant="contained" component="label" startIcon={<CloudUploadIcon />} sx={{ borderRadius: 2, textTransform: 'none', fontWeight: 800 }}>
-                Upload PDF File
-                <VisuallyHiddenInput type="file" accept="application/pdf" onChange={handleFileChange} />
+                Upload PDF / ZIP File
+                <VisuallyHiddenInput
+                  type="file"
+                  accept="application/pdf,.pdf,application/zip,application/x-zip-compressed,.zip"
+                  onChange={handleFileChange}
+                />
               </Button>
               {file ? (
                 <Typography variant="body2" sx={{ mt: 1, color: '#0f5132', fontWeight: 700 }}>
@@ -497,7 +526,7 @@ const Updates = () => {
                 </Typography>
               ) : (
                 <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 1 }}>
-                  Upload a PDF notification. The backend adds the verification QR automatically when the first-page corner is clear.
+                  Upload a PDF or ZIP notification file. PDFs receive verification QR processing automatically; ZIP files are stored as downloadable resources.
                 </Typography>
               )}
             </Box>
