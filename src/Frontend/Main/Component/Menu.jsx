@@ -11,6 +11,7 @@ import {
   FaQuestionCircle,
   FaSitemap,
   FaUserFriends,
+  FaUserTie,
   FaVideo,
 } from 'react-icons/fa';
 
@@ -28,6 +29,7 @@ const coreAdminMenu = [
   item('gallery-console', 'Gallery Images', <FaImages />, 'Media Management'),
   item('event-gallery-console', 'Event Albums', <FaImages />, 'Media Management'),
   item('colleges-console', 'Colleges', <FaBuilding />, 'Organization'),
+  item('leadership-profiles', 'Professors & Roles', <FaUserTie />, 'Organization'),
   item('executive-council-console', 'Executive Council', <FaUserFriends />, 'Organization'),
   item('directors', 'Directors', <FaSitemap />, 'Organization'),
   item('help', 'Support', <FaQuestionCircle />, 'Support'),
@@ -44,6 +46,7 @@ const developerMenu = [
   item('gallery-console', 'Gallery Images', <FaImages />, 'Media Management'),
   item('event-gallery-console', 'Event Albums', <FaImages />, 'Media Management'),
   item('colleges-console', 'Colleges', <FaBuilding />, 'Organization'),
+  item('leadership-profiles', 'Professors & Roles', <FaUserTie />, 'Organization'),
   item('executive-council-console', 'Executive Council', <FaUserFriends />, 'Organization'),
   item('help', 'Support', <FaQuestionCircle />, 'Support'),
 ];
@@ -59,6 +62,7 @@ const All_Menu = {
     item('carousel-console', 'Carousel Images', <FaPhotoVideo />, 'Media Management'),
     item('gallery-console', 'Gallery Images', <FaImages />, 'Media Management'),
     item('event-gallery-console', 'Event Albums', <FaImages />, 'Media Management'),
+    item('leadership-profiles', 'Professors & Roles', <FaUserTie />, 'Organization'),
     item('help', 'Support', <FaQuestionCircle />, 'Support'),
   ],
   Updates: [

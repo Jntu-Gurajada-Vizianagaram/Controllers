@@ -5,6 +5,7 @@ const allPages = [
   'developer-dashboard',
   'all-records',
   'colleges-console',
+  'leadership-profiles',
   'gallery-console',
   'event-gallery-console',
   'carousel-console',
@@ -24,6 +25,7 @@ const rolePages = {
     'all-consoles',
     'developer-dashboard',
     'colleges-console',
+    'leadership-profiles',
     'gallery-console',
     'event-gallery-console',
     'carousel-console',
@@ -37,6 +39,7 @@ const rolePages = {
   ],
   webadmin: [
     'all-consoles',
+    'leadership-profiles',
     'gallery-console',
     'event-gallery-console',
     'news-console',

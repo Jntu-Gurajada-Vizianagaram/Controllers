@@ -26,6 +26,7 @@ import EventGalleryConsole from "./Frontend/consoles/EventGalleryConsole";
 import CollegesConsole from "./Frontend/consoles/CollegesConsole";
 import YoutubeConsole from "./Frontend/consoles/YoutubeConsole";
 import ExecutiveCouncilConsole from "./Frontend/executiveCouncil/ExecutiveCouncilConsole";
+import LeadershipProfilesConsole from "./Frontend/profiles/LeadershipProfilesConsole";
 import DeveloperDashboard from "./Frontend/developer/DeveloperDashboard";
 function App() {
   return (
@@ -62,6 +63,7 @@ function App() {
               <Route path="notification-console" element={<AuthorizedRoute page="notification-console"><NotificationConsole /></AuthorizedRoute>} />
               <Route path="updates" element={<AuthorizedRoute page="notification-console"><NotificationConsole /></AuthorizedRoute>} />
               <Route path="youtube-console" element={<AuthorizedRoute page="youtube-console"><YoutubeConsole /></AuthorizedRoute>} />
+              <Route path="leadership-profiles" element={<AuthorizedRoute page="leadership-profiles"><LeadershipProfilesConsole /></AuthorizedRoute>} />
               <Route path="executive-council-console" element={<AuthorizedRoute page="executive-council-console"><ExecutiveCouncilConsole /></AuthorizedRoute>} />
               <Route path="site-navigation" element={<AuthorizedRoute page="site-navigation"><SiteNavigation /></AuthorizedRoute>} />
               <Route path="*" element={<Navigate to="/restrictedaccess" replace />} />

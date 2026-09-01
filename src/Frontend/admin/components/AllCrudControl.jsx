@@ -15,6 +15,7 @@ import {
   FaPhotoVideo,
   FaSitemap,
   FaUserFriends,
+  FaUserTie,
   FaUserShield,
   FaVideo,
 } from 'react-icons/fa';
@@ -76,6 +77,14 @@ const consoleSections = [
     icon: <FaBuilding />,
     group: 'Organization',
     roles: ['admin', 'developer', 'affiliatedcolleges', 'affliatedcolleges'],
+  },
+  {
+    page: 'leadership-profiles',
+    title: 'Professors & Roles',
+    description: 'Manage professor profiles once, then map them to Registrar, Vice Chancellor, OSD, Principal, Vice Principal, and Directorates.',
+    icon: <FaUserTie />,
+    group: 'Organization',
+    roles: ['admin', 'developer', 'webadmin'],
   },
   {
     page: 'executive-council-console',

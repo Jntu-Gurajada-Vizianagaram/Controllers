@@ -49,6 +49,7 @@ export default function ExecutiveCouncilConsole() {
   const canDelete = canDeleteRecords(user?.role);
   const [members, setMembers] = useState([]);
   const [form, setForm] = useState(emptyForm);
+  const [imageFile, setImageFile] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [message, setMessage] = useState('');
@@ -90,7 +91,12 @@ export default function ExecutiveCouncilConsole() {
 
   const resetForm = () => {
     setForm(emptyForm);
+    setImageFile(null);
     setEditingId(null);
+  };
+
+  const handleImageFileChange = (event) => {
+    setImageFile(event.target.files?.[0] || null);
   };
 
   const handleSubmit = async (event) => {
@@ -113,12 +119,24 @@ export default function ExecutiveCouncilConsole() {
       return;
     }
 
+    const formData = new FormData();
+    formData.append('name', payload.name);
+    formData.append('roleInEc', payload.roleInEc);
+    formData.append('designation', payload.designation);
+    formData.append('affiliation', payload.affiliation);
+    formData.append('image', payload.image);
+    formData.append('sortOrder', String(payload.sortOrder));
+    formData.append('isActive', String(payload.isActive));
+    if (imageFile) {
+      formData.append('imageFile', imageFile);
+    }
+
     try {
       if (editingId) {
-        await axios.put(`${APIs.site_apis.admin_executive_council}/${editingId}`, payload);
+        await axios.put(`${APIs.site_apis.admin_executive_council}/${editingId}`, formData);
         setMessage('Executive Council member updated');
       } else {
-        await axios.post(APIs.site_apis.admin_executive_council, payload);
+        await axios.post(APIs.site_apis.admin_executive_council, formData);
         setMessage('Executive Council member added');
       }
       resetForm();
@@ -140,6 +158,7 @@ export default function ExecutiveCouncilConsole() {
       sortOrder: normalized.sortOrder,
       isActive: Boolean(normalized.isActive),
     });
+    setImageFile(null);
   };
 
   const handleDelete = async (member) => {
@@ -207,10 +226,29 @@ export default function ExecutiveCouncilConsole() {
               <TextField fullWidth label="College / Society / Administration" name="affiliation" value={form.affiliation} onChange={handleFieldChange} required />
             </Grid>
             <Grid item xs={12} md={8}>
-              <TextField fullWidth label="Image URL" name="image" value={form.image} onChange={handleFieldChange} placeholder="https://example.com/member.jpg" />
+              <TextField
+                fullWidth
+                label="Image URL"
+                name="image"
+                value={form.image}
+                onChange={handleFieldChange}
+                placeholder="Paste image link, or upload a file below"
+                helperText="If both are provided, uploaded image will be used."
+              />
             </Grid>
             <Grid item xs={12} md={4}>
               <TextField fullWidth label="Sort Order" name="sortOrder" type="number" value={form.sortOrder} onChange={handleFieldChange} />
+            </Grid>
+            <Grid item xs={12}>
+              <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.5} alignItems={{ xs: 'stretch', sm: 'center' }}>
+                <Button component="label" variant="outlined" sx={{ borderRadius: 2, textTransform: 'none' }}>
+                  Upload image
+                  <input type="file" accept="image/*" hidden onChange={handleImageFileChange} />
+                </Button>
+                <Typography variant="body2" sx={{ color: '#475569', fontWeight: 700 }}>
+                  {imageFile ? imageFile.name : 'No image file selected'}
+                </Typography>
+              </Stack>
             </Grid>
           </Grid>
 
