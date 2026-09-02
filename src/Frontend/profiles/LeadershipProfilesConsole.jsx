@@ -54,7 +54,8 @@ const administrationPositions = [
 ];
 
 const directoratePositions = [
-  { key: 'academic-audit-planning', label: 'Director of Academic Audit and Planning' },
+  { key: 'academic-audit', label: 'Director of Academic Audit' },
+  { key: 'academic-planning', label: 'Director of Academic Planning' },
   { key: 'admissions', label: 'Director of Admissions' },
   { key: 'evaluation', label: 'Director of Evaluation' },
   { key: 'research', label: 'Director of Research & Development' },
