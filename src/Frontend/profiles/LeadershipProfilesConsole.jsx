@@ -54,13 +54,13 @@ const administrationPositions = [
 ];
 
 const directoratePositions = [
-  { key: 'academic-audit', label: 'Director of Academic Audit' },
   { key: 'academic-planning', label: 'Director of Academic Planning' },
+  { key: 'academic-audit', label: 'Director of Academic Audit' },
   { key: 'admissions', label: 'Director of Admissions' },
   { key: 'evaluation', label: 'Director of Evaluation' },
   { key: 'research', label: 'Director of Research & Development' },
-  { key: 'placements', label: 'Director of Industrial Relations & Placements' },
   { key: 'iqac', label: 'Director of Internal Quality Assurance Cell' },
+  { key: 'placements', label: 'Director of Industrial Relations & Placements' },
   { key: 'alumni-relations', label: 'Director of Alumni Relations' },
 ];
 
@@ -90,6 +90,19 @@ export default function LeadershipProfilesConsole() {
   );
 
   const activePositions = positionsByType[assignmentForm.position_type] || administrationPositions;
+  const positionSelectItems = useMemo(() => {
+    const hasCurrent = activePositions.some((item) => item.key === assignmentForm.position_key);
+    const customCurrent =
+      assignmentForm.position_key && !hasCurrent
+        ? [{ key: assignmentForm.position_key, label: assignmentForm.position_label || assignmentForm.position_key }]
+        : [];
+
+    return [
+      ...customCurrent,
+      ...activePositions,
+      { key: '__custom__', label: '+ Add new directorate / role' },
+    ];
+  }, [activePositions, assignmentForm.position_key, assignmentForm.position_label]);
 
   const sortedPeople = useMemo(
     () => [...people].sort((a, b) => String(a.name).localeCompare(String(b.name))),
@@ -145,9 +158,19 @@ export default function LeadershipProfilesConsole() {
         next.directorate_name = value === 'directorate' ? first.label : '';
       }
       if (name === 'position_key') {
+        if (value === '__custom__') {
+          next.position_key = '';
+          next.position_label = '';
+          next.directorate_name = current.position_type === 'directorate' ? '' : current.directorate_name;
+          next.sort_order = current.position_type === 'directorate' ? 90 : current.sort_order;
+          return next;
+        }
         const selected = (positionsByType[current.position_type] || []).find((item) => item.key === value);
         next.position_label = selected?.label || current.position_label;
         next.directorate_name = current.position_type === 'directorate' ? selected?.label || '' : current.directorate_name;
+      }
+      if (name === 'position_label' && current.position_type === 'directorate' && !current.directorate_name) {
+        next.directorate_name = value;
       }
       return next;
     });
@@ -394,8 +417,8 @@ export default function LeadershipProfilesConsole() {
                     </TextField>
                   </Grid>
                   <Grid item xs={12} md={6}>
-                    <TextField select fullWidth label="Role & Directorate" name="position_key" value={assignmentForm.position_key} onChange={updateAssignmentField}>
-                      {activePositions.map((item) => (
+                    <TextField select fullWidth label="Role & Directorate template" name="position_key" value={assignmentForm.position_key} onChange={updateAssignmentField}>
+                      {positionSelectItems.map((item) => (
                         <MenuItem key={item.key} value={item.key}>
                           {item.label}
                         </MenuItem>
@@ -404,6 +427,28 @@ export default function LeadershipProfilesConsole() {
                   </Grid>
                   <Grid item xs={12}>
                     <TextField fullWidth label="Public role label" name="position_label" value={assignmentForm.position_label} onChange={updateAssignmentField} required />
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+                    <TextField
+                      fullWidth
+                      label="Public URL key / slug"
+                      name="position_key"
+                      value={assignmentForm.position_key}
+                      onChange={updateAssignmentField}
+                      helperText="Example: academic-planning. New directorates will open as /directorates/your-slug."
+                      required
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+                    <TextField
+                      fullWidth
+                      type="number"
+                      label="Display order"
+                      name="sort_order"
+                      value={assignmentForm.sort_order}
+                      onChange={updateAssignmentField}
+                      helperText="DAP 10, DAA 20, DA 30, DE 40, DRD 50, DIQAC 60, DIR&P 70, DAR 80."
+                    />
                   </Grid>
                   {assignmentForm.position_type === 'directorate' ? (
                     <Grid item xs={12}>
